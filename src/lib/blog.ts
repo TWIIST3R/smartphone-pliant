@@ -15,9 +15,12 @@ export const CATEGORY_LABELS: Record<string, string> = {
   dossier: 'Dossier',
 };
 
+/** Build de contrôle (workflow publish-article) : BLOG_INCLUDE_FUTURE=1 rend aussi les articles programmés pour vérifier leurs liens. */
+const includeFuture = process.env.BLOG_INCLUDE_FUTURE === '1';
+
 /** Articles publiés : non brouillons et dont l'heure de publication est passée (au moment du build). */
 export async function publishedArticles(now: Date = new Date()): Promise<Article[]> {
-  const all = await getCollection('actualites', ({ data }) => !data.draft && data.pubDate.getTime() <= now.getTime());
+  const all = await getCollection('actualites', ({ data }) => !data.draft && (includeFuture || data.pubDate.getTime() <= now.getTime()));
   return all.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 }
 

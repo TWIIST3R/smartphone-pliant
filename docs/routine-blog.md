@@ -5,8 +5,9 @@ Il fait autorité : en cas de doute, appliquer ce document et `docs/guide-redact
 
 ## Principe de publication
 
-- La routine écrit l'article et le pousse sur `main` **avec une heure de publication dans le futur** (`pubDate`), choisie par `scripts/pick-publish-time.mjs` dans des créneaux crédibles pour Paris.
-- GitHub Actions reconstruit le site toutes les heures : l'article n'apparaît en ligne qu'une fois son heure passée. Aucune autre action n'est nécessaire.
+- La routine écrit l'article **avec une heure de publication dans le futur** (`pubDate`), choisie par `scripts/pick-publish-time.mjs` dans des créneaux crédibles pour Paris, et le pousse sur une branche `claude/article-<slug>`.
+- Le workflow GitHub `publish-article.yml` contrôle l'article (contrôle éditorial, build, maillage) puis l'ajoute à `main` et supprime la branche.
+- `deploy.yml` met le site en ligne dès que l'heure de publication est passée. Aucune autre action n'est nécessaire.
 
 ## Étapes, dans l'ordre
 
@@ -44,8 +45,12 @@ Il fait autorité : en cas de doute, appliquer ce document et `docs/guide-redact
    - `npm run check-links`.
 
    Si le build échoue pour une raison étrangère à l'article (version de Node trop ancienne, par exemple), le signaler dans le message de commit. GitHub Actions refera le build.
-9. **Publier** : `git add src/content/actualites/<slug>.md`, puis commit `Article : <titre>`, puis `git push origin main`.
-   - Ne modifier **aucun autre fichier** du dépôt.
+9. **Publier** sur une branche dédiée (la routine ne peut pas pousser directement sur `main`) :
+   - `git checkout -b claude/article-<slug>` ;
+   - `git add src/content/actualites/<slug>.md`, puis commit `Article : <titre>` ;
+   - `git push -u origin claude/article-<slug>`.
+
+   Ne modifier **aucun autre fichier** du dépôt : le workflow `publish-article.yml` refuse toute branche qui touche autre chose qu'un nouvel article. Ne pas ouvrir de pull request : le workflow intègre l'article à `main` tout seul.
 
 ## Frontmatter
 

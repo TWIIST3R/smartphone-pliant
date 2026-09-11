@@ -1,7 +1,7 @@
 # Build et mise en ligne sur OVH.
 # - à chaque push sur main (nouvel article, modification du site) ;
-# - toutes les heures : publie les articles programmés dont l'heure de publication est passée
-#   (le build n'inclut que les articles dont pubDate <= maintenant).
+# - toutes les heures : vérifie si un article programmé vient d'atteindre son heure de publication
+#   et, seulement dans ce cas, reconstruit le site (le build n'inclut que les articles dont pubDate <= maintenant).
 # Secrets à créer dans GitHub (Settings › Secrets and variables › Actions) :
 #   FTP_SERVER      ex. ftp.cluster0XX.hosting.ovh.net (espace client OVH › Hébergement › FTP-SSH)
 #   FTP_USERNAME    identifiant FTP OVH
@@ -21,7 +21,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      due: ${{ steps.due.outputs.due }}
+    steps:
+      - uses: actions/checkout@v4
+        if: github.event_name == 'schedule'
+
+      - name: Article arrivé à échéance ?
+        id: due
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            node scripts/due-articles.mjs --hours=3
+          else
+            echo "due=true" >> "$GITHUB_OUTPUT"
+          fi
+
   deploy:
+    needs: check
+    if: needs.check.outputs.due == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -33,6 +53,13 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # Cache des images optimisées par Astro (évite de reconvertir toutes les photos à chaque build)
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.astro
+          key: astro-assets-${{ hashFiles('src/assets/**') }}
+          restore-keys: astro-assets-
 
       - name: Build
         run: npm run build

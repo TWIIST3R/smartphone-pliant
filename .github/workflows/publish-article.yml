@@ -1,0 +1,87 @@
+# Intègre dans main les articles rédigés par la routine cloud.
+# Les routines Claude ne peuvent pousser que sur des branches claude/… : la routine pousse
+# claude/article-<slug>, ce workflow contrôle l'article puis l'ajoute à main et supprime la branche.
+# Garde-fou : la branche est refusée si elle modifie autre chose que de nouveaux fichiers
+# src/content/actualites/<slug>.md, ou si le contrôle, le build ou le maillage échouent.
+# La mise en ligne se fait ensuite toute seule : deploy.yml publie l'article à son heure (pubDate).
+name: Intégrer un article de la routine
+
+on:
+  push:
+    branches: ['claude/article-**']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-article
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: La branche ne contient que de nouveaux articles ?
+        id: diff
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          BASE=$(git merge-base origin/main HEAD)
+          git diff --name-status "$BASE" HEAD > "$RUNNER_TEMP/changed.txt"
+          cat "$RUNNER_TEMP/changed.txt"
+          if [ ! -s "$RUNNER_TEMP/changed.txt" ]; then
+            echo "::error::Aucun article dans la branche."
+            exit 1
+          fi
+          if grep -vEq '^A[[:space:]]+src/content/actualites/[a-z0-9-]+\.md$' "$RUNNER_TEMP/changed.txt"; then
+            echo "::error::La branche ne doit ajouter que des articles (src/content/actualites/<slug>.md). Intégration refusée."
+            exit 1
+          fi
+          { echo 'files<<EOF'; cut -f2 "$RUNNER_TEMP/changed.txt"; echo 'EOF'; } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.astro
+          key: astro-assets-${{ hashFiles('src/assets/**') }}
+          restore-keys: astro-assets-
+
+      - name: Contrôle éditorial
+        run: |
+          set -euo pipefail
+          while read -r f; do
+            node scripts/blog-status.mjs --check "$(basename "$f" .md)"
+          done <<< "${{ steps.diff.outputs.files }}"
+
+      - name: Build (articles programmés inclus) et maillage
+        env:
+          BLOG_INCLUDE_FUTURE: '1'
+        run: |
+          npm run build
+          npm run check-links
+
+      - name: Ajout à main et suppression de la branche
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          SHA=$(git rev-parse HEAD)
+          MSG=$(git log -1 --format=%s "$SHA")
+          AUTHOR=$(git log -1 --format='%an <%ae>' "$SHA")
+          mapfile -t FILES <<< "${{ steps.diff.outputs.files }}"
+          git checkout -B main origin/main
+          git checkout "$SHA" -- "${FILES[@]}"
+          git commit -m "$MSG" --author="$AUTHOR"
+          git push origin main
+          git push origin --delete "$GITHUB_REF_NAME"

@@ -74,13 +74,13 @@ Sans photo, le site affiche la silhouette du format. Pour un texte alternatif pr
 ## Blog « Actualités »
 
 - Articles en Markdown dans `src/content/actualites/<slug>.md` (schéma dans `src/content.config.ts`), publiés sur `/actualites/` (liste paginée), `/actualites/<slug>/` et `/actualites/rss.xml`.
-- **Publication programmée** : un article n'apparaît qu'une fois son `pubDate` passé. Le workflow GitHub `.github/workflows/deploy.yml` reconstruit et envoie le site sur OVH toutes les heures.
+- **Publication programmée** : un article n'apparaît qu'une fois son `pubDate` passé. Le workflow GitHub `.github/workflows/deploy.yml` reconstruit et envoie le site sur OVH à chaque push sur `main` et, toutes les heures, dès qu'un article programmé arrive à échéance (`scripts/due-articles.mjs` : pas de build inutile, les minutes GitHub Actions sont préservées).
 - **Maillage hermétique** : les articles lient librement les pages du cocon ; seules les pages de dernier niveau (tests) affichent un lien vers les articles, via le bloc « Pour aller plus loin » alimenté par le champ `relatedTests`. L'accueil et les pages de niveau 1 n'ont que des liens obfusqués vers le blog (en-tête, pied de page). `npm run check-links` vérifie ces règles.
 - **Outils** :
   - `node scripts/blog-status.mjs` : derniers articles, formats disponibles, sujets déjà traités ;
   - `node scripts/blog-status.mjs --check <slug>` : contrôle complet d'un article ;
   - `node scripts/pick-publish-time.mjs` : heure de publication aléatoire dans les créneaux parisiens.
-- **Routine quotidienne** : cahier des charges dans `docs/routine-blog.md` ; 15 formats d'article dans `src/data/blog-formats.json`.
+- **Routine quotidienne** : cahier des charges dans `docs/routine-blog.md` ; 15 formats d'article dans `src/data/blog-formats.json`. La routine pousse chaque article sur une branche `claude/article-<slug>` ; le workflow `.github/workflows/publish-article.yml` le contrôle (contrôle éditorial, build avec les articles programmés, maillage), l'ajoute à `main` et supprime la branche. Toute branche qui modifie autre chose qu'un nouvel article est refusée (échec visible dans l'onglet Actions de GitHub).
 
 ## Liens Amazon
 
