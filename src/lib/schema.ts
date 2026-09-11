@@ -12,6 +12,17 @@ export const pageId = (path: string) => `${abs(path)}#webpage`;
 const LOGO_ID = `${SITE.url}/#logo`;
 const METHODOLOGY = abs('/methodologie/');
 
+/** « AAAA-MM-JJ » → date et heure ISO avec le fuseau de Paris (Google l'exige pour datePublished / dateModified) */
+export function isoDateTime(date: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
+  const offset =
+    new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Paris', timeZoneName: 'longOffset' })
+      .formatToParts(new Date(`${date}T12:00:00Z`))
+      .find((part) => part.type === 'timeZoneName')
+      ?.value.replace('GMT', '') || '+00:00';
+  return `${date}T09:00:00${offset}`;
+}
+
 /** Modèle dont le test se trouve à cette adresse */
 export const phoneAt = (path: string) => phones.find((p) => p.path === path);
 
@@ -71,8 +82,8 @@ export function review(p: Phone, path: string = p.path, proscons?: { pros: strin
     itemReviewed: { '@id': `${abs(p.path)}#product` },
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
-    datePublished: SITE.published,
-    dateModified: SITE.updated,
+    datePublished: isoDateTime(SITE.published),
+    dateModified: isoDateTime(SITE.updated),
     inLanguage: 'fr-FR',
     reviewBody: p.verdict,
     reviewRating: { '@type': 'Rating', ratingValue: overall(p), bestRating: 10, worstRating: 0 },
@@ -124,8 +135,8 @@ export function webPage({ path, name, description, updated, breadcrumb: hasBread
     description,
     inLanguage: 'fr-FR',
     isPartOf: { '@id': WEBSITE_ID },
-    datePublished: SITE.published,
-    dateModified: updated,
+    datePublished: isoDateTime(SITE.published),
+    dateModified: isoDateTime(updated),
     ...(hasBreadcrumb ? { breadcrumb: { '@id': `${abs(path)}#breadcrumb` } } : {}),
     ...(image ? { primaryImageOfPage: { '@type': 'ImageObject', url: image } } : {}),
   };
@@ -168,8 +179,8 @@ export function article({ path, title, description, updated = SITE.updated, publ
     headline: title,
     description,
     inLanguage: 'fr-FR',
-    datePublished: published,
-    dateModified: updated,
+    datePublished: isoDateTime(published),
+    dateModified: isoDateTime(updated),
     mainEntityOfPage: { '@id': pageId(path) },
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
