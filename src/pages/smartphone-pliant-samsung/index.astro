@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import PhoneCard from '../../components/PhoneCard.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import { byId, ranked, overall } from '../../data/phones';
+import { article, itemList } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const path = '/smartphone-pliant-samsung/';
+const title = 'Smartphone pliant Samsung : quel Galaxy Z choisir en 2026 ?';
+const description =
+  'Galaxy Z Fold8 Ultra, Fold8, Flip8, Fold7, Flip7 ou Flip7 FE : quel smartphone pliant Samsung acheter ? Profils, tableau comparatif et prix de lancement.';
+
+const fold8u = byId('galaxy-z-fold8-ultra');
+const fold8 = byId('galaxy-z-fold8');
+const flip8 = byId('galaxy-z-flip8');
+const fold7 = byId('galaxy-z-fold7');
+const flip7 = byId('galaxy-z-flip7');
+const flipFe = byId('galaxy-z-flip7-fe');
+
+const lineup = [fold8u, fold8, flip8, fold7, flip7, flipFe];
+const list = ranked(lineup);
+const ctaLabels = ['Voir le prix sur Amazon', 'Consulter l’offre', 'Voir les coloris', 'Vérifier la disponibilité', 'Voir l’offre Amazon', 'Voir les stocks'];
+
+const faq = [
+  {
+    q: 'Quel est le meilleur smartphone pliant Samsung en 2026 ?',
+    a: `Le Samsung Galaxy Z Fold8 Ultra obtient la meilleure note de la gamme (${num(overall(fold8u))}/10 dans notre classement). Il réunit un écran intérieur de 8 pouces, un capteur de 200 Mpx avec zoom optique x3, une batterie de 5 000 mAh et une charge de 45 W, pour 2 199 € au lancement en 256 Go. En clapet, le Galaxy Z Flip8 à 1 299 € est le modèle le plus récent.`,
+  },
+  {
+    q: 'Quelle est la différence entre le Galaxy Z Fold8 et le Fold8 Ultra ?',
+    a: 'Les deux partagent la puce Snapdragon 8 Elite Gen 5 for Galaxy et la charge 45 W. Le Galaxy Z Fold8 Ultra ajoute un écran intérieur plus grand (8 pouces contre 7,6), un écran externe de 6,5 pouces, un capteur de 200 Mpx avec téléobjectif x3 et 200 mAh de batterie. Le Galaxy Z Fold8 est plus léger (201 g contre 215 g), adopte un écran 4:3 plus large et coûte 200 € de moins.',
+  },
+  {
+    q: 'Existe-t-il un Galaxy Z Flip8 FE ?',
+    a: 'Non. Samsung n’a pas annoncé de Galaxy Z Flip8 FE en 2026. Le Galaxy Z Flip7 FE, lancé le 25 juillet 2025 à 999 € en 128 Go, a été arrêté en juillet 2026 et ne se trouve plus qu’en fin de série. Pour un budget contenu, le Galaxy Z Flip7, lancé à 1 199 €, devient l’alternative la plus proche.',
+  },
+  {
+    q: 'Combien d’années de mises à jour sur un Galaxy Z Fold ou Flip ?',
+    a: 'Samsung promet sept ans de mises à jour Android et de correctifs de sécurité sur ses pliants récents. Un Galaxy Z Fold8, Fold8 Ultra ou Flip8 sorti en août 2026 devrait donc être suivi jusqu’en 2033, et les modèles de juillet 2025 jusqu’en 2032, un horizon rassurant pour un appareil de ce prix.',
+  },
+  {
+    q: 'Les smartphones pliants Samsung sont-ils étanches ?',
+    a: 'Ils résistent à l’eau, beaucoup moins à la poussière. Tous les Galaxy Z vendus en 2026 sont certifiés IP48 : ils supportent l’immersion en eau douce, mais ne sont protégés que contre les particules de plus de 1 mm. Le sable fin peut donc atteindre la charnière. Aucun pliant Samsung actuel n’est certifié IP68.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Samsung', 'Samsung Galaxy Z', 'Smartphone pliant'] }),
+  itemList(
+    'Smartphones pliants Samsung Galaxy Z vendus en France',
+    list.map((p) => ({ name: p.fullName, url: p.path })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Guide d’achat · gamme Samsung 2026</span>
+        <h1>Galaxy Z Fold8, Fold8 Ultra ou Flip8 : bien choisir son pliant Samsung</h1>
+        <p class="lede">
+          Six Galaxy Z pliants se trouvent aujourd’hui en France : trois nouveautés sorties le 7 août 2026 (Fold8 Ultra, Fold8 et Flip8) et trois modèles de 2025, dont un en fin de série.
+          Leurs prix de lancement vont de {euro(flipFe.launchPrice)} à 2 799 €. Ce guide vous aide à trancher au sein de la gamme ; pour mettre Samsung face à Google, Motorola ou Honor, reportez-vous à notre <a href="/">classement général des smartphones pliants</a>.
+        </p>
+        <Byline minutes={11} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Callout variant="answer" title="Quel Galaxy Z pour qui ?">
+        <p>
+          Le <strong>Galaxy Z Fold8 Ultra</strong> ({euro(fold8u.launchPrice)}) est le pliant Samsung le plus complet : écran de 8 pouces, capteur 200 Mpx, zoom x3 et charge 45 W.
+          Le <strong>Galaxy Z Fold8</strong> ({euro(fold8.launchPrice)}) vise ceux qui regardent surtout des vidéos et veulent le Fold le plus léger, quitte à perdre le téléobjectif.
+          Le <strong>Galaxy Z Flip8</strong> ({euro(flip8.launchPrice)}) reste le choix de la compacité avec 180 g.
+          Budget plus serré : le Fold7 et le Flip7 de 2025 gardent l’essentiel.
+        </p>
+      </Callout>
+    </div>
+
+    <section class="section" id="profils">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Quelle Galaxy Z choisir selon votre profil</h2>
+          <p>
+            Les six modèles partagent la même interface et la même promesse de suivi logiciel. Ce qui les sépare : le format, le zoom, l’autonomie et le prix.
+          </p>
+        </div>
+        <div class="grid profiles" style="--min:300px;margin-top:1.2rem">
+          <div class="card">
+            <h3>Vous photographiez beaucoup et voulez un seul appareil pour tout faire</h3>
+            <p>
+              Prenez le <a href={fold8u.path}>Samsung Galaxy Z Fold8 Ultra</a>. C’est le seul pliant Samsung de 2026 doté d’un téléobjectif (10 Mpx, zoom optique x3), associé à un capteur principal de 200 Mpx et à la vidéo 8K.
+              Il récupère surtout une batterie de 5 000 mAh et une charge de 45 W qui manquaient au Fold7.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vous regardez des séries et lisez sur votre téléphone</h3>
+            <p>
+              Le <a href={fold8.path}>Galaxy Z Fold8 au format large</a> est taillé pour cet usage. Son écran intérieur de 7,6 pouces adopte un ratio 4:3, plus large que haut : une vidéo 16:9 y laisse moins de bandes noires que sur l’écran presque carré d’un Fold classique.
+              Avec 201 g, c’est aussi le Fold le plus léger. En contrepartie, pas de téléobjectif et 9,7 mm d’épaisseur une fois fermé.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vous voulez un pliant qui se fait oublier dans la poche</h3>
+            <p>
+              Le <a href={flip8.path}>Galaxy Z Flip8</a> est le clapet le plus fin et le plus léger de Samsung : 180 g et 6,1 mm une fois déplié. Son écran externe de 4,1 pouces suffit pour lire une notification, répondre à un message ou cadrer un selfie avec le capteur principal.
+              Son point faible n’a pas bougé depuis le Flip7 : 4 300 mAh et une charge plafonnée à 25 W.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vous voulez le zoom x3 sans le prix d’un modèle 2026</h3>
+            <p>
+              Regardez le <a href={fold7.path}>Galaxy Z Fold7 de 2025</a>. Sorti le 25 juillet 2025 à 2 099 €, il partage avec le Fold8 Ultra le gabarit (215 g, 8,9 mm plié), les écrans de 8 et 6,5 pouces et le duo 200 Mpx + téléobjectif x3.
+              Il perd sur l’endurance (4 400 mAh, 25 W), mais se trouve souvent nettement moins cher depuis l’arrivée de son successeur.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vous voulez un clapet Samsung avec un budget serré</h3>
+            <p>
+              Deux options. Le <a href={flip7.path}>Galaxy Z Flip7</a>, lancé à 1 199 €, offre déjà le grand écran externe de 4,1 pouces et les mêmes capteurs photo que le Flip8, pour 8 g de plus.
+              Le <a href={flipFe.path}>Galaxy Z Flip7 FE</a>, lancé à 999 € en 128 Go, rogne sur la puce (Exynos 2400), l’écran externe (3,4 pouces à 60 Hz) et la batterie (4 000 mAh). Il est arrêté depuis juillet 2026.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="comparatif-samsung">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Les six Galaxy Z pliants côte à côte</h2>
+          <p class="muted">
+            Prix publics conseillés au lancement en France, dans la configuration de base. Cliquez sur un nom pour ouvrir la fiche détaillée du modèle.
+          </p>
+        </div>
+        <CompareTable
+          phones={lineup}
+          caption="Comparatif des smartphones pliants Samsung Galaxy Z vendus en France"
+          columns={['format', 'score', 'price', 'screens', 'chip', 'battery', 'charge', 'zoom', 'weight', 'ip']}
+          linkNames
+          cta={false}
+        />
+        <div class="prose" style="margin-top:1.4rem">
+          <p>
+            Deux tendances résument la génération 2026. D’abord, les Fold passent enfin à 45 W, alors que le Flip8 reste bloqué à 25 W comme ses prédécesseurs.
+            Ensuite, les prix montent : en 256 Go, le Fold8 Ultra coûte 100 € de plus que le Fold7 à son lancement, et le Flip8 100 € de plus que le Flip7.
+            La presse spécialisée l’attribue à l’envolée du prix de la mémoire.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="classement">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Notre classement des pliants Samsung</h2>
+          <p>
+            Chaque note combine six critères pondérés, détaillés dans <a href="/methodologie/">notre méthodologie</a>. Le rapport qualité/prix pèse 15 % du total :
+            c’est ce qui permet au Galaxy Z Fold7 ({num(overall(fold7))}/10) de s’intercaler entre le Fold8 Ultra ({num(overall(fold8u))}/10) et le Fold8 ({num(overall(fold8))}/10), malgré une batterie plus petite.
+          </p>
+        </div>
+        <div class="stack" style="margin-top:1.5rem">
+          {list.map((p, i) => <PhoneCard phone={p} rank={i + 1} linkToSheet ctaLabel={ctaLabels[i]} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section band" id="noms">
+      <div class="wrap prose">
+        <h2 class="mt-0">Fold, Flip, Ultra, FE : décoder les noms de la gamme</h2>
+        <p>
+          Chez Samsung, un mot désigne le format, un chiffre la génération et un suffixe le positionnement.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Signification des noms de la gamme Samsung Galaxy Z</caption>
+            <thead>
+              <tr><th scope="col">Terme</th><th scope="col">Ce qu’il signifie</th><th scope="col">Modèles concernés</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Fold</strong></td><td>Format livre : un écran intérieur de 7,6 à 8 pouces qui s’ouvre comme un carnet, plus un écran externe</td><td>Fold8 Ultra, Fold8, Fold7</td></tr>
+              <tr><td><strong>Flip</strong></td><td>Clapet : un smartphone de 6,7 à 6,9 pouces qui se replie en deux</td><td>Flip8, Flip7, Flip7 FE</td></tr>
+              <tr><td><strong>7 et 8</strong></td><td>La génération : 7 pour les modèles sortis le 25 juillet 2025, 8 pour ceux du 7 août 2026</td><td>Toute la gamme</td></tr>
+              <tr><td><strong>Ultra</strong></td><td>Nouveau en 2026 : le Fold le plus équipé, héritier direct du Fold7</td><td>Fold8 Ultra</td></tr>
+              <tr><td><strong>FE</strong></td><td>« Fan Edition » : version allégée et moins chère, avec une puce plus ancienne</td><td>Flip7 FE</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Le piège de 2026 tient au Galaxy Z Fold8 sans suffixe. On le croirait successeur du Fold7 ; c’est pourtant le Fold8 Ultra qui reprend son gabarit (écrans de 8 et 6,5 pouces, 215 g, 8,9 mm plié) en améliorant batterie et charge.
+          Le Fold8 inaugure un format différent, plus court et plus large, et coûte 200 € de moins que l’Ultra à capacité égale.
+        </p>
+        <p>
+          Côté clapet, aucun Galaxy Z Flip8 FE n’a été annoncé. Le Flip7 FE reste donc le seul pliant « FE » de Samsung, et il n’est plus fabriqué depuis juillet 2026.
+          Sa puce trahit son positionnement : Exynos 2400, là où le Flip7 embarque l’Exynos 2500 et le Flip8 l’Exynos 2600.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="suivi">
+      <div class="wrap prose">
+        <h2 class="mt-0">Mises à jour, garantie, réparation : ce que Samsung promet</h2>
+        <p>
+          Samsung s’engage sur sept ans de mises à jour Android et de correctifs de sécurité pour ses pliants récents. Pour un Galaxy Z Fold8 Ultra, un Fold8 ou un Flip8 sortis en août 2026, cela représente un suivi théorique jusqu’en 2033 ; pour les modèles de juillet 2025, jusqu’en 2032.
+        </p>
+        <p>
+          Le film pré-installé sur l’écran intérieur des Fold et des Flip fait partie de la dalle : il ne faut ni le retirer ni en coller un autre par-dessus. Selon le support de Samsung France, un remplacement de ce film est offert en centre de service agréé dans le cadre de la garantie de deux ans.
+        </p>
+        <p>
+          Pour la casse, Samsung commercialise en France l’assurance Samsung Care+, qui couvre les dommages accidentels (écran, chute, liquide) moyennant une franchise à chaque sinistre, avec une formule vol et perte en option.
+          Elle se souscrit au plus tard 60 jours après l’achat : la décision se prend donc au moment de la commande, pas après la première chute.
+        </p>
+        <p>
+          Dernier point : tous les Galaxy Z actuels sont certifiés IP48. Le 8 garantit la résistance à l’immersion en eau douce, le 4 ne protège que contre les particules de plus de 1 mm.
+          Samsung le rappelle dans ses précautions d’usage : le sable et les micro-particules peuvent endommager un pliant.
+        </p>
+
+        <Callout variant="info" title="Et le Galaxy Z TriFold ?">
+          <p>
+            Le premier smartphone à trois volets de Samsung (écran de 10 pouces déplié, batterie de 5 600 mAh, charge 45 W) a été lancé en Corée du Sud en décembre 2025.
+            Il n’a jamais été commercialisé officiellement en France, et selon la presse, Samsung en a stoppé la production après quelques mois, avec un retrait des ventes annoncé en mars 2026.
+            Les rares exemplaires proposés en France passent par des importateurs : vérifiez la garantie et les possibilités de réparation avant de payer.
+          </p>
+        </Callout>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap prose">
+        <Faq items={faq} heading="Pliants Samsung : vos questions, nos réponses" />
+      </div>
+    </section>
+
+    <div class="wrap">
+      <Siblings
+        path={path}
+        variant="list"
+        heading="Les autres marques de smartphones pliants"
+      />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .profiles .card h3 {
+    font-size: 1.05rem;
+    line-height: 1.3;
+  }
+  .profiles .card p {
+    margin-bottom: 0;
+  }
+</style>

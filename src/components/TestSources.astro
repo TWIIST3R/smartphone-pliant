@@ -1,0 +1,60 @@
+---
+// « Ce que disent les tests » : synthèse des tests publiés par la presse, avec liens sortants.
+// Les verdicts sont reformulés (pas de copie), les notes reprises telles que publiées.
+
+interface Source {
+  media: string;
+  url: string;
+  /** AAAA-MM-JJ */
+  date?: string;
+  /** Note publiée, ex. « 4/5 », « 8,5/10 » */
+  note?: string;
+  /** Résumé reformulé du verdict, une ou deux phrases */
+  verdict: string;
+}
+
+interface Props {
+  sources: Source[];
+  heading?: string;
+  intro?: string;
+}
+
+const { sources, heading = 'Ce que disent les autres tests', intro } = Astro.props;
+---
+
+<section class="test-sources">
+  <h2>{heading}</h2>
+  {intro && <p>{intro}</p>}
+  <div class="table-scroll">
+    <table>
+      <caption class="sr-only">{heading}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Média</th>
+          <th scope="col">Note</th>
+          <th scope="col">En résumé</th>
+          <th scope="col"><span class="sr-only">Lien</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          sources.map((s) => (
+            <tr>
+              <td>
+                <strong>{s.media}</strong>
+              </td>
+              <td class="num">{s.note ?? '—'}</td>
+              <td>{s.verdict}</td>
+              <td>
+                <a href={s.url} target="_blank" rel="noopener" class="small">
+                  Lire le test
+                </a>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted" style="margin-top:.5rem">Verdicts résumés par nos soins ; notes telles que publiées par chaque média.</p>
+</section>

@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhoneCard from '../../components/PhoneCard.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import { byId } from '../../data/phones';
+import { article } from '../../lib/schema';
+import { euro } from '../../lib/format';
+
+const path = '/smartphone-pliant-xiaomi/';
+const title = 'Smartphone pliant Xiaomi : Mix Flip et état de la gamme';
+const description =
+  'Xiaomi vend-il encore un smartphone pliant en France ? Mix Flip lancé à 1 299 €, Mix Flip 3 annulé, Xiaomi 18 Fold réservé à la Chine : l’état des lieux 2026.';
+
+const flip = byId('xiaomi-mix-flip');
+
+const faq = [
+  {
+    q: 'Le Xiaomi Mix Flip 2 est-il disponible en France ?',
+    a: 'Non. Le Xiaomi Mix Flip 2 a été présenté en Chine le 26 juin 2025 et n’a jamais reçu de lancement officiel en Europe. On peut le trouver chez des importateurs, avec les risques habituels de l’import : garantie, langue, services Google et bandes de fréquences. Le seul clapet Xiaomi vendu officiellement en France reste le Mix Flip de 2024.',
+  },
+  {
+    q: 'Le Xiaomi Mix Flip 3 va-t-il sortir ?',
+    a: 'Non, selon toutes les informations disponibles. Des fuites relayées par la presse spécialisée depuis octobre 2025 indiquent que Xiaomi a renoncé au Mix Flip 3, faute de ventes suffisantes pour le Mix Flip 2. La marque concentre ses efforts sur un grand pliant, le Xiaomi 18 Fold, présenté en Chine le 7 septembre 2026.',
+  },
+  {
+    q: 'Le Xiaomi 18 Fold sortira-t-il en Europe ?',
+    a: 'Aucune sortie européenne n’est annoncée. Le Xiaomi 18 Fold a été exposé au salon IFA de Berlin puis présenté en Chine le 7 septembre 2026, mais Engadget le décrit comme réservé au marché chinois pour le moment. Xiaomi n’a communiqué ni prix en euros ni date de sortie pour la France.',
+  },
+  {
+    q: 'Quel est le prix du Xiaomi Mix Flip ?',
+    a: 'Le Xiaomi Mix Flip a été lancé à 1 299 € dans sa configuration unique de 12 Go de mémoire vive et 512 Go de stockage, lors de sa sortie internationale le 26 septembre 2024. Comme la plupart des pliants de génération précédente, il se trouve souvent nettement moins cher aujourd’hui : vérifiez le prix du jour chez les marchands.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Xiaomi', 'Smartphone pliant', 'Xiaomi Mix Flip'] })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Xiaomi · état des lieux septembre 2026</span>
+        <h1>Smartphone pliant Xiaomi : ce qu’il reste en France en 2026</h1>
+        <p class="lede">
+          Xiaomi fabrique des pliants depuis 2021, mais un seul a été commercialisé officiellement en France : le Mix Flip, lancé en septembre 2024. Depuis, rien de neuf chez nous, pendant que ses concurrents occupent le haut de notre <a href="/">comparatif des smartphones pliants</a>.
+          Chronologie, abandon du Mix Flip 3 et nouveautés chinoises : le point complet.
+        </p>
+        <Byline minutes={6} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Callout variant="answer" title="Xiaomi vend-il un smartphone pliant en France en 2026 ?">
+        <p>
+          Pas de nouveauté. Le seul pliant Xiaomi commercialisé en France reste le <strong>Xiaomi Mix Flip</strong>, un clapet lancé le 26 septembre 2024 à {euro(flip.launchPrice)} (12 Go / 512 Go).
+          Son successeur, le Mix Flip 2, est resté en Chine, le Mix Flip 3 a été abandonné, et le Xiaomi 18 Fold, présenté le 7 septembre 2026, n’a aucune sortie européenne annoncée.
+        </p>
+        <p><AmazonButton phone={flip} size="sm" label="Voir le Mix Flip sur Amazon" /></p>
+      </Callout>
+    </div>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2 class="mt-0">Cinq ans de pliants Xiaomi, presque tous réservés à la Chine</h2>
+        <p>
+          La chronologie des pliants Xiaomi montre une stratégie à deux vitesses : une gamme complète en Chine, une seule incursion en Europe. Sur les sept pliants présentés depuis 2021, un seul a été lancé officiellement en Europe.
+        </p>
+        <ol class="timeline">
+          <li><time datetime="2021-03-30">30 mars 2021</time><strong>Mi Mix Fold.</strong> Premier pliant de Xiaomi, au format livre, présenté en Chine. Jamais vendu en France.</li>
+          <li><time datetime="2022-08-11">11 août 2022</time><strong>Mix Fold 2.</strong> Deuxième format livre, toujours cantonné au marché chinois.</li>
+          <li><time datetime="2023-08-14">14 août 2023</time><strong>Mix Fold 3.</strong> Troisième génération, sans lancement international.</li>
+          <li><time datetime="2024-07">Juillet 2024</time><strong>Mix Fold 4 et Mix Flip.</strong> Xiaomi présente en Chine son quatrième format livre et son tout premier clapet.</li>
+          <li><time datetime="2024-09-26">26 septembre 2024</time><strong>Lancement international du Mix Flip.</strong> Présenté à Berlin, il devient le premier pliant Xiaomi vendu en France, à {euro(flip.launchPrice)}. Le Mix Fold 4, lui, reste en Chine.</li>
+          <li><time datetime="2025-06-26">26 juin 2025</time><strong>Mix Flip 2.</strong> Présenté en Chine avec un Snapdragon 8 Elite et un ultra grand-angle à la place du téléobjectif. Pas de version européenne.</li>
+          <li><time datetime="2025-10-12">12 octobre 2025</time><strong>Premières fuites.</strong> Un informateur chinois relayé par Gizmochina affirme que Xiaomi met en pause son petit pliant pour une génération, faute de ventes suffisantes.</li>
+          <li><time datetime="2026-05">Mai 2026</time><strong>Mix Flip 3 abandonné.</strong> De nouvelles fuites, reprises notamment par Android Headlines, confirment l’abandon au profit d’un grand pliant.</li>
+          <li><time datetime="2026-09-07">7 septembre 2026</time><strong>Xiaomi 18 Fold.</strong> Premier pliant « large » de la marque, exposé à l’IFA de Berlin puis lancé en Chine. Aucune commercialisation européenne annoncée.</li>
+        </ol>
+
+        <h2>Pourquoi le Mix Flip 3 n’existera pas</h2>
+        <p>
+          Le Mix Flip 3 a été abandonné avant même d’être annoncé. Xiaomi n’a jamais présenté ce modèle : tout ce que l’on sait vient de fuites publiées depuis l’automne 2025. Elles avancent toutes la même raison, les ventes jugées décevantes du Mix Flip 2, malgré un design soigné et un prix jugé compétitif en Chine.
+        </p>
+        <p>
+          Xiaomi n’est pas seul à douter du clapet. Selon la presse spécialisée, Oppo n’a pas donné de successeur direct à son Find N3 Flip et Vivo n’a pas prolongé son X Flip. En Europe, le format repose de plus en plus sur deux constructeurs, qui renouvellent leurs gammes chaque année.
+        </p>
+
+        <h2>Ce que Xiaomi prépare : un grand pliant, pour la Chine d’abord</h2>
+        <p>
+          Le Xiaomi 18 Fold, présenté en Chine le 7 septembre 2026, confirme le changement de cap annoncé par les fuites. Selon Les Mobiles et Engadget, il adopte un format « large » avec un écran intérieur de 7,58 pouces et un écran externe de 5,38 pouces, la puce maison Xring O3 et un module photo Leica avec zoom optique x3,5.
+        </p>
+        <p>
+          Pour l’instant, il ne prend pas le chemin de l’Europe : Engadget le présente comme réservé à la Chine, et Les Mobiles parle d’une vitrine technologique pour les visiteurs de l’IFA. Nous mettrons cette page à jour si la situation évolue. En attendant, aucun nouveau pliant Xiaomi n’est attendu en France en 2026.
+        </p>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Le Mix Flip, dernier représentant de Xiaomi en France</h2>
+          <p>
+            Le Xiaomi Mix Flip est un clapet de 2024 qui garde de vrais arguments : Snapdragon 8 Gen 3 avec 12 Go de mémoire vive, écran externe de 4,01 pouces, téléobjectif 50 Mpx au zoom x2 et charge 67 W. Il n’a en revanche ni certification d’étanchéité ni charge sans fil.
+            Notre <a href="/smartphone-pliant-xiaomi/mix-flip/">fiche détaillée du Xiaomi Mix Flip</a> examine s’il reste une bonne affaire deux ans après sa sortie.
+          </p>
+        </div>
+        <div style="margin-top:1.2rem">
+          <PhoneCard phone={flip} linkToSheet ctaLabel="Voir les offres" badge="Seul pliant Xiaomi en France" />
+        </div>
+        <div class="prose" style="margin-top:1.2rem">
+          <p>
+            Un point à surveiller : le suivi logiciel. Selon Tech Advisor, Xiaomi promettait au lancement quatre ans de mises à jour majeures et cinq ans de correctifs de sécurité. Le Mix Flip en a déjà consommé deux.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2 class="mt-0">Attendre Xiaomi ou acheter ailleurs ?</h2>
+        <p>
+          Attendre un pliant Xiaomi en France n’a pas de sens en 2026, puisqu’aucun modèle n’est annoncé. Pour un clapet récent avec un suivi plus long, la gamme des <a href="/smartphone-pliant-motorola-razr/">Motorola Razr pliants</a> démarre à 999 €, et les <a href="/smartphone-pliant-samsung/">pliants Samsung</a> promettent sept ans de mises à jour.
+        </p>
+        <p>
+          Le Mix Flip garde un intérêt si son prix a nettement baissé par rapport à ses {euro(flip.launchPrice)} de lancement, ce qui est souvent le cas pour un modèle de 2024. Il faut alors l’acheter en connaissance de cause : pas d’étanchéité, pas de charge sans fil, et un suivi logiciel à mi-parcours.
+        </p>
+        <p><AmazonButton phone={flip} variant="ghost" label="Vérifier le prix du Mix Flip" /></p>
+
+        <Faq items={faq} heading="Xiaomi et les pliants : vos questions" />
+      </div>
+    </section>
+
+    <div class="wrap">
+      <Siblings path={path} variant="list" heading="Les autres marques de smartphones pliants" />
+    </div>
+  </article>
+</BaseLayout>

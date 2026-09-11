@@ -1,0 +1,51 @@
+---
+import { type Phone, FORMAT_LABELS } from '../data/phones';
+import { euro, inches, mah, mm, frDate } from '../lib/format';
+
+interface Props {
+  phone: Phone;
+  caption?: string;
+}
+
+const { phone: p, caption = `Fiche technique du ${p.fullName}` } = Astro.props;
+
+const rows: [string, string][] = [
+  ['Format', FORMAT_LABELS[p.format]],
+  ['Date de sortie en France', frDate(p.release)],
+  ['Prix de lancement', `${euro(p.launchPrice)} (${p.launchConfig})`],
+  ['Stockage', p.storage],
+  ['Écran intérieur', inches(p.innerScreen)],
+  ['Écran extérieur', inches(p.outerScreen)],
+  ['Rafraîchissement', p.refresh],
+  ['Processeur', p.chip],
+  ['Mémoire vive', p.ram],
+  ['Batterie', p.battery ? mah(p.battery) : p.batteryLabel ?? 'n.c.'],
+  ['Charge filaire', p.wired],
+  ['Charge sans fil', p.wireless],
+  ['Appareils photo', p.cameras],
+  ['Zoom', p.zoom],
+  ['Poids', `${p.weight} g`],
+  ['Épaisseur plié', mm(p.foldedMm)],
+  ['Épaisseur déplié', mm(p.unfoldedMm)],
+  ['Protection eau / poussière', p.ip],
+  ['Système', p.os],
+  ['Services Google', p.googleServices ? 'Oui' : p.brand === 'apple' ? 'Non (iOS)' : 'Non'],
+];
+---
+
+<div class="table-scroll">
+  <table class="table-specs">
+    <caption class="sr-only">{caption}</caption>
+    <tbody>
+      {
+        rows.map(([k, v]) => (
+          <tr>
+            <th scope="row">{k}</th>
+            <td>{v}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+<p class="small muted" style="margin-top:.5rem">n.c. : non communiqué par le constructeur.</p>

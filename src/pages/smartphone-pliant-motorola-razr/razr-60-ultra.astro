@@ -1,0 +1,436 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('razr-60-ultra');
+const ultra = byId('razr-70-ultra');
+const plus = byId('razr-70-plus');
+const base = byId('razr-70');
+const fold = byId('razr-fold');
+const flip7 = byId('galaxy-z-flip7');
+const flip8 = byId('galaxy-z-flip8');
+const mix = byId('xiaomi-mix-flip');
+const path = p.path;
+const title = 'Test du Motorola Razr 60 Ultra : encore un bon plan ?';
+const description =
+  'Test du Motorola Razr 60 Ultra, lancé à 1 299 € : mesures d’autonomie, de charge et de chauffe comparées au Razr 70 Ultra. Vaut-il encore le coup ?';
+
+const GSMA = 'https://www.gsmarena.com/motorola_razr_60_ultra-review-2824.php';
+const GSMA_DESIGN = 'https://www.gsmarena.com/motorola_razr_60_ultra-review-2824p2.php';
+const GSMA_LAB = 'https://www.gsmarena.com/motorola_razr_60_ultra-review-2824p3.php';
+const GSMA_PERF = 'https://www.gsmarena.com/motorola_razr_60_ultra-review-2824p4.php';
+const GSMA_SPECS = 'https://www.gsmarena.com/motorola_razr_60_ultra-13805.php';
+const GSMA_70_LAB = 'https://www.gsmarena.com/motorola_razr_70_ultra-review-2972p3.php';
+const NBC = 'https://www.notebookcheck.com/Bestes-Flip-Smartphone-dank-Retro-Charme-und-grossem-Akku-Motorola-Razr-60-Ultra-im-Test.1019042.0.html';
+const NBC_70 = 'https://www.notebookcheck.net/Premium-foldable-barely-has-innovation-yet-still-impresses-Motorola-Razr-Ultra-2026-Razr-70-Ultra-smartphone-review.1353565.0.html';
+const PHONANDROID = 'https://www.phonandroid.com/test-motorola-razr-60-ultra.html';
+const CLUBIC = 'https://www.clubic.com/test-produit-569298-motorola-razr-60-ultra.html';
+const LESMOBILES = 'https://www.lesmobiles.com/test/test-du-motorola-razr-60-ultra-l-essai-du-smartphone-pliant-qui-veut-detroner-samsung';
+const TECHRADAR = 'https://global.techradar.com/fr-fr/phones/motorola-phones/test-du-motorola-razr-60-ultra-le-telephone-pliable-qui-a-tout-pour-plaire';
+const TG_70 = 'https://www.tomsguide.com/phones/motorola-phones/motorola-razr-ultra-2026-review';
+const EPREL_60 = 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2250774_EN.pdf';
+const EPREL_70 = 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2631202_EN.pdf';
+const MOTO_FR = 'https://fr-fr.support.motorola.com/app/answers/detail/a_id/187117/~/sp%C3%A9cifications--motorola-razr-60-ultra';
+const FRANCEMOBILES = 'https://www.francemobiles.com/actualites/motorola-razr-60-et-60-ultra-la-nouvelle-generation-de-smartphones-pliants-est-la-20640.html';
+const MOTO_CARE = 'https://www.motorola.com/fr/fr/motocare';
+
+const measures = [
+  { label: 'Score d’usage actif (autonomie)', value: '15 h 10', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Navigation Wi-Fi', value: '15 h 22', source: 'Notebookcheck', url: NBC },
+  { label: 'Navigation web continue en 5G (écran à 150 cd/m²)', value: '15 h 42', source: 'Tom’s Guide', url: TG_70 },
+  { label: 'PCMark, écran principal', value: 'près de 19 h', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Charge 68 W : 15 min / 30 min', value: '48 % / 78 %', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge : 15 min / 30 min', value: '40 % / 72 %', source: 'Tom’s Guide', url: TG_70 },
+  { label: 'Charge complète (0 à 100 %)', value: '45 min', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge complète, chargeur Motorola 68 W', value: '55 min', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Charge complète, chargeur 68 W', value: '1 h', source: 'Clubic', url: CLUBIC },
+  { label: 'Luminosité max. manuelle (intérieur / externe)', value: '487 / 500 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité min. manuelle (intérieur / externe)', value: '2,3 / 2,9 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité en mode auto (intérieur / externe)', value: '1 489 / 1 507 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité maximale mesurée', value: '1 452 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E ColorChecker', value: '1,05', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E moyen (couleurs naturelles)', value: '1,7', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'AnTuTu', value: '2 178 361', source: 'Clubic', url: CLUBIC },
+  { label: 'Geekbench 6, mono / multicœur', value: '2 829 / 8 840', source: 'Clubic', url: CLUBIC },
+  { label: '3DMark Wild Life Extreme', value: '6 184', source: 'Clubic', url: CLUBIC },
+  { label: 'Stress test processeur, stabilité', value: '42 %', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Baisse de fréquence du processeur sous forte charge', value: 'jusqu’à 58 %', source: 'Clubic', url: CLUBIC },
+  { label: 'Stabilité sur Honkai: Star Rail (graphismes max.)', value: '75 %', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Température maximale en surface', value: '60,8 °C', source: 'Notebookcheck', url: NBC },
+  { label: 'Température relevée en face avant', value: '59 °C', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Endurance par cycle, étiquette énergie UE', value: '48 h', source: 'EPREL', url: EPREL_60 },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSMA,
+    date: '2025-04-24',
+    note: '4,4/5',
+    verdict:
+      'Un excellent petit pliant, parmi les plus performants de sa catégorie à sa sortie, avec un écran intérieur presque sans pli et une charge record ; le bridage marqué du processeur reste son principal défaut.',
+  },
+  {
+    media: 'Clubic',
+    url: CLUBIC,
+    date: '2025-06-19',
+    note: '9/10',
+    verdict:
+      'Un clapet séduisant par ses deux écrans, ses matériaux et son interface soignée, mais qui chauffe nettement, arrive sans chargeur et limite son suivi à trois versions d’Android.',
+  },
+  {
+    media: 'Les Mobiles',
+    url: LESMOBILES,
+    date: '2025-05-29',
+    note: '5/5',
+    verdict:
+      'L’un des clapets les plus réussis de 2025 pour son design, ses écrans à 165 Hz et son endurance ; photo en deçà des meilleurs photophones et suivi logiciel moins ambitieux que chez Samsung.',
+  },
+  {
+    media: 'Phonandroid',
+    url: PHONANDROID,
+    date: '2025-05-20',
+    verdict:
+      'Un pliant haut de gamme solide, fort de son autonomie, de sa colorimétrie et de son capteur principal, pénalisé par l’abandon du téléobjectif et une chauffe persistante sous forte sollicitation.',
+  },
+  {
+    media: 'TechRadar',
+    url: TECHRADAR,
+    date: '2025-05-18',
+    verdict:
+      'Le Razr qui tient enfin ses promesses en performances, autonomie et photo, au prix du Razr le plus cher lancé jusque-là et sans zoom optique.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Le Razr 60 Ultra vaut-il encore le coup en 2026 ?',
+    a: 'Oui, s’il est vendu nettement sous le prix du Razr 70 Ultra. Le Motorola Razr 60 Ultra partage avec son successeur le Snapdragon 8 Elite, la charge 68 W, les écrans 165 Hz et le poids de 199 g. Il lui concède 1 h 22 au score d’autonomie de GSMArena, un nouveau capteur photo principal, une classe de résistance aux chutes et un an de suivi logiciel.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Motorola Razr 60 Ultra ?',
+    a: 'Selon les tests publiés, le Motorola Razr 60 Ultra obtient 15 h 10 au score d’usage actif de GSMArena, 15 h 22 en navigation Wi-Fi chez Notebookcheck, 15 h 42 en navigation 5G chez Tom’s Guide et près de 19 heures sous PCMark chez Phonandroid. Au quotidien, Phonandroid compte deux jours à deux jours et demi en usage standard, Clubic un jour et demi en usage intensif.',
+  },
+  {
+    q: 'Le Motorola Razr 60 Ultra chauffe-t-il ?',
+    a: 'Oui, sous forte sollicitation. GSMArena mesure une stabilité de 42 % au stress test processeur et n’a pas pu terminer le test graphique à cause de la surchauffe. Phonandroid relève 59 °C en face avant et Notebookcheck 60,8 °C en surface. En jeu, Phonandroid constate en revanche une chauffe très modérée sur Honkai: Star Rail, avec 75 % de stabilité.',
+  },
+  {
+    q: 'Le chargeur est-il fourni avec le Razr 60 Ultra ?',
+    a: 'Non. La boîte du Motorola Razr 60 Ultra contient le téléphone, un câble USB-C et une coque de protection, d’après Phonandroid, et Motorola France précise que le chargeur TurboPower 68 W est vendu séparément. Avec un bloc de cette puissance, GSMArena mesure 78 % en 30 minutes et une charge complète en 45 minutes.',
+  },
+  {
+    q: 'Le Motorola Razr 60 Ultra est-il étanche ?',
+    a: 'Le Motorola Razr 60 Ultra est certifié IP48 : il résiste à une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, selon sa fiche EPREL. La protection contre la poussière ne concerne que les particules de plus de 1 mm, si bien que le sable fin reste une menace pour la charnière. C’était un progrès par rapport au Razr 50 Ultra, protégé seulement contre l’eau.',
+  },
+  {
+    q: 'Jusqu’à quand le Razr 60 Ultra sera-t-il mis à jour ?',
+    a: 'Le Motorola Razr 60 Ultra est sorti sous Android 15 avec trois mises à jour majeures promises, soit Android 16, 17 et 18, et quatre ans de correctifs de sécurité selon GSMArena, Clubic et Phonandroid, soit jusqu’en 2029 environ. Sa fiche européenne EPREL affiche six ans de disponibilité minimale des mises à jour. Le Razr 70 Ultra, lancé sous Android 16, sera suivi un an de plus.',
+  },
+  {
+    q: 'Razr 60 Ultra ou Galaxy Z Flip7 : lequel choisir ?',
+    a: 'Lancé à 1 299 €, le Motorola Razr 60 Ultra offre un Snapdragon 8 Elite, 4 700 mAh, une charge de 68 W et deux écrans à 165 Hz. Le Samsung Galaxy Z Flip7, lancé à 1 199 €, se contente de 4 300 mAh et 25 W, mais promet sept ans de mises à jour contre trois versions d’Android chez Motorola. Le premier vise la puissance et l’endurance, le second la longévité.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Motorola Razr 60 Ultra', 'Motorola', 'Smartphone pliant à clapet'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <div class="wrap section-tight prose">
+      <span class="eyebrow">Test · génération 2025, bon plan 2026</span>
+      <h1>Test du Razr 60 Ultra : l’Ultra de 2025 tient-il tête au Razr 70 Ultra ?</h1>
+      <ProductSummary phone={p} ctaLabel="Consulter l’offre Razr 60 Ultra" />
+      <p class="lede">
+        Lancé en 2025 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Motorola Razr 60 Ultra a été remplacé en mai 2026 par le Razr 70 Ultra. Il reste l’un des clapets les plus aboutis de la <a href="/smartphone-pliant-motorola-razr/">gamme pliante Motorola Razr</a>, et les tests publiés montrent que son successeur ne le distance que de peu. Cette synthèse s’appuie sur les mesures de GSMArena, Notebookcheck, Tom’s Guide, Phonandroid et Clubic, et sur la fiche européenne EPREL, pour répondre à une seule question : faut-il encore l’acheter en septembre 2026 ?
+      </p>
+      <Byline minutes={17} />
+
+      <div class="card" style="margin:1.5rem 0">
+        <p class="eyebrow mt-0">Verdict express · {num(overall(p))}/10</p>
+        <p class="mb-0">
+          <strong>Oui, à condition qu’il soit vendu nettement sous le prix du Razr 70 Ultra.</strong> Le Motorola Razr 60 Ultra partage avec son successeur le Snapdragon 8 Elite, la charge 68 W, les écrans à 165 Hz et les 199 g. Il lui concède 1 h 22 au score d’usage actif de GSMArena, un capteur photo principal moins récent, une classe de résistance aux chutes et un an de suivi logiciel. Il vise ceux qui veulent un clapet haut de gamme sans payer le prix d’un modèle de l’année, et qui apprécient un son plus riche que sur le Razr 70 Ultra d’après GSMArena. Il ne conviendra pas à ceux qui gardent leur téléphone plus de trois ou quatre ans, ni aux joueurs qui enchaînent les longues parties. Ses défauts sont connus depuis 2025 : chauffe sous charge prolongée, absence de téléobjectif et trois versions d’Android seulement.
+        </p>
+      </div>
+
+      <h2>Razr 60 Ultra ou Razr 70 Ultra : l’écart mesuré</h2>
+      <p>
+        L’intérêt d’un modèle remplacé est de pouvoir comparer des mesures prises au même protocole. GSMArena, Notebookcheck et Tom’s Guide ont testé les deux générations, et l’Union européenne publie pour chacune une fiche normalisée : les écarts sont minces. Chaque ligne ci-dessous oppose deux résultats issus de la même source.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Mesures du Motorola Razr 60 Ultra et du Razr 70 Ultra au même protocole</caption>
+          <thead>
+            <tr>
+              <th scope="col">Critère</th>
+              <th scope="col">Razr 60 Ultra</th>
+              <th scope="col"><a href={ultra.path}>Razr 70 Ultra</a></th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Prix de lancement (16 / 512 Go)</th><td class="num">{euro(p.launchPrice)}</td><td class="num">{euro(ultra.launchPrice)}</td><td class="small">Fiches constructeur</td></tr>
+            <tr><th scope="row">Batterie</th><td class="num">4 700 mAh</td><td class="num">5 000 mAh</td><td class="small">Fiches constructeur</td></tr>
+            <tr><th scope="row">Score d’usage actif</th><td class="num">15 h 10</td><td class="num"><strong>16 h 32</strong></td><td class="small"><a href={GSMA_LAB} target="_blank" rel="noopener">GSMArena</a></td></tr>
+            <tr><th scope="row">Navigation web en 5G</th><td class="num">15 h 42</td><td class="num"><strong>16 h 20</strong></td><td class="small"><a href={TG_70} target="_blank" rel="noopener">Tom’s Guide</a></td></tr>
+            <tr><th scope="row">Charge en 30 minutes</th><td class="num"><strong>78 %</strong></td><td class="num">73 %</td><td class="small"><a href={GSMA_70_LAB} target="_blank" rel="noopener">GSMArena</a></td></tr>
+            <tr><th scope="row">Charge complète</th><td class="num">45 min</td><td class="num">46 min</td><td class="small">GSMArena</td></tr>
+            <tr><th scope="row">Luminosité auto, écran intérieur</th><td class="num">1 489 cd/m²</td><td class="num">1 486 cd/m²</td><td class="small">GSMArena</td></tr>
+            <tr><th scope="row">Volume des haut-parleurs</th><td><strong>Très bon</strong></td><td>En recul</td><td class="small">GSMArena</td></tr>
+            <tr><th scope="row">Luminosité maximale mesurée</th><td class="num">1 452 cd/m²</td><td class="num">1 436 cd/m²</td><td class="small"><a href={NBC} target="_blank" rel="noopener">Notebookcheck</a></td></tr>
+            <tr><th scope="row">Delta E ColorChecker</th><td class="num"><strong>1,05</strong></td><td class="num">1,22</td><td class="small"><a href={NBC_70} target="_blank" rel="noopener">Notebookcheck</a></td></tr>
+            <tr><th scope="row">Geekbench 6 multicœur</th><td class="num">7 784</td><td class="num">7 842</td><td class="small">Notebookcheck</td></tr>
+            <tr><th scope="row">3DMark Wild Life Extreme</th><td class="num">5 456</td><td class="num"><strong>6 241</strong></td><td class="small">Notebookcheck</td></tr>
+            <tr><th scope="row">Classe de résistance aux chutes</th><td>D</td><td><strong>C</strong></td><td class="small"><a href={EPREL_60} target="_blank" rel="noopener">EPREL</a></td></tr>
+            <tr><th scope="row">Android au lancement</th><td>Android 15</td><td>Android 16</td><td class="small">Motorola</td></tr>
+            <tr><th scope="row">Note GSMArena</th><td class="num">4,4/5</td><td class="num">4,3/5</td><td class="small">GSMArena</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Sur la charge, le Razr 60 Ultra fait jeu égal et récupère même un peu plus de batterie en 30 minutes chez GSMArena ; sa colorimétrie est légèrement meilleure chez Notebookcheck, et ses haut-parleurs plus convaincants selon GSMArena. Le modèle 2026 prend l’avantage sur l’autonomie, confirmée par Tom’s Guide, sur la puissance graphique, sur la résistance aux chutes et sur la durée du suivi logiciel. GSMArena note pourtant un peu mieux le modèle 2025 que son successeur.
+      </p>
+
+      <Callout variant="tip" title="Acheter un modèle remplacé : les bons réflexes">
+        <p>
+          Comparez le prix du jour du Razr 60 Ultra avec celui du Razr 70 Ultra : si l’écart se réduit à quelques dizaines d’euros, prenez le modèle 2026 et son année de suivi supplémentaire. Vérifiez que l’offre est neuve, vendue par un marchand identifié et destinée au marché européen, pour la garantie. Prévoyez enfin un chargeur compatible 68 W, absent de la boîte selon Clubic.
+        </p>
+      </Callout>
+
+      <p><AmazonButton phone={p} label="Voir le prix du Razr 60 Ultra sur Amazon" /></p>
+
+      <TestSources
+        sources={sources}
+        heading="Ce qu’en disaient les tests à sa sortie"
+        intro="Tests publiés entre avril et juin 2025. Phonandroid et TechRadar n’affichent pas de note chiffrée dans les versions consultées."
+      />
+
+      <h2>Le design du Razr 60 Ultra a-t-il vieilli ?</h2>
+      <p>
+        Non. Le Motorola Razr 60 Ultra pèse 199 g et mesure 7,2 mm ouvert pour 15,7 mm fermé, exactement comme le Razr 70 Ultra ; la <a href={GSMA_SPECS} target="_blank" rel="noopener">fiche de GSMArena</a> indique 171,5 × 74 mm déplié et 88,1 × 74 mm replié. Il inaugurait déjà la charnière au titane, le verre Gorilla Glass Ceramic et les dos en matériaux naturels, bois ou Alcantara selon le coloris. Phonandroid juge le design remarquable, en particulier la version bois, et Les Mobiles comme Clubic saluent la qualité des finitions.
+      </p>
+      <PhoneGallery id="razr-60-ultra" />
+      <p>
+        Motorola l’a lancé en France en quatre coloris Pantone, d’après <a href={FRANCEMOBILES} target="_blank" rel="noopener">France Mobiles</a> : Cabaret, Rio Red, Mountain Trail et Scarab. <a href={GSMA_DESIGN} target="_blank" rel="noopener">GSMArena</a> associe le bois au Mountain Trail, le cuir végan au Rio Red et l’Alcantara au Scarab, et trouve le téléphone glissant et sensible aux traces de doigts, quelle que soit la finition. Une touche IA occupe la tranche gauche ; le lecteur d’empreintes se cache dans le bouton d’alimentation.
+      </p>
+      <p>
+        La charnière en titane remplace l’acier inoxydable du Razr 50 Ultra, rappelle Phonandroid. Clubic la dit certifiée pour 500 000 cycles d’ouverture et de fermeture, et apprécie le dépliage partiel en mode chevalet ou tente, pratique pour se photographier sans tenir le téléphone. Les tests consultés ne détaillent pas l’ouverture à une main.
+      </p>
+      <p>
+        Deux points de vigilance ressortent. Phonandroid s’interroge sur la tenue de l’Alcantara dans le temps, et TechRadar signale qu’un de ses exemplaires a présenté un scintillement temporaire de l’écran, sans en tirer de conclusion générale. GSMArena relève enfin un écran intérieur presque sans pli visible, un niveau de finition qui tient toujours la comparaison avec les clapets de 2026.
+      </p>
+
+      <h2>Ses écrans tiennent-ils encore la comparaison ?</h2>
+      <p>
+        Oui, c’est même l’un des arguments forts du Razr 60 Ultra. Sa dalle intérieure de 7 pouces passe à 1 224 × 2 992 pixels, une nette progression par rapport au Razr 50 Ultra selon GSMArena, avec 165 Hz, Dolby Vision, HDR10+ et 4 500 cd/m² annoncés en pointe par <a href={MOTO_FR} target="_blank" rel="noopener">Motorola</a>. L’écran externe de 4 pouces, en 1 272 × 1 080 pixels, offre lui aussi 165 Hz, ce qui le rend aussi fluide que l’écran principal pour les applications et les widgets.
+      </p>
+      <p>
+        Les mesures sont quasi identiques à celles du Razr 70 Ultra. GSMArena relève 487 cd/m² en réglage manuel et 1 489 cd/m² en mode auto sur l’écran intérieur, 500 et 1 507 cd/m² sur l’écran externe. Notebookcheck mesure 1 452 cd/m² au maximum et un Delta E de 1,05 sur le ColorChecker, meilleur que les 1,22 du modèle 2026. Phonandroid obtient un Delta E moyen de 1,7 en mode couleurs naturelles. Seul regret de GSMArena : une luminosité manuelle qui aurait pu grimper plus haut.
+      </p>
+      <p>
+        L’écran externe sert vraiment : GSMArena y trouve réglages rapides, notifications et applications comme Gmail, Messages, Photos ou Gemini, Clubic y gère la musique, les appels et quelques jeux. Lors du test de GSMArena, Netflix n’avait pas encore activé le HDR, contrairement à YouTube.
+      </p>
+
+      <h2>Le Snapdragon 8 Elite chauffe-t-il trop ?</h2>
+      <p>
+        C’est le défaut le plus cité par les tests du Razr 60 Ultra. Sa puce est la même que celle du Razr 70 Ultra, et ses scores de pointe restent très élevés : Clubic mesure 2 178 361 points sur AnTuTu, 2 829 et 8 840 points sur Geekbench 6, et 6 184 points sur 3DMark Wild Life Extreme. Notebookcheck obtient 2 987 et 7 784 points sur Geekbench 6.
+      </p>
+      <p>
+        Sous charge prolongée, le tableau se dégrade. GSMArena mesure une stabilité de 42 % au stress test processeur, estime le bridage à 25 à 30 % par rapport aux smartphones classiques équipés de la même puce, et n’a jamais pu terminer le test graphique, interrompu par la surchauffe au bout de trois minutes. Clubic observe que la fréquence du processeur peut être réduite de 58 % pour contenir la température. Phonandroid relève 59 °C en face avant et plus de 60 °C par endroits ; Notebookcheck atteint 60,8 °C en surface.
+      </p>
+      <p>
+        En jeu, les résultats sont plus rassurants : sur Honkai: Star Rail en graphismes maximum, Phonandroid constate une chauffe très modérée et 75 % de stabilité, et Les Mobiles ne signale pas de chauffe excessive. Pour la navigation ou la photo, la puce dispose d’une large marge ; pour le jeu 3D prolongé, un clapet reste un mauvais outil, et le Razr 70 Ultra ne règle pas totalement la question, même si Notebookcheck le trouve un peu moins chaud.
+      </p>
+
+      <h2>Que vaut la photo sans téléobjectif ?</h2>
+      <p>
+        Le Motorola Razr 60 Ultra a abandonné le téléobjectif du Razr 50 Ultra au profit d’un ultra grand-angle de 50 Mpx avec autofocus, capable de photographier en macro. Phonandroid regrette ce choix, TechRadar et Clubic l’absence de zoom optique. Le capteur principal de 50 Mpx stabilisé, ouvrant à f/1,8 selon GSMArena, assure un zoom x2 par recadrage.
+      </p>
+      <p>
+        GSMArena juge le capteur principal très bon de jour, avec des couleurs vives et un contraste marqué, et parmi les meilleurs des pliants de nuit en focale native. Le zoom x2 conserve de beaux détails en journée mais perd en définition dans le noir. L’ultra grand-angle est net et coloré ; le mode macro, contraignant à cause de la faible distance de mise au point, n’apporte pas grand-chose face au x2 du capteur principal.
+      </p>
+      <p>
+        Phonandroid salue un portrait détaillé au détourage précis, mais note un risque de flou de bougé la nuit ; Clubic apprécie lui aussi le portrait et relève une perte de détails de nuit en zoom poussé.
+      </p>
+      <p>
+        La caméra selfie de 50 Mpx logée dans l’écran intérieur produit des images détaillées selon GSMArena. En vidéo, jusqu’en 8K à 30 images par seconde, GSMArena salue une stabilisation efficace à la marche et Phonandroid relève du bruit au-delà du zoom x4. Face au Razr 70 Ultra, GSMArena accorde au modèle 2026 une meilleure plage dynamique, un détourage plus précis et un ultra grand-angle plus net, mais une stabilisation vidéo en recul : l’écart photo reste modeste, et l’ensemble demeure en deçà des meilleurs photophones selon Les Mobiles.
+      </p>
+
+      <h2>Quelle autonomie et quelle vitesse de charge ?</h2>
+      <p>
+        Le Motorola Razr 60 Ultra embarque 4 700 mAh, soit 700 mAh de plus que le Razr 50 Ultra et 300 mAh de moins que le Razr 70 Ultra. Les tests le placent parmi les clapets les plus endurants de 2025 : GSMArena lui attribue 15 h 10 au score d’usage actif, Notebookcheck 15 h 22 en navigation Wi-Fi, et Phonandroid approche les 19 heures sous PCMark avec l’écran principal.
+      </p>
+      <p>
+        Tom’s Guide, qui le teste sous son nom américain de Razr Ultra 2025, mesure 15 h 42 en navigation web continue en 5G : son meilleur résultat pour un pliant, jusqu’à ce que le Razr 70 Ultra le dépasse de 38 minutes.
+      </p>
+      <p>
+        Au quotidien, Phonandroid compte deux jours à deux jours et demi en usage standard et cinq à sept heures en jeu. Clubic parle de deux jours pleins en usage modéré et d’un jour et demi en usage intensif. Des chiffres qui restent très honorables un an plus tard, même face au modèle 2026.
+      </p>
+      <p>
+        La charge rapide 68 W reste une référence pour un clapet : GSMArena mesure 48 % en 15 minutes, 78 % en 30 minutes et le plein en 45 minutes, Tom’s Guide 40 % et 72 %. Phonandroid obtient une charge complète en 55 minutes avec le chargeur Motorola de 68 W, Clubic en une heure. Le chargeur n’est pas livré. La charge sans fil monte à 30 W, avec une charge inversée de 5 W.
+      </p>
+      <Measures items={measures} caption="Toutes les mesures publiées sur le Motorola Razr 60 Ultra" />
+      <p><AmazonButton phone={p} label="Vérifier la disponibilité" variant="ghost" size="sm" /></p>
+
+      <h2>Le son et la connectivité sont-ils au niveau ?</h2>
+      <p>
+        Oui, et le son est même un argument face au modèle 2026. <a href={GSMA_LAB} target="_blank" rel="noopener">GSMArena</a> attribue aux deux haut-parleurs stéréo Dolby Atmos la mention très bien au test de volume, avec de bonnes basses et des voix claires, quand il trouve le Razr 70 Ultra moins puissant et plus plat. Phonandroid juge la puissance suffisante sans pousser le volume, le haut-parleur secondaire restant un peu en retrait. Il n’y a pas de prise jack.
+      </p>
+      <p>
+        La fiche de Motorola France liste la 5G, le Wi-Fi 7, le NFC et l’association d’une eSIM et d’une SIM physique ; GSMArena décrit un tiroir capable d’accueillir deux nano-SIM. Le Bluetooth 5.4 s’accompagne de la suite Snapdragon Sound et des codecs aptX HD, aptX Adaptive et aptX Lossless, précise Phonandroid. Le déverrouillage passe par le lecteur d’empreintes du bouton d’alimentation ou par une reconnaissance faciale en 2D, selon la fiche de Clubic.
+      </p>
+
+      <h2>Est-il solide et facile à réparer ?</h2>
+      <p>
+        Correctement, sans plus. Certifié IP48, le Motorola Razr 60 Ultra supporte une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, mais seules les particules de plus de 1 mm sont arrêtées ; c’est tout de même un progrès sur le Razr 50 Ultra, protégé seulement contre l’eau d’après GSMArena. Sa charnière en titane est annoncée quatre fois plus robuste que l’acier inoxydable employé auparavant, selon France Mobiles. Les fiches européennes EPREL comparent enfin les deux générations sur des critères normalisés, distincts des tests d’autonomie des médias.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Fiches EPREL du Motorola Razr 60 Ultra et du Razr 70 Ultra</caption>
+          <thead>
+            <tr>
+              <th scope="col">Critère de l’étiquette UE</th>
+              <th scope="col">Razr 60 Ultra</th>
+              <th scope="col">Razr 70 Ultra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Efficacité énergétique</th><td>Classe A</td><td>Classe A</td></tr>
+            <tr><th scope="row">Endurance par cycle de charge</th><td class="num">48 h</td><td class="num">51 h</td></tr>
+            <tr><th scope="row">Cycles avant 80 % de capacité</th><td class="num">1 000</td><td class="num">1 200</td></tr>
+            <tr><th scope="row">Capacité assignée</th><td class="num">4 540 mAh</td><td class="num">4 800 mAh</td></tr>
+            <tr><th scope="row">Chutes sans défaut (plié / déplié)</th><td class="num">50 / 15</td><td class="num">95 / 25</td></tr>
+            <tr><th scope="row">Résistance aux chutes répétées</th><td>Classe D</td><td>Classe C</td></tr>
+            <tr><th scope="row">Rayures (échelle de Mohs)</th><td class="num">5</td><td class="num">4</td></tr>
+            <tr><th scope="row">Réparabilité (indice)</th><td>Classe B (3,42)</td><td>Classe B (3,41)</td></tr>
+            <tr><th scope="row">Disponibilité minimale des mises à jour</th><td>6 ans</td><td>6 ans</td></tr>
+            <tr><th scope="row">Mise sur le marché de l’UE</th><td>22 mars 2025</td><td>28 avril 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">
+        Sources : fiches EPREL du <a href={EPREL_60} target="_blank" rel="noopener">Razr 60 Ultra</a> et du <a href={EPREL_70} target="_blank" rel="noopener">Razr 70 Ultra</a>. Capacité assignée : valeur minimale déclarée, inférieure à la capacité typique annoncée.
+      </p>
+      <p>
+        Le modèle 2025 résiste moins bien aux chutes répétées, mais son écran supporte mieux les rayures sur le papier ; la réparabilité est identique. Motorola France vend aussi des extensions <a href={MOTO_CARE} target="_blank" rel="noopener">Moto Care</a> contre la casse et les dommages accidentels, dont l’éligibilité pour un modèle de 2025 est à vérifier.
+      </p>
+
+      <h2>Que trouve-t-on dans la boîte ?</h2>
+      <p>
+        Le strict nécessaire, sans chargeur. Phonandroid y trouve le téléphone, un câble USB-C, une coque de protection et un film posé en usine sur l’écran principal, à ne jamais retirer ; la fiche EPREL confirme la coque. Le chargeur TurboPower 68 W est vendu séparément, indique Motorola France, et Clubic compte cette absence parmi les défauts.
+      </p>
+
+      <h2>Jusqu’à quand sera-t-il mis à jour ?</h2>
+      <p>
+        Le Motorola Razr 60 Ultra est sorti sous Android 15 avec la promesse de trois versions majeures d’Android et de quatre ans de correctifs de sécurité, d’après GSMArena, Clubic et Phonandroid. Il peut donc prétendre à Android 16, 17 et 18, et à des correctifs jusqu’en 2029 environ, ce qui laisse encore près de trois ans de suivi en septembre 2026. La fiche EPREL affiche pour sa part six ans de disponibilité minimale des mises à jour, sans préciser le nombre de versions d’Android : Notebookcheck relève le même écart sur le Razr 70 Ultra, et mieux vaut raisonner sur l’engagement le plus prudent.
+      </p>
+      <p>
+        C’est le reproche commun aux tests, et il pèse davantage sur un modèle de génération précédente : chaque mois passé en rayon réduit la durée de suivi restante. Le <a href={ultra.path}>Razr 70 Ultra</a>, lancé sous Android 16, sera suivi environ un an de plus, et le <a href={fold.path}>Razr Fold</a> bénéficie d’une promesse de sept ans de mises à jour.
+      </p>
+      <p>
+        Côté interface, Hello UI est jugée propre et complète par GSMArena, qui détaille Smart Connect pour afficher un bureau sans fil sur un PC ou un téléviseur, et Moto AI, accessible d’un double tapotement au dos ; Clubic apprécie son ergonomie. Au moment des tests, Moto AI n’était disponible qu’en anglais, relevaient Clubic et Les Mobiles, et TechRadar pointait des stéréotypes gênants dans certaines fonctions d’IA générative. GSMArena signale enfin un viseur de l’écran externe parfois capricieux.
+      </p>
+
+      <h2>Quelles versions et quels coloris ont été vendus en France ?</h2>
+      <p>
+        Une seule configuration a été commercialisée en France : 16 Go de mémoire vive et 512 Go de stockage, au prix de lancement de {euro(p.launchPrice)}, {euro(ultra.launchPrice - p.launchPrice)} de moins que le Razr 70 Ultra un an plus tard.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Coloris et version du Motorola Razr 60 Ultra en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Coloris Pantone</th>
+              <th scope="col">Dos (selon GSMArena)</th>
+              <th scope="col">Configuration</th>
+              <th scope="col">Prix de lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Cabaret</th><td>Non précisé</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+            <tr><th scope="row">Rio Red</th><td>Cuir végan</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+            <tr><th scope="row">Mountain Trail</th><td>Bois</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+            <tr><th scope="row">Scarab</th><td>Alcantara</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Plus d’un an après sa sortie, tous les coloris ne sont plus forcément en stock. Phonandroid, qui a testé le Scarab, trouve la version bois particulièrement réussie.
+      </p>
+      <p><AmazonButton phone={p} label="Voir les quatre coloris" variant="ghost" /></p>
+
+      <h2>Combien le payer, et quelles alternatives chez Motorola ?</h2>
+      <p>
+        Le Razr 60 Ultra a été lancé à {euro(p.launchPrice)}, 100 € de plus que le Razr 50 Ultra d’après Phonandroid. Depuis l’arrivée du Razr 70 Ultra à {euro(ultra.launchPrice)}, il se trouve souvent nettement moins cher. Sa valeur dépend entièrement de cet écart : les deux téléphones partagent puce, écrans, charge et format, et GSMArena voit dans le modèle 2026 quasiment le même appareil.
+      </p>
+      <p>
+        Si l’écart se réduit, le Razr 70 Ultra se justifie par 1 h 22 d’autonomie supplémentaire chez GSMArena et un an de suivi en plus. Le <a href={plus.path}>Razr 70 Plus</a> ({euro(plus.launchPrice)} au lancement) apporte Android 16 et un écran externe à 165 Hz, mais un Snapdragon 8s Gen 3 moins puissant et 4 500 mAh. Le <a href={base.path}>Razr 70</a> ({euro(base.launchPrice)}) sacrifie l’écran externe de 4 pouces au profit d’un modèle de 3,63 pouces. Pour passer au grand écran, le Razr Fold ({euro(fold.launchPrice)}) joue dans une autre catégorie.
+      </p>
+      <p><AmazonButton phone={p} label="Consulter l’offre" size="sm" /></p>
+
+      <h2>Et face aux clapets des autres marques ?</h2>
+      <p>
+        Le <ObfLink href={flip7.path} class="obf-text">Samsung Galaxy Z Flip7</ObfLink>, sorti le 25 juillet 2025 à {euro(flip7.launchPrice)}, est son contemporain direct : plus léger ({flip7.weight} g) et suivi sept ans par Samsung, mais limité à l’{flip7.chip}, {mah(flip7.battery)} et {flip7.wired}. Le Razr 60 Ultra vise la puissance et l’endurance, le Flip7 la longévité.
+      </p>
+      <p>
+        Le Galaxy Z Flip8, sorti le 7 août 2026 à {euro(flip8.launchPrice)} en 256 Go, descend à {flip8.weight} g mais conserve {mah(flip8.battery)} et une charge de {flip8.wired}. Le Xiaomi Mix Flip, lancé en septembre 2024 à {euro(mix.launchPrice)}, offre un téléobjectif x2 que le Razr n’a pas, mais ni certification IP ni charge sans fil : il ne se justifie qu’à prix très réduit.
+      </p>
+
+      <h2>Notre évaluation du Razr 60 Ultra</h2>
+      <ScoreBars phone={p} />
+      <p style="margin-top:1rem">
+        Avec {num(overall(p))}/10, le Razr 60 Ultra talonne le Razr 70 Ultra ({num(overall(ultra))}/10). Il perd des points sur l’écran et l’autonomie, en regagne sur le rapport qualité/prix ({num(p.scores.prix)} contre {num(ultra.scores.prix)}), un critère qui s’améliore à mesure que son prix baisse.
+      </p>
+
+      <ProsCons
+        pros={[
+          'Snapdragon 8 Elite, même puce que le Razr 70 Ultra',
+          'Charge complète en 45 minutes chez GSMArena',
+          'Écrans 165 Hz très fidèles (Delta E de 1,05)',
+          'Autonomie solide (15 h 10 chez GSMArena, 15 h 42 chez Tom’s Guide)',
+          'Finitions bois ou Alcantara, écran presque sans pli',
+          'Haut-parleurs jugés très bons par GSMArena',
+        ]}
+        cons={[
+          'Chauffe marquée sous charge prolongée',
+          'Pas de téléobjectif',
+          'Trois versions d’Android, correctifs jusqu’en 2029 environ',
+          'Chargeur absent de la boîte',
+          'Classe D de résistance aux chutes (fiche EPREL)',
+          'Remplacé par le Razr 70 Ultra',
+        ]}
+        prosTitle="Toujours valable"
+        consTitle="Moins convaincant"
+      />
+
+      <h2>Fiche technique du Razr 60 Ultra</h2>
+      <SpecTable phone={p} caption="Caractéristiques techniques du Motorola Razr 60 Ultra" />
+
+      <Faq items={faq} heading="Razr 60 Ultra : les questions avant d’acheter" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="Toute la gamme Motorola Razr testée" />
+    </div>
+  </article>
+</BaseLayout>

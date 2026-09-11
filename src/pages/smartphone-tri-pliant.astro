@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FoldIcon from '../components/FoldIcon.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, byId } from '../data/phones';
+import { article } from '../lib/schema';
+import { euro, num, mm, mah } from '../lib/format';
+
+const path = '/smartphone-tri-pliant/';
+const xt = byId('huawei-mate-xt');
+const duo = byId('iphone-duo');
+const triCount = phones.filter((p) => p.format === 'tri-pliant').length;
+const livres = phones.filter((p) => p.format === 'livre');
+const maxLivreInner = Math.max(...livres.map((p) => p.innerScreen));
+const cheapBig = livres.filter((p) => p.innerScreen >= 8).sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const heaviestLivre = [...livres].sort((a, b) => b.weight - a.weight)[0];
+const mostExpensive = [...phones].sort((a, b) => b.launchPrice - a.launchPrice)[0];
+
+const title = 'Smartphone tri-pliant : Huawei Mate XT et Galaxy Z TriFold';
+const description =
+  'Qu’est-ce qu’un smartphone tri-pliant ? Huawei Mate XT à 3 499 €, Galaxy Z TriFold absent de France, Mate XT 2 : modes d’usage, limites et notre avis.';
+
+const faq = [
+  {
+    q: 'Qu’est-ce qu’un smartphone tri-pliant ?',
+    a: 'Un smartphone tri-pliant est un téléphone doté de deux charnières et d’un écran souple qui se replie en trois panneaux. Déplié, il offre environ 10 pouces de diagonale, comme une petite tablette ; replié, il a la taille d’un smartphone. Le Huawei Mate XT et le Samsung Galaxy Z TriFold en sont les deux exemples les plus connus.',
+  },
+  {
+    q: 'Le Samsung Galaxy Z TriFold est-il vendu en France ?',
+    a: 'Non. Samsung a lancé le Galaxy Z TriFold en Corée du Sud en décembre 2025, sans commercialisation officielle en France. Selon la presse, sa production a été arrêtée en quelques mois. On ne le trouve que chez des importateurs, sans garantie constructeur française ni service après-vente Samsung assuré.',
+  },
+  {
+    q: 'Combien coûte le Huawei Mate XT en France ?',
+    a: `Le Huawei Mate XT Ultimate Design a été lancé en Europe en février 2025 au prix de ${euro(xt.launchPrice)}, dans une configuration unique de 16 Go de mémoire vive et 1 To de stockage. ${mostExpensive.id === xt.id ? 'C’est le smartphone pliant le plus cher de notre comparatif en configuration de base' : 'C’est l’un des pliants les plus chers de notre comparatif'}, loin devant l’iPhone Duo à ${euro(duo.launchPrice)}.`,
+  },
+  {
+    q: 'Le Huawei Mate XT a-t-il les applications Google ?',
+    a: 'Non. En raison des sanctions américaines, le Huawei Mate XT fonctionne sans services Google : pas de Play Store, de Gmail, de Google Maps ni de YouTube en application native. Les applications s’installent via la boutique AppGallery de Huawei. Le Mate XT ne gère pas non plus la 5G.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Smartphone tri-pliant', 'Huawei Mate XT', 'Samsung Galaxy Z TriFold'] })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Format · le tri-pliant expliqué</span>
+        <h1>Tri-pliant : le smartphone qui se déplie en tablette de 10 pouces</h1>
+        <p class="lede">
+          <strong>Un smartphone tri-pliant possède deux charnières et un écran souple qui se replie en trois panneaux.</strong>
+          Déplié, il offre une diagonale d’environ 10 pouces, celle d’une petite tablette ; replié, il retrouve le gabarit d’un smartphone.
+        </p>
+        <p>
+          C’est le format le plus rare de notre <a href="/">comparatif des smartphones pliants</a> : {triCount === 1 ? 'un seul modèle' : `${triCount} modèles`} y
+          {triCount === 1 ? 'est vendu' : 'sont vendus'} officiellement en France, le {xt.fullName}, lancé à {euro(xt.launchPrice)}.
+        </p>
+        <Byline minutes={6} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <figure class="card tri-figure">
+        <div class="tri-figure-art">
+          <FoldIcon format="tri-pliant" color="#c7000b" label="Schéma d’un smartphone tri-pliant déplié : trois panneaux d’écran séparés par deux charnières" />
+        </div>
+        <figcaption>
+          <strong>Comment se replie un tri-pliant</strong>
+          <ol class="small">
+            <li><b>Trois panneaux</b> forment un seul écran souple : {num(xt.innerScreen)} pouces au total sur le Mate XT.</li>
+            <li><b>Deux charnières</b> (en pointillés). Chez Huawei, elles plient en sens opposés, en Z : une partie de l’écran reste visible à l’extérieur.</li>
+            <li><b>Chez Samsung</b>, les deux volets se replient vers l’intérieur, écran protégé, et un écran externe séparé de 6,5 pouces prend le relais.</li>
+          </ol>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="wrap prose">
+      <h2 id="modes">Huawei Mate XT : un écran, trois modes</h2>
+      <p>
+        Le Huawei Mate XT Ultimate Design a ouvert la voie. Présenté en Chine le 10 septembre 2024, il est arrivé en Europe en février 2025 à {euro(xt.launchPrice)} ({xt.launchConfig}).
+        Selon le nombre de panneaux dépliés, il change d’usage.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Les trois modes d’usage du Huawei Mate XT</caption>
+          <thead>
+            <tr>
+              <th scope="col">Mode</th>
+              <th scope="col">Panneaux</th>
+              <th scope="col">Diagonale</th>
+              <th scope="col">Équivalent</th>
+              <th scope="col">Pour quoi faire</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Plié</strong></td><td class="num">1</td><td class="num">{num(xt.outerScreen)} "</td><td>Un smartphone classique</td><td>Appels, messages, photo</td></tr>
+            <tr><td><strong>Double</strong></td><td class="num">2</td><td class="num">7,9 "</td><td>Un pliant au format livre</td><td>Lecture, vidéo, deux applications</td></tr>
+            <tr><td><strong>Déplié</strong></td><td class="num">3</td><td class="num">{num(xt.innerScreen)} "</td><td>Une petite tablette</td><td>Documents, multitâche, films</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Déplié, le Mate XT ne mesure que {mm(xt.unfoldedMm)} d’épaisseur ; replié, il atteint {mm(xt.foldedMm)} pour {xt.weight} g, soit {xt.weight - heaviestLivre.weight} g de plus que le plus lourd des formats livre de notre comparatif.
+        Il embarque un {xt.chip}, une batterie de {mah(xt.battery)} chargée en {xt.wired} ({xt.wireless} sans fil) et un module photo avec périscope x5,5.
+        Aucune certification IP n’est annoncée, et il fonctionne sans services Google ni 5G.
+      </p>
+      <p><AmazonButton phone={xt} label="Voir le Mate XT sur Amazon" /></p>
+
+      <h2 id="trifold">Samsung Galaxy Z TriFold : lancé en Corée, absent en France</h2>
+      <p>
+        Samsung a présenté le Galaxy Z TriFold et l’a lancé en Corée du Sud en décembre 2025, au prix de 3 594 000 wons. Il n’a jamais été commercialisé officiellement en France.
+        Selon la presse, sa production a été arrêtée en quelques mois et ses ventes stoppées dans plusieurs pays au printemps 2026 : il ne circule plus que par des importateurs.
+      </p>
+      <p>
+        Sa conception diffère de celle du Mate XT. Les deux volets se replient vers l’intérieur : l’écran principal de 10 pouces reste protégé une fois fermé, et un écran externe séparé de 6,5 pouces sert au quotidien.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Huawei Mate XT et Samsung Galaxy Z TriFold : caractéristiques comparées</caption>
+          <thead>
+            <tr><th scope="col">Caractéristique</th><th scope="col">Huawei Mate XT</th><th scope="col">Samsung Galaxy Z TriFold</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Écran déplié</td><td class="num">{num(xt.innerScreen)} "</td><td class="num">10 "</td></tr>
+            <tr><td>Écran fermé</td><td>{num(xt.outerScreen)} " (partie de l’écran principal)</td><td>6,5 " (écran externe séparé)</td></tr>
+            <tr><td>Épaisseur plié</td><td class="num">{mm(xt.foldedMm)}</td><td class="num">12,9 mm</td></tr>
+            <tr><td>Épaisseur déplié (au plus fin)</td><td class="num">{mm(xt.unfoldedMm)}</td><td class="num">3,9 mm</td></tr>
+            <tr><td>Poids</td><td class="num">{xt.weight} g</td><td class="num">309 g</td></tr>
+            <tr><td>Batterie</td><td class="num">{mah(xt.battery)}</td><td class="num">5 600 mAh</td></tr>
+            <tr><td>Charge filaire / sans fil</td><td>{xt.wired} / {xt.wireless}</td><td>45 W / 15 W</td></tr>
+            <tr><td>Processeur</td><td>{xt.chip}</td><td>Snapdragon 8 Elite for Galaxy</td></tr>
+            <tr><td>Zoom optique</td><td>x5,5 (périscope)</td><td>x3 (téléobjectif 10 Mpx), capteur principal 200 Mpx</td></tr>
+            <tr><td>Étanchéité</td><td>Non certifié</td><td>IP48</td></tr>
+            <tr><td>Services Google</td><td>Non</td><td>Oui</td></tr>
+            <tr><td>Vente en France</td><td>Officielle, {euro(xt.launchPrice)} au lancement</td><td>Import uniquement</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Sur le papier, le Galaxy Z TriFold corrigeait deux gros défauts du Mate XT : l’absence des services Google et de toute protection contre l’eau. Son arrêt laisse Huawei seul sur le créneau en France.
+      </p>
+      <p class="small"><AmazonButton phone={xt} variant="text" label="Voir les offres du Mate XT, seul tri-pliant vendu en France" /></p>
+      <Callout variant="warn" title="Galaxy Z TriFold en import : prudence">
+        <p>
+          Sans distribution officielle, rien ne garantit une prise en charge par Samsung France en cas de panne, et la réparation d’un écran à deux charnières n’a rien d’anodin.
+          C’est pourquoi nous ne proposons aucun lien d’achat pour ce modèle.
+        </p>
+      </Callout>
+
+      <h2 id="acheter">Faut-il acheter un tri-pliant en 2026 ?</h2>
+      <p>
+        Pour la grande majorité des acheteurs, non. Le seul modèle disponible en France, le Mate XT, coûte {euro(xt.launchPrice)} au lancement, pèse {xt.weight} g et se passe des services Google, de la 5G et de toute certification IP.
+        Surtout, sa conception date de 2024 : Huawei a déjà présenté en Chine le Mate XTs en septembre 2025, puis le Mate XT 2 le 7 septembre 2026.
+      </p>
+      <p>
+        En face, un <a href="/smartphone-pliant-format-livre/">pliant au format livre</a> offre déjà jusqu’à {num(maxLivreInner)} pouces. Le {cheapBig.fullName} affiche un écran de {num(cheapBig.innerScreen)} pouces
+        pour {euro(cheapBig.launchPrice)} au lancement, soit {euro(xt.launchPrice - cheapBig.launchPrice)} de moins, avec le Play Store et une certification {cheapBig.ip}.
+      </p>
+      <p>
+        Le tri-pliant garde du sens dans un cas précis : vous voulez une vraie surface de tablette pour lire des PDF ou des bandes dessinées et travailler sur des documents, sans porter deux appareils,
+        et l’écosystème Huawei ne vous rebute pas. Même dans ce cas, mieux vaut attendre de savoir si le Mate XT 2 arrive en Europe avant d’acheter la première génération.
+      </p>
+      <p><AmazonButton phone={xt} variant="ghost" label="Vérifier la disponibilité du Mate XT" /></p>
+
+      <h2 id="chronologie">Le tri-pliant en six dates</h2>
+      <ol class="timeline">
+        <li><time>10 septembre 2024</time>Huawei présente le Mate XT en Chine, premier smartphone tri-pliant commercialisé.</li>
+        <li><time>Février 2025</time>Lancement international du Mate XT Ultimate Design, à {euro(xt.launchPrice)} en Europe.</li>
+        <li><time>4 septembre 2025</time>Huawei présente en Chine le Mate XTs, deuxième génération de son tri-pliant.</li>
+        <li><time>Décembre 2025</time>Samsung présente le Galaxy Z TriFold et le lance en Corée du Sud.</li>
+        <li><time>Printemps 2026</time>Selon la presse, arrêt des ventes du Galaxy Z TriFold dans plusieurs pays.</li>
+        <li><time>7 septembre 2026</time>Huawei dévoile en Chine le Mate XT 2, équipé d’une puce Kirin 9050 Pro. Aucune sortie française n’est annoncée à ce jour.</li>
+      </ol>
+
+      <Faq items={faq} heading="Tri-pliant : questions courantes" />
+
+      <Siblings path={path} variant="chips" heading="Les autres formats de pliants" />
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .tri-figure {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .tri-figure-art {
+    max-width: 280px;
+    margin-inline: auto;
+    width: 100%;
+  }
+  .tri-figure ol {
+    margin: 0.6rem 0 0;
+    padding-left: 1.2rem;
+  }
+  @media (min-width: 760px) {
+    .tri-figure {
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+  }
+</style>

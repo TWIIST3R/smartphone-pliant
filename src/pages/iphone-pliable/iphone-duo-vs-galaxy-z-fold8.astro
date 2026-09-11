@@ -1,0 +1,355 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import FoldIcon from '../../components/FoldIcon.astro';
+import Score from '../../components/Score.astro';
+import { byId, overall } from '../../data/phones';
+import { brands } from '../../data/site';
+import { article } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const path = '/iphone-pliable/iphone-duo-vs-galaxy-z-fold8/';
+const duo = byId('iphone-duo');
+const fold = byId('galaxy-z-fold8');
+const title = 'iPhone Duo vs Galaxy Z Fold8 : le comparatif en 7 manches';
+const description =
+  'iPhone Duo (2 339 €, IP68, 254 g) ou Galaxy Z Fold8 (1 999 €, 201 g, 4 800 mAh) ? Écrans, solidité, puissance, photo, autonomie, logiciel et prix comparés.';
+
+const prices = [
+  { cap: '256 Go', duo: 2339, fold: 1999 },
+  { cap: '512 Go', duo: 2589, fold: 2199 },
+  { cap: '1 To', duo: 3089, fold: 2399 },
+  { cap: '2 To', duo: 3839, fold: null },
+];
+
+const recap = [
+  { n: 1, round: 'Format et écrans', win: 'iPhone Duo', why: 'Même ratio sur les deux écrans, 3 000 cd/m²' },
+  { n: 2, round: 'Poids et solidité', win: 'iPhone Duo', why: 'IP68 et titane, malgré 53 g de plus' },
+  { n: 3, round: 'Puissance', win: 'iPhone Duo', why: 'A20 Pro en 2 nm, avantage théorique' },
+  { n: 4, round: 'Photo', win: 'iPhone Duo', why: 'Deux 48 Mpx et vidéo 4K à 120 i/s' },
+  { n: 5, round: 'Autonomie et charge', win: 'Manche nulle', why: 'Données non comparables avant les tests' },
+  { n: 6, round: 'Logiciel et écosystème', win: 'Galaxy Z Fold8', why: 'Multitâche mûri et sept ans de suivi promis' },
+  { n: 7, round: 'Prix', win: 'Galaxy Z Fold8', why: '340 à 690 € de moins à capacité égale' },
+];
+
+const faq = [
+  {
+    q: 'Quel est le moins cher entre l’iPhone Duo et le Galaxy Z Fold8 ?',
+    a: 'Le Samsung Galaxy Z Fold8 est le moins cher : 1 999 € en 256 Go au lancement, contre 2 339 € pour l’iPhone Duo dans la même capacité, soit 340 € d’écart. En 1 To, la différence atteint 690 € (2 399 € contre 3 089 €). L’iPhone Duo existe aussi en 2 To à 3 839 €, une capacité absente de la gamme Fold8.',
+  },
+  {
+    q: 'L’iPhone Duo est-il plus lourd que le Galaxy Z Fold8 ?',
+    a: 'Oui. L’iPhone Duo pèse 254 g et mesure 11,3 mm d’épaisseur fermé, contre 201 g et 9,7 mm pour le Samsung Galaxy Z Fold8. L’écart atteint donc 53 g et 1,6 mm. Ouvert, l’iPhone Duo mesure 5,2 mm, contre 4,5 mm pour le Galaxy Z Fold8.',
+  },
+  {
+    q: 'L’iPhone Duo et le Galaxy Z Fold8 sont-ils étanches ?',
+    a: 'Les deux résistent à l’eau, mais pas au même niveau. L’iPhone Duo est certifié IP68, jusqu’à 6 mètres pendant 30 minutes selon Apple, et protégé contre la poussière. Le Galaxy Z Fold8 est certifié IP48 : il supporte l’immersion, mais ne bloque que les particules de plus de 1 mm, ce qui laisse sa charnière exposée au sable fin.',
+  },
+  {
+    q: 'Peut-on passer d’un Galaxy Z Fold à l’iPhone Duo ?',
+    a: 'Oui. Apple propose l’application Migrer vers iOS pour transférer contacts, photos et messages depuis un téléphone Android. Deux points à anticiper : l’iPhone Duo fonctionne uniquement en eSIM, il faut donc convertir sa carte SIM auprès de son opérateur, et les applications Android achetées ne sont pas reprises sur l’App Store.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['iPhone Duo', 'Samsung Galaxy Z Fold8'] })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Duel · format livre</span>
+        <h1>iPhone Duo ou Galaxy Z Fold8 : lequel des deux pliants « larges » choisir ?</h1>
+        <p class="lede">
+          Apple a présenté son premier pliant le 9 septembre 2026, un appareil que nous suivons de près dans notre dossier <a href="/iphone-pliable/">iPhone pliable</a>.
+          En face, un rival tout désigné : le Samsung Galaxy Z Fold8, sorti le 7 août 2026 avec lui aussi un écran intérieur de 7,6 pouces au format large.
+          L’un démarre à {euro(duo.launchPrice)}, l’autre à {euro(fold.launchPrice)}. Sept manches pour les départager.
+        </p>
+        <Byline minutes={9} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="card vs-card">
+        <div class="vs-grid">
+          <div class="side">
+            <div class="icon"><FoldIcon format="livre" color={brands.apple.color} label="Silhouette de l’iPhone Duo ouvert" /></div>
+            <strong>Apple iPhone Duo</strong>
+            <div class="flex center"><Score value={overall(duo)} /><span class="small muted">/10 provisoire</span></div>
+            <p class="small mb-0">Dès <strong>{euro(duo.launchPrice)}</strong> · sortie le 23 octobre 2026</p>
+          </div>
+          <div class="vs" aria-hidden="true">VS</div>
+          <div class="side">
+            <div class="icon"><FoldIcon format="livre" color={brands.samsung.color} label="Silhouette du Galaxy Z Fold8 ouvert" /></div>
+            <strong>Samsung Galaxy Z Fold8</strong>
+            <div class="flex center"><Score value={overall(fold)} /><span class="small muted">/10</span></div>
+            <p class="small mb-0">Dès <strong>{euro(fold.launchPrice)}</strong> · disponible depuis le 7 août 2026</p>
+          </div>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:.6rem">
+        Nous n’avons eu en main ni l’un ni l’autre : ce duel s’appuie sur les caractéristiques officielles et sur nos notes éditoriales, provisoires pour l’iPhone Duo.
+      </p>
+    </div>
+
+    <div class="wrap prose section">
+      <section class="manche" id="manche-1">
+        <h2 class="mt-0"><span class="manche-num">Manche 1</span> Format et écrans</h2>
+        <p>
+          L’iPhone Duo et le Galaxy Z Fold8 ont fait le même pari : un écran intérieur de 7,6 pouces plus large que haut, taillé pour la vidéo et la lecture.
+          La différence se joue à l’extérieur. Apple a donné le même ratio à ses deux dalles, si bien qu’une application passe de l’une à l’autre sans se réorganiser ; Samsung associe son écran intérieur 4:3 à un écran externe de 5,5 pouces, un peu étroit pour taper.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Écrans de l’iPhone Duo et du Galaxy Z Fold8</caption>
+            <thead><tr><th scope="col">Écrans</th><th scope="col">iPhone Duo</th><th scope="col">Galaxy Z Fold8</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Intérieur</th><td>7,6" (430 ppi)</td><td>7,6" au format 4:3</td></tr>
+              <tr><th scope="row">Extérieur</th><td>5,4" (460 ppi), même ratio</td><td>5,5"</td></tr>
+              <tr><th scope="row">Rafraîchissement</th><td>{duo.refresh}</td><td>{fold.refresh}</td></tr>
+              <tr><th scope="row">Luminosité maximale</th><td>3 000 cd/m²</td><td>n.c.</td></tr>
+              <tr><th scope="row">Note écrans</th><td class="num">{num(duo.scores.ecran)}/10</td><td class="num">{num(fold.scores.ecran)}/10</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="winner"><strong>Vainqueur : iPhone Duo.</strong> La continuité entre les deux écrans règle un défaut historique des pliants Android, et son écran externe court et large se prête mieux à la saisie.</p>
+      </section>
+
+      <section class="manche" id="manche-2">
+        <h2><span class="manche-num">Manche 2</span> Poids et solidité</h2>
+        <p>
+          C’est la manche la plus disputée. Le Galaxy Z Fold8 est le plus léger des Fold avec 201 g ; l’iPhone Duo pèse 254 g, soit 53 g et 26 % de plus. Il est aussi plus épais une fois fermé, 11,3 mm contre 9,7 mm.
+        </p>
+        <p>
+          En face, Apple aligne un châssis en titane grade 5, un Ceramic Shield 2 et surtout une certification IP68, que détaille notre <a href="/iphone-pliable/iphone-duo/">fiche complète de l’iPhone Duo</a>.
+          Le Fold8 reste IP48 : il supporte l’immersion, mais sa charnière n’est pas protégée contre la poussière fine.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Poids, épaisseur et étanchéité de l’iPhone Duo et du Galaxy Z Fold8</caption>
+            <thead><tr><th scope="col">Gabarit</th><th scope="col">iPhone Duo</th><th scope="col">Galaxy Z Fold8</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Poids</th><td class="num">254 g</td><td class="num">201 g</td></tr>
+              <tr><th scope="row">Épaisseur fermé</th><td class="num">11,3 mm</td><td class="num">9,7 mm</td></tr>
+              <tr><th scope="row">Épaisseur ouvert</th><td class="num">5,2 mm</td><td class="num">4,5 mm</td></tr>
+              <tr><th scope="row">Étanchéité</th><td>IP68 (6 m, 30 min)</td><td>IP48</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="winner"><strong>Vainqueur : iPhone Duo.</strong> Les 53 g se sentent chaque jour, mais du sable dans une charnière ne se rattrape pas avec une coque. Sur un appareil à plus de 2 000 € gardé plusieurs années, l’IP68 pèse plus lourd que la balance.</p>
+      </section>
+
+      <section class="manche" id="manche-3">
+        <h2><span class="manche-num">Manche 3</span> Puissance</h2>
+        <p>
+          L’iPhone Duo reçoit l’A20 Pro, gravé en 2 nm. Le Galaxy Z Fold8 embarque le Snapdragon 8 Elite Gen 5 for Galaxy avec 12 Go de mémoire vive ; Apple ne communique pas la mémoire de son pliant.
+          Les deux puces figurent au sommet de l’offre mobile de 2026 et aucun des deux téléphones ne sera à court de puissance en multitâche.
+          Sans mesures publiées sur l’iPhone Duo, nous nous en tenons à nos notes sur fiche technique : {num(duo.scores.performances)}/10 pour l’A20 Pro, {num(fold.scores.performances)}/10 pour le Snapdragon.
+        </p>
+        <p class="winner"><strong>Vainqueur : iPhone Duo, d’une courte tête.</strong> L’avantage reste théorique tant que les tests n’ont pas mesuré la tenue des deux puces dans la durée.</p>
+      </section>
+
+      <section class="manche" id="manche-4">
+        <h2><span class="manche-num">Manche 4</span> Photo</h2>
+        <p>
+          Premier constat : ni l’un ni l’autre n’a de téléobjectif, le principal reproche commun aux deux pliants. L’iPhone Duo associe deux capteurs de 48 Mpx et obtient son zoom x2 par recadrage ; le Galaxy Z Fold8 aligne deux 50 Mpx et se contente du zoom numérique.
+          En vidéo, Apple annonce la 4K à 120 images par seconde en Dolby Vision, et place une caméra Center Stage de 12 Mpx à l’extérieur ainsi qu’une caméra FaceTime sous l’écran intérieur.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Appareils photo de l’iPhone Duo et du Galaxy Z Fold8</caption>
+            <thead><tr><th scope="col">Photo</th><th scope="col">iPhone Duo</th><th scope="col">Galaxy Z Fold8</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Capteurs arrière</th><td>{duo.cameras}</td><td>{fold.cameras}</td></tr>
+              <tr><th scope="row">Zoom</th><td>{duo.zoom}</td><td>{fold.zoom}</td></tr>
+              <tr><th scope="row">Note photo</th><td class="num">{num(duo.scores.photo)}/10</td><td class="num">{num(fold.scores.photo)}/10</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="winner"><strong>Vainqueur : iPhone Duo.</strong> Un zoom x2 tiré d’un 48 Mpx et une vidéo 4K à 120 i/s lui donnent l’avantage sur le papier, sans combler l’absence de téléobjectif.</p>
+      </section>
+
+      <section class="manche" id="manche-5">
+        <h2><span class="manche-num">Manche 5</span> Autonomie et charge</h2>
+        <p>
+          Comparer l’endurance des deux pliants est pour l’instant impossible sur des bases solides. Apple ne donne pas la capacité de sa double batterie mais des durées d’usage ; Samsung publie une capacité, 4 800 mAh, sans durée équivalente.
+          En recharge filaire, les deux se tiennent ; en sans-fil, l’iPhone Duo prend un léger avantage avec 25 W contre 20 W.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Batterie et recharge de l’iPhone Duo et du Galaxy Z Fold8</caption>
+            <thead><tr><th scope="col">Énergie</th><th scope="col">iPhone Duo</th><th scope="col">Galaxy Z Fold8</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Batterie</th><td>Double batterie, capacité n.c.</td><td class="num">4 800 mAh</td></tr>
+              <tr><th scope="row">Autonomie annoncée</th><td>24 h en usage mixte, 31 h de vidéo sur l’écran intérieur</td><td>n.c.</td></tr>
+              <tr><th scope="row">Charge filaire</th><td>50 % en 20 min environ (adaptateur 60 W)</td><td>45 W, 63 % en 30 min</td></tr>
+              <tr><th scope="row">Charge sans fil</th><td>MagSafe / Qi2 25 W</td><td>20 W</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="winner"><strong>Vainqueur : aucun, manche nulle.</strong> Les données constructeur ne se comparent pas ; seuls des tests d’autonomie, après la sortie du 23 octobre, pourront trancher.</p>
+      </section>
+
+      <section class="manche" id="manche-6">
+        <h2><span class="manche-num">Manche 6</span> Logiciel et écosystème</h2>
+        <p>
+          Ici, tout dépend de ce que vous possédez déjà. iOS 27 permet pour la première fois d’afficher deux applications côte à côte sur un iPhone ; les pliants Android le font depuis 2019, et Samsung a eu sept générations de Fold avant celle-ci pour affiner son multi-fenêtres.
+        </p>
+        <p>
+          L’iPhone Duo mise sur Touch ID dans le bouton latéral, l’eSIM uniquement, le Wi-Fi 7 et l’intégration avec le Mac, l’iPad et l’Apple Watch.
+          Le Galaxy Z Fold8 tourne sous {fold.os}, avec les services Google, et Samsung promet sept ans de mises à jour Android.
+        </p>
+        <p class="winner"><strong>Vainqueur : Galaxy Z Fold8.</strong> Un multitâche mûri pendant sept générations et une durée de suivi chiffrée. Si vous vivez déjà dans l’écosystème Apple, inversez ce résultat : ce sera sans doute la seule manche qui compte pour vous.</p>
+      </section>
+
+      <section class="manche" id="manche-7">
+        <h2><span class="manche-num">Manche 7</span> Prix</h2>
+        <p>
+          À capacité égale, l’iPhone Duo coûte de 340 à 690 € de plus au lancement que le Galaxy Z Fold8. L’écart se creuse avec le stockage, et seul Apple propose une version 2 To.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Prix de lancement en France de l’iPhone Duo et du Galaxy Z Fold8 selon la capacité</caption>
+            <thead><tr><th scope="col">Capacité</th><th scope="col">iPhone Duo</th><th scope="col">Galaxy Z Fold8</th><th scope="col">Écart</th></tr></thead>
+            <tbody>
+              {
+                prices.map((r) => (
+                  <tr>
+                    <th scope="row">{r.cap}</th>
+                    <td class="num">{euro(r.duo)}</td>
+                    <td class="num">{r.fold ? euro(r.fold) : 'Non proposé'}</td>
+                    <td class="num">{r.fold ? `+ ${euro(r.duo - r.fold)} pour l’iPhone` : '—'}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="winner"><strong>Vainqueur : Galaxy Z Fold8.</strong> 340 € d’écart dès la version 256 Go, deux fois plus en 1 To : sur ce terrain, le match n’a pas lieu.</p>
+      </section>
+    </div>
+
+    <section class="section band" id="recap">
+      <div class="wrap prose">
+        <h2 class="mt-0">Le récapitulatif des sept manches</h2>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Résultat des sept manches du duel iPhone Duo contre Galaxy Z Fold8</caption>
+            <thead><tr><th scope="col">Manche</th><th scope="col">Vainqueur</th><th scope="col">Ce qui a fait la différence</th></tr></thead>
+            <tbody>
+              {
+                recap.map((r) => (
+                  <tr>
+                    <th scope="row">{r.n}. {r.round}</th>
+                    <td><strong>{r.win}</strong></td>
+                    <td>{r.why}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Score final : iPhone Duo 4, Galaxy Z Fold8 2, une manche nulle. Notre note globale place pourtant le Galaxy Z Fold8 devant ({num(overall(fold))}/10 contre {num(overall(duo))}/10 provisoire), parce qu’elle pondère aussi le prix et la portabilité, deux terrains où l’écart est large.
+          Le détail des pondérations est expliqué dans <a href="/methodologie/">notre méthodologie</a>.
+        </p>
+      </div>
+    </section>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Verdict : lequel acheter selon votre profil</h2>
+      <p>
+        L’iPhone Duo gagne plus de manches, le Galaxy Z Fold8 gagne celle qui pèse sur la décision de la plupart des acheteurs. Le bon choix dépend moins de la fiche technique que de votre téléphone actuel.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="grid verdict" style="--min:300px">
+        <div class="card">
+          <h3>Choisissez l’iPhone Duo si…</h3>
+          <ul class="small">
+            <li>vous avez déjà un iPhone, un Mac ou une Apple Watch ;</li>
+            <li>l’étanchéité IP68 compte : plage, randonnée, pluie ;</li>
+            <li>vous voulez deux écrans au même ratio, sans applications qui se réorganisent ;</li>
+            <li>le budget de {euro(duo.launchPrice)} et l’attente jusqu’au 23 octobre ne vous arrêtent pas.</li>
+          </ul>
+          <AmazonButton phone={duo} label="Suivre la disponibilité de l’iPhone Duo" />
+        </div>
+        <div class="card">
+          <h3>Choisissez le Galaxy Z Fold8 si…</h3>
+          <ul class="small">
+            <li>vous restez sous Android et utilisez les services Google ;</li>
+            <li>le poids compte : 201 g et 9,7 mm fermé ;</li>
+            <li>vous travaillez chaque jour en multi-fenêtres ;</li>
+            <li>vous préférez garder 340 € en poche à capacité égale, et 690 € en 1 To.</li>
+          </ul>
+          <AmazonButton phone={fold} label="Voir le prix du Galaxy Z Fold8" />
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap prose section-tight">
+      <Callout variant="tip" title="Et si vous zoomez beaucoup ?">
+        <p>
+          Alors aucun des deux. Ni l’iPhone Duo ni le Galaxy Z Fold8 n’a de téléobjectif : pour photographier un concert ou un animal au loin, un pliant au format livre équipé d’un vrai zoom optique x3 à x5 sera plus adapté.
+          Pour tout savoir du modèle d’Apple avant les précommandes du 16 octobre, relisez notre <a href="/iphone-pliable/iphone-duo/">analyse de l’iPhone Duo</a>.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="iPhone Duo contre Galaxy Z Fold8 : questions fréquentes" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="Aussi dans notre dossier iPhone pliable" />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .vs-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .vs-card .side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .vs-card .icon {
+    width: 84px;
+  }
+  .vs-card .center {
+    justify-content: center;
+  }
+  .manche + .manche {
+    margin-top: 2.6rem;
+  }
+  .manche-num {
+    display: block;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+    margin-bottom: 0.2rem;
+  }
+  .manche .table-scroll {
+    margin: 1rem 0;
+  }
+  .manche tbody th {
+    font-weight: 650;
+  }
+  .winner {
+    border-left: 4px solid var(--accent);
+    padding: 0.5rem 0 0.5rem 0.9rem;
+    background: var(--accent-soft);
+    border-radius: 0 8px 8px 0;
+  }
+  .verdict ul {
+    padding-left: 1.1rem;
+    margin: 0 0 1rem;
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import { SITE } from '../data/site';
+import { frDate } from '../lib/format';
+
+interface Props {
+  updated?: string;
+  minutes?: number;
+  showDisclosure?: boolean;
+}
+
+const { updated = SITE.updated, minutes, showDisclosure = true } = Astro.props;
+---
+
+<div class="byline">
+  <a class="byline-author" href={SITE.author.url}>
+    <img src={SITE.author.avatar} alt="" width="34" height="34" />
+    <span>Par <strong>{SITE.author.name}</strong></span>
+  </a>
+  <span class="dot">Mis à jour le <time datetime={updated}>{frDate(updated)}</time></span>
+  {minutes && <span class="dot">{minutes} min de lecture</span>}
+</div>
+{
+  showDisclosure && (
+    <p class="disclosure" style="margin-top:.5rem">
+      <span aria-hidden="true">ⓘ</span>
+      <span>Cette page contient des liens affiliés Amazon. Notre classement ne dépend pas des commissions.</span>
+    </p>
+  )
+}

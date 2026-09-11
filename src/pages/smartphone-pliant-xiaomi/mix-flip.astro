@@ -1,0 +1,428 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('xiaomi-mix-flip');
+const r70plus = byId('razr-70-plus');
+const r70 = byId('razr-70');
+const r60 = byId('razr-60-ultra');
+const flip7 = byId('galaxy-z-flip7');
+const path = p.path;
+const title = 'Test Xiaomi Mix Flip : que vaut ce clapet de 2024 en 2026 ?';
+const description =
+  'Test du Xiaomi Mix Flip : mesures d’autonomie, d’écran et de charge publiées, charnière, photo, chauffe et suivi logiciel. Faut-il encore l’acheter en 2026 ?';
+
+const GSM = 'https://www.gsmarena.com/xiaomi_mix_flip-review-2732.php';
+const GSM_LAB = 'https://www.gsmarena.com/xiaomi_mix_flip-review-2732p3.php';
+const GSM_PERF = 'https://www.gsmarena.com/xiaomi_mix_flip-review-2732p4.php';
+const NBC = 'https://www.notebookcheck.net/Xiaomi-Mix-Flip-review-Foldable-smartphone-with-Leica-cameras-finally-puts-Samsung-under-pressure.893864.0.html';
+const PHA = 'https://www.phonandroid.com/xiaomi-mix-flip-test.html';
+const TA = 'https://www.techadvisor.com/article/2491294/xiaomi-mix-flip-review.html';
+const TR = 'https://www.techradar.com/phones/xiaomi-phones/xiaomi-mix-flip-review';
+const GSM_SOLID = 'https://www.gsmarena.com/xiaomi_mix_flip-review-2732p6.php';
+const GSM_CAM = 'https://www.gsmarena.com/xiaomi_mix_flip-review-2732p5.php';
+const CLUBIC = 'https://www.clubic.com/test-produit-542420-test-xiaomi-mix-flip-le-pliable-qui-a-tout-pour-seduire.html';
+const PC = 'https://www.presse-citron.net/test-xiaomi-mix-flip/';
+const JDG = 'https://www.journaldugeek.com/test/prise-en-main-des-xiaomi-mix-flip-et-mix-fold-4/';
+
+const measures = [
+  { label: 'Autonomie, Active Use Score', value: '11 h 58', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Autonomie PCMark', value: '13 h 58', source: 'Tech Advisor', url: TA },
+  { label: 'Batterie restante en fin de journée (usage normal)', value: '15 à 25 %', source: 'Phonandroid', url: PHA },
+  { label: 'Charge filaire 67 W après 15 / 30 min', value: '41 % / 68 %', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge complète de 0 à 100 %', value: '52 min', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge après 15 / 30 min', value: '29 % / 47 %', source: 'Tech Advisor', url: TA },
+  { label: 'Luminosité en mode auto (intérieur / extérieur)', value: '1 314 / 1 355 cd/m²', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Pic lumineux HDR (intérieur / extérieur)', value: '2 890 / 2 990 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E moyen (maximum)', value: '1,7 (3,2)', source: 'Phonandroid', url: PHA },
+  { label: 'Geekbench 6 (mono / multicœur)', value: '2 086 / 6 035', source: 'GSMArena', url: GSM_PERF },
+  { label: 'AnTuTu 10', value: '1 609 570', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Stabilité CPU sous charge', value: '58 %', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Température maximale en jeu', value: '53 °C', source: 'Phonandroid', url: PHA },
+  { label: 'Volume des haut-parleurs (test sonore)', value: '−27,6 LUFS', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge 67 W : 0 à 50 % / 0 à 100 %', value: 'Environ 20 min / 57 min', source: 'Clubic', url: CLUBIC },
+  { label: '3DMark Wild Life Extreme', value: '4 119 points', source: 'Clubic', url: CLUBIC },
+  { label: 'Température à l’écran après 40 min de jeu', value: '50 °C', source: 'Clubic', url: CLUBIC },
+  { label: 'Temps d’écran sur une journée (batterie restante le soir)', value: 'Environ 5 h (10 à 15 %)', source: 'Presse-citron', url: PC },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSM,
+    date: '2024-08-03',
+    verdict:
+      'L’un des meilleurs clapets de sa génération grâce à ses écrans, sa photo et son endurance. L’absence de protection contre l’eau et une chauffe marquée sous forte charge tempèrent l’enthousiasme.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: NBC,
+    date: '2024-09-24',
+    note: '83 %',
+    verdict:
+      'Une fiche technique capable d’inquiéter Samsung et un pli presque imperceptible, mais un traitement d’image du téléobjectif et des performances en IA en deçà des attentes.',
+  },
+  {
+    media: 'Phonandroid',
+    url: PHA,
+    date: '2024-10-08',
+    note: '6,5/10',
+    verdict:
+      'Un premier clapet réussi dans les grandes lignes, porté par un écran externe vraiment utile et une bonne photo, mais une charnière trop lâche, une forte chauffe et un HyperOS encombré pèsent lourd à 1 299 €.',
+  },
+  {
+    media: 'Tech Advisor',
+    url: TA,
+    date: '2024-10-16',
+    verdict:
+      'Bonne autonomie, photos réussies en bonne lumière et puce rapide ; le test le juge pourtant en retrait face au Galaxy Z Flip6 et au Razr 50 Ultra, plus aboutis et moins chers.',
+  },
+  {
+    media: 'TechRadar',
+    url: TR,
+    verdict:
+      'Écrans superbes, performances solides et bonne batterie. Des choix logiciels discutables, publicité comprise, et une distribution internationale limitée freinent la recommandation.',
+  },
+  {
+    media: 'Clubic',
+    url: CLUBIC,
+    date: '2024-11-08',
+    note: '9/10',
+    verdict:
+      'Clubic loue la qualité des deux écrans, la photo, la vidéo et la charge de 67 W livrée avec son chargeur, mais reproche une chauffe marquée en usage intensif, une autonomie en deçà de la capacité de la batterie et l’absence d’IP comme d’eSIM.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Le Xiaomi Mix Flip vaut-il encore le coup en 2026 ?',
+    a: 'Oui, s’il est vendu nettement sous son prix de lancement de 1 299 €. Le Xiaomi Mix Flip garde un Snapdragon 8 Gen 3, un téléobjectif x2 et une charge 67 W mesurée à 52 minutes par GSMArena. En contrepartie, il n’a ni certification d’étanchéité ni charge sans fil, et son suivi logiciel est à mi-parcours.',
+  },
+  {
+    q: 'Le Xiaomi Mix Flip chauffe-t-il ?',
+    a: 'Oui, sous forte charge. GSMArena mesure une stabilité processeur de 58 % et voit le téléphone passer en surchauffe lors de son test graphique prolongé. Phonandroid relève jusqu’à 53 °C en jeu. Pour la navigation, les réseaux sociaux ou la photo, les tests ne signalent pas de gêne particulière.',
+  },
+  {
+    q: 'Le Xiaomi Mix Flip a-t-il la charge sans fil ?',
+    a: 'Non. Le Xiaomi Mix Flip se recharge uniquement par câble, à 67 W maximum. GSMArena mesure 41 % en 15 minutes, 68 % en 30 minutes et une charge complète en 52 minutes avec le chargeur fourni. Tech Advisor obtient des temps plus longs, signe que le chargeur et le protocole comptent.',
+  },
+  {
+    q: 'Combien de temps le Xiaomi Mix Flip sera-t-il mis à jour ?',
+    a: 'Selon Tech Advisor, Xiaomi a promis quatre ans de mises à jour majeures et cinq ans de correctifs de sécurité pour le Mix Flip. Sorti en septembre 2024 sous Android 14, il devrait recevoir ses dernières évolutions majeures vers 2028 et ses derniers correctifs vers 2029, si Xiaomi tient cet engagement.',
+  },
+  {
+    q: 'Le Xiaomi Mix Flip est-il étanche ?',
+    a: 'Non. Le Xiaomi Mix Flip ne dispose d’aucune certification IP, un manque que soulignent GSMArena, TechRadar, Clubic et Presse-citron. Contrairement aux Galaxy Z Flip et aux Razr récents, certifiés IP48, il n’offre donc aucune garantie en cas d’immersion. Une chute dans l’eau ou une forte pluie sont à éviter, et la poussière reste l’ennemie de sa charnière.',
+  },
+  {
+    q: 'Le Xiaomi Mix Flip est-il compatible eSIM ?',
+    a: 'Non. Le Xiaomi Mix Flip accepte deux cartes nano-SIM, mais pas d’eSIM, une absence que Clubic juge étonnante sur un haut de gamme de 2024. Il gère en revanche la 5G, le Wi-Fi 7, le Bluetooth 5.4 et le NFC pour le paiement sans contact, et dispose même d’un émetteur infrarouge pour piloter un téléviseur.',
+  },
+  {
+    q: 'Le chargeur est-il fourni avec le Xiaomi Mix Flip ?',
+    a: 'Oui. Contrairement aux Galaxy Z et aux Razr récents, le Xiaomi Mix Flip est livré avec son chargeur de 67 W et une coque de protection, selon Clubic et Phonandroid. Avec ce chargeur, GSMArena mesure une recharge complète en 52 minutes et Clubic en 57 minutes. Le téléphone ne prend pas en charge la charge sans fil.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Xiaomi Mix Flip', 'Smartphone pliant à clapet'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test · bon plan d’un modèle 2024</span>
+        <h1>Test du Xiaomi Mix Flip : le clapet de 2024 est-il encore une bonne affaire ?</h1>
+        <ProductSummary phone={p} ctaLabel="Voir les offres du moment" />
+        <p class="lede">
+          Lancé en septembre 2024 à {euro(p.launchPrice)} (12 Go / 512 Go), le Xiaomi Mix Flip n’aura pas de successeur en France : le Mix Flip 2 est resté en Chine et le Mix Flip 3 a été annulé.
+          Il reste le seul clapet de la marque vendu chez nous, comme le rappelle notre <a href="/smartphone-pliant-xiaomi/">état des lieux des smartphones pliants Xiaomi</a>. Que retenir des tests publiés à sa sortie, et qu’en reste-t-il deux ans plus tard ?
+        </p>
+        <Byline minutes={15} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Callout variant="answer" title="Verdict : oui, mais pas à n’importe quel prix">
+        <p>
+          <strong>{num(overall(p))}/10.</strong> Les tests de GSMArena, Notebookcheck, Phonandroid, Tech Advisor et TechRadar s’accordent sur l’essentiel : écrans superbes, écran externe de 4,01 pouces vraiment utile, bonne endurance et charge 67 W rapide.
+          Ils pointent aussi une charnière jugée lâche par Phonandroid, une chauffe marquée, un HyperOS chargé et aucune certification d’étanchéité. En 2026, le <strong>Xiaomi Mix Flip</strong> ne se justifie que s’il se trouve nettement sous ses {euro(p.launchPrice)} de lancement, ce qui est souvent le cas.
+        </p>
+        <p>
+          Il vise l’acheteur qui veut un clapet puissant, un vrai zoom x2 et une recharge rapide sans payer le prix d’un modèle 2026. Il est à éviter si vous passez vos journées au bord de l’eau ou dans la poussière, si la charge sans fil vous est indispensable, ou si vous comptez garder votre téléphone cinq ans : le suivi logiciel promis par Xiaomi s’arrête vers 2029.
+        </p>
+      </Callout>
+    </div>
+
+    <div class="wrap section">
+      <div class="grid" style="--min:300px;align-items:start">
+        <ScoreBars phone={p} />
+        <div class="card">
+          <h2 class="mt-0" style="font-size:1.15rem">Le Mix Flip en quatre chiffres</h2>
+          <ul class="small" style="padding-left:1.1rem;margin:0 0 1rem">
+            <li>11 h 58 d’Active Use Score (GSMArena)</li>
+            <li>52 minutes pour une charge complète (GSMArena)</li>
+            <li>1 355 cd/m² sur l’écran externe en mode auto (GSMArena)</li>
+            <li>53 °C en jeu (Phonandroid)</li>
+          </ul>
+          <p class="small mb-0"><strong>Prix de lancement :</strong> {euro(p.launchPrice)} · <strong>Sortie :</strong> septembre 2024</p>
+          <p style="margin-top:.75rem"><AmazonButton phone={p} size="sm" label="Comparer les offres" /></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap prose">
+      <TestSources
+        sources={sources}
+        heading="Deux ans après, ce que disaient les tests"
+        intro="Les tests datent de l’été et de l’automne 2024. Leurs constats matériels restent valables ; les comparaisons de prix, elles, ont vieilli."
+      />
+
+      <h2>Les mesures publiées, à la loupe</h2>
+      <p>
+        Le Xiaomi Mix Flip a été mesuré par plusieurs laboratoires aux protocoles différents. Les chiffres ci-dessous ne se comparent donc qu’au sein d’une même source, mais ils dessinent un profil cohérent : un clapet endurant et rapide à recharger, lumineux, bien calibré, qui chauffe dès qu’on le sollicite longtemps.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Xiaomi Mix Flip" />
+
+      <h2>Design : une finition soignée, une charnière qui divise</h2>
+      <p>
+        Le Xiaomi Mix Flip pèse 192 g et mesure 167,5 × 74 mm déplié, pour 7,6 mm d’épaisseur, et environ 85,5 × 74 mm plié, pour 16 mm. Il se vendait en France en noir ou en violet. Ses deux faces arrière aux bords arrondis intègrent, côté écran externe, un verre Xiaomi Dragon Crystal résistant aux rayures, un choix que GSMArena met au crédit d’un design haut de gamme. Phonandroid apprécie la bonne répartition du poids, mais trouve que ces formes arrondies donnent un aspect un peu moins luxueux.
+      </p>
+      <PhoneGallery id="xiaomi-mix-flip" heading="Le Xiaomi Mix Flip sous plusieurs angles" />
+      <p>
+        La charnière concentre les critiques. Phonandroid la juge trop lâche, avec une résistance quasi nulle à mi-ouverture, et note que la moitié supérieure bouge nettement en mode tente : c’est à ses yeux le défaut majeur de l’appareil. Tech Advisor la trouve lui aussi moins ferme que celle des Razr de Motorola.
+      </p>
+      <p>
+        Autre point à garder en tête : les tests ne relèvent aucune certification d’étanchéité officielle. GSMArena, TechRadar et Tech Advisor font de ce manque le principal défaut du Mix Flip, quand le Galaxy Z Flip8 et les Razr 70 affichent tous un IP48 qui couvre l’immersion.
+      </p>
+
+      <h2>Écran externe de 4,01 pouces : l’atout qui n’a pas vieilli</h2>
+      <p>
+        L’écran externe du Xiaomi Mix Flip mesure 4,01 pouces, presque carré et quasiment sans bordure, à 120 Hz. Deux ans plus tard, il tient la comparaison avec les 4 pouces des Razr 70 Plus et Ultra et les 4,1 pouces du Galaxy Z Flip8. GSMArena y mesure 1 355 cd/m² en mode automatique, Notebookcheck un pic de 2 990 cd/m² en HDR.
+      </p>
+      <p>
+        Phonandroid le décrit comme réellement exploitable : appels, messages, navigation et photo se gèrent sans ouvrir le téléphone. TechRadar et Tech Advisor tempèrent sur le logiciel : une barre de widgets fixée à droite, près du module photo, tasse les icônes d’applications à gauche et laisse un espace vide même quand on la désactive.
+      </p>
+
+      <h2>Écran intérieur : lumineux, précis et presque sans pli</h2>
+      <p>
+        À l’intérieur, le Xiaomi Mix Flip déploie une dalle OLED LTPO de 6,86 pouces (2 912 × 1 224 pixels, 460 ppi) qui varie de 1 à 120 Hz, en 10 bits, compatible HDR10 et Dolby Vision selon GSMArena. Le site mesure 1 314 cd/m² en mode automatique ; Notebookcheck relève un pic HDR de 2 890 cd/m².
+      </p>
+      <p>
+        La calibration convainc. Phonandroid mesure un Delta E moyen de 1,7 (3,2 au maximum), avec une température de couleur un peu froide de 7 300 K ; Notebookcheck obtient 2,1 sur sa mire ColorChecker. Le pli, lui, est quasi invisible : Phonandroid ne le sent pas au doigt, Notebookcheck le juge à peine perceptible, même au toucher. Seule réserve, Notebookcheck détecte un scintillement PWM à 120 Hz qui peut gêner les yeux sensibles.
+      </p>
+
+      <h2>Snapdragon 8 Gen 3 : puissant, mais vite bridé par la chauffe</h2>
+      <p>
+        Le Snapdragon 8 Gen 3 du Xiaomi Mix Flip, épaulé par 12 Go de mémoire vive, signe 2 086 points en monocœur et 6 035 points en multicœur sur Geekbench 6, et 1 609 570 points sur AnTuTu 10, d’après GSMArena, qui le place alors en tête des clapets pour AnTuTu. Notebookcheck mesure 1 911 et 6 099 points sur Geekbench, et 1 705 950 points sur AnTuTu.
+      </p>
+      <p>
+        La puissance ne dure pas. GSMArena mesure une stabilité processeur de 58 % et voit le téléphone passer directement en surchauffe lors de son test graphique prolongé, faute de place pour dissiper la chaleur. Phonandroid fait tourner Zenless Zone Zero à 60 images par seconde en réglages maximum, mais relève 53 °C en surface. Face aux clapets de 2026, la puce reste plus puissante que le Snapdragon 8s Gen 3 du Razr 70 Plus, mais un cran sous le Snapdragon 8 Elite du Razr 70 Ultra.
+      </p>
+
+      <h2>Photo : le téléobjectif x2 et la touche Leica</h2>
+      <p>
+        Le module photo du Xiaomi Mix Flip associe un capteur principal de 50 Mpx (Light Fusion 800, format 1/1,55 pouce, f/1,7, stabilisation optique) et un téléobjectif de 50 Mpx au zoom optique x2 (f/2,0, équivalent 47 mm), qui fait aussi la mise au point dès 9 cm pour la macro selon <a href={GSM_CAM} target="_blank" rel="noopener">GSMArena</a>. Le traitement est développé avec Leica, et la caméra frontale affiche 32 Mpx. Aucun ultra grand-angle : impossible de cadrer large en intérieur. Sur un clapet, le téléobjectif reste une rareté, absent des Galaxy Z Flip8 et des Razr 70.
+      </p>
+      <p>
+        GSMArena place la qualité photo et vidéo parmi les meilleures des clapets de 2024 : excellente de jour, très bonne de nuit, avec des portraits réussis et un zoom x2 net, qui s’amollit à x4. Phonandroid salue le contraste et les couleurs de jour, mais trouve le flou d’arrière-plan en portrait artificiel et le mode nuit hésitant sur les couleurs. Tech Advisor obtient de bons clichés en bonne lumière et des photos souvent floues en basse lumière. Notebookcheck regrette un traitement d’image du téléobjectif en retrait.
+      </p>
+      <p>
+        Les tests français publiés à l’automne 2024 sont plus enthousiastes. Clubic relève des détails fins bien restitués de jour, une bonne gestion de la dynamique la nuit et un effet de flou d’arrière-plan convaincant, mais une perte de détails rédhibitoire au-delà de x4. Presse-citron salue la netteté, des couleurs fidèles grâce au traitement Leica et un téléobjectif efficace, au point de placer le Mix Flip devant le Galaxy Z Flip6 et le Razr 50 Ultra en photo.
+      </p>
+      <p>
+        En vidéo, le capteur principal filme jusqu’en 8K à 24 images par seconde et en 4K à 60 images par seconde, avec des ralentis jusqu’à 960 images par seconde en 1080p, et la caméra frontale monte en 4K à 60 images par seconde selon GSMArena. Clubic se dit agréablement surpris par la qualité vidéo, mais regrette que le mode cinéma, qui suit automatiquement le sujet, se limite au Full HD.
+      </p>
+
+      <h2>Autonomie et charge 67 W : des mesures qui varient</h2>
+      <p>
+        La batterie de 4 780 mAh du Xiaomi Mix Flip donne de bons résultats pour un clapet. GSMArena mesure un Active Use Score de 11 h 58 et juge l’endurance excellente pour le format ; Tech Advisor obtient 13 h 58 sous PCMark et environ une journée et demie en usage réel. Phonandroid est plus réservé : il lui reste 15 à 25 % en fin de journée en usage normal, plus de 40 % s’il se limite à l’écran externe. Presse-citron et Clubic partagent cette réserve : le premier compte environ cinq heures d’écran avec 10 à 15 % de batterie restante le soir, le second à peine plus d’une journée en usage modéré, un résultat qu’il juge décevant pour la capacité.
+      </p>
+      <p>
+        Avec le chargeur 67 W fourni, GSMArena atteint 41 % en 15 minutes, 68 % en 30 minutes et 100 % en 52 minutes. Clubic mesure environ 20 minutes pour atteindre 50 % et 57 minutes pour le plein, Presse-citron une cinquantaine de minutes, Phonandroid environ une heure. Tech Advisor, lui, n’obtient que 29 % en 15 minutes et 47 % en 30 minutes, un écart qui rappelle que le chargeur et le protocole pèsent lourd. Pas de charge sans fil ni de recharge inversée, en revanche.
+      </p>
+
+      <h2>HyperOS et suivi logiciel : à mi-parcours en 2026</h2>
+      <p>
+        Le Xiaomi Mix Flip est sorti sous HyperOS, basé sur Android 14. GSMArena apprécie les possibilités de personnalisation et l’intégration de Gemini, mais note que seuls l’appareil photo et YouTube tirent vraiment parti du mode à moitié plié. Phonandroid et Tech Advisor dénoncent des applications préinstallées en nombre, et TechRadar comme Phonandroid pointent la présence de publicités dans l’interface.
+      </p>
+      <p>
+        Sur l’écran externe, GSMArena compte une douzaine d’applications compatibles d’origine en plus des widgets, quand Presse-citron évoque plus d’une centaine d’applications utilisables ; on peut aussi y décrocher ou refuser un appel sans ouvrir le téléphone. La version internationale intègre Gemini Nano et la fonction Entourer pour chercher. Depuis sa sortie, le Mix Flip a reçu HyperOS 2, basé sur Android 15, début 2025, puis HyperOS 3, basé sur Android 16, fin 2025, d’après les sites spécialisés qui recensent les versions logicielles de Xiaomi.
+      </p>
+      <p>
+        Selon Tech Advisor, Xiaomi a promis quatre ans de mises à jour majeures et cinq ans de correctifs de sécurité. Si l’engagement est tenu, le Mix Flip recevra ses dernières évolutions majeures vers 2028 et ses derniers correctifs vers 2029. C’est honnête, mais loin des sept ans promis par Samsung sur ses pliants récents.
+      </p>
+
+      <h2>Son, réseaux et déverrouillage : complet, sauf l’eSIM</h2>
+      <p>
+        Le Xiaomi Mix Flip coche presque toutes les cases d’un haut de gamme de 2024. Le tableau ci-dessous rassemble son équipement et ce qu’en retiennent les tests publiés.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Audio, connectivité et biométrie du Xiaomi Mix Flip</caption>
+          <thead>
+            <tr><th scope="col">Poste</th><th scope="col">Équipement</th><th scope="col">Ce qu’en disent les tests</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Haut-parleurs</th><td>Stéréo, un à chaque extrémité, sans prise jack</td><td>−27,6 LUFS chez GSMArena, un volume jugé bon ; basses absentes pour Presse-citron</td></tr>
+            <tr><th scope="row">Réseaux</th><td>5G, Wi-Fi 7, Bluetooth 5.4, NFC, émetteur infrarouge</td><td>Wi-Fi 7 et NFC confirmés par Clubic et GSMArena</td></tr>
+            <tr><th scope="row">Carte SIM</th><td>Deux nano-SIM, pas d’eSIM</td><td>Absence d’eSIM regrettée par Clubic</td></tr>
+            <tr><th scope="row">Port</th><td>USB-C à la norme USB 2.0</td><td>Limite relevée par Notebookcheck</td></tr>
+            <tr><th scope="row">Biométrie</th><td>Empreinte dans le bouton latéral, reconnaissance faciale 2D</td><td>Empreinte utilisable téléphone fermé</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        L’audio est le poste le plus discuté. Phonandroid juge le son déséquilibré, avec des voix nasillardes, et Presse-citron doit souvent monter le volume faute de basses. Clubic se montre plus indulgent et trouve le rendu très correct pour regarder une vidéo. Tech Advisor, qui mentionne la compatibilité Dolby Atmos, le trouve assez puissant. Pour la musique, un casque Bluetooth s’impose : le Mix Flip gère les codecs aptX HD, aptX Adaptive et LHDC selon GSMArena.
+      </p>
+      <p>
+        Le reste de l’équipement ne souffre d’aucun reproche majeur, à une exception près. L’absence d’eSIM, relevée par Clubic et Presse-citron, oblige à passer par une carte physique, alors que la plupart des opérateurs français proposent désormais l’eSIM. Le lecteur d’empreintes, placé dans le bouton de mise en veille, fonctionne téléphone fermé.
+      </p>
+
+      <h2>Solidité et réparabilité : une charnière certifiée, pas d’étiquette européenne</h2>
+      <p>
+        Au-delà de l’absence de certification IP, le Xiaomi Mix Flip soigne ses matériaux. Le cadre est en aluminium, l’écran externe est protégé par le verre maison de Xiaomi, et l’écran intérieur est recouvert d’un verre ultra-fin selon TechRadar et Notebookcheck. Clubic et le <a href={JDG} target="_blank" rel="noopener">Journal du Geek</a> indiquent une charnière certifiée pour 500 000 ouvertures et fermetures : à raison de cent ouvertures par jour, cela représente plus de treize ans d’usage.
+      </p>
+      <p>
+        Cette endurance annoncée ne dit rien de la fermeté. Presse-citron rejoint Phonandroid pour juger la charnière trop souple, et Phonandroid voit la moitié supérieure bouger nettement en position intermédiaire. Les tests en font un défaut d’agrément, pas un signe de fragilité.
+      </p>
+      <p>
+        Côté réparabilité, le Mix Flip est sorti avant l’étiquette énergie européenne des smartphones, obligatoire depuis le 20 juin 2025 : nous n’avons trouvé aucune fiche EPREL à son nom, donc ni classe de réparabilité ni classe de résistance aux chutes. Le repère disponible est l’indice de réparabilité français, que <a href={CLUBIC} target="_blank" rel="noopener">Clubic</a> donne à 7,5 sur 10.
+      </p>
+
+      <Callout variant="info" title="Dans la boîte : le chargeur 67 W est fourni">
+        <p>
+          Chose devenue rare sur un pliant, le Xiaomi Mix Flip est livré avec son chargeur de 67 W et une coque de protection en plastique, selon Clubic et Phonandroid ; Presse-citron confirme la présence du chargeur. Le type de câble fourni avec la version française n’est pas précisé dans ces tests. Les Razr 70 et les Galaxy Z Flip récents, eux, sont vendus sans chargeur.
+        </p>
+      </Callout>
+
+      <h2>Versions et coloris : une configuration, deux teintes confirmées</h2>
+      <p>
+        Le Xiaomi Mix Flip a été présenté le 26 septembre 2024 à Berlin, lors de l’événement de lancement des Xiaomi 14T, et sa commercialisation en France a été annoncée le même jour. Une seule configuration a été proposée chez nous : 12 Go de mémoire vive et 512 Go de stockage, à {euro(p.launchPrice)}. Phonandroid et le Journal du Geek citent deux coloris, noir et violet ; Presse-citron évoque aussi un blanc dans son test, dont nous n’avons pas trouvé trace chez les revendeurs français.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Configurations et coloris du Xiaomi Mix Flip</caption>
+          <thead>
+            <tr><th scope="col">Configuration</th><th scope="col">Coloris</th><th scope="col">Prix de lancement</th><th scope="col">Marché</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">12 Go / 512 Go</th><td>Noir, violet</td><td class="num">{euro(p.launchPrice)}</td><td>France et Europe</td></tr>
+            <tr><th scope="row">12 Go / 256 Go</th><td>—</td><td>Non vendue en France</td><td>Chine</td></tr>
+            <tr><th scope="row">16 Go / 1 To</th><td>—</td><td>Non vendue en France</td><td>Chine</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Deux ans après sa sortie, le prix de lancement ne sert plus que de repère. Méfiez-vous des annonces qui proposent une version 256 Go ou 1 To : il s’agit d’appareils importés de Chine, sans garantie française et parfois sans services Google configurés.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" size="sm" label="Voir les coloris noir et violet" /></p>
+
+      <h2>Prix : de 1 299 € au lancement à la bonne affaire</h2>
+      <p>
+        Le Xiaomi Mix Flip a été lancé à {euro(p.launchPrice)} en 12 Go / 512 Go, une configuration unique. En 2024, Tech Advisor jugeait ce tarif trop élevé face au Galaxy Z Flip6 et au Razr 50 Ultra. Deux ans plus tard, le modèle se trouve souvent nettement moins cher, et c’est tout son intérêt : à prix réduit, peu de clapets offrent un téléobjectif, une charge 67 W et un grand écran externe.
+      </p>
+      <p>
+        Dans la gamme Xiaomi, il n’y a pas d’alternative en France : le Mix Flip 2 de juin 2025 n’a pas quitté la Chine, le Mix Flip 3 a été annulé et le Xiaomi 18 Fold, présenté en Chine le 7 septembre 2026, n’a pas de sortie européenne annoncée.
+      </p>
+      <p><AmazonButton phone={p} label="Voir le prix sur Amazon" /></p>
+
+      <h2>Quatre clapets à mettre en balance avant de craquer</h2>
+      <p>
+        Le Xiaomi Mix Flip n’a plus de concurrent direct chez Xiaomi, mais le marché du clapet s’est renouvelé depuis 2024. Quatre modèles, tous certifiés IP48, se disputent le même budget ou le même acheteur.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Alternatives au Xiaomi Mix Flip parmi les clapets vendus en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Lancement</th>
+              <th scope="col">Puce</th>
+              <th scope="col">Batterie / charge</th>
+              <th scope="col">Zoom</th>
+              <th scope="col">Étanchéité</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Xiaomi Mix Flip</th><td>{euro(p.launchPrice)} · 2024</td><td>{p.chip}</td><td>{p.battery} mAh · {p.wired}, sans fil non</td><td>{p.zoom}</td><td>{p.ip}</td></tr>
+            <tr><th scope="row"><ObfLink href={r70plus.path}>Motorola Razr 70 Plus</ObfLink></th><td>{euro(r70plus.launchPrice)} · 2026</td><td>{r70plus.chip}</td><td>{r70plus.battery} mAh · {r70plus.wired} / {r70plus.wireless}</td><td>{r70plus.zoom}</td><td>{r70plus.ip}</td></tr>
+            <tr><th scope="row"><ObfLink href={r60.path}>Motorola Razr 60 Ultra</ObfLink></th><td>{euro(r60.launchPrice)} · 2025</td><td>{r60.chip}</td><td>{r60.battery} mAh · {r60.wired} / {r60.wireless}</td><td>{r60.zoom}</td><td>{r60.ip}</td></tr>
+            <tr><th scope="row"><ObfLink href={flip7.path}>Samsung Galaxy Z Flip7</ObfLink></th><td>{euro(flip7.launchPrice)} · 2025</td><td>{flip7.chip}</td><td>{flip7.battery} mAh · {flip7.wired} / {flip7.wireless}</td><td>{flip7.zoom}</td><td>{flip7.ip}</td></tr>
+            <tr><th scope="row"><ObfLink href={r70.path}>Motorola Razr 70</ObfLink></th><td>{euro(r70.launchPrice)} · 2026</td><td>{r70.chip}</td><td>{r70.battery} mAh · {r70.wired} / {r70.wireless}</td><td>{r70.zoom}</td><td>{r70.ip}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        <strong>Le Motorola Razr 60 Ultra est le rival le plus sérieux.</strong> Lancé à {euro(r60.launchPrice)} en 2025, comme le Mix Flip l’année précédente, il se trouve lui aussi souvent nettement moins cher. Il apporte un Snapdragon 8 Elite plus récent, la charge sans fil de 30 W, des écrans à 165 Hz et la certification IP48 qui manque au Xiaomi. Il perd en revanche le téléobjectif : si le zoom x2 compte pour vous, le Mix Flip garde son intérêt.
+      </p>
+      <p>
+        <strong>Le Motorola Razr 70 Plus, pour un modèle neuf de 2026.</strong> À {euro(r70plus.launchPrice)} au lancement, il reprend un écran externe de 4 pouces, cette fois à 165 Hz, et y ajoute l’IP48 et la charge sans fil. Son Snapdragon 8s Gen 3 reste toutefois un cran sous le Snapdragon 8 Gen 3 du Mix Flip, et lui non plus n’a pas de téléobjectif. Il bénéficie surtout d’un suivi logiciel qui démarre en 2026, et non en 2024.
+      </p>
+      <p>
+        <strong>Le Samsung Galaxy Z Flip7, pour la durée de vie.</strong> Lancé à {euro(flip7.launchPrice)} en juillet 2025, il promet sept ans de mises à jour et un écran externe de 4,1 pouces bord à bord. Sa charge de 25 W et sa batterie de 4 300 mAh sont nettement moins convaincantes que le duo 4 780 mAh et 67 W du Xiaomi.
+      </p>
+      <p>
+        <strong>Le Motorola Razr 70, pour l’endurance à moindre coût.</strong> Lancé à {euro(r70.launchPrice)}, il offre 4 800 mAh, la charge sans fil et l’IP48, mais son Dimensity 7450X ne boxe pas dans la même catégorie que le Snapdragon 8 Gen 3 et son écran externe ne mesure que 3,63 pouces.
+      </p>
+
+      <Callout variant="warn" title="Acheter un modèle de 2024 : trois précautions">
+        <ul style="margin:0;padding-left:1.1rem">
+          <li><strong>La garantie.</strong> Acheté neuf auprès d’un vendeur professionnel en France, le Mix Flip bénéficie de la garantie légale de conformité de deux ans. Vérifiez que l’annonce concerne bien un appareil neuf, et non reconditionné.</li>
+          <li><strong>La version.</strong> Privilégiez la version internationale. Une version destinée au marché chinois peut poser problème pour la langue, les services Google et certaines bandes de fréquences.</li>
+          <li><strong>Le vendeur.</strong> Sur Amazon, regardez qui vend et qui expédie : une offre vendue et expédiée par Amazon, ou par un revendeur établi en France, simplifie les retours.</li>
+        </ul>
+      </Callout>
+      <p><AmazonButton phone={p} variant="ghost" label="Consulter les vendeurs" /></p>
+
+      <ProsCons
+        pros={[
+          'Écran externe de 4,01 pouces vraiment exploitable',
+          'Écrans lumineux et bien calibrés, pli quasi invisible',
+          'Vrai téléobjectif x2, rare sur un clapet',
+          'Charge 67 W complète en 52 minutes (GSMArena)',
+          'Souvent vendu très en dessous de son prix de lancement',
+          'Chargeur 67 W et coque fournis dans la boîte',
+        ]}
+        cons={[
+          'Aucune certification d’étanchéité',
+          'Charnière jugée lâche par Phonandroid et Presse-citron',
+          'Forte chauffe et puissance bridée sous charge',
+          'HyperOS chargé, publicités',
+          'Pas de charge sans fil ni d’ultra grand-angle',
+          'Pas d’eSIM, port USB 2.0 et haut-parleurs sans basses',
+        ]}
+        prosTitle="Pourquoi il tient encore"
+        consTitle="Ce qui a pris un coup de vieux"
+      />
+
+      <h2>Fiche technique du Xiaomi Mix Flip</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Mix Flip : les questions avant d’acheter" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="Les autres pliants Xiaomi" />
+    </div>
+  </article>
+</BaseLayout>

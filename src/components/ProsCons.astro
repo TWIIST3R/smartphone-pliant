@@ -1,0 +1,21 @@
+---
+interface Props {
+  pros: string[];
+  cons: string[];
+  prosTitle?: string;
+  consTitle?: string;
+}
+
+const { pros, cons, prosTitle = 'Points forts', consTitle = 'Points faibles' } = Astro.props;
+---
+
+<div class="proscons">
+  <div class="card pros">
+    <h3>{prosTitle}</h3>
+    <ul>{pros.map((x) => <li>{x}</li>)}</ul>
+  </div>
+  <div class="card cons">
+    <h3>{consTitle}</h3>
+    <ul>{cons.map((x) => <li>{x}</li>)}</ul>
+  </div>
+</div>

@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import Score from '../components/Score.astro';
+import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, mah, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-haut-de-gamme/';
+const premium = ranked(phones.filter((p) => p.launchPrice > 2000));
+const top = premium[0];
+const last = premium[premium.length - 1];
+const endurant = [...premium].sort((a, b) => (b.battery ?? 0) - (a.battery ?? 0))[0];
+
+const duo = byId('iphone-duo');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const fold8 = byId('galaxy-z-fold8');
+const fold7 = byId('galaxy-z-fold7');
+const v6 = byId('honor-magic-v6');
+const x7 = byId('huawei-mate-x7');
+const xt = byId('huawei-mate-xt');
+const razrFold = byId('razr-fold');
+
+const list = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+const words = ['aucun', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix'];
+const word = (n: number) => words[n] ?? String(n);
+const Word = (n: number) => word(n).charAt(0).toUpperCase() + word(n).slice(1);
+const rankOf = (p: Phone) => premium.findIndex((x) => x.id === p.id) + 1;
+const ordinal = (n: number) => (n === 1 ? '1re' : `${n}e`);
+
+const prices = premium.map((p) => p.launchPrice);
+const minPrice = Math.min(...prices);
+const maxPrice = Math.max(...prices);
+const cheapestNames = premium.filter((p) => p.launchPrice === minPrice).map((p) => p.fullName);
+const scores = premium.map((p) => overall(p));
+const ip68 = premium.filter((p) => p.ip.includes('IP68'));
+const withZoom = premium.filter((p) => /optique/.test(p.zoom) && !/recadrage/.test(p.zoom));
+const priciestBook = [...premium].filter((p) => p.format === 'livre').sort((a, b) => b.launchPrice - a.launchPrice)[0];
+
+type Cell = number | null | 'nc';
+const capacity: { p: Phone; v: Cell[] }[] = [
+  { p: duo, v: [2339, 2589, 3089, 3839] },
+  { p: fold8u, v: [2199, 2399, 2799, null] },
+  { p: fold7, v: [2099, 2219, 'nc', null] },
+  { p: razrFold, v: [null, 2199, null, null] },
+  { p: v6, v: [null, 2299.9, null, null] },
+  { p: x7, v: [null, 2099, null, null] },
+  { p: xt, v: [null, null, 3499, null] },
+];
+const cell = (c: Cell) => (c === null ? '—' : c === 'nc' ? 'n.c.' : euro(c));
+const at512 = capacity
+  .filter((r) => typeof r.v[1] === 'number')
+  .sort((a, b) => (a.v[1] as number) - (b.v[1] as number));
+const duoUp = 3089 - 2339;
+const fold8uUp = 2799 - 2199;
+
+const title = `Smartphone pliant haut de gamme : les ${premium.length} modèles premium`;
+const description =
+  'iPhone Duo, Galaxy Z Fold8 Ultra, Honor Magic V6, Razr Fold, Mate X7 : les pliants lancés au-delà de 2 000 € classés, avec les prix par capacité.';
+
+const faq = [
+  {
+    q: 'Quel est le smartphone pliant le plus cher en France ?',
+    a: `En configuration de base, le ${xt.fullName} est le pliant le plus cher de notre comparatif, lancé à ${euro(xt.launchPrice)} en 16 Go / 1 To. En version haut de gamme, l’iPhone Duo 2 To le dépasse à 3 839 €, soit 1 500 € de plus que son modèle 256 Go vendu ${euro(duo.launchPrice)}.`,
+  },
+  {
+    q: 'iPhone Duo ou Galaxy Z Fold8 Ultra : lequel choisir ?',
+    a: `L’Apple iPhone Duo (${euro(duo.launchPrice)}) est le seul pliant sous iOS, certifié IP68 et construit en titane, mais sans téléobjectif et lourd (${duo.weight} g). Le Samsung Galaxy Z Fold8 Ultra (${euro(fold8u.launchPrice)}) coûte ${euro(duo.launchPrice - fold8u.launchPrice)} de moins, pèse ${fold8u.weight} g et ajoute un capteur 200 Mpx avec zoom x3, mais reste IP48. Le choix dépend d’abord de votre écosystème.`,
+  },
+  {
+    q: 'Pourquoi le Honor Magic V6 est-il premier du classement ?',
+    a: `Le Honor Magic V6 obtient ${num(overall(v6))}/10 grâce à la fiche technique la plus complète du marché : batterie de ${mah(v6.battery)}, charge ${v6.wired} filaire et ${v6.wireless} sans fil, double certification IP68 et IP69, et seulement ${mm(v6.foldedMm)} d’épaisseur plié. Il n’est vendu qu’en ${v6.launchConfig}, au prix public de ${euro(v6.launchPrice)}.`,
+  },
+  {
+    q: 'Motorola Razr Fold ou Galaxy Z Fold8 Ultra : lequel choisir ?',
+    a: `Les deux sont lancés à ${euro(razrFold.launchPrice)}, mais pas dans la même configuration. Le Motorola Razr Fold est vendu en France uniquement en ${razrFold.launchConfig} avec son stylet ; le Samsung Galaxy Z Fold8 Ultra démarre en 256 Go à ce prix (2 399 € en 512 Go). Le Razr Fold offre ${mah(razrFold.battery)} et ${razrFold.wired} ; le Fold8 Ultra est plus léger (${fold8u.weight} g contre ${razrFold.weight} g) et plus fin (${mm(fold8u.foldedMm)} contre ${mm(razrFold.foldedMm)}).`,
+  },
+  {
+    q: 'Faut-il prendre 512 Go sur un pliant à plus de 2 000 € ?',
+    a: `Sur un appareil que l’on garde plusieurs années et qui filme en 4K ou en 8K, 512 Go est un choix raisonnable. Honor, Motorola et Huawei l’incluent d’office dans leur seule configuration française. Chez Samsung, le passage de 256 à 512 Go coûte 200 € sur le Galaxy Z Fold8 Ultra ; chez Apple, 250 € sur l’iPhone Duo.`,
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant haut de gamme', 'iPhone Duo', 'Honor Magic V6'] }),
+  itemList(
+    'Classement des smartphones pliants lancés à plus de 2 000 €',
+    premium.map((p) => ({ name: p.fullName, url: `${path}#${p.id}` })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <section class="section-tight">
+    <div class="wrap prose">
+      <span class="eyebrow">Budget · plus de 2 000 €</span>
+      <h1>Au-delà de 2 000 € : que valent les pliants les plus chers ?</h1>
+      <p class="lede">
+        {Word(premium.length)} modèles franchissent la barre des 2 000 € au lancement dans notre <a href="/">comparatif général des smartphones pliants</a>,
+        de {euro(minPrice)} ({list(cheapestNames)}) à {euro(maxPrice)} pour le tri-pliant {xt.fullName}. À ce prix, la fiche technique ne suffit plus : matériaux, étanchéité, zoom et stockage font la différence.
+      </p>
+      <Byline minutes={9} />
+    </div>
+  </section>
+
+  <div class="wrap">
+    <KeyFacts
+      items={[
+        { label: 'Modèles comparés', value: String(premium.length) },
+        { label: 'Prix de lancement', value: `${euro(minPrice)} à ${euro(maxPrice)}` },
+        { label: 'Meilleure note', value: `${num(overall(top))}/10` },
+        { label: 'Certifiés IP68', value: `${ip68.length} sur ${premium.length}` },
+        { label: 'Plus grosse batterie', value: mah(endurant.battery) },
+      ]}
+    />
+
+    <h2>Notre podium au-delà de 2 000 €</h2>
+    <div class="podium">
+      <div class="card">
+        <span class="label">{top.id === endurant.id ? 'Meilleur global · le plus endurant' : 'Meilleur global'}</span>
+        <div class="flex"><Score value={overall(top)} /><strong>{top.fullName}</strong></div>
+        <p class="small mb-0">{mah(top.battery)}, charge {top.wired} ({top.wireless} sans fil), {top.ip}, {mm(top.foldedMm)} plié.</p>
+        <p class="small muted mb-0">Prix public {euro(top.launchPrice)}, en {top.launchConfig} uniquement.</p>
+        <a class="small" href={`#${top.id}`}>Voir sa place dans le classement</a>
+      </div>
+      <div class="card">
+        <span class="label">Meilleur écosystème</span>
+        <div class="flex"><Score value={overall(duo)} /><strong>{duo.fullName}</strong></div>
+        <p class="small mb-0">Seul pliant sous iOS : iMessage, FaceTime, Mac et Apple Watch restent à portée. Titane grade 5, IP68 et Touch ID dans le bouton latéral.</p>
+        <p class="small muted mb-0">Note provisoire, sortie le 23 octobre 2026.</p>
+        <a class="small" href={`#${duo.id}`}>Voir sa place dans le classement</a>
+      </div>
+      <div class="card">
+        <span class="label">Le mieux doté à {euro(razrFold.launchPrice)}</span>
+        <div class="flex"><Score value={overall(razrFold)} /><strong>{razrFold.fullName}</strong></div>
+        <p class="small mb-0">512 Go, stylet Moto Pen Ultra fourni, {mah(razrFold.battery)} et charge {razrFold.wired}. Au même prix, le Galaxy Z Fold8 Ultra démarre en 256 Go.</p>
+        <p class="small muted mb-0">Premier format livre de Motorola.</p>
+        <a class="small" href={`#${razrFold.id}`}>Voir sa place dans le classement</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section band">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Le classement des {premium.length} pliants à plus de 2 000 €</h2>
+        <p>
+          Même au sommet de la gamme, les écarts restent nets : {num(Math.max(...scores))}/10 pour le premier, {num(Math.min(...scores))}/10 pour le dernier.
+          Le prix entre dans la note, à hauteur de 15 % pour le rapport qualité/prix (voir notre <a href="/methodologie/">méthodologie</a>), ce qui pénalise mécaniquement les modèles les plus chers.
+        </p>
+      </div>
+      <div class="stack" style="margin-top:1.5rem">
+        {premium.map((p, i) => <PhoneCard phone={p} rank={i + 1} ctaLabel="Voir les offres Amazon" />)}
+      </div>
+      <div class="prose" style="margin-top:2rem">
+        <p>
+          Le {razrFold.fullName} se hisse à la {ordinal(rankOf(razrFold))} place pour le premier format livre de la marque. C’est, avec le Magic V6, le pliant le plus endurant du lot :
+          {mah(razrFold.battery)}, {razrFold.wired} en filaire et {razrFold.wireless} sans fil. Il le paie sur la balance ({razrFold.weight} g) et sur l’étanchéité ({razrFold.ip}).
+        </p>
+        <p>
+          Le {fold8u.fullName} reste la valeur sûre sous Android : capteur 200 Mpx avec téléobjectif x3, écran externe de {num(fold8u.outerScreen)} pouces au format 21:9, charge {fold8u.wired}
+          (67 % en 30 minutes selon Samsung) et 7 ans de mises à jour Android promis par la marque. Juste derrière, le {fold7.fullName}, lancé à {euro(fold7.launchPrice)} en 2025, reprend son format
+          avec une batterie de {mah(fold7.battery)} et une charge {fold7.wired} bien moins généreuses ; il se trouve souvent nettement moins cher depuis l’arrivée de son successeur.
+        </p>
+        <p>
+          Le {last.fullName} ferme la marche. Son écran de {num(xt.innerScreen)} pouces n’a pas d’équivalent, mais {euro(xt.launchPrice)}, {xt.weight} g et l’absence des services Google pèsent lourd.
+          Sous la barre des 2 000 €, notre sélection des <a href="/smartphone-pliant-moins-de-2000-euros/">pliants à moins de 2 000 €</a> propose des formats livre au rapport qualité/prix plus favorable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2 class="mt-0">Ce que l’on paie vraiment au-delà de 2 000 €</h2>
+      <p>
+        Entre un pliant à 1 999 € et un autre à 2 300 €, la puce change rarement la donne : le même {fold8.chip} équipe le Galaxy Z Fold8, lancé sous les 2 000 €, et le Fold8 Ultra.
+        L’écart se loge ailleurs, dans quatre postes.
+      </p>
+
+      <h3>Des matériaux plus nobles</h3>
+      <p>
+        Apple a choisi le titane grade 5 pour l’iPhone Duo, avec un Ceramic Shield 2 en façade. Samsung associe sur le Galaxy Z Fold8 Ultra un cadre Armor Aluminum, un verre Gorilla Glass Ceramic 2 à l’extérieur
+        et une charnière « Flex » en titane. Huawei annonce de l’aluminium aéronautique pour le Mate X7. Ces choix visent la résistance aux chocs et aux rayures, un poste que la fiche technique résume mal.
+      </p>
+
+      <h3>Une étanchéité qui n’est pas garantie</h3>
+      <p>
+        C’est l’écart le plus concret avec les pliants moins chers, et il n’a rien de systématique. L’iPhone Duo est IP68 (6 mètres pendant 30 minutes selon Apple), le Honor Magic V6 cumule IP68 et IP69,
+        qui couvre les jets d’eau à haute pression, et le Huawei Mate X7 est IP58/IP59. Les Galaxy Z Fold8 Ultra et Fold7 restent IP48 et le Razr Fold IP48/IP49 : peu protégés contre la poussière fine.
+        Le Mate XT n’a aucune certification. Au total, {word(ip68.length)} modèles sur {word(premium.length)} seulement sont étanches à la poussière.
+      </p>
+
+      <h3>Le téléobjectif, sauf chez Apple</h3>
+      <p>
+        {Word(withZoom.length)} des {word(premium.length)} modèles embarquent un zoom optique : x3 sur les deux Samsung et sur le Razr Fold, périscope x3 sur le Magic V6, x3,5 sur le Mate X7 et x5,5 sur le Mate XT.
+        L’exception est l’iPhone Duo, {priciestBook.id === duo.id ? 'pourtant le plus cher en entrée de gamme hors tri-pliant' : 'pourtant parmi les plus chers'}, qui se limite à un zoom x2 obtenu par recadrage.
+      </p>
+
+      <h3>Le stockage, facturé au prix fort</h3>
+      <p>
+        Honor, Motorola et Huawei livrent 512 Go dans la seule configuration vendue en France, et même 1 To sur le Mate XT. Samsung et Apple démarrent à 256 Go et font payer cher chaque palier.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Prix de lancement en France des pliants haut de gamme selon la capacité de stockage</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">256 Go</th>
+              <th scope="col">512 Go</th>
+              <th scope="col">1 To</th>
+              <th scope="col">2 To</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              capacity.map((r) => (
+                <tr>
+                  <td><strong>{r.p.fullName}</strong></td>
+                  {r.v.map((c) => <td class="num">{cell(c)}</td>)}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">— : capacité non proposée en France. n.c. : prix non communiqué. Prix publics au lancement.</p>
+      <p>
+        À 512 Go, la hiérarchie change. Du moins cher au plus cher : {list(at512.map((r) => `${r.p.name} (${cell(r.v[1])})`))}.
+        Entre les versions 256 Go et 1 To, Apple demande {euro(duoUp)} de plus sur l’iPhone Duo, Samsung {euro(fold8uUp)} sur le Fold8 Ultra.
+      </p>
+
+      <Callout variant="warn" title="Huawei Mate X7 et Mate XT : sans services Google">
+        <p>
+          Les deux pliants Huawei du classement fonctionnent sans services Google, conséquence des sanctions américaines : pas de Play Store, ni Gmail, ni Google Maps ou YouTube en application native.
+          Ils ne gèrent pas non plus la 5G. Huawei propose sa boutique AppGallery, mais certaines applications, bancaires ou de messagerie notamment, peuvent manquer.
+          À {euro(x7.launchPrice)} et {euro(xt.launchPrice)} au lancement, vérifiez la disponibilité de vos applications indispensables avant d’acheter.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="Pliants à plus de 2 000 € : les réponses" />
+
+      <Siblings path={path} variant="list" heading="Pour un budget plus serré" intro="Les mêmes critères, pour des pliants lancés à un prix inférieur." />
+    </div>
+  </section>
+</BaseLayout>

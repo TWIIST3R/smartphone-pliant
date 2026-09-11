@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import PhoneCard from '../../components/PhoneCard.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import FoldIcon from '../../components/FoldIcon.astro';
+import { byId, ranked, overall } from '../../data/phones';
+import { article, itemList } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const path = '/smartphone-pliant-motorola-razr/';
+const title = 'Motorola Razr pliant : gamme 2026, du Razr 70 au Razr Fold';
+const description =
+  'Motorola Razr 2026 : Razr 70 à 999 €, 70 Plus à 1 199 €, 70 Ultra à 1 499 €, Razr Fold à 2 199 € et Razr 60 Ultra. Histoire, différences et mises à jour.';
+
+const ultra = byId('razr-70-ultra');
+const plus = byId('razr-70-plus');
+const base = byId('razr-70');
+const old = byId('razr-60-ultra');
+const fold = byId('razr-fold');
+const razrs = ranked([fold, ultra, plus, base, old]);
+
+const cardLabels = ['Voir le prix sur Amazon', 'Consulter l’offre', 'Vérifier la disponibilité', 'Voir les coloris', 'Voir l’offre Amazon'];
+
+const faq = [
+  {
+    q: 'Quel est le meilleur Motorola Razr en 2026 ?',
+    a: `Le Motorola Razr Fold obtient la meilleure note de la gamme (${num(overall(fold))}/10) grâce à ses 6 000 mAh, son téléobjectif x3 et ses sept ans de mises à jour, pour 2 199 € au lancement en France. En clapet, le Razr 70 Ultra (${num(overall(ultra))}/10, 1 499 €) est le plus complet : Snapdragon 8 Elite, écrans 165 Hz, 5 000 mAh et charge 68 W.`,
+  },
+  {
+    q: 'Quelle est la différence entre le Razr 70 et le Razr 70 Plus ?',
+    a: 'Le Razr 70 Plus (1 199 €) ajoute un écran externe de 4 pouces à 165 Hz au lieu de 3,63 pouces à 90 Hz, un Snapdragon 8s Gen 3 plus puissant que le Dimensity 7450X, 512 Go de stockage et une charge de 45 W. Le Razr 70 (999 €) garde en revanche une batterie plus grosse : 4 800 mAh contre 4 500 mAh.',
+  },
+  {
+    q: 'Combien d’années de mises à jour sur un Motorola Razr ?',
+    a: 'Motorola promet trois mises à jour majeures d’Android et quatre ans de correctifs de sécurité pour les Razr 70, 70 Plus et 70 Ultra, lancés sous Android 16. Le Razr Fold fait exception avec sept ans de mises à jour d’Android et de sécurité, un niveau comparable à celui de Samsung et Google.',
+  },
+  {
+    q: 'Motorola vend-il un smartphone pliant au format livre ?',
+    a: 'Oui. Le Motorola Razr Fold, officialisé au MWC le 3 mars 2026, est en vente en Europe depuis le 13 avril 2026. En France, il est proposé à 2 199 € en 16 Go / 512 Go, stylet fourni. Il s’ouvre sur un écran de 8,1 pouces, embarque 6 000 mAh et un téléobjectif x3. Tous les autres Razr de la gamme sont des clapets.',
+  },
+  {
+    q: 'Le Motorola Razr est-il étanche ?',
+    a: 'Les Razr 70, 70 Plus, 70 Ultra et 60 Ultra sont certifiés IP48, le Razr Fold IP48 et IP49. Tous résistent à l’immersion en eau douce, et l’IP49 du Fold ajoute les jets d’eau à haute pression. Le chiffre 4 ne protège en revanche que contre les particules de plus de 1 mm : sable et poussière fine restent à éviter.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Motorola Razr', 'Motorola', 'Smartphone pliant'] }),
+  itemList(
+    'Gamme Motorola Razr pliante suivie en 2026',
+    razrs.map((p) => ({ name: p.fullName, url: p.path })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Motorola · histoire et gamme 2026</span>
+        <h1>Motorola Razr : du clapet mythique au premier Razr Fold</h1>
+        <p class="lede">
+          Motorola a relancé le Razr en pliant fin 2019 et s’en est tenu au clapet pendant six ans. En 2026, c’est l’une des gammes les plus fournies de notre <a href="/">classement des smartphones pliants</a> : trois Razr 70 de {euro(base.launchPrice)} à {euro(ultra.launchPrice)}, le Razr 60 Ultra de l’an dernier et, depuis avril, un premier modèle au format livre.
+        </p>
+        <Byline minutes={9} />
+      </div>
+    </header>
+
+    <div class="wrap prose">
+      <p>
+        Pour aller droit au but : le <a href={ultra.path}>Motorola Razr 70 Ultra</a> ({euro(ultra.launchPrice)}) est le clapet le mieux armé du marché sur le papier, avec son Snapdragon 8 Elite et sa batterie de 5 000 mAh.
+        Le <a href={plus.path}>Razr 70 Plus</a> ({euro(plus.launchPrice)}) conserve le grand écran externe de 4 pouces avec une puce un cran en dessous. Le <a href={base.path}>Razr 70</a> ({euro(base.launchPrice)}) est la porte d’entrée, et le <a href={old.path}>Razr 60 Ultra</a>, lancé à {euro(old.launchPrice)} en mai 2025, reste une alternative sérieuse à l’Ultra 2026.
+        Enfin, le <a href={fold.path}>Motorola Razr Fold</a> ({euro(fold.launchPrice)}) change de catégorie : écran intérieur de 8,1 pouces, 6 000 mAh et zoom x3.
+      </p>
+    </div>
+
+    <section class="section">
+      <div class="wrap cols-2">
+        <div class="prose">
+          <h2 class="mt-0">De 2019 à 2026 : sept ans de Razr pliants</h2>
+          <p>
+            Le Razr pliant est né d’un pari nostalgique : ressusciter le Razr V3 de 2004, clapet vedette des années 2000, avec un écran souple.
+          </p>
+          <ol class="timeline">
+            <li>
+              <time>Novembre 2019</time>
+              Annonce du Motorola Razr pliant, en précommande en France le 17 février 2020. Écran de 6,2 pouces, Snapdragon 710 et 2 510 mAh.
+            </li>
+            <li>
+              <time>Septembre 2020</time>
+              Le Razr 5G ajoute la 5G et un processeur plus récent, sans changer de silhouette.
+            </li>
+            <li>
+              <time>Août 2022</time>
+              Le Razr 2022 abandonne le menton hérité du V3. Il sort d’abord en Chine, puis dans une partie de l’Europe.
+            </li>
+            <li>
+              <time>Juin 2023</time>
+              Razr 40 et Razr 40 Ultra, présentés le 1er juin 2023. L’Ultra, autour de 1 200 € en France, inaugure le grand écran externe devenu la signature de Motorola.
+            </li>
+            <li>
+              <time>Juin 2024</time>
+              Razr 50 et Razr 50 Ultra, dévoilés le 25 juin 2024 : l’écran externe gagne encore en surface.
+            </li>
+            <li>
+              <time>Avril – mai 2025</time>
+              Razr 60 et Razr 60 Ultra, annoncés le 24 avril 2025. Le 60 Ultra passe au Snapdragon 8 Elite et à la charge 68 W, pour {euro(old.launchPrice)}.
+            </li>
+            <li>
+              <time>Janvier – avril 2026</time>
+              Le Razr Fold, premier Motorola au format livre, est montré au CES en janvier, officialisé au MWC le 3 mars, puis mis en vente en Europe le 13 avril 2026. En France, il coûte {euro(fold.launchPrice)} en 16 Go / 512 Go.
+            </li>
+            <li>
+              <time>Mai 2026</time>
+              Annoncé le 29 avril, le Razr 70 Ultra arrive en France avec les Razr 70 et 70 Plus. Un modèle Plus s’intercale désormais entre l’entrée de gamme et l’Ultra.
+            </li>
+          </ol>
+          <p>
+            En sept ans, la batterie du Razr à clapet a doublé (de 2 510 à 5 000 mAh), et le prix de l’Ultra est passé d’environ 1 200 € en 2023 à {euro(ultra.launchPrice)} en 2026.
+          </p>
+        </div>
+        <aside class="sticky">
+          <div class="card">
+            <div style="width:64px;margin:0 auto .8rem"><FoldIcon format="clapet" color="#5c2d91" label="Silhouette d’un Motorola Razr déplié" /></div>
+            <strong>La gamme Razr en France</strong>
+            <ul class="small" style="padding-left:1.1rem;margin:.6rem 0 1rem">
+              <li>Razr 70 : {euro(base.launchPrice)} (8 / 256 Go)</li>
+              <li>Razr 70 Plus : {euro(plus.launchPrice)} (12 / 512 Go)</li>
+              <li>Razr 70 Ultra : {euro(ultra.launchPrice)} (16 / 512 Go)</li>
+              <li>Razr Fold : {euro(fold.launchPrice)} (16 / 512 Go)</li>
+              <li>Razr 60 Ultra : {euro(old.launchPrice)} en 2025</li>
+            </ul>
+            <p class="small muted">Prix publics de lancement. Le prix du jour s’affiche sur Amazon.</p>
+            <AmazonButton query="Motorola Razr" label="Voir les Razr sur Amazon" size="sm" />
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap prose">
+        <h2 class="mt-0">Razr 70 vs 70 Plus vs 70 Ultra : les vraies différences</h2>
+        <p>
+          Les trois clapets Razr 70 partagent le même gabarit, un écran intérieur d’environ 7 pouces, un double capteur arrière de 50 Mpx et la certification IP48. La puce, l’écran externe, la batterie et la charge font la différence.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Différences entre les Motorola Razr 70, Razr 70 Plus et Razr 70 Ultra</caption>
+            <thead>
+              <tr>
+                <th scope="col">Critère</th>
+                <th scope="col"><a href={base.path}>Razr 70</a></th>
+                <th scope="col"><a href={plus.path}>Razr 70 Plus</a></th>
+                <th scope="col"><a href={ultra.path}>Razr 70 Ultra</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Prix de lancement</th><td class="num">{euro(base.launchPrice)}</td><td class="num">{euro(plus.launchPrice)}</td><td class="num">{euro(ultra.launchPrice)}</td></tr>
+              <tr><th scope="row">Mémoire / stockage</th><td>8 Go / 256 Go</td><td>12 Go / 512 Go</td><td>16 Go / 512 Go</td></tr>
+              <tr><th scope="row">Processeur</th><td>Dimensity 7450X</td><td>Snapdragon 8s Gen 3</td><td>Snapdragon 8 Elite</td></tr>
+              <tr><th scope="row">Écran intérieur</th><td>6,9" · 120 Hz</td><td>6,9" · 165 Hz</td><td>7" · 165 Hz</td></tr>
+              <tr><th scope="row">Écran externe</th><td>3,63" · 90 Hz</td><td>4" · 165 Hz</td><td>4" · 165 Hz</td></tr>
+              <tr><th scope="row">Luminosité max. écran externe</th><td class="num">1 700 cd/m²</td><td class="num">2 400 cd/m²</td><td class="num">3 000 cd/m²</td></tr>
+              <tr><th scope="row">Batterie</th><td class="num">4 800 mAh</td><td class="num">4 500 mAh</td><td class="num">5 000 mAh</td></tr>
+              <tr><th scope="row">Charge filaire / sans fil</th><td>30 W / 15 W</td><td>45 W / 15 W</td><td>68 W / 30 W</td></tr>
+              <tr><th scope="row">Caméra selfie</th><td>32 Mpx</td><td>32 Mpx</td><td>50 Mpx</td></tr>
+              <tr><th scope="row">Poids</th><td class="num">188 g</td><td class="num">189 g</td><td class="num">199 g</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          La ligne qui surprend : le Razr 70 d’entrée de gamme embarque 300 mAh de plus que le 70 Plus, vendu 200 € plus cher.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Les cinq Razr suivis, notes et fiches</h2>
+          <p>
+            Le tableau ajoute le Razr 60 Ultra, proche cousin du Razr 70 Ultra, et le Razr Fold, seul Razr au format livre, qui décroche la meilleure note de la gamme ({num(overall(fold))}/10).
+          </p>
+        </div>
+        <div style="margin-top:1.2rem">
+          <CompareTable
+            phones={razrs}
+            caption="Comparatif des Motorola Razr pliants suivis en 2026"
+            columns={['format', 'score', 'price', 'screens', 'chip', 'battery', 'charge', 'weight', 'ip']}
+            linkNames
+            cta={false}
+          />
+        </div>
+        <div class="stack" style="margin-top:1.5rem">
+          {razrs.map((p, i) => <PhoneCard phone={p} rank={i + 1} linkToSheet ctaLabel={cardLabels[i]} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap prose">
+        <h2 class="mt-0">Pourquoi le Razr est resté un clapet pendant six ans</h2>
+        <p>
+          Motorola a d’abord vendu des clapets parce que le nom Razr en est un. Le Razr V3 a imposé l’image d’un téléphone fin qui se referme d’un geste. Le clapet est aussi le segment le plus accessible du pliant, où une marque moins installée que Samsung peut séduire par le design et les couleurs Pantone.
+        </p>
+        <p>
+          La marque a ensuite fait de l’écran externe un vrai écran : dès le Razr 40 Ultra de 2023, la dalle couvre presque toute la coque et affiche des applications complètes. Les Razr 70 Plus et 70 Ultra poussent la logique jusqu’à 4 pouces à 165 Hz.
+        </p>
+        <p>
+          Le Razr Fold rompt avec cette règle en avril 2026. Écran intérieur de 8,1 pouces, écran externe de 6,6 pouces, 6 000 mAh et stylet Moto Pen Ultra : il vise la lecture et le travail plutôt que la compacité. Le nom Razr désigne désormais une famille plutôt qu’un format. Tous les détails figurent dans notre <a href={fold.path}>fiche du Razr Fold</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2 class="mt-0">Mises à jour : trois versions d’Android pour les clapets, sept ans pour le Fold</h2>
+        <p>
+          Le suivi logiciel reste le talon d’Achille des clapets Razr. Les Razr 70, 70 Plus et 70 Ultra sont livrés sous Android 16 avec trois mises à jour majeures promises et quatre ans de correctifs de sécurité selon la page d’assistance de Motorola, soit jusqu’à février 2030 pour le Razr 70 Ultra.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Durée de suivi logiciel des Motorola Razr</caption>
+            <thead>
+              <tr><th scope="col">Modèle</th><th scope="col">Mises à jour d’Android</th><th scope="col">Correctifs de sécurité</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Razr 70, 70 Plus, 70 Ultra</td><td>3 versions</td><td>4 ans</td></tr>
+              <tr><td>Razr 60 Ultra (lancé sous Android 15)</td><td>3 versions</td><td>4 ans</td></tr>
+              <tr><td>Razr Fold (lancé sous Android 16)</td><td>7 ans</td><td>7 ans</td></tr>
+              <tr><td>Samsung Galaxy Z Flip8, pour comparaison</td><td>7 ans</td><td>7 ans</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          L’écart pèse surtout sur un Razr 70 Ultra à {euro(ultra.launchPrice)} que l’on voudrait garder longtemps.
+          Les critères de notation qui intègrent ce point sont détaillés dans <a href="/methodologie/">notre méthodologie</a>.
+        </p>
+
+        <h2>Quel Razr pour quel acheteur ?</h2>
+        <p>
+          Le Razr 70 Ultra vise celui qui veut le meilleur clapet : c’est le seul à cumuler 5 000 mAh, 68 W et un selfie de 50 Mpx. Le Razr 70 Plus s’adresse à ceux qui vivent sur l’écran externe et se contentent d’une puce de 2024. Le Razr 70 est le choix raisonnable pour découvrir le pliant sous la barre des 1 000 €, à condition de ne pas jouer.
+          Le Razr 60 Ultra devient le meilleur calcul dès que son prix descend nettement sous celui du 70 Plus. Le Razr Fold, enfin, vise ceux qui veulent un grand écran, un zoom et un suivi long.
+        </p>
+        <p><AmazonButton phone={ultra} label="Voir le Razr 70 Ultra sur Amazon" variant="ghost" /></p>
+
+        <Faq items={faq} heading="Motorola Razr : ce que l’on nous demande" />
+      </div>
+    </section>
+
+    <div class="wrap">
+      <Siblings path={path} variant="chips" heading="Comparer avec les autres marques de pliants" />
+    </div>
+  </article>
+</BaseLayout>

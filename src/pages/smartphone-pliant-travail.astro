@@ -1,0 +1,276 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import Score from '../components/Score.astro';
+import { phones, ranked, overall, byId, FORMAT_LABELS } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, mah } from '../lib/format';
+
+const path = '/smartphone-pliant-travail/';
+const title = 'Smartphone pliant pour travailler : le guide 2026';
+const description =
+  'Multi-fenêtres, Samsung DeX, mode bureau des Pixel, stylet et clavier : quel smartphone pliant choisir pour travailler en 2026 ? Nos trois recommandations.';
+
+const pouces = (n: number) => `${num(n, 2)}"`;
+
+const livres = ranked(phones.filter((p) => p.format === 'livre'));
+const bestLivre = livres[0];
+const bigScreens = ranked(phones.filter((p) => p.format !== 'clapet')).sort((a, b) => b.innerScreen - a.innerScreen);
+const largestLivre = [...livres].sort((a, b) => b.innerScreen - a.innerScreen)[0];
+const clapets = phones.filter((p) => p.format === 'clapet');
+const clapetInner = [Math.min(...clapets.map((p) => p.innerScreen)), Math.max(...clapets.map((p) => p.innerScreen))];
+const clapetOuter = [Math.min(...clapets.map((p) => p.outerScreen)), Math.max(...clapets.map((p) => p.outerScreen))];
+const clapetWeight = [Math.min(...clapets.map((p) => p.weight)), Math.max(...clapets.map((p) => p.weight))];
+const eightInch = livres.filter((p) => p.innerScreen >= 8).length;
+
+const v6 = byId('honor-magic-v6');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const fold8 = byId('galaxy-z-fold8');
+const duo = byId('iphone-duo');
+const pixel11 = byId('pixel-11-pro-fold');
+const razrFold = byId('razr-fold');
+const matext = byId('huawei-mate-xt');
+
+const picks = [
+  {
+    label: 'Le plus polyvalent',
+    phone: v6,
+    text: `Stylet Honor Magic-Pen sur les deux écrans, écran externe de ${num(v6.outerScreen, 2)} pouces, ${mah(v6.battery)} et charge 80 W.`,
+    limit: `stylet vendu séparément, une seule configuration à ${euro(v6.launchPrice)} au lancement.`,
+    cta: 'Voir le prix sur Amazon',
+  },
+  {
+    label: 'Pour brancher un moniteur',
+    phone: fold8u,
+    text: `Samsung DeX en filaire ou sans fil, écran externe de ${num(fold8u.outerScreen, 2)} pouces au format 21:9 et sept ans de mises à jour promis.`,
+    limit: `pas de S Pen et un indice ${fold8u.ip}.`,
+    cta: 'Consulter l’offre',
+  },
+  {
+    label: 'Pour rester chez Apple',
+    phone: duo,
+    text: 'Deux apps côte à côte sous iOS 27, Apple Pencil (USB-C) annoncé d’ici fin 2026 et deux écrans au même ratio.',
+    limit: `${euro(duo.launchPrice)}, ${duo.weight} g et aucun mode bureau annoncé.`,
+    cta: 'Suivre la disponibilité',
+  },
+];
+
+const faq = [
+  {
+    q: 'Peut-on utiliser Samsung DeX sur un Galaxy Z Fold8 ?',
+    a: 'Oui, mais uniquement sur un écran externe. Selon Samsung, le Galaxy Z Fold8 et le Z Fold8 Ultra lancent DeX sur un moniteur ou un téléviseur relié en USB-C vers HDMI, ou sans fil sur un écran compatible Miracast. L’écran du téléphone peut alors servir de pavé tactile. DeX ne s’affiche pas sur l’écran intérieur du Fold lui-même.',
+  },
+  {
+    q: 'Le Galaxy Z Fold8 est-il compatible avec le S Pen ?',
+    a: 'Non. Samsung a supprimé la couche de numériseur nécessaire au S Pen sur le Galaxy Z Fold7 en 2025, et les Galaxy Z Fold8 et Z Fold8 Ultra ne l’ont pas réintroduite. Pour écrire au stylet sur un pliant, il faut se tourner vers le Honor Magic V6, le Motorola Razr Fold et son Moto Pen Ultra, ou attendre la prise en charge de l’Apple Pencil sur l’iPhone Duo.',
+  },
+  {
+    q: 'Peut-on afficher deux applications côte à côte sur l’iPhone Duo ?',
+    a: 'Oui. iOS 27 apporte Split View sur l’iPhone Duo, qui permet d’ouvrir deux applications côte à côte, une première sur iPhone. Les pliants Android le font depuis le premier Galaxy Fold de 2019, et les Galaxy Z Fold peuvent partager leur écran entre trois applications.',
+  },
+  {
+    q: 'Un smartphone pliant peut-il remplacer un ordinateur portable ?',
+    a: 'Pour les mails, la visio, la relecture de documents et les tableurs simples, un pliant au format livre relié à un écran avec Samsung DeX ou le mode bureau des Pixel dépanne très bien. Il reste limité aux applications Android, sans logiciels Windows ou macOS, et demande un moniteur, un clavier et une souris pour travailler longtemps.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Productivité', 'Samsung DeX'] }),
+  itemList(
+    'Smartphones pliants recommandés pour travailler',
+    picks.map((p) => ({ name: p.phone.fullName })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Usage · productivité et multitâche</span>
+      <h1>Travailler sur un smartphone pliant : multitâche, DeX, stylet et clavier</h1>
+      <p class="lede">
+        Un grand écran qui se déplie ne fait pas un outil de travail à lui seul. Ce guide passe en revue, fonction par fonction, ce que les modèles de notre
+        <a href="/">classement des meilleurs smartphones pliants</a> permettent vraiment pour les mails, les documents et les réunions.
+      </p>
+      <Byline minutes={9} />
+    </div>
+  </div>
+
+  <div class="wrap cols-2" style="margin-top:1rem">
+    <article class="prose">
+      <h2 id="multi-fenetres">Multi-fenêtres : deux applications côte à côte, désormais aussi sur iPhone</h2>
+      <p>
+        Afficher deux applications en même temps est la première raison de travailler sur un pliant, et tous les modèles au format livre de 2026 le permettent.
+        Sur Android, la fonction existe depuis le premier Galaxy Fold de Samsung, en 2019, qui savait déjà partager son écran entre trois applications.
+      </p>
+      <p>
+        Apple rattrape ce retard avec iOS 27 : sur l’iPhone Duo, Split View ouvre deux applications côte à côte, une première sur iPhone. C’est moins que chez Samsung, mais l’iPhone Duo a un argument discret.
+        Ses écrans de 7,6 et 5,4 pouces partagent le même ratio, si bien qu’une application passe de l’un à l’autre sans changer de mise en page. Honor, de son côté, met en avant son système Multi-flex pour ouvrir plusieurs fenêtres sur le grand écran du Magic V6.
+      </p>
+      <p>
+        Dans les faits, le duo le plus utile reste une messagerie à côté d’un document, ou un tableur à côté d’une visio. Sur un écran de 8 pouces, chaque moitié offre à peu près la surface d’un petit smartphone : assez pour lire et répondre, un peu juste pour mettre en forme un long texte.
+        Les fenêtres flottantes des surcouches Android dépannent pour une calculatrice ou une note rapide.
+      </p>
+
+      <h2 id="mode-bureau">Brancher un écran : Samsung DeX et le mode bureau d’Android</h2>
+      <p>
+        Relié à un moniteur, un pliant Samsung ou Google affiche une interface de bureau, avec fenêtres redimensionnables, barre des tâches, clavier et souris. Ce n’est pas un PC, mais cela suffit pour trier ses mails ou relire une présentation sur un grand écran.
+      </p>
+      <p>
+        Chez Samsung, la fonction s’appelle Samsung DeX. D’après la documentation de Samsung, les Galaxy Z Fold8 et Z Fold8 Ultra la lancent sur un écran relié par un câble ou un adaptateur USB-C vers HDMI, ou sans fil sur un téléviseur ou un moniteur compatible Miracast.
+        Pendant ce temps, l’écran du téléphone peut servir de pavé tactile ou de clavier virtuel. Depuis One UI 8, DeX repose sur le mode bureau développé par Google pour Android.
+      </p>
+      <p>
+        Deux limites à connaître. DeX ne s’affiche pas sur l’écran intérieur du Fold : un moniteur reste indispensable. Et « DeX pour PC », qui ouvrait l’interface dans une fenêtre sous Windows, n’est plus pris en charge depuis One UI 7 ; Samsung renvoie vers l’application Lien avec Windows.
+      </p>
+      <p>
+        Google a déployé son propre mode bureau avec le Pixel Drop de mars 2026, sur les Pixel 8 et suivants, dont les Pixel 9 Pro Fold et Pixel 10 Pro Fold. Le principe est identique : un câble USB-C vers un écran, un clavier, une souris, et l’interface passe en fenêtres.
+        Comme chez Samsung, le bureau ne s’affiche que sur l’écran branché, pas sur la dalle du pliant.
+      </p>
+      <p>
+        Apple n’a annoncé aucun mode bureau pour l’iPhone Duo. Honor propose l’inverse sur le Magic V6 : une fonction pour utiliser le téléphone comme écran secondaire d’un Mac.
+      </p>
+
+      <h2 id="stylet">Stylet : Samsung l’a abandonné, Honor, Motorola et Apple le proposent</h2>
+      <p>
+        Le Galaxy Z Fold7 a marqué une rupture en 2025. Pour affiner l’appareil, Samsung a retiré de l’écran intérieur la couche de numériseur indispensable au S Pen : même acheté à part, le stylet ne fonctionne pas.
+        Les Galaxy Z Fold8 et Z Fold8 Ultra, sortis le 7 août 2026, n’ont pas réintroduit cette compatibilité. Pour qui prenait ses notes de réunion au S Pen sur un ancien Fold, c’est un vrai retour en arrière.
+      </p>
+      <p>
+        Deux pliants Android prennent le contre-pied. Le Honor Magic V6 accepte le stylet Honor Magic-Pen, vendu séparément, sur ses deux écrans.
+        Le {razrFold.fullName} va plus loin : en France, il est vendu en une seule version ({razrFold.launchConfig}, {euro(razrFold.launchPrice)} au lancement) avec le Moto Pen Ultra fourni dans la boîte, un stylet sensible à la pression et à l’inclinaison. Pas d’accessoire à racheter, contrairement au Honor Magic V6.
+      </p>
+      <p>
+        Apple a confirmé que l’iPhone Duo prendra en charge l’Apple Pencil (USB-C) sur ses deux écrans, mais « plus tard cette année » : la fonction ne sera pas disponible le jour de la sortie, le 23 octobre 2026.
+        Google, enfin, n’annonce pas de compatibilité stylet sur le {pixel11.fullName}.
+      </p>
+
+      <h2 id="ecran">7,6, 8 ou 8,1 pouces : la surface de travail, modèle par modèle</h2>
+      <p>
+        Pour travailler, la diagonale intérieure fixe la surface utile, et l’écran externe détermine le confort téléphone fermé. Voici les pliants au format livre et le tri-pliant de notre comparatif, classés par taille d’écran intérieur.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Taille des écrans intérieur et extérieur des smartphones pliants au format livre et tri-pliant</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Écran intérieur</th>
+              <th scope="col">Écran externe</th>
+              <th scope="col">Poids</th>
+              <th scope="col">Prix lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              bigScreens.map((p) => (
+                <tr>
+                  <th scope="row">
+                    {p.fullName}
+                    {p.format === 'tri-pliant' && <span class="small muted"> ({FORMAT_LABELS[p.format].toLowerCase()})</span>}
+                  </th>
+                  <td class="num">{pouces(p.innerScreen)}</td>
+                  <td class="num">{pouces(p.outerScreen)}</td>
+                  <td class="num">{p.weight} g</td>
+                  <td class="num">{euro(p.launchPrice)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Clapets (pour comparaison)</th>
+              <td class="num">{pouces(clapetInner[0])} à {pouces(clapetInner[1])}</td>
+              <td class="num">{pouces(clapetOuter[0])} à {pouces(clapetOuter[1])}</td>
+              <td class="num">{clapetWeight[0]} à {clapetWeight[1]} g</td>
+              <td class="muted">—</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p style="margin-top:1.2rem">
+        {eightInch} pliants au format livre atteignent ou dépassent 8 pouces, et le {largestLivre.fullName} culmine à {num(largestLivre.innerScreen, 2)} pouces. Le Galaxy Z Fold8 et l’iPhone Duo se contentent de 7,6 pouces, mais dans un format plus large, en 4:3 chez Samsung, qui affiche une feuille de calcul ou une visio avec moins de bandes noires.
+        Le {matext.fullName} pousse jusqu’à {num(matext.innerScreen, 2)} pouces grâce à ses deux charnières, mais il pèse {matext.weight} g et se passe des services Google : ni Gmail, ni Google Docs, ni Meet dans leurs applications officielles.
+      </p>
+
+      <h2 id="clavier">Taper un mail téléphone fermé</h2>
+      <p>
+        On passe l’essentiel de la journée avec le pliant fermé, et c’est là que se joue le confort de saisie. Deux écoles coexistent.
+        D’un côté, des écrans externes hauts, proches d’un smartphone classique : {num(razrFold.outerScreen, 2)} pouces sur le Motorola Razr Fold, {num(fold8u.outerScreen, 2)} pouces au format 21:9 sur le Galaxy Z Fold8 Ultra, {num(pixel11.outerScreen, 2)} pouces sur le Pixel 11 Pro Fold et {num(v6.outerScreen, 2)} pouces sur le Honor Magic V6.
+      </p>
+      <p>
+        De l’autre, des écrans moins hauts, sur les modèles au format « large » que sont le Galaxy Z Fold8 ({num(fold8.outerScreen, 2)} pouces) et l’iPhone Duo ({num(duo.outerScreen, 2)} pouces). La diagonale trompe : selon Apple, l’écran externe de l’iPhone Duo offre 90 % de la surface d’affichage d’un iPhone 18 Pro.
+        Le confort de frappe réel sur ces formats reste à confirmer par les tests publiés après la sortie.
+      </p>
+      <p>
+        Déplié, le clavier plein écran devient trop large pour les pouces. Les claviers de Samsung et Gboard proposent sur les pliants une disposition scindée en deux blocs, plus naturelle en tenant l’appareil à deux mains.
+        Pour rédiger plus d’un paragraphe, rien ne remplace un clavier Bluetooth pliable, surtout devant un pliant branché en mode bureau.
+      </p>
+
+      <h2 id="recommandations">Nos trois recommandations pour travailler</h2>
+      <p>
+        Pour cet usage, nous ne recommandons que des pliants au format livre. Les trois modèles ci-dessous correspondent à trois façons de travailler : tout sur le téléphone, avec un écran externe, ou dans l’écosystème Apple.
+      </p>
+      <div class="grid" style="--min:210px">
+        {
+          picks.map((pick) => (
+            <div class="card">
+              <span class="eyebrow">{pick.label}</span>
+              <h3>{pick.phone.fullName}</h3>
+              <div class="flex">
+                <Score value={overall(pick.phone)} />
+                <span class="small muted">/10{pick.phone.provisional ? ' (provisoire)' : ''}</span>
+              </div>
+              <p class="small">{pick.text}</p>
+              <p class="small muted">Limite : {pick.limit}</p>
+              <AmazonButton phone={pick.phone} size="sm" label={pick.cta} />
+            </div>
+          ))
+        }
+      </div>
+      <p style="margin-top:1.2rem">
+        Le {razrFold.fullName} aurait pu figurer dans cette sélection : plus grand écran intérieur des formats livre ({num(razrFold.innerScreen, 2)} pouces), écran externe de {num(razrFold.outerScreen, 2)} pouces, stylet fourni et {mah(razrFold.battery)}, pour {euro(razrFold.launchPrice)} au lancement.
+        Ses {razrFold.weight} g et son indice {razrFold.ip}, qui protège mal de la poussière, le font passer juste derrière.
+      </p>
+
+      <Callout variant="info" title="Et les pliants à clapet ?">
+        <p>
+          Nous les déconseillons pour travailler. Déplié, un clapet n’est qu’un smartphone de taille normale : son écran intérieur mesure de {num(clapetInner[0], 2)} à {num(clapetInner[1], 2)} pouces, comme un modèle non pliant.
+          Le gain de surface, seule vraie raison de choisir un pliant pour la productivité, est nul. Quant à l’écran externe, de {num(clapetOuter[0], 2)} à {num(clapetOuter[1], 2)} pouces, il sert à lire une notification ou à répondre en deux mots, pas à rédiger.
+          Le clapet reste un excellent choix de compacité, pas un outil de travail.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="Travailler sur un pliant : questions fréquentes" />
+
+      <Siblings path={path} variant="list" heading="Les autres usages passés au crible" />
+    </article>
+
+    <aside class="sticky">
+      <div class="card">
+        <strong>Au sommaire</strong>
+        <nav class="toc" aria-label="Sommaire">
+          <ol>
+            <li><a href="#multi-fenetres">Multi-fenêtres</a></li>
+            <li><a href="#mode-bureau">DeX et mode bureau</a></li>
+            <li><a href="#stylet">Stylet</a></li>
+            <li><a href="#ecran">Taille des écrans</a></li>
+            <li><a href="#clavier">Saisie et clavier</a></li>
+            <li><a href="#recommandations">Nos recommandations</a></li>
+            <li><a href="#faq">Questions fréquentes</a></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <span class="eyebrow">Format livre le mieux noté</span>
+        <div class="flex"><Score value={overall(bestLivre)} /><strong>{bestLivre.fullName}</strong></div>
+        <p class="small muted">{bestLivre.verdict}</p>
+        <AmazonButton phone={bestLivre} size="sm" label="Vérifier le prix" variant="ghost" />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

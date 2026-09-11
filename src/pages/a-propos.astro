@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const title = 'À propos de Smartphone-Pliant.fr';
+const description =
+  'Smartphone-Pliant.fr est un site indépendant consacré aux smartphones pliants : qui nous sommes, ce que nous faisons et comment nous contacter.';
+
+const schema = [
+  {
+    '@type': 'AboutPage',
+    '@id': `${SITE.url}/a-propos/#page`,
+    name: title,
+    description,
+    inLanguage: 'fr-FR',
+    about: { '@id': `${SITE.url}/#organization` },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema} ogType="website">
+  <section class="section">
+    <div class="wrap prose">
+      <span class="eyebrow">Qui sommes-nous</span>
+      <h1>À propos</h1>
+      <p class="lede">
+        Smartphone-Pliant.fr est né d’une idée simple : les smartphones pliants méritent un site à part entière, avec des comparaisons à jour et des réponses directes, sans noyer l’information dans l’actualité de tous les autres téléphones.
+      </p>
+
+      <h2>Qui écrit</h2>
+      <p>
+        Les comparatifs, guides et tests sont signés <a href="/auteur/theo-marceau/">Théo Marceau</a>, nom de plume de la rédaction. Ils croisent fiches constructeurs et mesures publiées par la presse spécialisée, toujours citée.
+      </p>
+
+      <h2>Ce que nous faisons</h2>
+      <ul>
+        <li>Un <strong>comparatif global</strong> de tous les pliants vendus en France, mis à jour à chaque lancement ;</li>
+        <li>des <strong>guides</strong> par marque, par format, par budget et par usage ;</li>
+        <li>des <strong>fiches techniques</strong> vérifiées à partir des sources des constructeurs.</li>
+      </ul>
+
+      <h2>Nos engagements</h2>
+      <p>
+        Nous indiquons nos sources, nous signalons ce que nous ne savons pas et nous datons chaque mise à jour. Les notes sont éditoriales et expliquées dans notre <a href="/methodologie/">méthodologie</a>.
+        Aucun constructeur ne rémunère sa présence ou son classement.
+      </p>
+
+      <h2>Comment le site est financé</h2>
+      <p>
+        Le site vit de l’affiliation : lorsque vous achetez un produit après avoir cliqué sur un lien Amazon, nous touchons une commission, sans surcoût pour vous.
+        En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises.
+      </p>
+
+      <h2>Nous contacter</h2>
+      <p>
+        Une question, une correction, une proposition de partenariat : <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+import { type Phone, overall, FORMAT_LABELS } from '../data/phones';
+import { euro, inches, mah, frDate } from '../lib/format';
+import PhoneImage from './PhoneImage.astro';
+import Score from './Score.astro';
+import AmazonButton from './AmazonButton.astro';
+import ObfLink from './ObfLink.astro';
+
+interface Props {
+  phone: Phone;
+  rank?: number;
+  /** Vrais liens vers le test : uniquement sur la page mère des tests (page marque) */
+  linkToSheet?: boolean;
+  /** Aucun lien (par défaut : liens obfusqués, cliquables mais hors cocon) */
+  noLink?: boolean;
+  headingLevel?: 'h2' | 'h3';
+  ctaLabel?: string;
+  badge?: string;
+}
+
+const { phone: p, rank, linkToSheet = false, noLink = false, headingLevel = 'h3', ctaLabel, badge } = Astro.props;
+const H = headingLevel;
+const mode = linkToSheet ? 'real' : noLink ? 'none' : 'obf';
+const statusBadge =
+  p.status === 'precommande' ? `Sortie le ${frDate(p.release)}` : p.status === 'fin-de-serie' ? 'Fin de série' : null;
+const testLabel = p.provisional ? 'Voir la fiche complète' : 'Lire le test complet';
+---
+
+<article class="card phone-row" id={p.id}>
+  <div>
+    {rank && <div class="rank">#{rank}</div>}
+    {
+      mode === 'real' && (
+        <a href={p.path} tabindex="-1" aria-hidden="true" class="thumb-link">
+          <PhoneImage id={p.id} variant="card" />
+        </a>
+      )
+    }
+    {
+      mode === 'obf' && (
+        <ObfLink href={p.path} class="thumb-link" focusable={false}>
+          <PhoneImage id={p.id} variant="card" />
+        </ObfLink>
+      )
+    }
+    {mode === 'none' && <PhoneImage id={p.id} variant="card" />}
+  </div>
+  <div>
+    <div class="phone-meta">
+      <span class="badge">{FORMAT_LABELS[p.format]}</span>
+      {badge && <span class="badge badge-accent">{badge}</span>}
+      {statusBadge && <span class="badge badge-gold">{statusBadge}</span>}
+      {p.generation === 'precedente' && p.status !== 'fin-de-serie' && <span class="badge">Génération précédente</span>}
+    </div>
+    <H>
+      {mode === 'real' && <a href={p.path}>{p.fullName}</a>}
+      {
+        mode === 'obf' && (
+          <ObfLink href={p.path} class="obf-text">
+            {p.fullName}
+          </ObfLink>
+        )
+      }
+      {mode === 'none' && p.fullName}
+    </H>
+    <p class="mb-0">{p.verdict}</p>
+    <ul class="spec-inline">
+      <li>Écrans <b>{inches(p.innerScreen)} / {inches(p.outerScreen)}</b></li>
+      <li>Batterie <b>{mah(p.battery, 'double batterie')}</b></li>
+      <li>Poids <b>{p.weight} g</b></li>
+      <li>{p.ip}</li>
+      <li>Lancement <b>{euro(p.launchPrice)}</b></li>
+    </ul>
+  </div>
+  <div class="aside">
+    <div class="flex">
+      <Score value={overall(p)} />
+      <span class="small muted">/10{p.provisional ? ' (provisoire)' : ''}</span>
+    </div>
+    <AmazonButton phone={p} size="sm" label={ctaLabel} />
+    {
+      mode === 'real' && (
+        <a class="btn btn-ghost btn-sm" href={p.path}>
+          {testLabel}
+        </a>
+      )
+    }
+    {
+      mode === 'obf' && (
+        <ObfLink href={p.path} class="btn btn-ghost btn-sm">
+          {testLabel}
+        </ObfLink>
+      )
+    }
+  </div>
+</article>

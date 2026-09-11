@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Politique de confidentialité';
+const description = 'Données personnelles et cookies sur Smartphone-Pliant.fr : aucun cookie ni traceur publicitaire. Ce que nous collectons et comment exercer vos droits RGPD.';
+---
+
+<BaseLayout title={title} description={description} noindex ogType="website">
+  <section class="section">
+    <div class="wrap prose">
+      <h1>Politique de confidentialité</h1>
+      <p class="lede">Version courte : nous ne déposons aucun cookie et nous n’utilisons aucun outil de mesure d’audience tiers.</p>
+
+      <h2>Données collectées</h2>
+      <p>
+        Smartphone-Pliant.fr ne propose ni compte, ni formulaire, ni newsletter. Aucune donnée personnelle n’est collectée directement.
+        Comme tout site, notre hébergeur (OVH) conserve des journaux techniques (adresse IP, date, page demandée, navigateur) pendant une durée limitée, à des fins de sécurité et de bon fonctionnement.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Le site ne dépose aucun cookie publicitaire ou de mesure d’audience. C’est pourquoi aucun bandeau de consentement ne s’affiche.
+        Si cela change (ajout d’un outil de statistiques par exemple), cette page sera mise à jour et votre consentement sera demandé lorsque la loi l’exige.
+      </p>
+
+      <h2>Liens vers Amazon</h2>
+      <p>
+        Lorsque vous cliquez sur un lien Amazon, vous quittez notre site. Amazon peut alors déposer ses propres cookies afin d’attribuer la commission d’affiliation, conformément à sa propre politique de confidentialité, consultable sur amazon.fr.
+      </p>
+
+      <h2>Vos droits</h2>
+      <p>
+        Conformément au RGPD, vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition. Pour l’exercer, écrivez à <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a>.
+        Vous pouvez également adresser une réclamation à la CNIL (cnil.fr).
+      </p>
+
+      <p class="small muted">Voir aussi nos <a href="/mentions-legales/">mentions légales</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

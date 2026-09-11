@@ -1,0 +1,215 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompareTable from '../components/CompareTable.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import Score from '../components/Score.astro';
+import { phones, ranked, overall, byId } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, mah, mm, inches } from '../lib/format';
+
+const path = '/smartphone-pliant-moins-de-1500-euros/';
+const band = ranked(phones.filter((p) => p.launchPrice >= 1000 && p.launchPrice <= 1500));
+const allClapet = band.every((p) => p.format === 'clapet');
+
+const ultra = byId('razr-70-ultra');
+const razr60 = byId('razr-60-ultra');
+const flip8 = byId('galaxy-z-flip8');
+const plus = byId('razr-70-plus');
+const flip7 = byId('galaxy-z-flip7');
+const mix = byId('xiaomi-mix-flip');
+const flip8Price512 = 1499;
+const razr70 = byId('razr-70');
+const fe = byId('galaxy-z-flip7-fe');
+const ip48Count = band.filter((p) => p.ip === 'IP48').length;
+
+const gap = ultra.launchPrice - flip8.launchPrice;
+const cheapestLivre = [...phones.filter((p) => p.format === 'livre')].sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const lightest = [...band].sort((a, b) => a.weight - b.weight)[0];
+const thinnestOpen = [...band].filter((p) => p.unfoldedMm).sort((a, b) => (a.unfoldedMm ?? 0) - (b.unfoldedMm ?? 0))[0];
+
+const duelRows: [string, string, string][] = [
+  ['Prix de lancement (base)', `${euro(flip8.launchPrice)} (${flip8.launchConfig})`, `${euro(ultra.launchPrice)} (${ultra.launchConfig})`],
+  ['Version 512 Go', euro(flip8Price512), euro(ultra.launchPrice)],
+  ['Poids', `${flip8.weight} g`, `${ultra.weight} g`],
+  ['Épaisseur déplié', mm(flip8.unfoldedMm), mm(ultra.unfoldedMm)],
+  ['Écrans (int. / ext.)', `${inches(flip8.innerScreen)} / ${inches(flip8.outerScreen)}`, `${inches(ultra.innerScreen)} / ${inches(ultra.outerScreen)}`],
+  ['Rafraîchissement', flip8.refresh, ultra.refresh],
+  ['Processeur', flip8.chip, ultra.chip],
+  ['Batterie', mah(flip8.battery), mah(ultra.battery)],
+  ['Charge filaire / sans fil', `${flip8.wired} / ${flip8.wireless}`, `${ultra.wired} / ${ultra.wireless}`],
+  ['Photo', flip8.cameras, ultra.cameras],
+  ['Suivi logiciel annoncé', '7 ans de mises à jour Android', '3 versions d’Android, 4 ans de correctifs'],
+  ['Étanchéité', flip8.ip, ultra.ip],
+];
+
+const title = 'Smartphone pliant à moins de 1 500 € : notre sélection 2026';
+const description =
+  'Razr 70 Ultra, Galaxy Z Flip8, Razr 60 Ultra, Flip7, Razr 70 Plus, Mix Flip : les pliants lancés entre 1 000 et 1 500 € comparés, et nos trois choix.';
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Budget 1 500 euros', 'Clapet haut de gamme'] }),
+  itemList('Smartphones pliants lancés entre 1 000 et 1 500 € en France', band.map((p) => ({ name: p.fullName }))),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <header class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Budget · de 1 000 à 1 500 €</span>
+      <h1>Pliant entre 1 000 et 1 500 € : les {band.length} modèles comparés</h1>
+      <p class="lede">
+        {band.length} modèles, {allClapet ? 'uniquement des clapets' : 'clapets et formats livre confondus'} : la tranche de 1 000 à 1 500 € de notre <a href="/">comparatif de smartphones pliants</a> est le terrain du clapet haut de gamme.
+        Le classement se fait sur le prix public au lancement. Le tableau d’abord, nos choix ensuite.
+      </p>
+      <Byline minutes={7} />
+    </div>
+  </header>
+
+  <div class="wrap">
+    <CompareTable
+      phones={band}
+      caption="Smartphones pliants lancés entre 1 000 et 1 500 €, classés par note"
+      columns={['score', 'price', 'screens', 'chip', 'battery', 'charge', 'weight', 'ip']}
+      cta={false}
+    />
+    <p class="small muted" style="margin-top:.6rem">
+      Classement par note globale (<a href="/methodologie/">notre méthode</a>). Prix : prix public au lancement en France, configuration de base. Les modèles 2024 et 2025 se trouvent souvent nettement moins cher.
+    </p>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Notre choix en trois médailles</h2>
+        <p>Trois profils, trois gagnants. Les notes départagent la puissance ; les médailles tiennent aussi compte du prix réel et de la portabilité.</p>
+      </div>
+      <div class="grid medals" style="--min:280px;margin-top:1.2rem">
+        <div class="card stack">
+          <span class="badge badge-gold">Or · le plus complet</span>
+          <div class="flex"><Score value={overall(ultra)} size="lg" /><h3 class="mb-0">{ultra.fullName}</h3></div>
+          <p class="small">
+            Le clapet le mieux noté de notre comparatif. {ultra.chip}, écrans 165 Hz à l’intérieur comme à l’extérieur, {mah(ultra.battery)} chargés en {ultra.wired} et {ultra.wireless} sans fil,
+            trois capteurs 50 Mpx dont le selfie. Seule vraie concession : {mm(ultra.foldedMm)} d’épaisseur une fois fermé.
+          </p>
+          <AmazonButton phone={ultra} size="sm" label="Voir le prix du Razr 70 Ultra" />
+        </div>
+        <div class="card stack">
+          <span class="badge">Argent · la bonne affaire</span>
+          <div class="flex"><Score value={overall(razr60)} size="lg" /><h3 class="mb-0">{razr60.fullName}</h3></div>
+          <p class="small">
+            Même {razr60.chip} que le 70 Ultra, même charge {razr60.wired} et {razr60.wireless} sans fil, {mah((ultra.battery ?? 0) - (razr60.battery ?? 0))} de batterie en moins.
+            Lancé à {euro(razr60.launchPrice)} en 2025, il se trouve souvent nettement moins cher depuis l’arrivée de son successeur. Le meilleur rapport puissance-prix de la tranche.
+          </p>
+          <AmazonButton phone={razr60} size="sm" variant="ghost" label="Consulter l’offre" />
+        </div>
+        <div class="card stack">
+          <span class="badge badge-accent">Bronze · le plus léger</span>
+          <div class="flex"><Score value={overall(flip8)} size="lg" /><h3 class="mb-0">{flip8.fullName}</h3></div>
+          <p class="small">
+            {lightest.id === flip8.id ? `Le plus léger (${flip8.weight} g)` : `Très léger (${flip8.weight} g)`}{thinnestOpen.id === flip8.id ? ` et le plus fin déplié (${mm(flip8.unfoldedMm)})` : ''} des {band.length}.
+            Écran externe de {num(flip8.outerScreen)} pouces bord à bord, {flip8.chip} gravé en 2 nm et 7 ans de mises à jour Android promis par Samsung.
+            Batterie de {mah(flip8.battery)} et charge {flip8.wired} inchangées depuis le Flip7.
+          </p>
+          <AmazonButton phone={flip8} size="sm" variant="ghost" label="Voir les coloris du Flip8" />
+        </div>
+      </div>
+      <div class="prose" style="margin-top:1.8rem">
+        <h3 class="mt-0">Et les trois autres ?</h3>
+        <p>
+          Le {plus.fullName} ({euro(plus.launchPrice)}) est le compromis de la gamme Motorola : écran externe de 4 pouces à 165 Hz et 512 Go dès la version de base, mais un {plus.chip} d’ancienne génération.
+          Le {flip7.fullName} ({euro(flip7.launchPrice)} en 2025) ressemble beaucoup au Flip8 à l’usage, avec le même écran externe et la même batterie.
+          Le {mix.fullName} ({euro(mix.launchPrice)} en 2024) reste le seul du lot avec un téléobjectif x2 optique, mais sans certification IP ni charge sans fil.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap prose">
+      <h2 class="mt-0">Galaxy Z Flip8 ou Razr 70 Ultra : que valent {euro(gap)} d’écart ?</h2>
+      <p>
+        Le Samsung Galaxy Z Flip8 démarre à {euro(flip8.launchPrice)} ({flip8.launchConfig}), le Motorola Razr 70 Ultra à {euro(ultra.launchPrice)} ({ultra.launchConfig}).
+        L’écart de {euro(gap)} fond si l’on compare à stockage égal : le Flip8 en 512 Go coûte {euro(flip8Price512)}, {flip8Price512 === ultra.launchPrice ? 'exactement le prix du Razr 70 Ultra' : `contre ${euro(ultra.launchPrice)} pour le Razr`}.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Samsung Galaxy Z Flip8 et Motorola Razr 70 Ultra comparés</caption>
+          <thead>
+            <tr><th scope="col">Critère</th><th scope="col">{flip8.name}</th><th scope="col">{ultra.name}</th></tr>
+          </thead>
+          <tbody>
+            {duelRows.map(([k, a, b]) => (
+              <tr><td><strong>{k}</strong></td><td>{a}</td><td>{b}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le Razr 70 Ultra gagne sur tout ce qui se mesure : {mah((ultra.battery ?? 0) - (flip8.battery ?? 0))} de plus, une charge {ultra.wired} contre {flip8.wired}, des écrans 165 Hz et un écran intérieur de {num(ultra.innerScreen)} pouces.
+        Il ajoute un capteur selfie de 50 Mpx et la charge inversée, le tout dans des finitions Alcantara ou bois naturel.
+      </p>
+      <p>
+        Le Galaxy Z Flip8 répond par la portabilité : {ultra.weight - flip8.weight} g de moins, {num((ultra.unfoldedMm ?? 0) - (flip8.unfoldedMm ?? 0))} mm de moins déplié,
+        et un suivi logiciel de 7 ans que Motorola n’égale pas sur la gamme Razr 70.
+      </p>
+      <p>
+        Notre avis : si vous gardez votre téléphone plus de quatre ans ou cherchez le clapet le plus discret en poche, prenez le Flip8. Pour tout le reste, et surtout pour l’autonomie, le Razr 70 Ultra justifie ses {euro(gap)} de plus.
+      </p>
+      <div class="flex">
+        <AmazonButton phone={flip8} label="Voir le Galaxy Z Flip8" variant="ghost" />
+        <AmazonButton phone={ultra} label="Vérifier la disponibilité du Razr 70 Ultra" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2 class="mt-0">Ce que 200 à 500 € de plus changent face aux pliants à {euro(razr70.launchPrice)}</h2>
+      <p>
+        Face au {razr70.fullName} et au {fe.fullName}, lancés à {euro(razr70.launchPrice)}, la tranche supérieure change surtout trois choses. La puissance d’abord : {ultra.chip} sur les Razr Ultra,
+        {flip8.chip} sur le Flip8, là où le Razr 70 se contente d’un {razr70.chip}. L’écran externe ensuite, qui passe de {num(fe.outerScreen)} ou {num(razr70.outerScreen, 2)} pouces à 4 pouces et plus,
+        à 165 Hz chez Motorola. La charge enfin : jusqu’à {ultra.wired} en filaire et {ultra.wireless} sans fil sur le Razr 70 Ultra, contre {razr70.wired} au mieux sur les modèles à {euro(razr70.launchPrice)}.
+      </p>
+      <p>
+        D’autres points ne bougent pas. L’étanchéité d’abord : {ip48Count} des {band.length} modèles de la tranche sont IP48, comme les pliants à {euro(razr70.launchPrice)}, et le Mix Flip n’a aucune certification.
+        Le poids ensuite : le Razr 70 Ultra pèse {ultra.weight} g, soit {ultra.weight - razr70.weight} g de plus que le Razr 70. Payer plus achète de la vitesse et du confort d’écran, pas de la robustesse.
+      </p>
+
+      <h2>Pourquoi aucun format livre sous 1 500 € ?</h2>
+      <p>
+        Aucun pliant au format livre n’a été lancé en France sous 1 500 €. Le moins cher de notre comparatif, le {cheapestLivre.fullName}, démarrait à {euro(cheapestLivre.launchPrice)},
+        soit {euro(cheapestLivre.launchPrice - ultra.launchPrice)} au-dessus du Razr 70 Ultra.
+      </p>
+      <p>
+        À budget égal, le clapet haut de gamme offre donc une fiche technique de premier plan : Snapdragon 8 Elite sur les Razr Ultra, écrans 165 Hz, charge rapide. Un format livre neuf, lui, oblige à monter d’une tranche.
+        Le choix se pose moins en termes de prix que d’usage : le clapet cherche la compacité, le format livre la surface d’affichage.
+      </p>
+      <p>
+        Certains formats livre de 2025 se trouvent souvent nettement moins cher que leur prix de lancement. Si le grand écran vous tente, notre sélection des
+        <a href="/smartphone-pliant-moins-de-2000-euros/">pliants à moins de 2 000 €</a> les passe en revue. Et si 1 000 € est déjà un maximum, la page des
+        <a href="/smartphone-pliant-pas-cher/">smartphones pliants pas chers</a> détaille les deux modèles lancés à 999 €.
+      </p>
+
+      <Callout variant="info" title="En bref">
+        <ul class="mb-0">
+          <li><strong>Meilleur choix :</strong> {ultra.fullName} ({num(overall(ultra))}/10), le clapet le plus complet.</li>
+          <li><strong>Meilleure affaire :</strong> {razr60.fullName}, la même puce, souvent bien moins cher aujourd’hui.</li>
+          <li><strong>Le plus léger :</strong> {lightest.fullName}, {lightest.weight} g.</li>
+          <li><strong>À stockage égal :</strong> Flip8 512 Go et Razr 70 Ultra sont lancés au même prix, {euro(ultra.launchPrice)}.</li>
+          <li><strong>Format livre :</strong> aucun modèle neuf lancé sous {euro(cheapestLivre.launchPrice)}.</li>
+        </ul>
+      </Callout>
+
+      <Siblings path={path} variant="chips" heading="Changer de budget" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .medals .card .btn {
+    align-self: flex-start;
+  }
+</style>

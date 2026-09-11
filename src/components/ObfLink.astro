@@ -1,0 +1,20 @@
+---
+// Lien obfusqué (méthode du cocon sémantique) : cliquable pour le visiteur, invisible comme lien pour les robots.
+// L'URL est encodée en base64 dans data-o ; le script de BaseLayout gère clic, Ctrl/clic molette et touche Entrée.
+interface Props {
+  href: string;
+  class?: string;
+  /** false pour un doublon décoratif (image) : retiré de la navigation clavier */
+  focusable?: boolean;
+}
+
+const { href, class: cls = '', focusable = true } = Astro.props;
+const encoded = Buffer.from(href, 'utf8').toString('base64');
+---
+
+<span
+  class:list={['obf', cls]}
+  data-o={encoded}
+  role={focusable ? 'link' : undefined}
+  tabindex={focusable ? 0 : -1}
+  aria-hidden={focusable ? undefined : 'true'}><slot /></span>

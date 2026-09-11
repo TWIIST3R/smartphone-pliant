@@ -1,0 +1,472 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('huawei-mate-xt');
+const x7 = byId('huawei-mate-x7');
+const v6 = byId('honor-magic-v6');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const path = p.path;
+const title = 'Test Huawei Mate XT : le tri-pliant 10,2 pouces décortiqué';
+const description =
+  'Test du Huawei Mate XT Ultimate Design : fonctionnement du tri-pliant, autonomie et charge mesurées, Kirin 9010, photo, absence de Google. Verdict à 3 499 €.';
+
+const HW_SPECS = 'https://consumer.huawei.com/en/phones/mate-xt-ultimate-design/specs/';
+const GSM = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808.php';
+const GSM_DESIGN = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808p2.php';
+const GSM_LAB = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808p3.php';
+const GSM_PERF = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808p4.php';
+const GSM_CAM = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808p5.php';
+const GSM_VERDICT = 'https://www.gsmarena.com/huawei_mate_xt_ultimate-review-2808p6.php';
+const TA = 'https://www.techadvisor.com/article/2620466/huawei-mate-xt-ultimate-design-review.html';
+const NBC = 'https://www.notebookcheck.net/More-than-just-an-expensive-toy-Huawei-Mate-XT-review.1102715.0.html';
+const CLUBIC =
+  'https://www.clubic.com/actualite-538904-j-ai-pu-prendre-en-main-le-premier-telephone-pliable-en-trois-du-marche-et-c-est-plutot-une-belle-surprise.html';
+const JDG = 'https://www.journaldugeek.com/test/prise-en-main-huawei-mate-xt-une-vraie-tablette-de-10-pouces-cachee-dans-un-smartphone/';
+const PHA_LAUNCH =
+  'https://www.phonandroid.com/huawei-mate-xt-le-smartphone-pliable-en-3-est-disponible-en-dehors-de-la-chine-preparez-vous-a-casser-la-tirelire.html';
+
+const modes = [
+  { mode: 'Fermé (un volet)', size: '6,4"', res: '2 232 × 1 008 px', use: 'Appels, messages, photo : un smartphone au format allongé' },
+  { mode: 'Semi-ouvert (deux volets)', size: '7,9"', res: '2 232 × 2 048 px', use: 'Format presque carré, proche d’un pliant livre : lecture, web' },
+  { mode: 'Déplié (trois volets)', size: '10,2"', res: '2 232 × 3 184 px', use: 'Format tablette : vidéo, documents, multitâche en trois volets' },
+];
+
+const measures = [
+  { label: 'Autonomie, Active Use Score (entièrement déplié)', value: '7 h 48', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Autonomie, Active Use Score (plié, écran 6,4")', value: '11 h 56', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Autonomie en usage réel', value: 'fin de journée avec environ 30 %', source: 'Tech Advisor', url: TA },
+  { label: 'Charge filaire 66 W après 15 / 30 min', value: '45 % / 78 %', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge complète de 0 à 100 %', value: '1 h 00', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge complète de 0 à 100 %', value: '1 h 07', source: 'Tech Advisor', url: TA },
+  { label: 'Luminosité en mode auto (déplié / plié)', value: '944 / 939 cd/m²', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Luminosité maximale (APL 18 / HDR)', value: '2 058 / 2 027 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Geekbench 6 multicœur', value: '3 763', source: 'GSMArena', url: GSM_PERF },
+  { label: 'AnTuTu 10', value: '873 240', source: 'GSMArena', url: GSM_PERF },
+  { label: '3DMark Wild Life Extreme', value: '1 401', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Stabilité GPU sous charge (déplié / plié)', value: '99 % / 58 %', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Haut-parleurs, niveau sonore', value: 'Moyen', source: 'GSMArena', url: GSM_LAB },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSM,
+    date: '2025-03-12',
+    verdict:
+      'Écran spectaculaire, finesse et charge rapide séduisent. Performances moyennes, autonomie faible déplié, aucune protection contre l’eau et pas de Google : un achat réservé à qui veut précisément un tri-pliant.',
+  },
+  {
+    media: 'Tech Advisor',
+    url: TA,
+    date: '2025-03-24',
+    verdict:
+      'Une prouesse technique aux très bonnes photos de jour, mais un écran exposé jugé fragile, une puce datée, ni 5G ni Google : le test le déconseille au grand public.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: NBC,
+    date: '2025-09-02',
+    verdict:
+      'Un concept enthousiasmant, un design réussi et un écran lumineux, plombés par des lacunes techniques comme la 4G seule et une partie photo en retrait au regard du prix.',
+  },
+  {
+    media: 'Clubic (prise en main, version chinoise)',
+    url: CLUBIC,
+    date: '2024-09-28',
+    verdict:
+      'Première impression rassurante : poids bien réparti, rigidité proche d’une tablette et plis discrets. L’absence de l’écosystème Google reste un obstacle majeur hors de Chine.',
+  },
+  {
+    media: 'Journal du Geek (prise en main, version chinoise)',
+    url: JDG,
+    date: '2024-09-27',
+    verdict:
+      'Charnières jugées solides et courbure douce de l’écran au niveau du pli intérieur ; le site conseillait d’utiliser l’étui et regrettait surtout une sortie alors limitée à la Chine.',
+  },
+];
+
+const connect = [
+  { item: 'Réseau mobile', spec: '4G, 3G et 2G, double SIM', press: 'Pas de 5G sur la version internationale ; réception 4G jugée excellente par Tech Advisor' },
+  { item: 'eSIM', spec: 'Non mentionnée', press: 'Absente selon Notebookcheck' },
+  { item: 'Wi-Fi', spec: 'Wi-Fi 6 (802.11ax), 2,4 et 5 GHz', press: 'Une génération derrière le Wi-Fi 7 du Mate X7' },
+  { item: 'Bluetooth et NFC', spec: 'Bluetooth 5.2, NFC', press: 'Codec L2HC de Huawei cité par GSMArena' },
+  { item: 'Port', spec: 'USB-C 3.1 Gen 1', press: '—' },
+  { item: 'Infrarouge', spec: 'Émetteur infrarouge', press: 'Application Smart Remote pour piloter téléviseurs et appareils (GSMArena)' },
+  { item: 'Haut-parleurs', spec: 'Deux haut-parleurs stéréo', press: 'Niveau « moyen », son riche et équilibré (GSMArena) ; basses sans ampleur (Tech Advisor)' },
+  { item: 'Déverrouillage', spec: 'Lecteur d’empreintes latéral', press: 'Peu pratique en mode tablette (GSMArena) ; pas de reconnaissance faciale listée' },
+];
+
+const faq = [
+  {
+    q: 'Comment fonctionne le Huawei Mate XT ?',
+    a: 'Le Huawei Mate XT utilise une seule dalle OLED souple et deux charnières, pliées en Z. Fermé, un volet sert d’écran de 6,4 pouces. En ouvrant un volet, on obtient un écran presque carré de 7,9 pouces. Totalement déplié, le Mate XT devient une tablette de 10,2 pouces épaisse de 3,6 mm.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Huawei Mate XT ?',
+    a: 'GSMArena mesure un Active Use Score de 7 h 48 lorsque le Huawei Mate XT est entièrement déplié et de 11 h 56 plié, un résultat jugé faible pour le mode tablette. Tech Advisor termine ses journées avec environ 30 % de batterie. La charge complète prend une heure chez GSMArena, 1 h 07 chez Tech Advisor.',
+  },
+  {
+    q: 'Le Huawei Mate XT est-il fragile ?',
+    a: 'Le Huawei Mate XT demande des précautions. Son pliage en Z laisse une partie de l’écran à l’extérieur une fois fermé, protégée par un film à ne pas retirer ; Tech Advisor juge cet écran exposé fragile. GSMArena regrette l’absence de protection contre l’eau et les sources divergent sur une éventuelle certification : mieux vaut ne pas compter dessus et utiliser l’étui fourni.',
+  },
+  {
+    q: 'Peut-on utiliser les applications Google sur le Huawei Mate XT ?',
+    a: 'Pas nativement. Le Huawei Mate XT tourne sous EMUI 14.2 sans services Google. D’après GSMArena, l’application tierce GBox permet d’installer le Play Store, Maps, Drive, Chrome, YouTube ou Gemini, avec une qualité de streaming vidéo limitée. Notebookcheck mentionne aussi Aurora Store et microG comme contournements.',
+  },
+  {
+    q: 'Le Huawei Mate XT a-t-il la 5G ?',
+    a: 'Non. La version internationale du Huawei Mate XT Ultimate Design se limite à la 4G, un défaut relevé par GSMArena, Tech Advisor et Notebookcheck. Tech Advisor attribue cette absence aux sanctions américaines qui visent Huawei. Notebookcheck précise qu’il n’y a pas non plus d’eSIM, mais Tech Advisor juge la réception 4G excellente.',
+  },
+  {
+    q: 'Combien coûte le Huawei Mate XT ?',
+    a: 'Le Huawei Mate XT Ultimate Design a été lancé à l’international le 18 février 2025 au prix européen de 3 499 €, en 16 Go de mémoire vive et 1 To de stockage, en rouge ou en noir. C’est 1 400 € de plus que le Huawei Mate X7 et plus que toutes les versions de l’iPhone Duo, sauf celle de 2 To. Ce modèle se trouve souvent nettement moins cher aujourd’hui.',
+  },
+  {
+    q: 'Que contient la boîte du Huawei Mate XT ?',
+    a: 'Cela dépend du pays. Selon la fiche internationale de Huawei, la boîte du Mate XT comprend le téléphone, un étui en fibre d’aramide avec support rotatif, un câble USB-C et un chargeur, ces trois éléments variant selon les marchés. GSMArena a reçu l’étui et le câble sans chargeur ; Tech Advisor, l’étui et un chargeur 66 W.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Huawei Mate XT Ultimate Design', 'Smartphone tri-pliant'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Tri-pliant · test complet</span>
+        <h1>Test du Huawei Mate XT Ultimate Design : ce que vaut un smartphone plié en trois</h1>
+        <ProductSummary phone={p} ctaLabel="Vérifier la disponibilité" />
+        <p class="lede">
+          Le Huawei Mate XT Ultimate Design est le premier smartphone tri-pliant vendu hors de Chine : lancé à l’international le 18 février 2025 à {euro(p.launchPrice)} (16 Go / 1 To), il passe de 6,4 à 10,2 pouces grâce à deux charnières.
+          Les tests de GSMArena, Tech Advisor et Notebookcheck saluent la prouesse mécanique, mais relèvent une autonomie courte en mode tablette, un Kirin 9010 lent et l’absence de Google. Il complète le Mate X7 au sein de <a href="/smartphone-pliant-huawei/">la gamme de smartphones pliants Huawei</a>.
+        </p>
+        <Byline minutes={17} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <KeyFacts
+        items={[
+          { label: 'Trois diagonales', value: '6,4 / 7,9 / 10,2"' },
+          { label: 'Épaisseur', value: '3,6 / 12,8 mm' },
+          { label: 'Autonomie déplié (GSMArena)', value: '7 h 48' },
+          { label: 'Charge 0-100 % (GSMArena)', value: '1 h' },
+        ]}
+      />
+    </div>
+
+    <div class="wrap prose section">
+      <Callout variant="accent" title="Verdict du test">
+        <p>
+          <strong>{num(overall(p))}/10.</strong> Le Huawei Mate XT tient sa promesse mécanique : les trois formats s’enchaînent sans accroc et l’écran de 10,2 pouces transforme la lecture ou la vidéo sur un téléphone.
+          Les tests publiés relèvent pourtant une puce en retrait, seulement 7 h 48 d’autonomie déplié selon GSMArena, deux plis bien visibles et un écran exposé une fois fermé, le tout sans résistance à l’eau confirmée ni services Google.
+          Il s’adresse au passionné fortuné qui veut une tablette de poche pour lire, annoter des documents ou regarder des films, et qui connaît déjà les contournements de l’écosystème Huawei.
+          Il ne convient ni au joueur, ni au photographe vidéaste, ni à quiconque a besoin de la 5G ou d’un téléphone qu’on sort sans y penser sous la pluie.
+          À {euro(p.launchPrice)}, c’est un objet de passionné, pas un smartphone à recommander.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} variant="ghost" label="Vérifier la disponibilité" /></p>
+
+      <h2>Comment fonctionne un tri-pliant : une dalle, deux charnières, trois formats</h2>
+      <p>
+        Contrairement à un format livre comme le Mate X7, le Huawei Mate XT n’a pas d’écran externe séparé. Une seule dalle OLED souple de 10,2 pouces court sur trois volets reliés par deux charnières, repliés en Z. Fermé, un volet sert d’écran de smartphone ; en ouvrant le premier, on obtient un format presque carré ; en ouvrant le second, une tablette.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Les trois modes d’affichage du Huawei Mate XT Ultimate Design</caption>
+          <thead>
+            <tr>
+              <th scope="col">Mode</th>
+              <th scope="col">Diagonale</th>
+              <th scope="col">Définition</th>
+              <th scope="col">Pour quoi faire</th>
+            </tr>
+          </thead>
+          <tbody>
+            {modes.map((m) => (
+              <tr>
+                <th scope="row">{m.mode}</th>
+                <td class="num"><strong>{m.size}</strong></td>
+                <td class="num">{m.res}</td>
+                <td>{m.use}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Ce pliage en Z a une conséquence que tous les tests soulignent : fermé, une partie de l’écran reste à l’extérieur, sans vitre rigide pour la protéger. Tech Advisor range cet écran exposé parmi les défauts majeurs du Mate XT. Selon GSMArena, Huawei livre un étui doté d’une béquille, qui limite le risque et permet de poser la tablette pour regarder une vidéo.
+      </p>
+      <p>
+        Le logiciel suit les transitions. GSMArena décrit un passage fluide d’un mode à l’autre et un multitâche capable de répartir l’écran en tiers, avec des proportions ajustables au-delà du classique 50/50. Dès sa prise en main de la version chinoise, en septembre 2024, Clubic relevait déjà la fluidité des applications lorsqu’elles passent d’un format à l’autre.
+      </p>
+      <p>
+        Les deux charnières ne travaillent pas dans le même sens. Tech Advisor explique que la charnière de droite se comporte comme celle d’un pliant classique, tandis que celle de gauche replie le volet vers l’arrière. Journal du Geek, lors de sa prise en main de la version chinoise en septembre 2024, décrivait une courbure en goutte d’eau au niveau du pli intérieur : l’écran s’enroule plutôt qu’il ne se plie franchement, ce qui ménage la dalle.
+      </p>
+
+      <h2>Design : acier inoxydable, cuir végan et 298 g à porter</h2>
+      <p>
+        Le Huawei Mate XT associe un cadre métallique fin et arrondi, des charnières en acier inoxydable, un dos en cuir végan rouge ou noir et un module photo en acier poli, décrit en détail par GSMArena. L’écran est recouvert d’une couche de verre ultrafin et d’un film de protection posé en usine, qu’il ne faut surtout pas retirer.
+      </p>
+      <PhoneGallery id="huawei-mate-xt" heading="Le Huawei Mate XT Ultimate Design, fermé et déplié" />
+      <p>
+        Avec 298 g, le Mate XT pèse 62 g de plus que le Mate X7 et 44 g de plus que l’iPhone Duo, pourtant le format livre le plus lourd de 2026. Clubic l’a trouvé moins lourd qu’attendu une fois en main, et presque aussi rigide qu’une tablette : l’appareil ne se déforme pas lorsqu’on le tient par un bord.
+      </p>
+      <p>
+        Les dimensions officielles figurent sur la <a href={HW_SPECS} target="_blank" rel="noopener">fiche technique internationale de Huawei</a> : 156,7 × 73,5 mm fermé, 156,7 × 143 mm en mode double et 156,7 × 219 mm entièrement ouvert. Le même document précise que les 298 g s’entendent sans le film de protection de l’écran, et que l’appareil atteint environ 306 g avec lui. Le module photo, lui, est fait d’acier travaillé en couches puis poli, d’après <a href={GSM_DESIGN} target="_blank" rel="noopener">GSMArena</a>.
+      </p>
+      <p>
+        L’ergonomie a ses limites. Selon GSMArena, l’appareil entièrement ouvert bascule sur une table à cause de son bloc photo, et le lecteur d’empreintes latéral devient inconfortable en mode tablette. Surtout, GSMArena déplore l’absence de résistance à l’eau et aurait apprécié ne serait-ce qu’une protection contre les éclaboussures ; nous revenons plus bas sur ce point, où les sources ne concordent pas.
+        Et le paradoxe du tri-pliant demeure : 3,6 mm déplié, moins que n’importe quel format livre, mais 12,8 mm une fois les trois volets empilés.
+      </p>
+
+      <h2>Écran de 10,2 pouces : lumineux, mais deux plis bien visibles</h2>
+      <p>
+        L’écran du Huawei Mate XT est une dalle OLED LTPO qui monte à 90 Hz, là où la plupart des pliants haut de gamme atteignent 120 Hz. Déplié, il affiche 2 232 × 3 184 pixels.
+        GSMArena mesure 568 cd/m² en réglage manuel et 944 cd/m² en mode automatique entièrement déplié, et 939 cd/m² plié. Notebookcheck relève jusqu’à 2 058 cd/m² en APL 18 et 2 027 cd/m² en HDR, avec un scintillement PWM à haute fréquence, jusqu’à 1 440 Hz, plutôt rassurant pour les yeux sensibles.
+      </p>
+      <p>
+        Les plis font débat. GSMArena juge les deux marques bien visibles, légèrement différentes l’une de l’autre au toucher comme à l’œil, et estime que Huawei a une ou deux générations de retard sur ce point. Tech Advisor les remarque dès que la lumière frappe l’écran, sans que l’usage en souffre vraiment. Clubic, en prise en main, les trouvait moins gênantes qu’il ne le craignait.
+      </p>
+      <p>
+        Notebookcheck ajoute un détail pratique : la surface, qui s’incurve le long du bord extérieur une fois l’appareil plié, retient les traces de doigts et se nettoie difficilement. La fiche de Huawei annonce enfin un échantillonnage tactile jusqu’à 240 Hz.
+      </p>
+
+      <h2>Autonomie et charge : 7 h 48 en mode tablette</h2>
+      <p>
+        Le Huawei Mate XT embarque une batterie de 5 600 mAh, répartie dans ses volets. En mode tablette, GSMArena mesure un Active Use Score de 7 h 48, un résultat qu’il qualifie de faible ; plié, l’appareil atteint 11 h 56. En usage réel, Tech Advisor termine ses journées avec environ 30 % de batterie, et Notebookcheck estime qu’une journée entière passe sans difficulté.
+      </p>
+      <p>
+        La charge rattrape en partie ce manque d’endurance. Avec le chargeur 66 W, GSMArena atteint 45 % en 15 minutes, 78 % en 30 minutes et 100 % en une heure. Tech Advisor obtient environ 80 % en 30 minutes et une charge complète en 1 h 07. La charge sans fil monte à 50 W, et GSMArena signale une recharge inversée sans fil à 7,5 W. Le même test précise que le chargeur n’est pas fourni sur certains marchés.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Huawei Mate XT Ultimate Design" />
+      <p class="small muted">Protocoles propres à chaque média : comparez les chiffres d’une même source entre eux, pas d’un média à l’autre.</p>
+
+      <h2>Kirin 9010 : des performances de milieu de gamme</h2>
+      <p>
+        Le Kirin 9010 du Huawei Mate XT obtient 3 763 points en multicœur sur Geekbench 6, 873 240 points sur AnTuTu 10 et 1 401 points sur 3DMark Wild Life Extreme, d’après GSMArena. Le site parle du haut de gamme le plus lent qu’il ait testé et rappelle que cette puce a une génération de retard sur le Kirin 9020 du Mate X6.
+      </p>
+      <p>
+        La stabilité graphique reste bonne déplié (99 %), mais chute à 58 % plié selon GSMArena. Au quotidien, Tech Advisor trouve l’appareil réactif, tout en notant que ses scores le placent loin des autres pliants. Pour un appareil pensé pour le multitâche sur 10,2 pouces, ce manque de marge interroge sur sa longévité.
+      </p>
+
+      <h2>Photo : un bon capteur principal, une vidéo à la traîne</h2>
+      <p>
+        Le Huawei Mate XT associe un capteur principal de 50 Mpx stabilisé à ouverture variable, un ultra grand-angle de 12 Mpx et un téléobjectif périscopique de 12 Mpx au zoom optique x5,5, plus une caméra frontale de 8 Mpx.
+        GSMArena salue des photos de jour détaillées et peu bruitées, un zoom x2 convaincant et des portraits naturels. La nuit, le capteur principal garde une bonne dynamique mais les ombres s’adoucissent, et le mode nuit demande trois secondes par cliché.
+      </p>
+      <p>
+        Le téléobjectif x5,5 livre de bons résultats de jour, mais sa distance minimale de mise au point de 80 cm limite les gros plans, et ses images nocturnes restent moyennes. L’ultra grand-angle se montre net d’un bord à l’autre. La vidéo, limitée à la 4K à 60 images par seconde, déçoit franchement GSMArena, qui la compare à celle d’un milieu de gamme vieillissant.
+        Tech Advisor confirme l’excellence du capteur principal en plein jour et la faiblesse des modules secondaires en basse lumière.
+      </p>
+      <p>
+        Dans le détail, <a href={GSM_CAM} target="_blank" rel="noopener">l’analyse photo de GSMArena</a> note que le zoom x2 obtenu par recadrage du capteur principal rivalise avec un vrai module x2, et qu’un mode 50 Mpx assisté par IA capture beaucoup de détails au prix d’environ trois secondes d’attente. Tech Advisor décrit des couleurs naturelles et fidèles de jour, mais trouve le x5,5 un peu trop serré pour un usage courant. Notebookcheck, plus sévère, relève des défauts de détourage en mode portrait et une qualité nettement inférieure sur les deux modules de 12 Mpx.
+      </p>
+      <p>
+        En selfie, la caméra frontale de 8 Mpx à mise au point fixe surprend GSMArena par la qualité du détail et des couleurs. Le format offre surtout une option que n’ont pas les smartphones classiques : en dépliant l’appareil à moitié, on se photographie avec les capteurs arrière, pour un résultat encore meilleur selon le même test.
+        En vidéo, les trois modules filment en 4K à 60 images par seconde avec une stabilisation électronique permanente ; le mode le plus stable limite l’ultra grand-angle au 1080p avec un fort recadrage, et les séquences de nuit manquent de détail sur tous les capteurs.
+      </p>
+
+      <h2>Logiciel : EMUI 14.2, GBox et pas de 5G</h2>
+      <p>
+        La version internationale du Huawei Mate XT tourne sous EMUI 14.2, sur une base Android 12 selon Tech Advisor et Notebookcheck, sans services Google ; la version chinoise utilise HarmonyOS. GSMArena notait, lors de son test, un retard d’une version sur le dernier logiciel de Huawei.
+      </p>
+      <p>
+        Pour retrouver les applications Google, GSMArena a utilisé GBox, une petite machine virtuelle qui donne accès au Play Store : Maps, Drive, Chrome, YouTube et Gemini y fonctionnent, avec une qualité de streaming vidéo bridée par la couche d’émulation. Notebookcheck cite aussi Aurora Store et microG. Le réseau se limite à la 4G, un défaut que tous les tests relèvent sur un appareil de ce prix.
+        Nous n’avons pas trouvé d’engagement chiffré de Huawei sur la durée des mises à jour du Mate XT.
+      </p>
+
+      <h3>Vivre sans Google : trois niveaux de contournement</h3>
+      <ol>
+        <li><strong>Rester dans l’écosystème Huawei.</strong> L’AppGallery, Petal Maps, Petal Search et le navigateur maison couvrent l’essentiel, selon <a href={GSM_PERF} target="_blank" rel="noopener">GSMArena</a>. Les applications Galerie, Musique, Vidéo, Santé et le gestionnaire de fichiers sont préinstallés.</li>
+        <li><strong>Installer des APK.</strong> EMUI accepte toujours les fichiers d’installation téléchargés depuis l’AppGallery ou des dépôts comme APK Pure. Notebookcheck mentionne Aurora Store pour accéder au catalogue du Play Store.</li>
+        <li><strong>Émuler les services Google.</strong> GBox ou microG permettent de lancer les applications qui en dépendent. Notebookcheck signale qu’Android Auto fonctionne sans souci, mais que Google Pay reste indisponible pour payer sans contact.</li>
+      </ol>
+      <p>
+        Aucune de ces solutions n’est garantie dans la durée : elles dépendent d’éditeurs tiers et peuvent cesser de fonctionner après une mise à jour. Côté fonctions maison, GSMArena cite les gestes sans contact, la télécommande infrarouge Smart Remote et une réduction de bruit par IA pendant les appels. Tech Advisor regrette en revanche que cette version d’EMUI ne profite pas des derniers raffinements du multitâche introduits avec EMUI 15.
+      </p>
+
+      <h2>Son, réseau et déverrouillage : la fiche ne suit pas le prix</h2>
+      <p>
+        Sur la connectivité, le Huawei Mate XT accuse son âge et les sanctions qui visent Huawei : ni 5G ni eSIM, du Wi-Fi 6 et du Bluetooth 5.2 là où le Mate X7 passe au Wi-Fi 7 et au Bluetooth 6.0. Le tableau ci-dessous croise la fiche internationale de Huawei et les constats des tests.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Connectivité, audio et biométrie du Huawei Mate XT</caption>
+          <thead>
+            <tr>
+              <th scope="col">Élément</th>
+              <th scope="col">Fiche Huawei</th>
+              <th scope="col">Ce qu’en disent les tests</th>
+            </tr>
+          </thead>
+          <tbody>
+            {connect.map((c) => (
+              <tr>
+                <th scope="row">{c.item}</th>
+                <td>{c.spec}</td>
+                <td class="small">{c.press}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Les haut-parleurs sont le point le plus décevant pour un appareil pensé pour la vidéo. Au test de <a href={GSM_LAB} target="_blank" rel="noopener">GSMArena</a>, ils n’obtiennent que la mention « moyen » en puissance ; placés en haut et en bas, ils restent symétriques plié mais se retrouvent en diagonale une fois l’appareil ouvert. Le son est jugé riche et équilibré, plus agréable que celui du Mate X6, et Tech Advisor apprécie la scène sonore tout en regrettant des basses sans relief, faute de place dans un châssis aussi fin.
+      </p>
+
+      <h2>Solidité et réparabilité : un appareil à manier avec soin</h2>
+      <p>
+        La solidité du Huawei Mate XT est sa principale inconnue. Aucun nombre de cycles d’ouverture n’est communiqué pour les deux charnières, et l’écran reste en partie exposé une fois fermé, protégé seulement par un film posé en usine. Tech Advisor n’a constaté aucune marque après une semaine d’usage, mais redoute les rayures d’une clé ou les dégâts d’une chute sur cette dalle souple.
+      </p>
+      <p>
+        Sur la résistance à l’eau, les sources ne concordent pas. GSMArena classe l’absence de protection parmi les défauts du Mate XT, tandis que la fiche technique internationale de Huawei et Tech Advisor évoquent une protection contre l’immersion. Faute de certification confirmée pour le modèle européen, nous le considérons comme non certifié, et nous vous conseillons de le tenir à l’écart de l’eau comme de la poussière.
+      </p>
+      <p>
+        Nous n’avons trouvé ni étiquette énergie européenne (classe de réparabilité, résistance aux chutes, cycles de batterie) ni offre de protection d’écran propre au Mate XT dans les sources consultées. Pour un appareil dont la dalle unique fait à la fois office d’écran externe et d’écran interne, une assurance ou une extension de garantie mérite réflexion avant l’achat.
+      </p>
+
+      <h2>Dans la boîte : l’étui, et un chargeur selon le pays</h2>
+      <p>
+        Le contenu de la boîte du Huawei Mate XT varie selon le marché. La fiche internationale de Huawei liste :
+      </p>
+      <ul>
+        <li>le téléphone et sa batterie intégrée ;</li>
+        <li>un étui en fibre d’aramide avec support rotatif (selon le marché) ;</li>
+        <li>un câble USB-C et un chargeur (selon le marché) ;</li>
+        <li>l’outil d’éjection du tiroir SIM, un guide de démarrage et les documents de garantie et de précautions.</li>
+      </ul>
+      <p>
+        Dans les faits, GSMArena a reçu la version internationale avec l’étui et un câble USB-C prévu pour 6 A, mais sans chargeur. Tech Advisor, lui, a trouvé dans sa boîte l’étui, doté d’une béquille rotative et d’un rabat de protection, ainsi qu’un chargeur 66 W. Avant d’acheter, vérifiez donc auprès du vendeur la présence de l’adaptateur, indispensable pour charger en une heure.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Les tests du Mate XT passés au crible"
+        intro="Aucun des médias consultés ne recommande le Mate XT au grand public ; tous saluent en revanche la réussite mécanique."
+      />
+
+      <h2>La note du Huawei Mate XT</h2>
+      <p>
+        Avec {num(overall(p))}/10, le Huawei Mate XT reste loin du Mate X7 ({num(overall(x7))}/10). L’écran de 10,2 pouces obtient 9/10, mais le poids, la puce Kirin 9010 et surtout le prix tirent la note vers le bas.
+      </p>
+      <div style="max-width:420px">
+        <ScoreBars phone={p} />
+      </div>
+
+      <h2>Versions, coloris et prix de lancement</h2>
+      <p>
+        Le Huawei Mate XT a été lancé à {euro(p.launchPrice)} en Europe, dans une seule configuration de 16 Go de mémoire vive et 1 To de stockage, cinq mois après sa présentation en Chine le 10 septembre 2024. C’est plus cher que toutes les versions de l’iPhone Duo, sauf celle de 2 To (3 839 €).
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Configuration, coloris et prix de lancement du Huawei Mate XT</caption>
+          <thead>
+            <tr>
+              <th scope="col">Configuration</th>
+              <th scope="col">Coloris</th>
+              <th scope="col">Prix de lancement européen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">16 Go / 1 To</th>
+              <td>Rouge ou noir, dos en cuir végan</td>
+              <td class="num"><strong>{euro(p.launchPrice)}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        La fiche internationale de Huawei mentionne aussi une version 512 Go, qui ne figure pas dans l’offre européenne annoncée à {euro(p.launchPrice)}. Le jour du lancement international, le 18 février 2025, <a href={PHA_LAUNCH} target="_blank" rel="noopener">Phonandroid</a> indiquait qu’aucune commercialisation en France n’était annoncée, sans l’exclure. Un mois plus tard, Tech Advisor ne recensait qu’une disponibilité en Malaisie et aux Émirats arabes unis.
+      </p>
+      <p>
+        Notre conseil : si le format tri-pliant vous tente, vérifiez l’origine de l’appareil et la garantie proposée par le vendeur, ainsi que la présence du chargeur. Ce modèle de 2025 se trouve souvent nettement moins cher que son prix de lancement ; à {euro(p.launchPrice)}, il ne se justifie pas.
+      </p>
+      <p><AmazonButton phone={p} label="Consulter l’offre du Mate XT" /></p>
+
+      <h2>3 499 € : le Mate X7 fait-il mieux pour moins cher ?</h2>
+      <p>
+        Face à lui, le <a href="/smartphone-pliant-huawei/mate-x7/">test du Huawei Mate X7</a> montre un appareil plus équilibré : lancé à {euro(x7.launchPrice)}, soit 1 400 € de moins, il pèse 236 g, résiste à l’immersion (IP58/IP59), utilise un Kirin 9030 Pro plus récent et affiche 11 h 51 d’Active Use Score déplié chez GSMArena, contre 7 h 48 pour le Mate XT.
+        Le tri-pliant ne se justifie que si l’écran de 10,2 pouces est la raison même de l’achat.
+      </p>
+      <div class="flex" style="flex-wrap:wrap;gap:.75rem">
+        <AmazonButton phone={p} label="Voir le Mate XT sur Amazon" />
+        <AmazonButton phone={x7} variant="ghost" label="Consulter l’offre du Mate X7" />
+      </div>
+
+      <p style="margin-top:1.4rem">
+        Au moment de son test, <a href={GSM_VERDICT} target="_blank" rel="noopener">GSMArena</a> orientait plutôt vers les Honor Magic V3, Oppo Find N5 et vivo X Fold3 Pro, trois formats livre plus fins ou meilleurs en photo pour bien moins cher. En 2026, voici les alternatives que nous retenons hors de la gamme Huawei.
+      </p>
+      <div class="grid" style="--min:230px">
+        <div class="card">
+          <h3 class="mt-0" style="font-size:1.05rem">Honor Magic V6</h3>
+          <p class="small">Lancé à {euro(v6.launchPrice)}, soit environ 1 200 € de moins. Écrans de 7,95 et 6,52 pouces, 219 g, 6 660 mAh, charge 80 W, IP68 et IP69, services Google.</p>
+          <p class="small mb-0">Le choix raisonnable si un écran de 8 pouces vous suffit : <ObfLink href="/smartphone-pliant-honor/magic-v6/" class="obf-text">lire le test du Magic V6</ObfLink>.</p>
+        </div>
+        <div class="card">
+          <h3 class="mt-0" style="font-size:1.05rem">Samsung Galaxy Z Fold8 Ultra</h3>
+          <p class="small">Lancé à {euro(fold8u.launchPrice)} en 256 Go. Écrans de 8 et 6,5 pouces, 215 g, capteur 200 Mpx et téléobjectif x3, sept ans de mises à jour promis par Samsung.</p>
+          <p class="small mb-0">Pour la puissance et le suivi : <ObfLink href="/smartphone-pliant-samsung/galaxy-z-fold8-ultra/" class="obf-text">le test complet du Fold8 Ultra</ObfLink>.</p>
+        </div>
+        <div class="card">
+          <h3 class="mt-0" style="font-size:1.05rem">Samsung Galaxy Z TriFold</h3>
+          <p class="small">Le seul tri-pliant d’un autre grand constructeur, lancé en Corée en décembre 2025. Il n’a jamais été commercialisé officiellement en France et sa production aurait été arrêtée en quelques mois, selon la presse.</p>
+          <p class="small mb-0">Accessible uniquement via des importateurs, sans garantie constructeur française.</p>
+        </div>
+      </div>
+
+      <ProsCons
+        pros={[
+          'Écran de 10,2 pouces, 3,6 mm déplié',
+          'Trois formats d’usage et multitâche en tiers',
+          'Charge 66 W complète en une heure environ',
+          'Capteur principal excellent de jour',
+          'Fabrication soignée, étui avec béquille fourni',
+          'Selfies réussis, capteurs arrière utilisables en autoportrait',
+        ]}
+        cons={[
+          '3 499 € au lancement',
+          'Seulement 7 h 48 d’autonomie déplié (GSMArena)',
+          'Kirin 9010 à la traîne, pas de 5G',
+          'Écran exposé fermé, étanchéité non confirmée',
+          'Pas de services Google, vidéo décevante',
+          'Haut-parleurs peu puissants, ni eSIM ni Wi-Fi 7',
+        ]}
+        prosTitle="Ce qui impressionne"
+        consTitle="Ce qui coince"
+      />
+
+      <h2>Fiche technique complète</h2>
+      <SpecTable phone={p} caption="Fiche technique du Huawei Mate XT Ultimate Design" />
+
+      <Faq items={faq} heading="Tri-pliant Huawei : vos questions" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="cards" heading="Dans la gamme Huawei" intro="Moins spectaculaire, plus raisonnable : le format livre de Huawei." />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompareTable from '../components/CompareTable.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import Score from '../components/Score.astro';
+import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, mah, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-moins-de-2000-euros/';
+const band = ranked(phones.filter((p) => p.launchPrice > 1500 && p.launchPrice <= 2000));
+const allLivre = band.every((p) => p.format === 'livre');
+
+const pixel11 = byId('pixel-11-pro-fold');
+const pixel10 = byId('pixel-10-pro-fold');
+const fold8 = byId('galaxy-z-fold8');
+const v5 = byId('honor-magic-v5');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const v6 = byId('honor-magic-v6');
+const razrFold = byId('razr-fold');
+
+const list = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+const words = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six'];
+const word = (n: number) => words[n] ?? String(n);
+const Word = (n: number) => word(n).charAt(0).toUpperCase() + word(n).slice(1);
+
+const scores = band.map((p) => overall(p));
+const at1999 = band.filter((p) => p.launchPrice === 1999);
+const byWeight = [...band].sort((a, b) => a.weight - b.weight);
+const byBattery = [...band].sort((a, b) => (b.battery ?? 0) - (a.battery ?? 0));
+const byThickness = [...band].filter((p) => p.foldedMm).sort((a, b) => (a.foldedMm ?? 0) - (b.foldedMm ?? 0));
+const ip68 = band.filter((p) => p.ip.includes('IP68'));
+const cheapest = [...band].sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const heaviest = byWeight[byWeight.length - 1];
+const thickest = byThickness[byThickness.length - 1];
+const prices = band.map((p) => p.launchPrice);
+
+const profiles: { id: string; label: string; phone: Phone }[] = [
+  { id: 'photo', label: 'Photo', phone: pixel11 },
+  { id: 'legerete', label: 'Légèreté', phone: fold8 },
+  { id: 'autonomie', label: 'Autonomie', phone: v5 },
+  { id: 'solidite', label: 'Solidité', phone: pixel10 },
+];
+
+const title = 'Smartphone pliant à moins de 2 000 € : lequel choisir ?';
+const description =
+  'Galaxy Z Fold8, Pixel 11 Pro Fold, Pixel 10 Pro Fold ou Honor Magic V5 : quel pliant choisir sous 2 000 € selon la photo, le poids ou l’autonomie ?';
+
+const faq = [
+  {
+    q: 'Quel est le meilleur smartphone pliant à moins de 2 000 € ?',
+    a: `Dans notre classement, le ${band[0].fullName} mène la tranche avec ${num(scores[0])}/10. ${
+      band[0].id === v5.id
+        ? `Il le doit à sa batterie de ${mah(v5.battery)}, à sa charge sans fil ${v5.wireless} et à sa finesse (${mm(v5.foldedMm)} plié). Lancé à ${euro(v5.launchPrice)} en août 2025, il se trouve souvent nettement moins cher depuis l’arrivée du Magic V6.`
+        : 'Le bon choix dépend toutefois de votre priorité : photo, poids, autonomie ou étanchéité.'
+    }`,
+  },
+  {
+    q: 'Galaxy Z Fold8 ou Pixel 11 Pro Fold : lequel choisir ?',
+    a: `Les deux ont été lancés à ${euro(1999)} en 256 Go. Le Samsung Galaxy Z Fold8 est plus léger (${fold8.weight} g contre ${pixel11.weight} g), plus compact avec son écran 4:3 et charge plus vite (${fold8.wired} contre ${pixel11.wired}). Le Google Pixel 11 Pro Fold répond par un zoom optique x5, un écran externe de ${num(pixel11.outerScreen)} pouces et la certification IP68, là où le Fold8 reste IP48.`,
+  },
+  {
+    q: 'Le Pixel 10 Pro Fold vaut-il encore le coup en 2026 ?',
+    a: `Oui, si vous cherchez un pliant étanche. Lancé à ${euro(pixel10.launchPrice)} en octobre 2025, le Google Pixel 10 Pro Fold garde l’IP68, une batterie de ${mah(pixel10.battery)} et un zoom x5. Ses défauts : ${pixel10.weight} g, ${mm(pixel10.foldedMm)} plié et un Tensor G5 moyen en jeu. Il se trouve souvent nettement moins cher depuis la sortie du Pixel 11 Pro Fold.`,
+  },
+  {
+    q: 'Quel pliant à moins de 2 000 € est étanche ?',
+    a: `${Word(ip68.length)} modèles de la tranche sont certifiés IP68, donc étanches à la poussière et à l’immersion : ${list(ip68.map((p) => `le ${p.fullName}`))}. Le Honor Magic V5 est IP58/IP59, bien protégé contre l’eau mais moins contre la poussière. Le Samsung Galaxy Z Fold8, certifié IP48, craint le sable fin.`,
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant format livre', 'Budget 2 000 euros'] }),
+  itemList('Smartphones pliants lancés entre 1 500 et 2 000 € en France', band.map((p) => ({ name: p.fullName }))),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap cols-2 section-tight">
+    <article class="prose">
+      <span class="eyebrow">Budget · de 1 500 à 2 000 €</span>
+      <h1>Pliant sous 2 000 € : quel format livre selon votre profil ?</h1>
+      <p class="lede">
+        Entre 1 500 et 2 000 € au lancement, notre <a href="/">comparatif des meilleurs smartphones pliants</a> compte {word(band.length)} modèles, {allLivre ? 'tous au format livre' : 'de formats variés'} :
+        {list(band.map((p) => p.fullName))}. Plutôt qu’un classement de plus, voici le bon choix selon ce qui compte pour vous.
+      </p>
+      <Byline minutes={8} />
+      <p>
+        Leurs notes globales vont de {num(Math.min(...scores))} à {num(Math.max(...scores))}/10 : l’écart est faible, les profils très différents.
+        {Word(at1999.length)} d’entre eux ont été lancés au même prix, {euro(1999)}, et le Honor Magic V5 se glisse dans la tranche à dix centimes près ({euro(v5.launchPrice)}).
+      </p>
+
+      <h2 id="photo">Pour la photo : {pixel11.fullName}</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold est le choix photo de cette tranche. Il associe un capteur principal de 48 Mpx, un ultra grand-angle de 10,5 Mpx et surtout un téléobjectif de 10,8 Mpx au zoom optique x5,
+        le plus long de la tranche, que seul le Pixel 10 Pro Fold égale. Par rapport à ce dernier, le 11 profite du Tensor G6 et pèse {pixel10.weight - pixel11.weight} g de moins.
+      </p>
+      <p>
+        Le Honor Magic V5 est l’alternative la plus sérieuse, avec un périscope de 64 Mpx au zoom x3. Le Galaxy Z Fold8, lui, n’a pas de téléobjectif : deux capteurs de 50 Mpx et un zoom uniquement numérique.
+        C’est son principal défaut à ce prix, et la raison pour laquelle nous ne le recommandons pas aux photographes.
+      </p>
+      <p><AmazonButton phone={pixel11} label="Voir le prix du Pixel 11 Pro Fold" /></p>
+
+      <h2 id="legerete">Pour la légèreté : {fold8.fullName}</h2>
+      <p>
+        Avec {fold8.weight} g, le Samsung Galaxy Z Fold8 est {byWeight[0].id === fold8.id ? `le plus léger des ${word(band.length)}` : 'l’un des plus légers'}, et le plus léger des Fold de Samsung.
+        Il pèse {v5.weight - fold8.weight} g de moins que le Honor Magic V5, {pixel11.weight - fold8.weight} g de moins que le Pixel 11 Pro Fold et {pixel10.weight - fold8.weight} g de moins que le Pixel 10 Pro Fold.
+        Son format large, avec un écran intérieur 4:3 de {num(fold8.innerScreen)} pouces et un écran externe de {num(fold8.outerScreen)} pouces, le rend aussi plus compact une fois fermé.
+      </p>
+      <p>
+        Nuance : léger ne veut pas dire fin. Fermé, le Fold8 mesure {mm(fold8.foldedMm)}, quand le {byThickness[0].fullName} descend à {mm(byThickness[0].foldedMm)} pour {byThickness[0].weight} g.
+        Si c’est l’épaisseur en poche qui vous gêne, le Honor est le meilleur compromis. Le Fold8 garde pour lui la charge {fold8.wired} et les 7 ans de mises à jour Android promis par Samsung.
+      </p>
+      <p><AmazonButton phone={fold8} variant="ghost" label="Consulter l’offre Galaxy Z Fold8" /></p>
+
+      <h2 id="autonomie">Pour l’autonomie : {v5.fullName}</h2>
+      <p>
+        Le Honor Magic V5 embarque {byBattery[0].id === v5.id ? 'la plus grosse batterie de la tranche' : 'l’une des plus grosses batteries de la tranche'} : {mah(v5.battery)},
+        soit {mah((v5.battery ?? 0) - (pixel10.battery ?? 0))} de plus que le Pixel 10 Pro Fold et {mah((v5.battery ?? 0) - (fold8.battery ?? 0))} de plus que le Galaxy Z Fold8.
+        Il se recharge en {v5.wired} filaire et {v5.wireless} sans fil, quand les Pixel plafonnent à 30 W en filaire et le Fold8 à {fold8.wired}.
+      </p>
+      <p>
+        Lancé en France le 28 août 2025 à {euro(v5.launchPrice)}, le Magic V5 a depuis été remplacé par le Magic V6 et se trouve souvent nettement moins cher que son prix de lancement.
+        Il cumule cette endurance avec la plus faible épaisseur de la tranche ({mm(v5.foldedMm)} plié) et un périscope x3. Revers : une seule configuration ({v5.launchConfig}) et une surcouche MagicOS chargée.
+      </p>
+      <p>
+        Le {pixel10.fullName} reste l’autre option endurante, avec {mah(pixel10.battery)}, mais il pèse {pixel10.weight - v5.weight} g de plus et se recharge moins vite ({pixel10.wired}, {pixel10.wireless} sans fil).
+      </p>
+      <p><AmazonButton phone={v5} label="Vérifier la disponibilité du Magic V5" /></p>
+
+      <h2 id="solidite">Pour la solidité : {pixel10.fullName}</h2>
+      <p>
+        Le Google Pixel 10 Pro Fold a été le premier pliant certifié IP68 : il est étanche à la poussière et résiste à une immersion prolongée. Le Pixel 11 Pro Fold conserve cette certification.
+        Les deux autres modèles de la tranche sont moins bien protégés contre la poussière : {v5.ip} pour le Honor Magic V5, {fold8.ip} pour le Galaxy Z Fold8.
+      </p>
+      <p>
+        Pourquoi le 10 plutôt que le 11 ? La certification est identique, et le Pixel 10 Pro Fold était déjà, au lancement, {cheapest.id === pixel10.id ? `le moins cher des ${word(band.length)}` : 'l’un des moins chers'} ({euro(pixel10.launchPrice)}).
+        Il est en revanche {heaviest.id === pixel10.id ? 'le plus lourd' : 'lourd'} ({pixel10.weight} g) et {thickest.id === pixel10.id ? 'le plus épais fermé' : 'épais fermé'} ({mm(pixel10.foldedMm)}).
+        Si ces grammes comptent, le Pixel 11 Pro Fold, avec son dos en composite de fibre de verre et sa charnière sans engrenage, est l’option IP68 la plus moderne.
+      </p>
+      <p>
+        Sur un appareil que l’on garde souvent plusieurs années, la solidité passe aussi par le logiciel : Samsung promet 7 ans de mises à jour Android sur ses pliants récents, dont le Galaxy Z Fold8.
+      </p>
+      <p><AmazonButton phone={pixel10} variant="ghost" label="Voir l’offre Pixel 10 Pro Fold" /></p>
+
+      <h2 id="comparatif">Les {word(band.length)} modèles côte à côte</h2>
+      <p>Classement par note globale. Les prix sont les prix publics de lancement en France, en configuration de base.</p>
+      <CompareTable
+        phones={band}
+        caption="Smartphones pliants lancés entre 1 500 et 2 000 €"
+        columns={['score', 'price', 'screens', 'chip', 'battery', 'charge', 'zoom', 'weight', 'thickness', 'ip']}
+        cta={false}
+      />
+
+      <Callout variant="tip" title="200 € de plus pour passer au-dessus de 2 000 € : ça vaut le coup ?">
+        <p>
+          Pour {euro(fold8u.launchPrice - fold8.launchPrice)} de plus au lancement, le Galaxy Z Fold8 Ultra ({euro(fold8u.launchPrice)}) ajoute ce qui manque au Fold8 : un capteur de 200 Mpx avec téléobjectif x3,
+          un écran intérieur de {num(fold8u.innerScreen)} pouces, un écran externe de {num(fold8u.outerScreen)} pouces et {mah((fold8u.battery ?? 0) - (fold8.battery ?? 0))} de batterie en plus,
+          pour {fold8u.weight - fold8.weight} g supplémentaires. Si la photo ou l’écran externe comptent, oui.
+        </p>
+        <p>
+          Au même prix, le Motorola Razr Fold ({euro(razrFold.launchPrice)}) est vendu en France en version unique {razrFold.launchConfig}, stylet fourni, avec {mah(razrFold.battery)} et une charge {razrFold.wired}.
+          Chez Honor, l’écart entre le Magic V5 et le Magic V6 atteint {euro(v6.launchPrice - v5.launchPrice)} en prix public, pour {mah((v6.battery ?? 0) - (v5.battery ?? 0))} de plus, une charge {v6.wired} et l’IP68/IP69.
+          Ces modèles sont détaillés dans notre sélection des <a href="/smartphone-pliant-haut-de-gamme/">smartphones pliants haut de gamme</a>.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="Moins de 2 000 € : vos questions" />
+    </article>
+
+    <aside class="sticky">
+      <div class="card">
+        <strong>Le résumé</strong>
+        <ul class="profile-summary">
+          {
+            profiles.map((pr) => (
+              <li>
+                <a href={`#${pr.id}`}>{pr.label}</a>
+                <div class="flex">
+                  <Score value={overall(pr.phone)} />
+                  <span class="small">{pr.phone.fullName}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="small muted mb-0">Prix de lancement de {euro(Math.min(...prices))} à {euro(Math.max(...prices))}.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="wrap">
+    <Siblings path={path} variant="cards" heading="Les autres tranches de prix" />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .profile-summary {
+    list-style: none;
+    padding: 0;
+    margin: 0.8rem 0;
+  }
+  .profile-summary li {
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed var(--line-strong);
+  }
+  .profile-summary a {
+    display: block;
+    font-weight: 750;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.3rem;
+  }
+</style>

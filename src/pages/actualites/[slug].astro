@@ -1,0 +1,149 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhoneCard from '../../components/PhoneCard.astro';
+import PhoneImage from '../../components/PhoneImage.astro';
+import { publishedArticles, articlePath, CATEGORY_LABELS, FORMAT_LABELS, frDateTime, readingMinutes, type Article } from '../../lib/blog';
+import { phones } from '../../data/phones';
+import { mainImage } from '../../data/images';
+import { SITE } from '../../data/site';
+import { PERSON_ID, ORG_ID } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await publishedArticles();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, all: posts } }));
+}
+
+const { post, all } = Astro.props as { post: Article; all: Article[] };
+const { Content } = await render(post);
+const d = post.data;
+const path = articlePath(post);
+const abs = (p: string) => new URL(p, SITE.url).href;
+
+const cited = d.phones.map((id) => phones.find((p) => p.id === id)).filter((p) => p !== undefined);
+const hero = d.phone ? mainImage(d.phone) : null;
+
+const related = all
+  .filter((a) => a.id !== post.id)
+  .map((a) => ({
+    a,
+    score: a.data.tags.filter((t) => d.tags.includes(t)).length * 2 + a.data.phones.filter((p) => d.phones.includes(p)).length + (a.data.category === d.category ? 0.5 : 0),
+  }))
+  .filter((x) => x.score > 0)
+  .sort((x, y) => y.score - x.score || y.a.data.pubDate.getTime() - x.a.data.pubDate.getTime())
+  .slice(0, 3)
+  .map((x) => x.a);
+
+const modified = d.updatedDate ?? d.pubDate;
+
+const schema = [
+  {
+    '@type': d.category === 'actualite' ? 'NewsArticle' : 'BlogPosting',
+    '@id': `${abs(path)}#article`,
+    headline: d.title,
+    description: d.description,
+    datePublished: d.pubDate.toISOString(),
+    dateModified: modified.toISOString(),
+    inLanguage: 'fr-FR',
+    mainEntityOfPage: abs(path),
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
+    ...(hero ? { image: abs(hero.src.src) } : {}),
+    ...(d.tags.length ? { keywords: d.tags.join(', ') } : {}),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: abs('/') },
+      { '@type': 'ListItem', position: 2, name: 'Actualités', item: abs('/actualites/') },
+      { '@type': 'ListItem', position: 3, name: d.title, item: abs(path) },
+    ],
+  },
+];
+---
+
+<BaseLayout title={d.title} description={d.description} schema={schema} updated={modified.toISOString().slice(0, 10)}>
+  <nav class="crumbs wrap" aria-label="Fil d’Ariane">
+    <ol>
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/actualites/">Actualités</a></li>
+      <li aria-current="page">{d.title}</li>
+    </ol>
+  </nav>
+
+  <article class="wrap section-tight blog-article">
+    <div class="prose">
+      <span class="eyebrow">{CATEGORY_LABELS[d.category]} · {FORMAT_LABELS[d.format] ?? d.format}</span>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.description}</p>
+      <div class="byline">
+        <a class="byline-author" href={SITE.author.url}>
+          <img src={SITE.author.avatar} alt="" width="34" height="34" />
+          <span>Par <strong>{SITE.author.name}</strong></span>
+        </a>
+        <span class="dot">Publié le <time datetime={d.pubDate.toISOString()}>{frDateTime(d.pubDate)}</time></span>
+        {d.updatedDate && <span class="dot">Mis à jour le <time datetime={d.updatedDate.toISOString()}>{frDateTime(d.updatedDate)}</time></span>}
+        <span class="dot">{readingMinutes(post.body)} min de lecture</span>
+      </div>
+
+      {hero && d.phone && <PhoneImage id={d.phone} variant="hero" eager />}
+
+      <div class="article-body">
+        <Content />
+      </div>
+
+      {
+        d.sources.length > 0 && (
+          <aside class="sources-box">
+            <h2>Sources</h2>
+            <ul>
+              {d.sources.map((s) => (
+                <li>
+                  <a href={s.url} target="_blank" rel="noopener">
+                    {s.media}
+                  </a>
+                  {s.title && <span class="muted"> : {s.title}</span>}
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )
+      }
+    </div>
+
+    {
+      cited.length > 0 && (
+        <section class="cited-phones">
+          <h2>{cited.length > 1 ? 'Les modèles cités' : 'Le modèle cité'}</h2>
+          <div class="stack">
+            {cited.map((p) => (
+              <PhoneCard phone={p} linkToSheet />
+            ))}
+          </div>
+          <p class="disclosure" style="margin-top:.8rem">
+            <span aria-hidden="true">ⓘ</span>
+            <span>Liens affiliés Amazon : en tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises.</span>
+          </p>
+        </section>
+      )
+    }
+
+    {
+      related.length > 0 && (
+        <nav class="related-posts" aria-label="À lire aussi">
+          <h2>À lire aussi</h2>
+          <ul>
+            {related.map((a) => (
+              <li>
+                <a href={articlePath(a)}>{a.data.title}</a>
+                <span class="small muted">{a.data.description}</span>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <p class="small" style="margin-top:2rem"><a href="/actualites/">← Toutes les actualités des smartphones pliants</a></p>
+  </article>
+</BaseLayout>

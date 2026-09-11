@@ -1,0 +1,423 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import Byline from '../../components/Byline.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Faq from '../../components/Faq.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('honor-magic-v5');
+const v6 = byId('honor-magic-v6');
+const pixel10 = byId('pixel-10-pro-fold');
+const fold7 = byId('galaxy-z-fold7');
+const razr = byId('razr-fold');
+const path = p.path;
+const title = 'Test Honor Magic V5 : avis, mesures et verdict un an après';
+const description =
+  'Test du Honor Magic V5 : autonomie, charge 66 W, chauffe et écrans mesurés par GSMArena, Phonandroid et Clubic. Verdict et comparaison avec le Magic V6.';
+
+const SRC = {
+  gsmDesign: 'https://www.gsmarena.com/honor_magic_v5-review-2870p2.php',
+  gsmLab: 'https://www.gsmarena.com/honor_magic_v5-review-2870p3.php',
+  gsmPerf: 'https://www.gsmarena.com/honor_magic_v5-review-2870p4.php',
+  gsmVerdict: 'https://www.gsmarena.com/honor_magic_v5-review-2870p6.php',
+  gsmSpecs: 'https://www.gsmarena.com/honor_magic_v5-13982.php',
+  clubic: 'https://www.clubic.com/test-produit-576678-test-de-l-honor-magic-v5-le-nouveau-patron-des-smartphones-pliants.html',
+  phonandroid: 'https://www.phonandroid.com/test-honor-magic-v5.html',
+  phonandroidLaunch: 'https://www.phonandroid.com/honor-lance-officiellement-le-magic-v5-en-france-voici-enfin-son-prix.html',
+  jdg: 'https://www.journaldugeek.com/test/test-honor-magic-v5-fin-pliant-resistant-et-puissant/',
+  notebookcheck: 'https://www.notebookcheck.com/Viel-mehr-als-nur-ein-schlankes-Foldable-Test-Honor-Magic-V5.1091176.0.html',
+  honor: 'https://www.honor.com/fr/shop/buying-guide/introducing-honor-magic-v5/',
+};
+
+const measures = [
+  { label: 'Active Use Score, écran externe', value: '15 h 49', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'PCMark, écran externe', value: 'plus de 17 h', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Navigation Wi-Fi', value: '16 h 12', source: 'Notebookcheck', url: SRC.notebookcheck },
+  { label: 'Autonomie en jeu', value: '5 à 7 h', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge 66 W : 30 minutes', value: '67 %', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Charge complète en 66 W', value: '53 min', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Charge 66 W : 50 minutes', value: '95 %', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge sans fil 50 W, de 0 à 100 %', value: '65 min', source: 'Clubic', url: SRC.clubic },
+  { label: 'Delta E moyen (deux écrans)', value: '1,8', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Luminosité moyenne max. (intérieur / externe)', value: '1 357 / 1 691 cd/m²', source: 'Notebookcheck', url: SRC.notebookcheck },
+  { label: 'Volume maximal des haut-parleurs', value: '81,9 dB', source: 'Notebookcheck', url: SRC.notebookcheck },
+  { label: 'Geekbench 6 (monocœur / multicœur)', value: '2 988 / 8 700', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'AnTuTu 10, écran externe', value: '2 202 004', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: '3DMark Wild Life Extreme', value: '5 798', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'Température du processeur sous charge', value: '70 °C', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Température de surface max. sous charge', value: '48,1 °C', source: 'Notebookcheck', url: SRC.notebookcheck },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: SRC.clubic,
+    date: '2025-08-28',
+    note: '9/10',
+    verdict:
+      'Pour Clubic, le pliant le plus convaincant essayé jusque-là : finesse, écrans, deux jours d’autonomie et sept ans de suivi. Photo de nuit perfectible, chargeur absent.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: SRC.jdg,
+    date: '2025-08-28',
+    note: '9/10',
+    verdict:
+      'Une réussite très fine et légère, puissante et endurante, avec un bloc photo complet ; le logiciel reste sage et le module photo épais.',
+  },
+  {
+    media: 'Notebookcheck (édition allemande)',
+    url: SRC.notebookcheck,
+    date: '2025-08-25',
+    note: '88 %',
+    verdict:
+      'Un pliant très fin, bien protégé et puissant, avec stylet en option ; la luminosité maximale réservée aux contenus HDR, un écran qui s’assombrit vite à la chaleur et un bloc photo encombrant pèsent dans la balance.',
+  },
+  {
+    media: 'GSMArena',
+    url: SRC.gsmVerdict,
+    verdict:
+      'L’un des pliants les plus aboutis de 2025, à placer en tête de liste ; l’autonomie sur le grand écran et un pli plus visible que chez certains rivaux sont ses faiblesses.',
+  },
+  {
+    media: 'Phonandroid',
+    url: SRC.phonandroid,
+    date: '2025-08-28',
+    verdict:
+      'Un pliant recommandable : écrans bien calibrés, autonomie et recharge supérieures à la concurrence, mais zoom numérique, selfies et fonctions d’IA décevants.',
+  },
+];
+
+const pros = [
+  'Deux jours d’autonomie selon Clubic',
+  'Plein en 53 minutes en 66 W (GSMArena)',
+  '8,8 mm plié pour 217 g',
+  'Écrans très fidèles : Delta E de 1,8 chez Phonandroid',
+  'Charge sans fil 50 W et sept ans de suivi',
+  'Coque fournie, stylet compatible et batterie déclarée pour 1 200 cycles',
+];
+const cons = [
+  'Chauffe et perte de performances sous forte charge',
+  'Photo de nuit et zoom numérique perfectibles',
+  'Chargeur non fourni',
+  'IP58 / IP59 : poussière partiellement protégée',
+  'Classe C en résistance aux chutes sur l’étiquette UE',
+  'Remplacé par le Magic V6',
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Honor Magic V5 ?',
+    a: 'Clubic affirme que le Honor Magic V5 tient facilement deux jours complets. En laboratoire, GSMArena mesure un Active Use Score de 15 h 49 sur l’écran externe, et Phonandroid dépasse 17 heures sous PCMark sur ce même écran. Notebookcheck relève 16 h 12 en navigation Wi-Fi. Selon GSMArena, l’autonomie baisse nettement quand on utilise surtout le grand écran intérieur.',
+  },
+  {
+    q: 'Combien de temps pour recharger le Honor Magic V5 ?',
+    a: 'En 66 W filaire, le Honor Magic V5 passe de 0 à 100 % en 53 minutes selon GSMArena, qui relève 67 % au bout de 30 minutes. Phonandroid mesure 95 % en 50 minutes. En sans-fil 50 W, Clubic compte 65 minutes pour une charge complète. Le chargeur rapide n’est pas fourni dans la boîte.',
+  },
+  {
+    q: 'Le Honor Magic V5 est-il étanche ?',
+    a: 'Le Honor Magic V5 est certifié IP58 et IP59. Il résiste à l’immersion et aux jets d’eau à haute pression, mais le chiffre 5 indique une protection seulement partielle contre la poussière. Son successeur, le Magic V6, certifié IP68 et IP69, est totalement étanche à la poussière, un avantage pour la charnière.',
+  },
+  {
+    q: 'Quel était le prix du Honor Magic V5 à sa sortie ?',
+    a: 'Le Honor Magic V5 a été lancé en France le 28 août 2025 au prix public de 1 999,90 €, dans une configuration unique de 16 Go de mémoire vive et 512 Go de stockage. Depuis l’arrivée du Magic V6 le 2 juillet 2026, il se trouve souvent nettement moins cher chez les marchands.',
+  },
+  {
+    q: 'Le Honor Magic V5 est-il compatible avec un stylet ?',
+    a: 'Oui. Les deux écrans du Honor Magic V5 acceptent le stylet Honor Magic-Pen, selon Honor et Clubic, qui le présentait à sa sortie comme le seul pliant vendu en Europe à offrir cette option. Le stylet n’est pas fourni dans la boîte ; il faisait partie d’un pack offert pendant l’offre de lancement, terminée le 14 septembre 2025.',
+  },
+  {
+    q: 'Quels coloris pour le Honor Magic V5 en France ?',
+    a: 'Le Honor Magic V5 a été proposé en France en trois coloris : noir, blanc ivoire et Dawn Gold, un doré en dégradé, selon Phonandroid, Clubic et le Journal du Geek. Toutes les teintes partagent la même configuration de 16 Go de mémoire vive et 512 Go de stockage, lancée au prix public de 1 999,90 €.',
+  },
+  {
+    q: 'Le Honor Magic V5 résiste-t-il aux chutes ?',
+    a: 'Moyennement. Sur l’étiquette énergie européenne relevée par GSMArena, le Honor Magic V5 obtient la classe C en résistance aux chutes répétées, avec 70 chutes sans défaut, quand les Pixel 10 et 11 Pro Fold sont classés A. Il fait mieux en réparabilité (classe B) et en endurance de batterie, déclarée pour 1 200 cycles. La coque fournie est donc utile.',
+  },
+  {
+    q: 'Honor Magic V5 ou Google Pixel 10 Pro Fold : lequel choisir ?',
+    a: 'Le Honor Magic V5, lancé à 1 999,90 € en 512 Go, est plus fin (8,8 mm plié contre 10,8 mm), plus léger (217 g contre 258 g) et recharge bien plus vite (66 W contre 30 W). Le Google Pixel 10 Pro Fold, lancé à 1 899 € en 256 Go, répond par l’IP68, un zoom optique x5 et une meilleure résistance aux chutes sur l’étiquette européenne.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Honor Magic V5'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Test · génération 2025 · Honor</span>
+      <h1>Test du Honor Magic V5 : l’essentiel, mesures à l’appui</h1>
+      <ProductSummary phone={p} ctaLabel="Voir l’offre sur Amazon" />
+      <p class="lede">
+        Lancé en France le 28 août 2025 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Honor Magic V5 a reçu 9/10 chez Clubic comme au Journal du Geek. Son successeur est arrivé en juillet 2026, mais sa batterie de 5 820 mAh, sa charge 66 W et ses 8,8 mm plié le maintiennent dans notre guide du <a href="/smartphone-pliant-honor/">smartphone pliant Honor</a>, avec une note éditoriale de {num(overall(p))}/10.
+      </p>
+      <Byline minutes={16} />
+    </div>
+
+    <div style="margin-top:1.2rem">
+      <KeyFacts
+        items={[
+          { label: 'Prix de lancement', value: '1 999,90 €' },
+          { label: 'Batterie', value: '5 820 mAh' },
+          { label: 'Charge', value: '66 W / 50 W' },
+          { label: 'Plein en 66 W', value: '53 min (GSMArena)' },
+          { label: 'Épaisseur pliée', value: '8,8 mm' },
+          { label: 'Protection', value: 'IP58 / IP59' },
+        ]}
+      />
+    </div>
+
+    <div class="prose">
+      <p class="small muted">
+        Ce test synthétise les mesures et avis publiés par GSMArena, Clubic, Phonandroid, Notebookcheck et le Journal du Geek, ainsi que les informations d’Honor. La rédaction n’a pas manipulé l’appareil ; chaque chiffre est attribué à son auteur.
+      </p>
+      <h2>Le verdict en bref</h2>
+    </div>
+
+    <div class="grid" style="--min:300px;margin-top:1rem;max-width:860px">
+      <ScoreBars phone={p} />
+      <div class="card">
+        <strong>Ce qu’il faut retenir</strong>
+        <p class="small">
+          Les tests publiés en 2025 sont presque unanimes : le Honor Magic V5 combine une finesse rare, une autonomie de deux jours et une recharge complète en moins d’une heure. Ses limites sont connues : chauffe sous forte charge, photo de nuit perfectible, chargeur absent de la boîte et protection partielle contre la poussière.
+        </p>
+        <p class="small">
+          Un an plus tard, il reste le choix raisonnable de la gamme pour qui n’a pas besoin de l’IP68 du Magic V6.
+          Il convient à qui veut un grand pliant fin, endurant et rapide à recharger, sans payer le prix d’un modèle 2026.
+          Il convient moins aux joueurs, que la chauffe pénalise, et à ceux qui l’emmèneront souvent à la plage ou sur un chantier : sa protection contre la poussière reste partielle.
+        </p>
+        <AmazonButton phone={p} size="sm" label="Voir le prix sur Amazon" />
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <h2>Autonomie et charge : le vrai point fort</h2>
+      <p>
+        Le Honor Magic V5 embarque une batterie silicium-carbone de 5 820 mAh, et c’est son principal argument. <a href={SRC.clubic} target="_blank" rel="noopener">Clubic</a> affirme qu’il tient facilement deux jours complets, un constat partagé par le Journal du Geek.
+      </p>
+      <p>
+        Les mesures précisent ce ressenti. <a href={SRC.gsmLab} target="_blank" rel="noopener">GSMArena</a> obtient un Active Use Score de 15 h 49 en utilisant l’écran externe, mais regrette une endurance nettement plus faible sur le grand écran. Phonandroid dépasse 17 heures sous PCMark sur l’écran externe et compte 5 à 7 heures de jeu selon la qualité graphique choisie.
+        <a href={SRC.notebookcheck} target="_blank" rel="noopener">Notebookcheck</a> mesure 16 h 12 en navigation Wi-Fi, un résultat solide pour un pliant.
+      </p>
+      <p>
+        La recharge suit. En 66 W filaire, GSMArena mesure 36 % en 15 minutes, 67 % en 30 minutes et un plein en 53 minutes ; Phonandroid relève 44 % en 20 minutes et 95 % en 50 minutes, Clubic 50 % en une vingtaine de minutes.
+        La charge sans fil 50 W remplit la batterie en 65 minutes selon Clubic, qui déplore toutefois l’absence de chargeur rapide dans la boîte à ce prix.
+      </p>
+    </div>
+
+    <div style="max-width:860px;margin-top:1rem">
+      <Measures items={measures} caption="Mesures publiées sur le Honor Magic V5" />
+      <p class="small muted" style="margin-top:.5rem">Chaque média suit son propre protocole : les chiffres de sources différentes ne se comparent pas directement.</p>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <h2>Design : 8,8 mm plié, IP58 et IP59</h2>
+      <p>
+        Le Honor Magic V5 mesure 8,8 mm plié et 4,1 mm déplié, pour une surface de 156,8 × 145,9 mm une fois ouvert selon GSMArena, qui indique un poids de 217 g ou 222 g selon les versions. Le site le classe parmi les pliants au format livre les plus fins et les plus légers de 2025, et le <a href={SRC.jdg} target="_blank" rel="noopener">Journal du Geek</a> résume la prouesse : une épaisseur « équivalente à un simple smartphone » une fois refermé.
+      </p>
+      <p>
+        La charnière convainc Clubic : mouvement fluide, sans craquement, avec une résistance ferme qui permet de laisser l’écran ouvert à différents angles. Seul le bloc photo, épais et proéminent, gâche un peu l’ensemble selon le Journal du Geek.
+      </p>
+      <p>
+        Le test de <a href={SRC.gsmDesign} target="_blank" rel="noopener">GSMArena</a> détaille les matériaux de cette charnière : métal liquide à base de zirconium, alliage de titane et fibre de carbone, pour environ 500 000 cycles de fermeture, un chiffre que confirme la <a href={SRC.honor} target="_blank" rel="noopener">page d’Honor</a>. Le dos associe fibre d’aramide, fibre de verre et fibre PBO, et le cadre est en aluminium. Le Journal du Geek relaie une autre donnée revendiquée par Honor : une charnière certifiée pour supporter une charge de 104 kg.
+      </p>
+      <p>
+        Trois coloris ont été commercialisés en France : noir, blanc ivoire et Dawn Gold, un doré en dégradé, d’après Phonandroid, Clubic et le Journal du Geek. GSMArena liste aussi un brun-rouge, absent des annonces françaises.
+      </p>
+      <p>
+        Côté étanchéité, le Magic V5 est certifié IP58 et IP59 : il résiste à l’immersion et aux jets d’eau à haute pression, mais le chiffre 5 signifie une protection seulement partielle contre la poussière. GSMArena jugeait cet indice parmi les meilleurs des pliants en 2025 ; le Magic V6 l’a depuis dépassé avec l’IP68 / IP69.
+      </p>
+      <PhoneGallery id={p.id} />
+
+      <h2>Écrans : fidèles, lumineux et presque sans pli</h2>
+      <p>
+        Le Honor Magic V5 associe un écran externe de 6,43 pouces à un écran intérieur de 7,95 pouces, deux dalles OLED LTPO de 1 à 120 Hz annoncées à 5 000 cd/m² en pointe et compatibles stylet. <a href={SRC.phonandroid} target="_blank" rel="noopener">Phonandroid</a> mesure un Delta E moyen de 1,8 sur les deux écrans en mode couleur normal, signe d’un étalonnage très fidèle.
+      </p>
+      <p>
+        Les relevés de luminosité varient selon les protocoles. GSMArena obtient 799 cd/m² en manuel et 1 296 cd/m² en automatique sur l’écran externe, mais plafonne à 600 cd/m² sur l’écran intérieur, un résultat que le site attribue à un possible défaut logiciel de son exemplaire. Phonandroid relève 483 cd/m² en manuel sur l’écran externe et 640 cd/m² sur l’écran intérieur.
+        Notebookcheck, qui mesure une luminosité moyenne maximale de 1 357 cd/m² à l’intérieur et 1 691 cd/m² à l’extérieur, regrette que les pics les plus élevés soient réservés aux contenus HDR et que l’écran baisse vite sa luminosité quand il fait chaud.
+      </p>
+      <p>
+        Le pli divise davantage. Clubic le juge quasi imperceptible au toucher, visible seulement de biais, et Phonandroid va dans le même sens ; GSMArena le trouve au contraire plus marqué que chez certains concurrents.
+      </p>
+
+      <h2>Performances : un Snapdragon 8 Elite qui chauffe vite</h2>
+      <p>
+        Le Snapdragon 8 Elite et ses 16 Go de mémoire vive placent le Honor Magic V5 au niveau des meilleurs smartphones de 2025. <a href={SRC.gsmPerf} target="_blank" rel="noopener">GSMArena</a> relève 2 988 points en monocœur et 8 700 en multicœur sur Geekbench 6, 2 202 004 points sur AnTuTu 10 écran fermé et 5 798 points sur 3DMark Wild Life Extreme. Clubic obtient 2 999 et 9 068 points sur Geekbench.
+      </p>
+      <p>
+        La finesse a un coût thermique. GSMArena constate une perte importante de performances au bout d’une quinzaine de minutes et n’a pas pu terminer le test de stress 3DMark à cause de la chauffe ; chez Clubic, AnTuTu a été interrompu par le mécanisme de sécurité de l’appareil.
+        Phonandroid mesure 70 °C au niveau du processeur et 53 °C en surface, pour une stabilité comprise entre 65 et 80 % ; Notebookcheck relève 48,1 °C au maximum en surface. Au quotidien, rien de gênant ; en jeu prolongé, le Magic V5 finit par ralentir. Notre note performances : 8,8/10.
+      </p>
+
+      <h2>Photo : très bon de jour, moins à l’aise la nuit</h2>
+      <p>
+        Le module du Honor Magic V5 associe un capteur principal de 50 Mpx, un ultra grand-angle de 50 Mpx et un téléobjectif périscopique de 64 Mpx au zoom optique x3. GSMArena le juge polyvalent, avec de très bonnes photos et vidéos, et Phonandroid salue d’excellents résultats sur le capteur principal.
+      </p>
+      <p>
+        Les limites apparaissent quand la lumière baisse ou quand on force le zoom. Clubic réserve ses éloges aux conditions de lumière bonnes ou moyennes et estime que la photo de nuit doit progresser.
+        Phonandroid regrette un zoom numérique moyen, une mise au point parfois hésitante, des selfies décevants et un mode macro limité. Le Magic V6 a gardé les mêmes définitions de capteurs. Nous notons le V5 8,6/10 en photo.
+      </p>
+      <p>
+        Dans le détail, Clubic, qui a utilisé la version dorée, décrit un piqué homogène, une colorimétrie fidèle et une plage dynamique étendue de jour. La nuit, le grand capteur ouvert à f/1,6 et les traitements par IA livrent des images honorables, avec un bruit maîtrisé mais des détails fins gommés quand le zoom grimpe.
+        Le zoom optique x3 est jugé excellent et le numérique correct jusqu’à x20 ; au-delà, un super zoom par IA reconstruit les détails.
+      </p>
+      <p>
+        Les portraits profitent d’une collaboration avec le Studio Harcourt, dont les rendus plaisent autant à Clubic qu’à Phonandroid, qui y trouve des textures naturelles. Les deux caméras selfie de 20 Mpx, une par écran, donnent des résultats très corrects pour Clubic, un avis plus positif que celui de Phonandroid, qui regrette l’absence d’autofocus.
+        En vidéo, Clubic filme en 4K à 60 images par seconde avec des couleurs vives, une mise au point rapide et une stabilisation satisfaisante. Le Journal du Geek relève de son côté un traitement parfois poussé de jour et un lissage marqué au téléobjectif la nuit.
+      </p>
+
+      <h2>Son, réseaux, empreinte : la fiche d’un haut de gamme 2025</h2>
+      <p>
+        Le Honor Magic V5 compte deux haut-parleurs stéréo, placés de part et d’autre de l’écran déplié. GSMArena leur attribue une très bonne puissance et salue des médiums et des aigus clairs, avec des basses étonnantes pour un appareil aussi fin.
+        Notebookcheck mesure un volume maximal de 81,9 dB et un rendu centré sur les médiums. Phonandroid entend un son assez puissant, dominé par les voix, et apprécie l’égaliseur à dix bandes ; le Journal du Geek mentionne la certification IMAX Enhanced avec DTS:X et trois microphones. Il n’y a pas de prise jack.
+      </p>
+      <p>
+        D’après la fiche de <a href={SRC.gsmSpecs} target="_blank" rel="noopener">GSMArena</a> et le test de Clubic, le téléphone gère la 5G, le Wi-Fi 7, le Bluetooth 6.0 avec aptX HD, le NFC, un émetteur infrarouge et un port USB-C 3.1 compatible DisplayPort, qui permet d’afficher l’écran sur un moniteur. Il accepte une nano-SIM et l’eSIM, avec deux profils eSIM selon Clubic.
+      </p>
+      <p>
+        Le lecteur d’empreintes est logé dans le bouton d’alimentation, sur la tranche. GSMArena le trouve rapide et très précis, et il reste accessible téléphone plié comme déplié.
+      </p>
+
+      <h2>Solidité et réparabilité : ce que dit l’étiquette européenne</h2>
+      <p>
+        Au-delà de l’IP58 / IP59, qui couvre selon GSMArena les jets d’eau à haute pression et une immersion à 1 m pendant 30 minutes, le Honor Magic V5 protège son écran externe avec le verre NanoCrystal Shield d’Honor, conçu contre les rayures, et son écran intérieur avec une finition renforcée baptisée Super Armored.
+        Honor ajoute une détection des particules étrangères censée éviter que du sable ne raye l’écran au moment de le refermer.
+      </p>
+      <p>
+        L’étiquette énergie européenne, obligatoire depuis juin 2025, fournit des données normalisées. Voici celles du Honor Magic V5, relevées par GSMArena :
+      </p>
+    </div>
+
+    <div style="max-width:860px;margin-top:1rem">
+      <KeyFacts
+        items={[
+          { label: 'Efficacité énergétique', value: 'Classe B' },
+          { label: 'Autonomie par cycle', value: '49 h 48' },
+          { label: 'Endurance batterie', value: '1 200 cycles' },
+          { label: 'Chutes répétées', value: 'Classe C (70)' },
+          { label: 'Réparabilité', value: 'Classe B' },
+        ]}
+      />
+    </div>
+
+    <div class="prose" style="margin-top:1.5rem">
+      <p>
+        Le bilan est contrasté. Les 1 200 cycles déclarés dépassent les 1 000 cycles affichés par les Pixel 10 et 11 Pro Fold, et la réparabilité classée B vaut mieux que la classe C du Pixel 10 Pro Fold. La résistance aux chutes répétées, en revanche, se limite à la classe C avec 70 chutes, quand les deux Pixel Fold obtiennent la classe A avec 210 chutes sur la même étiquette.
+        Une coque n’est donc pas un luxe, et Honor a le bon goût d’en fournir une.
+      </p>
+
+      <h2>Boîte et stylet : la coque oui, le chargeur non</h2>
+      <p>
+        Le Journal du Geek et Phonandroid décrivent le même contenu : le Honor Magic V5, un câble USB-C, la documentation et une coque de protection dotée d’un petit pied, que Clubic juge réussie. Aucun chargeur n’est fourni, alors que la charge 66 W exige un bloc Honor compatible, ce que Clubic regrette à ce niveau de prix.
+      </p>
+      <p>
+        Les deux écrans sont compatibles avec le stylet Honor Magic-Pen, vendu séparément. À sa sortie, Clubic soulignait qu’aucun autre pliant vendu en Europe ne proposait cette option.
+        Pendant l’offre de lancement, jusqu’au 14 septembre 2025, Honor offrait un pack comprenant un stylet, des écouteurs et un chargeur rapide, d’après le Journal du Geek et <a href={SRC.phonandroidLaunch} target="_blank" rel="noopener">Phonandroid</a> ; les acheteurs d’aujourd’hui doivent prévoir ces accessoires à part.
+      </p>
+
+      <h2>MagicOS 9 et suivi : sept ans de mises à jour</h2>
+      <p>
+        Livré sous Android 15 et MagicOS 9 avec les services Google, le Honor Magic V5 bénéficie de l’engagement d’Honor sur sept ans : sept versions majeures d’Android et sept ans de correctifs de sécurité selon Clubic, une promesse limitée à l’Europe et au Royaume-Uni d’après GSMArena. Le suivi doit donc courir jusqu’en 2032.
+        Phonandroid évoquait pour sa part six années de mises à jour : en cas de doute, la page d’assistance d’Honor fait foi.
+      </p>
+      <p>
+        GSMArena voit dans le logiciel un point fort : fluide, riche en outils de multitâche et en fonctions d’IA utiles. Les avis français sont plus tièdes. Clubic estime que MagicOS doit encore mûrir, le Journal du Geek la trouve assez sage, et Phonandroid juge l’intégration de l’IA décevante.
+      </p>
+      <p>
+        Les outils propres au format restent riches. Clubic décrit un affichage de trois applications à la fois sur l’écran intérieur, en plus de Gemini, Magic Portal, qui suggère des actions quand on fait glisser un élément d’une application à l’autre, et Magic Desktop, un mode bureau à fenêtres redimensionnables.
+        Honor AI ajoute la traduction en temps réel dans onze langues, la détection de deepfakes et la transcription de réunions, avec quelques blocages jugés excessifs sur des contenus sensibles en français. Phonandroid cite aussi des affichages dédiés au mode semi-ouvert, comme une horloge ou un cadre photo.
+      </p>
+
+      <h2>Versions, coloris et prix de lancement en France</h2>
+      <p>
+        Le Honor Magic V5 n’a existé en France qu’en une seule configuration, déclinée en trois coloris. Selon Phonandroid, les précommandes ont ouvert le 28 août 2025 et l’arrivée en magasins était prévue le 14 septembre 2025.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Versions et coloris du Honor Magic V5 en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Configuration</th>
+              <th scope="col">Coloris vendus en France</th>
+              <th scope="col">Prix de lancement</th>
+              <th scope="col">Lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">16 Go / 512 Go</th>
+              <td>Noir, blanc ivoire, Dawn Gold</td>
+              <td class="num"><strong>{euro(p.launchPrice)}</strong></td>
+              <td>28 août 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        GSMArena liste aussi des versions 12 Go / 256 Go et 16 Go / 1 To, vendues sur d’autres marchés. Pour garder la garantie française et le suivi logiciel européen, privilégiez la version 512 Go distribuée officiellement, vendue par Amazon ou par un marchand identifié.
+      </p>
+
+      <Callout variant="tip" title="Le bon réflexe avant d’acheter un Magic V5 en 2026">
+        <p>
+          Un an après sa sortie, le Honor Magic V5 se trouve souvent nettement moins cher que son prix de lancement. Vérifiez que l’appareil est neuf, que le film de l’écran intérieur est intact et que la coque d’origine figure bien dans le carton. Comparez enfin avec le prix du Magic V6 le jour de l’achat : si l’écart se réduit à quelques dizaines d’euros, le modèle 2026 et son IP69 valent le supplément.
+        </p>
+      </Callout>
+
+      <h2>Magic V5 ou Magic V6 : ce que 300 € changeaient au lancement</h2>
+      <p>
+        Le <a href={v6.path}>Honor Magic V6</a> est sorti le 2 juillet 2026 au prix public de {euro(v6.launchPrice)}, soit 300 € de plus. Il ajoute 840 mAh (6 660 mAh), la charge 80 W filaire et 66 W sans fil, le Snapdragon 8 Elite Gen 5, un écran externe de 6,52 pouces et surtout l’IP68 / IP69.
+        L’épaisseur pliée ne bouge presque pas (8,75 mm contre 8,8 mm) et le trio photo reste identique sur le papier.
+      </p>
+      <p>
+        Les tests du Magic V6 montrent aussi que le modèle 2026 n’a pas réglé la question de la chauffe : Clubic et GSMArena y constatent un bridage marqué. Si la protection totale contre la poussière et la recharge la plus rapide ne sont pas vos priorités, le Magic V5 reste un choix raisonnable, d’autant qu’il se trouve souvent nettement moins cher depuis l’arrivée de son successeur.
+      </p>
+      <ol class="timeline">
+        <li><time datetime="2025-08-28">28 août 2025</time> Lancement en France à 1 999,90 € (16 Go / 512 Go), notes de 9/10 chez Clubic et au Journal du Geek.</li>
+        <li><time datetime="2025-09-14">14 septembre 2025</time> Fin de l’offre de lancement avec pack d’accessoires offert.</li>
+        <li><time datetime="2026-07-02">2 juillet 2026</time> Arrivée du Magic V6 à 2 299,90 € ; le V5 passe au rang de génération précédente.</li>
+        <li><time datetime="2032">2032</time> Fin prévue du suivi logiciel, sept ans après le lancement.</li>
+      </ol>
+      <p><AmazonButton phone={p} variant="ghost" label="Comparer les offres" /></p>
+
+      <h2>Trois alternatives hors Honor</h2>
+      <p>
+        Le <ObfLink href={pixel10.path} class="obf-text">Google Pixel 10 Pro Fold</ObfLink>, lancé à {euro(pixel10.launchPrice)} en 16 Go / 256 Go, prend le contre-pied du Magic V5. Il est certifié IP68, dispose d’un zoom optique x5 et obtient la classe A en chutes répétées sur l’étiquette européenne. En échange, il pèse 258 g, mesure 10,8 mm plié, embarque {mah(pixel10.battery)} et recharge en 30 W, avec des temps de charge bien plus longs selon les tests.
+      </p>
+      <p>
+        Le <ObfLink href={fold7.path} class="obf-text">Samsung Galaxy Z Fold7</ObfLink>, lancé à {euro(fold7.launchPrice)} en 12 Go / 256 Go, joue la même carte de la finesse (8,9 mm plié, 215 g) avec un capteur de 200 Mpx et un téléobjectif x3. Sa batterie de {mah(fold7.battery)}, sa charge 25 W et son indice IP48 le placent derrière le Magic V5 sur l’endurance et la protection, mais Samsung promet lui aussi sept ans de mises à jour Android.
+      </p>
+      <p>
+        Le Motorola Razr Fold, lancé à {euro(razr.launchPrice)} en 16 Go / 512 Go en avril 2026, est plus récent et livré avec son stylet. Il combine 6 000 mAh, une charge 80 W et trois capteurs de 50 Mpx dont un téléobjectif x3. Il pèse toutefois 243 g, mesure 10,1 mm plié et reste IP48 / IP49.
+      </p>
+      <p><AmazonButton phone={p} size="sm" label="Vérifier la disponibilité du Magic V5" /></p>
+
+      <TestSources sources={sources} heading="Ce qu’en disaient les tests à sa sortie" />
+
+      <ProsCons pros={pros} cons={cons} prosTitle="Pour" consTitle="Contre" />
+      <p style="margin-top:1rem"><AmazonButton phone={p} variant="text" label="Voir les coloris du Magic V5 sur Amazon" /></p>
+
+      <h2>Fiche technique du Magic V5</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Magic V5 : questions rapides" />
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="Voir aussi chez Honor" />
+    </div>
+  </article>
+</BaseLayout>

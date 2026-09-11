@@ -1,0 +1,48 @@
+---
+// Photo d'ambiance (pages générales) avec légende et crédit.
+import { Image } from 'astro:assets';
+import { ambiance } from '../data/images';
+
+interface Props {
+  name: string;
+  caption?: string;
+  eager?: boolean;
+}
+
+const { name, caption, eager = false } = Astro.props;
+const img = ambiance(name);
+---
+
+{
+  img && (
+    <figure class="phone-img phone-img-figure">
+      <Image
+        src={img.src}
+        alt={img.alt}
+        widths={[480, 760, 1140]}
+        sizes="(max-width: 800px) 100vw, 740px"
+        format="webp"
+        quality={78}
+        loading={eager ? 'eager' : 'lazy'}
+      />
+      <figcaption>
+        {caption ?? img.alt}
+        <span class="credit">
+          {' '}
+          · Photo :{' '}
+          <a href={img.sourceUrl} target="_blank" rel="noopener">
+            {img.credit}
+          </a>
+          {' – '}
+          {img.licenseUrl ? (
+            <a href={img.licenseUrl} target="_blank" rel="noopener">
+              {img.license}
+            </a>
+          ) : (
+            img.license
+          )}
+        </span>
+      </figcaption>
+    </figure>
+  )
+}

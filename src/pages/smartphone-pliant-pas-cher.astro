@@ -1,0 +1,278 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import Score from '../components/Score.astro';
+import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, inches, mah, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-pas-cher/';
+const under = ranked(phones.filter((p) => p.launchPrice < 1000));
+const razr = byId('razr-70');
+const fe = byId('galaxy-z-flip7-fe');
+const former = [byId('razr-60-ultra'), byId('galaxy-z-flip7'), byId('xiaomi-mix-flip')];
+const cheapestLivre = [...phones.filter((p) => p.format === 'livre')].sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const minBattery = Math.min(...phones.map((p) => p.battery ?? Infinity));
+const words = ['aucun', 'un', 'deux', 'trois', 'quatre', 'cinq'];
+const samePrice = razr.launchPrice === fe.launchPrice;
+
+const baseStorage = (p: Phone) => parseInt(p.launchConfig.split('/')[1], 10);
+const watts = (s: string) => parseInt(s, 10);
+const winner = (a: number, b: number, higher = true, tolerance = 0) => {
+  if (Math.abs(a - b) <= tolerance) return 'Égalité';
+  return (higher ? a > b : a < b) ? razr.name : fe.name;
+};
+
+const rows: { label: string; a: string; b: string; adv: string }[] = [
+  { label: 'Prix de lancement', a: euro(razr.launchPrice), b: euro(fe.launchPrice), adv: winner(razr.launchPrice, fe.launchPrice, false) },
+  { label: 'Configuration de base', a: razr.launchConfig, b: fe.launchConfig, adv: winner(baseStorage(razr), baseStorage(fe)) },
+  { label: 'Écran intérieur', a: inches(razr.innerScreen), b: inches(fe.innerScreen), adv: winner(razr.innerScreen, fe.innerScreen) },
+  { label: 'Écran externe', a: inches(razr.outerScreen), b: inches(fe.outerScreen), adv: winner(razr.outerScreen, fe.outerScreen) },
+  { label: 'Rafraîchissement', a: razr.refresh, b: fe.refresh, adv: razr.name },
+  { label: 'Processeur', a: razr.chip, b: fe.chip, adv: winner(razr.scores.performances, fe.scores.performances) },
+  { label: 'Batterie', a: mah(razr.battery), b: mah(fe.battery), adv: winner(razr.battery ?? 0, fe.battery ?? 0) },
+  { label: 'Charge filaire', a: razr.wired, b: fe.wired, adv: winner(watts(razr.wired), watts(fe.wired)) },
+  { label: 'Charge sans fil', a: razr.wireless, b: fe.wireless, adv: winner(watts(razr.wireless), watts(fe.wireless)) },
+  { label: 'Photo', a: razr.cameras, b: fe.cameras, adv: winner(razr.scores.photo, fe.scores.photo) },
+  { label: 'Poids', a: `${razr.weight} g`, b: `${fe.weight} g`, adv: winner(razr.weight, fe.weight, false, 4) },
+  { label: 'Épaisseur plié', a: mm(razr.foldedMm), b: mm(fe.foldedMm), adv: '—' },
+  { label: 'Étanchéité', a: razr.ip, b: fe.ip, adv: razr.ip === fe.ip ? 'Égalité' : '—' },
+  { label: 'Statut', a: 'Au catalogue', b: 'Fin de série', adv: razr.name },
+  { label: 'Note globale', a: `${num(overall(razr))}/10`, b: `${num(overall(fe))}/10`, adv: winner(overall(razr), overall(fe)) },
+];
+
+const title = 'Smartphone pliant pas cher : les modèles à moins de 1 000 €';
+const description =
+  'Quels smartphones pliants neufs coûtent moins de 1 000 € ? Motorola Razr 70 contre Galaxy Z Flip7 FE, anciens haut de gamme en baisse et pièges à éviter.';
+
+const faq = [
+  {
+    q: 'Quel est le smartphone pliant le moins cher en France ?',
+    a: `Parmi les modèles neufs vendus en France, le Motorola Razr 70 et le Samsung Galaxy Z Flip7 FE sont les pliants les moins chers au lancement, à ${euro(razr.launchPrice)} chacun. Le Flip7 FE, arrêté en juillet 2026, se trouve en fin de série souvent sous ce prix. Les deux sont des clapets : aucun format livre n’a été lancé à ce tarif.`,
+  },
+  {
+    q: 'Le Galaxy Z Flip7 FE est-il encore vendu ?',
+    a: 'Samsung a arrêté le Galaxy Z Flip7 FE en juillet 2026, un an après sa sortie du 25 juillet 2025. Il reste proposé en fin de série chez certains marchands, tant que les stocks durent. Il n’a pas de successeur : aucun Galaxy Z Flip8 FE n’a été annoncé.',
+  },
+  {
+    q: 'Motorola Razr 70 ou Galaxy Z Flip7 FE : lequel choisir ?',
+    a: `Le Motorola Razr 70 offre plus d’autonomie (${mah(razr.battery)} contre ${mah(fe.battery)}), deux fois plus de stockage de base (${baseStorage(razr)} contre ${baseStorage(fe)} Go) et un écran externe plus grand. Le Galaxy Z Flip7 FE a une puce plus performante et le suivi logiciel de Samsung. Pour la plupart des usages, le Razr 70 est le plus équilibré.`,
+  },
+  {
+    q: 'Existe-t-il un smartphone pliant format livre à moins de 1 000 € ?',
+    a: `Pas en neuf. Le format livre le moins cher de notre comparatif, le ${cheapestLivre.fullName}, a été lancé à ${euro(cheapestLivre.launchPrice)}. Les modèles de 2025 baissent avec le temps, mais avec 1 000 € de budget, il faut se tourner vers un clapet, ou vers l’occasion et le reconditionné, avec les précautions qui s’imposent.`,
+  },
+  {
+    q: 'Un smartphone pliant à moins de 1 000 € est-il plus fragile ?',
+    a: 'Pas sur le papier. Le Motorola Razr 70 et le Galaxy Z Flip7 FE sont certifiés IP48, comme le Galaxy Z Flip8 ou le Razr 70 Ultra vendus plus cher. Ils résistent à l’immersion, mais pas à la poussière fine. Comme sur tout pliant, l’écran intérieur reste la pièce la plus sensible : ne retirez jamais son film de protection.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant pas cher', 'Motorola Razr 70', 'Galaxy Z Flip7 FE'] }),
+  itemList('Smartphones pliants lancés à moins de 1 000 € en France', under.map((p) => ({ name: p.fullName }))),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <header class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Budget · moins de 1 000 €</span>
+      <h1>Un pliant neuf pour moins de 1 000 € : ce qui existe vraiment</h1>
+      <p class="lede">
+        Un smartphone pliant neuf sous la barre des 1 000 € ? L’offre existe, mais elle tient en deux noms. Voici ce qu’ils valent, comment viser plus haut sans exploser le budget, et les pièges des annonces trop belles.
+        Pour une vue d’ensemble, commencez par notre <a href="/">classement général des smartphones pliants</a>.
+      </p>
+      <Byline minutes={8} />
+    </div>
+  </header>
+
+  <div class="wrap prose">
+    <Callout variant="accent" title="La réponse franche">
+      <p>
+        Parmi les pliants neufs vendus en France que nous suivons, {words[under.length] ?? under.length} seulement ont été lancés sous la barre des 1 000 € : le {razr.fullName} et le {fe.fullName},
+        {samePrice ? `tous deux à ${euro(razr.launchPrice)}` : `à ${euro(razr.launchPrice)} et ${euro(fe.launchPrice)}`}. Ce sont deux clapets ; aucun format livre n’approche ce prix.
+      </p>
+      <p>
+        Notre préférence va au {under[0].fullName} ({num(overall(under[0]))}/10). Le Razr 70 est plus endurant et mieux doté en stockage ; le Flip7 FE, arrêté en juillet 2026, reste intéressant tant qu’il est proposé en fin de série.
+      </p>
+    </Callout>
+
+    <h2 id="duel">Razr 70 contre Galaxy Z Flip7 FE : le duel des pliants à {euro(razr.launchPrice)}</h2>
+    <p>
+      Même format, même indice IP48{samePrice ? ', même prix de lancement' : ''} : sur le papier, le Motorola Razr 70 et le Samsung Galaxy Z Flip7 FE se ressemblent. Le détail raconte une autre histoire.
+    </p>
+
+    <div class="card vs-grid duel">
+      <div>
+        <Score value={overall(razr)} size="lg" />
+        <h3>{razr.fullName}</h3>
+        <p class="small muted">{razr.launchConfig} · {euro(razr.launchPrice)} au lancement</p>
+        <AmazonButton phone={razr} size="sm" label="Voir le prix du Razr 70" />
+      </div>
+      <span class="vs" aria-hidden="true">VS</span>
+      <div>
+        <Score value={overall(fe)} size="lg" />
+        <h3>{fe.fullName}</h3>
+        <p class="small muted">{fe.launchConfig} · {euro(fe.launchPrice)} au lancement</p>
+        <AmazonButton phone={fe} size="sm" variant="ghost" label="Vérifier le stock du Flip7 FE" />
+      </div>
+    </div>
+
+    <div class="table-scroll" style="margin-top:1.2rem">
+      <table>
+        <caption class="sr-only">Comparaison du Motorola Razr 70 et du Samsung Galaxy Z Flip7 FE</caption>
+        <thead>
+          <tr><th scope="col">Critère</th><th scope="col">{razr.name}</th><th scope="col">{fe.name}</th><th scope="col">Avantage</th></tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((r) => (
+              <tr>
+                <td><strong>{r.label}</strong></td>
+                <td>{r.a}</td>
+                <td>{r.b}</td>
+                <td class="small">{r.adv}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Le Razr 70 gagne sur l’autonomie et le stockage</h3>
+    <p>
+      À prix égal, le Motorola Razr 70 offre {baseStorage(razr)} Go de stockage contre {baseStorage(fe)} Go, et une batterie de {mah(razr.battery)} contre {mah(fe.battery)}, soit {mah((razr.battery ?? 0) - (fe.battery ?? 0))} de plus.
+      Son écran externe de {num(razr.outerScreen, 2)} pouces à 90 Hz est plus grand et plus fluide que celui du Flip7 FE ({num(fe.outerScreen)} pouces à 60 Hz), et sa charge filaire monte à {razr.wired}.
+    </p>
+    <p>
+      Son point faible est la puce : le Dimensity 7450X suffit au quotidien, mais se montre limité en jeu. Le suivi logiciel est aussi plus court que chez Samsung, avec 3 versions d’Android et 4 ans de correctifs de sécurité pour la gamme Razr 70.
+    </p>
+
+    <h3>Le Flip7 FE répond par la puce et le suivi Samsung</h3>
+    <p>
+      Le Samsung Galaxy Z Flip7 FE embarque un {fe.chip}, mieux noté que la puce du Razr 70 sur notre critère performances ({num(fe.scores.performances)} contre {num(razr.scores.performances)}).
+      Il bénéficie aussi du suivi logiciel de Samsung, l’un des plus longs du marché Android.
+    </p>
+    <p>
+      Ses faiblesses sont connues : {fe.battery === minBattery ? 'la plus petite batterie de notre comparatif' : 'une petite batterie'} ({mah(fe.battery)}), un écran externe limité à 60 Hz et seulement {baseStorage(fe)} Go dans la version de base.
+      Samsung l’a arrêté en juillet 2026 : il se trouve désormais en fin de série, souvent bien sous son prix de lancement, avec des stocks limités.
+    </p>
+
+    <h3>Notre verdict</h3>
+    <p>
+      Si vous jouez beaucoup ou gardez longtemps votre téléphone, le Flip7 FE, à condition de le trouver nettement sous son prix de lancement.
+      Pour tous les autres, le Razr 70 est le choix le plus équilibré : plus d’autonomie, plus de stockage, un meilleur écran externe, et un modèle toujours au catalogue.
+    </p>
+  </div>
+
+  <section class="section band" style="margin-top:2.5rem">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Viser plus haut : les haut de gamme d’hier dont le prix a baissé</h2>
+        <p>
+          Lancés au-dessus de 1 000 €, trois clapets de la génération précédente se trouvent souvent nettement moins cher aujourd’hui. Nous ne chiffrons pas leur prix : il change d’une semaine à l’autre, vérifiez-le au moment de l’achat.
+          Ils figurent dans notre sélection des <a href="/smartphone-pliant-moins-de-1500-euros/">smartphones pliants entre 1 000 et 1 500 €</a>, classés sur leur prix de lancement.
+        </p>
+      </div>
+      <div class="grid" style="--min:260px;margin-top:1.2rem">
+        <div class="card stack">
+          <div class="flex"><Score value={overall(former[0])} /><h3 class="mb-0">{former[0].fullName}</h3></div>
+          <p class="small">
+            <strong>Pour :</strong> le même {former[0].chip} que le Razr 70 Ultra, une charge {former[0].wired} et {former[0].wireless} sans fil, des écrans 165 Hz et {former[0].launchConfig}.
+          </p>
+          <p class="small muted">
+            <strong>À surveiller :</strong> batterie de {mah(former[0].battery)}, pas de téléobjectif, remplacé par le Razr 70 Ultra.
+          </p>
+          <AmazonButton phone={former[0]} size="sm" variant="ghost" label="Voir les offres Razr 60 Ultra" />
+        </div>
+        <div class="card stack">
+          <div class="flex"><Score value={overall(former[1])} /><h3 class="mb-0">{former[1].fullName}</h3></div>
+          <p class="small">
+            <strong>Pour :</strong> l’écran externe de {num(former[1].outerScreen)} pouces bord à bord, presque identique à celui du Flip8, l’{former[1].chip} et le suivi logiciel Samsung sur 7 ans.
+          </p>
+          <p class="small muted">
+            <strong>À surveiller :</strong> {mah(former[1].battery)} et une charge {former[1].wired}, un duo un peu juste.
+          </p>
+          <AmazonButton phone={former[1]} size="sm" variant="ghost" label="Consulter l’offre Flip7" />
+        </div>
+        <div class="card stack">
+          <div class="flex"><Score value={overall(former[2])} /><h3 class="mb-0">{former[2].fullName}</h3></div>
+          <p class="small">
+            <strong>Pour :</strong> {former[2].chip}, {former[2].launchConfig}, un vrai téléobjectif x2 et une charge {former[2].wired}.
+          </p>
+          <p class="small muted">
+            <strong>À surveiller :</strong> aucune certification IP, pas de charge sans fil, modèle 2024 aux mises à jour limitées et sans successeur (Mix Flip 3 annulé).
+          </p>
+          <AmazonButton phone={former[2]} size="sm" variant="ghost" label="Vérifier la disponibilité" />
+        </div>
+      </div>
+      <div class="prose" style="margin-top:1.4rem">
+        <p>
+          Le Razr 60 Ultra est à nos yeux le meilleur pari des trois : un haut de gamme complet, simplement remplacé par un successeur plus endurant.
+          Le Mix Flip séduira ceux qui veulent un zoom, s’ils acceptent l’absence de protection contre l’eau et la poussière.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap prose section">
+    <Callout variant="warn" title="Pliants à 300 € sur les marketplaces : les pièges">
+      <p>
+        Des annonces de « smartphone pliant » à 300 ou 400 € apparaissent régulièrement sur les places de marché. Avant de craquer, vérifiez qu’il ne s’agit pas de l’un de ces cas :
+      </p>
+      <ul>
+        <li><strong>Un modèle importé</strong>, parfois conçu pour un autre marché : garantie constructeur incertaine en France, chargeur ou bandes réseau pas forcément adaptés.</li>
+        <li><strong>Un appareil d’occasion ou reconditionné</strong> présenté comme neuf, dont l’écran intérieur ou la charnière ont pu être remplacés par des pièces non d’origine.</li>
+        <li><strong>Une imitation</strong> qui reprend le nom d’un Galaxy Z Flip ou d’un Razr, sans rapport avec l’original.</li>
+        <li><strong>Un vendeur tiers sans service client en France</strong>, difficile à joindre en cas de panne de charnière.</li>
+      </ul>
+      <p>Regardez toujours le nom exact du vendeur, le pays d’expédition et la mention de la garantie avant de payer.</p>
+    </Callout>
+
+    <h2>Acheter un pliant à petit budget sans mauvaise surprise</h2>
+    <h3>Privilégiez la version française</h3>
+    <p>
+      Un appareil destiné au marché français bénéficie de la garantie constructeur locale et d’un réseau de réparation agréé. Sur Amazon, la fiche indique qui vend et qui expédie :
+      une offre vendue et expédiée par Amazon, ou par la boutique officielle de la marque, limite les risques.
+    </p>
+    <h3>La garantie légale, votre filet de sécurité</h3>
+    <p>
+      Un appareil neuf acheté auprès d’un vendeur professionnel établi en France bénéficie de la garantie légale de conformité de deux ans. Sur un pliant, dont la charnière et l’écran intérieur sont les pièces les plus sensibles, c’est un minimum à exiger.
+    </p>
+    <h3>Pensez à l’écran intérieur</h3>
+    <p>
+      Ne retirez jamais le film pré-installé sur l’écran intérieur : il fait partie de la dalle. Hors garantie, le remplacement de cet écran coûte souvent plusieurs centaines d’euros ; comparez ce montant au prix d’une assurance casse avant de valider votre panier.
+    </p>
+    <h3>Une fin de série n’est pas un mauvais plan</h3>
+    <p>
+      Le Galaxy Z Flip7 FE, arrêté en juillet 2026, reste un appareil neuf couvert par la garantie. Seul le stock est limité. Vérifiez simplement que l’annonce concerne bien la version européenne, avec la configuration attendue.
+    </p>
+
+    <Faq items={faq} heading="Pliant pas cher : les réponses à vos questions" />
+
+    <Siblings path={path} variant="list" heading="Les autres budgets de smartphones pliants" intro="Nos sélections classées par prix public au lancement en France." />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .duel {
+    margin-top: 1.2rem;
+  }
+  .duel h3 {
+    margin: 0.6rem 0 0.2rem;
+    font-size: 1.05rem;
+  }
+  .duel .score {
+    margin-inline: auto;
+  }
+  @media (max-width: 560px) {
+    .duel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

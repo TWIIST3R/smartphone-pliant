@@ -1,0 +1,258 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import FoldIcon from '../components/FoldIcon.astro';import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, inches, mah, mm, frDate } from '../lib/format';
+
+const path = '/smartphone-pliant-clapet/';
+const clapets = ranked(phones.filter((p) => p.format === 'clapet'));
+const livres = phones.filter((p) => p.format === 'livre');
+const count = clapets.length;
+
+const best = clapets[0];
+const prices = clapets.map((p) => p.launchPrice);
+const minPrice = Math.min(...prices);
+const maxPrice = Math.max(...prices);
+const cheapest = clapets.filter((p) => p.launchPrice === minPrice);
+const lightest = [...clapets].sort((a, b) => a.weight - b.weight)[0];
+const byOuter = [...clapets].sort((a, b) => b.outerScreen - a.outerScreen);
+const biggestOuter = byOuter[0];
+const smallestOuter = byOuter[byOuter.length - 1];
+const innerMin = Math.min(...clapets.map((p) => p.innerScreen));
+const innerMax = Math.max(...clapets.map((p) => p.innerScreen));
+const scoresList = clapets.map((p) => overall(p));
+
+const batteries = (list: Phone[]) => list.map((p) => p.battery).filter((b): b is number => b !== null);
+const clapetBat = batteries(clapets);
+const livreBat = batteries(livres);
+const thinnestLivre = [...livres].filter((p) => p.foldedMm).sort((a, b) => (a.foldedMm ?? 0) - (b.foldedMm ?? 0))[0];
+
+const flip8 = byId('galaxy-z-flip8');
+const flip7 = byId('galaxy-z-flip7');
+const fe = byId('galaxy-z-flip7-fe');
+const razrUltra = byId('razr-70-ultra');
+const razrPlus = byId('razr-70-plus');
+const razr60 = byId('razr-60-ultra');
+const mix = byId('xiaomi-mix-flip');
+
+const brandCount = (b: Phone['brand']) => clapets.filter((p) => p.brand === b).length;
+const trueZoom = clapets.filter((p) => /^x[\d,]+ optique/.test(p.zoom));
+const cheapestText = cheapest.map((p) => `le ${p.fullName}`).join(' et ');
+
+const title = `Smartphone pliant à clapet : les ${count} modèles classés en 2026`;
+const description = `Galaxy Z Flip8, Razr 70 Ultra, Flip7 FE, Mix Flip : notre classement des ${count} smartphones pliants à clapet vendus en France, écrans externes et prix.`;
+
+const faq = [
+  {
+    q: 'Quel est le meilleur smartphone pliant à clapet en 2026 ?',
+    a: `Le ${best.fullName} arrive en tête de notre classement avec ${num(overall(best))}/10. Il combine un ${best.chip}, une batterie de ${mah(best.battery)} chargée en ${best.wired} et des écrans à 165 Hz. Le ${flip8.fullName} reste le choix le plus léger (${flip8.weight} g) et bénéficie du suivi logiciel de Samsung.`,
+  },
+  {
+    q: 'Quel smartphone à clapet a le plus grand écran externe ?',
+    a: `Le ${biggestOuter.fullName} et le Galaxy Z Flip7 affichent le plus grand écran externe du marché français, avec ${num(biggestOuter.outerScreen)} pouces bord à bord. Le Xiaomi Mix Flip suit de près (4,01 pouces), devant les Razr Ultra et le Razr 70 Plus (4 pouces), tandis que le ${smallestOuter.fullName} se contente de ${num(smallestOuter.outerScreen)} pouces à 60 Hz.`,
+  },
+  {
+    q: 'Un smartphone pliant à clapet tient-il une journée entière ?',
+    a: `Tout dépend du modèle et de l’usage. Les clapets de notre sélection embarquent de ${mah(Math.min(...clapetBat))} à ${mah(Math.max(...clapetBat))}, moins que la plupart des pliants au format livre. Le ${razrUltra.fullName} (${mah(razrUltra.battery)}, charge ${razrUltra.wired}) est le mieux armé ; le ${fe.fullName} (${mah(fe.battery)}) est le plus juste.`,
+  },
+  {
+    q: 'Galaxy Z Flip8 ou Motorola Razr 70 Ultra : lequel choisir ?',
+    a: `Le Motorola Razr 70 Ultra (${euro(razrUltra.launchPrice)} au lancement) l’emporte sur la batterie, la charge ${razrUltra.wired}, les écrans 165 Hz et la puissance. Le Samsung Galaxy Z Flip8 (${euro(flip8.launchPrice)}) est plus léger de ${razrUltra.weight - flip8.weight} g et profite de 7 ans de mises à jour Android promises par Samsung, contre 3 versions d’Android et 4 ans de correctifs pour la gamme Razr 70.`,
+  },
+  {
+    q: 'Les smartphones pliants à clapet sont-ils étanches ?',
+    a: `Partiellement. Les Galaxy Z Flip et les Motorola Razr sont certifiés IP48 : ils résistent à l’immersion dans l’eau, mais ne sont protégés que contre les particules de plus de 1 mm. Le sable fin reste donc un risque pour la charnière. Le ${mix.fullName} n’a, lui, aucune certification.`,
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant à clapet', 'Galaxy Z Flip', 'Motorola Razr'] }),
+  itemList(
+    'Classement des smartphones pliants à clapet',
+    clapets.map((p) => ({ name: p.fullName, url: `${path}#${p.id}` })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <section class="hero">
+    <div class="wrap hero-split">
+      <div>
+        <span class="eyebrow">Guide d’achat · format clapet</span>
+        <h1>Les meilleurs smartphones pliants à clapet en 2026</h1>
+        <p class="lede">
+          Un écran de {num(innerMin)} à {num(innerMax)} pouces qui se replie en deux pour tenir dans une poche de jean : le clapet est le format le plus abordable de notre
+          <a href="/">comparatif des smartphones pliants 2026</a>. Voici les {count} modèles vendus en France, classés, de {euro(minPrice)} à {euro(maxPrice)} au lancement.
+        </p>
+        <Byline minutes={9} />
+      </div>
+      <div class="hero-art clapet-art">
+        <FoldIcon format="clapet" color="#5c2d91" label="Silhouette d’un smartphone pliant à clapet, ouvert" />
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <Callout variant="answer" title="Le verdict en trois lignes">
+      <p class="mb-0">
+        <strong>Meilleur clapet :</strong> le {best.fullName} ({num(overall(best))}/10), avec {best.chip}, {mah(best.battery)} et une charge {best.wired}.
+      </p>
+      <p class="mb-0">
+        <strong>Le moins cher au lancement :</strong> {cheapestText}, {cheapest.length > 1 ? 'tous deux à' : 'à'} {euro(minPrice)}.
+      </p>
+      <p>
+        <strong>Le plus léger :</strong> le {lightest.fullName}, {lightest.weight} g, soit {best.weight - lightest.weight} g de moins que le {best.name}.
+      </p>
+    </Callout>
+  </div>
+
+  <section class="section" id="classement">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Classement des {count} smartphones à clapet vendus en France</h2>
+        <p>
+          Motorola aligne {brandCount('motorola')} modèles dans ce classement, Samsung {brandCount('samsung')} et Xiaomi un seul, sans successeur prévu en France.
+          La note globale pondère six critères, détaillés dans notre <a href="/methodologie/">méthodologie</a> : un modèle de 2025 peut passer devant une nouveauté si son prix a baissé.
+        </p>
+      </div>
+      <div class="stack" style="margin-top:1.5rem">
+        {clapets.map((p, i) => <PhoneCard phone={p} rank={i + 1} ctaLabel="Consulter l’offre" />)}
+      </div>
+      <div class="prose" style="margin-top:2rem">
+        <h3 class="mt-0">Ce que le classement ne montre pas</h3>
+        <p>
+          Les écarts sont serrés : les {count} modèles tiennent entre {num(Math.min(...scoresList))} et {num(Math.max(...scoresList))}/10.
+          Le {flip8.fullName} et le {razrPlus.fullName} obtiennent des notes voisines ({num(overall(flip8))} et {num(overall(razrPlus))}) pour des raisons opposées :
+          le Samsung gagne sur la portabilité avec ses {flip8.weight} g, le Motorola sur l’écran externe à 165 Hz et les {razrPlus.storage} de stockage dès la version de base.
+        </p>
+        <p>
+          Le {mix.fullName} est le seul clapet du lot doté d’un vrai téléobjectif (x2 optique). Il n’a en revanche ni certification IP ni charge sans fil, et il est sorti en {frDate(mix.release)} sous Android 14.
+          Quant au {fe.fullName}, arrêté par Samsung en juillet 2026, il ne reste disponible qu’en fin de série : une affaire tant qu’il y a du stock, si l’on accepte sa batterie de {mah(fe.battery)}, la plus petite du classement.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" id="ecran-externe">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">L’écran externe change tout sur un clapet</h2>
+        <p>
+          Sur un smartphone à clapet, l’écran externe détermine combien de fois par jour vous ouvrirez l’appareil. Lire une notification, répondre en deux mots, suivre un itinéraire,
+          cadrer un selfie avec le capteur principal : tout ce qui se fait sans déplier fait gagner du temps.
+        </p>
+        <p>
+          Les écarts de taille sont réels. Le {biggestOuter.fullName} affiche {num(biggestOuter.outerScreen)} pouces à l’extérieur, contre {num(smallestOuter.outerScreen)} pouces pour le {smallestOuter.fullName} :
+          {num(biggestOuter.outerScreen - smallestOuter.outerScreen)} pouce de diagonale en moins, avec une dalle limitée à 60 Hz sur le modèle de Samsung le plus abordable.
+        </p>      </div>
+      <div class="table-scroll" style="margin-top:1.2rem">
+        <table>
+          <caption class="sr-only">Taille des écrans externes des smartphones pliants à clapet</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Écran externe</th>
+              <th scope="col">Écran intérieur</th>
+              <th scope="col">Rafraîchissement annoncé</th>
+              <th scope="col">Prix de lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              byOuter.map((p) => (
+                <tr>
+                  <td><strong>{p.fullName}</strong></td>
+                  <td class="num"><strong>{inches(p.outerScreen)}</strong></td>
+                  <td class="num">{inches(p.innerScreen)}</td>
+                  <td>{p.refresh}</td>
+                  <td class="num">{euro(p.launchPrice)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="prose" style="margin-top:1.4rem">
+        <p>
+          Deux familles se dessinent. À 4 pouces et plus, les Galaxy Z Flip7 et Flip8, les Razr Ultra, le Razr 70 Plus et le Mix Flip offrent un écran externe qui occupe l’essentiel de la face avant :
+          on y lit un message entier et on y tape une réponse courte. En dessous, le {byId('razr-70').name} ({num(byId('razr-70').outerScreen)} pouces à 90 Hz) et le Flip7 FE restent des écrans d’appoint,
+          suffisants pour l’heure, les notifications et le viseur photo.
+        </p>
+        <p>
+          La fluidité compte aussi. Les {razrUltra.name} et {razrPlus.name} montent à 165 Hz sur leurs deux écrans, et Motorola annonce jusqu’à 3 000 cd/m² sur l’écran externe du Razr 70 Ultra, un vrai plus en plein soleil.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="limites">
+    <div class="wrap prose">
+      <h2 class="mt-0">Les limites du clapet : ce que l’on sacrifie pour la poche</h2>
+      <p>Le clapet gagne en encombrement ce qu’il perd ailleurs. Trois compromis reviennent sur tous les modèles, à des degrés divers.</p>
+
+      <h3>Une batterie plus petite qu’un format livre</h3>
+      <p>
+        Les clapets de notre classement embarquent de {mah(Math.min(...clapetBat))} à {mah(Math.max(...clapetBat))}, quand les pliants au format livre vont de {mah(Math.min(...livreBat))} à {mah(Math.max(...livreBat))}.
+        Moins de volume, deux moitiés de châssis à remplir : l’équation est serrée. Le {razrUltra.fullName} fait figure d’exception avec {mah(razrUltra.battery)} et une charge {razrUltra.wired} ;
+        le {flip8.fullName} reste à {mah(flip8.battery)} et {flip8.wired}, exactement comme le Flip7.
+      </p>
+
+      <h3>Compact, mais épais une fois fermé</h3>
+      <p>
+        Plié, un clapet occupe deux fois moins de surface qu’un smartphone classique, mais son épaisseur double presque. Le {mix.fullName} atteint {mm(mix.foldedMm)} fermé, le {razrUltra.fullName} {mm(razrUltra.foldedMm)},
+        le {fe.fullName} {mm(fe.foldedMm)} et le {flip7.fullName} {mm(flip7.foldedMm)}. À titre de comparaison, le {thinnestLivre.fullName}, un format livre, ne mesure que {mm(thinnestLivre.foldedMm)} plié.
+      </p>
+
+      <h3>Pas de vrai zoom, à une exception près</h3>
+      <p>
+        Aucun Galaxy Z Flip ni aucun Razr n’embarque de téléobjectif : le second capteur est un ultra grand-angle, et le zoom x2 annoncé sur le Flip8 ou le Razr 70 Ultra est obtenu par recadrage du capteur principal.
+        Seul le {trueZoom.map((p) => p.fullName).join(', ')} propose un téléobjectif 50 Mpx x2 optique. En contrepartie, le format permet de se photographier avec le capteur principal en se servant de l’écran externe comme viseur.
+      </p>
+      <p>
+        Si le zoom compte pour vous, un <a href="/smartphone-pliant-format-livre/">pliant au format livre</a> reste plus adapté : plusieurs modèles y proposent un zoom optique x3 à x5.
+      </p>
+    </div>
+  </section>
+
+  <section class="section band" id="histoire">
+    <div class="wrap prose">
+      <h2 class="mt-0">Du Razr V3 au Galaxy Z Flip8 : vingt ans de clapets</h2>
+      <p>
+        Le clapet n’est pas né avec les écrans souples. Motorola en avait fait un objet culte avec le Razr V3 en 2004, avant que le smartphone tactile ne renvoie le format au placard.
+        Le retour s’est fait quinze ans plus tard, avec l’arrivée des dalles OLED pliables.
+      </p>
+      <ol class="timeline">
+        <li><time>2004</time>Motorola lance le Razr V3, téléphone à clapet très fin pour l’époque, sans écran pliable.</li>
+        <li><time>13 novembre 2019</time>Motorola présente le Razr pliant, doté d’un écran souple de 6,2 pouces.</li>
+        <li><time>11 février 2020</time>Samsung dévoile le Galaxy Z Flip, son premier pliant à clapet, avec un écran de 6,7 pouces.</li>
+        <li><time>Septembre 2024</time>Lancement international du Xiaomi Mix Flip. Son successeur, le Mix Flip 3, sera finalement annulé.</li>
+        <li><time>25 juillet 2025</time>Sortie des Galaxy Z Flip7 et Flip7 FE ; le Flip7 adopte un écran externe de 4,1 pouces bord à bord.</li>
+        <li><time>Mai 2026</time>Les Razr 70, 70 Plus et 70 Ultra arrivent en France, de 999 € à 1 499 €.</li>
+        <li><time>7 août 2026</time>Sortie du Galaxy Z Flip8 : {flip8.weight} g et {mm(flip8.unfoldedMm)} déplié.</li>
+      </ol>
+      <p>
+        Six ans après le premier Galaxy Z Flip, le format a surtout progressé sur l’écran externe, passé d’un petit bandeau de notifications à une dalle de plus de 4 pouces.
+        Les prix, eux, ne baissent pas : le Flip8 démarre à {euro(flip8.launchPrice)}, soit {euro(flip8.launchPrice - flip7.launchPrice)} de plus que le Flip7 à sa sortie.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <Faq items={faq} heading="Pliants à clapet : vos questions" />
+      <Siblings path={path} variant="list" heading="Les autres formats de smartphones pliants" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .clapet-art svg {
+    width: 42%;
+    max-width: 160px;
+  }
+</style>

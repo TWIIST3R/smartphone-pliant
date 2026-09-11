@@ -1,0 +1,40 @@
+---
+// Bloc produit d'en-tête de test : grande photo + note + chiffres clés + bouton Amazon.
+// À placer juste sous le H1 pour que la photo et l'offre soient visibles sans défiler.
+import { type Phone, overall, FORMAT_LABELS } from '../data/phones';
+import { euro, frDate, inches, mah } from '../lib/format';
+import PhoneImage from './PhoneImage.astro';
+import Score from './Score.astro';
+import AmazonButton from './AmazonButton.astro';
+
+interface Props {
+  phone: Phone;
+  ctaLabel?: string;
+}
+
+const { phone: p, ctaLabel = 'Voir le prix sur Amazon' } = Astro.props;
+---
+
+<div class="product-summary card">
+  <div class="ps-image">
+    <PhoneImage id={p.id} variant="hero" eager />
+  </div>
+  <div class="ps-info">
+    <div class="flex">
+      <Score value={overall(p)} size="lg" />
+      <div>
+        <strong>{p.provisional ? 'Note provisoire' : 'Notre note'}</strong>
+        <div class="small muted">sur 10 · <a href="/methodologie/">méthode</a></div>
+      </div>
+    </div>
+    <dl class="ps-facts">
+      <div><dt>Prix de lancement</dt><dd>{euro(p.launchPrice)}</dd></div>
+      <div><dt>Sortie en France</dt><dd>{frDate(p.release)}</dd></div>
+      <div><dt>Format</dt><dd>{FORMAT_LABELS[p.format]}</dd></div>
+      <div><dt>Écrans</dt><dd>{inches(p.innerScreen)} / {inches(p.outerScreen)}</dd></div>
+      <div><dt>Batterie</dt><dd>{mah(p.battery, 'double batterie')}</dd></div>
+      <div><dt>Poids</dt><dd>{p.weight} g</dd></div>
+    </dl>
+    <AmazonButton phone={p} label={ctaLabel} />
+  </div>
+</div>

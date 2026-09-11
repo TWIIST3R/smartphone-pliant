@@ -1,0 +1,269 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import CompareTable from '../components/CompareTable.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, ranked, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { num, mah } from '../lib/format';
+
+const path = '/smartphone-pliant-autonomie/';
+const title = 'Smartphone pliant avec la meilleure autonomie en 2026';
+const description = `Batterie, charge rapide et sans fil : le palmarès chiffré des ${phones.length} smartphones pliants 2026, du Honor Magic V6 (6 660 mAh) au Galaxy Z Flip7 FE.`;
+
+const joinFr = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+const wiredW = (p: Phone) => Number(p.wired.match(/^(\d+)\s*W/)?.[1] ?? 0);
+const wirelessW = (p: Phone) => Number(p.wireless.match(/(\d+)\s*W/)?.[1] ?? 0);
+
+// Palmarès par capacité : les modèles sans capacité communiquée sont traités à part.
+const withBattery = ranked(phones.filter((p) => p.battery !== null)).sort((a, b) => (b.battery ?? 0) - (a.battery ?? 0));
+const biggest = withBattery[0];
+const second = withBattery[1];
+const smallest = withBattery[withBattery.length - 1];
+const bestClapet = withBattery.find((p) => p.format === 'clapet')!;
+
+const maxWired = Math.max(...phones.map(wiredW));
+const fastestWired = ranked(phones.filter((p) => wiredW(p) === maxWired));
+const minWired = Math.min(...phones.map(wiredW).filter((w) => w > 0));
+const slowestWired = ranked(phones.filter((p) => wiredW(p) === minWired));
+const maxWireless = Math.max(...phones.map(wirelessW));
+const fastestWireless = ranked(phones.filter((p) => wirelessW(p) === maxWireless));
+const wireless50 = ranked(phones.filter((p) => wirelessW(p) === 50 && !fastestWireless.includes(p)));
+const noWireless = phones.filter((p) => wirelessW(p) === 0);
+
+const avgBattery = (list: Phone[]) => Math.round(list.reduce((s, p) => s + (p.battery ?? 0), 0) / list.length / 10) * 10;
+const avgLivre = avgBattery(withBattery.filter((p) => p.format === 'livre'));
+const avgClapet = avgBattery(withBattery.filter((p) => p.format === 'clapet'));
+
+const endurance = ranked(phones).sort((a, b) => b.scores.autonomie - a.scores.autonomie);
+const top3 = endurance.slice(0, 3);
+const top3NoGoogle = top3.filter((p) => !p.googleServices);
+const firstClapetEndurance = endurance.find((p) => p.format === 'clapet')!;
+
+const duo = byId('iphone-duo');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const fold8 = byId('galaxy-z-fold8');
+const pixel11 = byId('pixel-11-pro-fold');
+const pixel10 = byId('pixel-10-pro-fold');
+const v6 = byId('honor-magic-v6');
+const razrFold = byId('razr-fold');
+
+const facts = [
+  { label: 'Plus grosse batterie', value: `${mah(biggest.battery)} · ${biggest.name}` },
+  { label: 'Plus petite batterie', value: `${mah(smallest.battery)} · ${smallest.name}` },
+  { label: 'Charge filaire la plus rapide', value: `${maxWired} W · ${fastestWired.map((p) => p.name).join(' et ')}` },
+  { label: 'Charge sans fil la plus rapide', value: `${maxWireless} W · ${fastestWireless.map((p) => p.name).join(' et ')}` },
+  { label: 'Moyenne des formats livre', value: `≈ ${mah(avgLivre)}` },
+  { label: 'Moyenne des clapets', value: `≈ ${mah(avgClapet)}` },
+];
+
+const chargeRows = [
+  { phone: fold8u, power: fold8u.wired, result: '67 % en 30 min', source: 'Samsung' },
+  { phone: fold8, power: fold8.wired, result: '63 % en 30 min', source: 'Samsung' },
+  { phone: pixel11, power: pixel11.wired, result: '50 % en 30 min', source: 'Google' },
+  { phone: duo, power: 'Adaptateur 60 W', result: '50 % en 20 min environ', source: 'Apple' },
+];
+
+const cta = ['Voir le prix sur Amazon', 'Consulter l’offre', 'Voir les coloris'];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Autonomie', 'Batterie', 'Charge rapide'] }),
+  itemList(
+    'Smartphones pliants classés par capacité de batterie',
+    withBattery.map((p) => ({ name: p.fullName })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <header class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Palmarès · batterie et recharge</span>
+      <h1>Autonomie des smartphones pliants : le palmarès chiffré</h1>
+      <p class="lede">
+        Deux écrans, une charnière au milieu et souvent deux batteries de part et d’autre du pli : l’autonomie a longtemps été le point faible des pliants. En 2026, les écarts sont énormes, de {mah(smallest.battery)} à {mah(biggest.battery)}.
+        Voici le palmarès établi à partir des fiches de notre <a href="/">comparatif de smartphones pliants</a> et des seuls chiffres publiés par les constructeurs.
+      </p>
+      <Byline minutes={8} />
+    </div>
+  </header>
+
+  <div class="wrap">
+    <KeyFacts items={facts} />
+  </div>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">{withBattery.length} pliants classés par capacité de batterie</h2>
+        <p>
+          Le tableau range les modèles du plus gros au plus petit accumulateur. La capacité ne fait pas l’autonomie à elle seule, mais c’est le repère le plus fiable avant les tests.
+          La colonne « Charge » indique la puissance filaire, puis sans fil, annoncée par chaque constructeur.
+        </p>
+      </div>
+      <CompareTable
+        id="palmares-batterie"
+        phones={withBattery}
+        caption="Smartphones pliants classés par capacité de batterie"
+        columns={['battery', 'charge', 'weight', 'score']}
+        cta={false}
+      />
+      <div class="prose" style="margin-top:1.4rem">
+        <p>
+          En tête, le {biggest.fullName} compte {mah((biggest.battery ?? 0) - (second.battery ?? 0))} de plus que le {second.fullName}, deuxième,
+          et {mah((biggest.battery ?? 0) - (fold8u.battery ?? 0))} de plus que le Galaxy Z Fold8 Ultra, pour seulement {biggest.weight - fold8u.weight} g d’écart sur la balance.
+          Chez les clapets, le {bestClapet.fullName} mène avec {mah(bestClapet.battery)}, soit {mah((bestClapet.battery ?? 0) - (smallest.battery ?? 0))} de plus que le {smallest.fullName}, dernier du classement.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:1.5rem;max-width:var(--prose)" id="iphone-duo-autonomie">
+        <h3 class="mt-0">L’iPhone Duo, classé à part faute de capacité communiquée</h3>
+        <p class="small">
+          Apple ne donne pas la capacité des deux batteries de l’iPhone Duo, comme pour ses autres iPhone : impossible de le placer dans le tableau. La marque publie en revanche des durées, mesurées dans ses propres conditions de test.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Autonomie et recharge annoncées par Apple pour l’iPhone Duo</caption>
+            <thead>
+              <tr><th scope="col">Usage (données Apple)</th><th scope="col">Annonce</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Usage mixte entre les deux écrans</td><td class="num">jusqu’à 24 h</td></tr>
+              <tr><td>Lecture vidéo sur l’écran intérieur</td><td class="num">jusqu’à 31 h</td></tr>
+              <tr><td>Lecture vidéo sur l’écran extérieur</td><td class="num">jusqu’à 44 h</td></tr>
+              <tr><td>Charge filaire (adaptateur 60 W)</td><td class="num">50 % en 20 min environ</td></tr>
+              <tr><td>Charge sans fil</td><td class="num">MagSafe / Qi2 25 W</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:.8rem">
+          Ces heures ne se comparent pas directement aux capacités en mAh des pliants Android, faute de protocole commun.
+        </p>
+        <AmazonButton phone={duo} size="sm" variant="ghost" label="Suivre la sortie sur Amazon" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap prose">
+      <h2 class="mt-0">mAh ou taille d’écran : pourquoi comparer ne suffit pas</h2>
+      <p>
+        Une grosse batterie ne garantit pas une longue autonomie, parce que la consommation varie énormément d’un pliant à l’autre. Les chiffres d’Apple pour l’iPhone Duo le montrent mieux que n’importe quel calcul :
+        avec la même batterie, le téléphone annonce 31 heures de lecture vidéo sur l’écran intérieur de 7,6 pouces et 44 heures sur l’écran extérieur de 5,4 pouces. Treize heures d’écart, uniquement liées à l’écran allumé.
+      </p>
+      <p>
+        Trois autres facteurs pèsent. La puce d’abord : gravées en 2 nm, l’A20 Pro de l’iPhone Duo et l’Exynos 2600 du Galaxy Z Flip8 visent un meilleur rendement que les générations précédentes. La fréquence d’affichage ensuite : un écran à 165 Hz, comme sur les Razr, consomme davantage quand il tourne à plein régime.
+        Le logiciel enfin, qui décide quand mettre en veille les applications en arrière-plan.
+      </p>
+      <p>
+        D’où l’intérêt de regarder au-delà des mAh. Le Motorola Razr 70 embarque 4 800 mAh, à peine moins que le Razr 70 Ultra (5 000 mAh), mais avec une puce milieu de gamme Dimensity 7450X et des écrans moins rapides.
+        À l’inverse, le Google Pixel 11 Pro Fold a une batterie plus petite que le Pixel 10 Pro Fold ({mah(pixel11.battery)} contre {mah(pixel10.battery)}), et notre note d’autonomie le place légèrement en dessous ({num(pixel11.scores.autonomie)} contre {num(pixel10.scores.autonomie)}/10), en attendant davantage de tests publiés.
+      </p>
+
+      <h2>Silicium-carbone : la technologie des grosses batteries fines</h2>
+      <p>
+        Si le Honor Magic V6 loge {mah(v6.battery)} dans un boîtier de {num(v6.foldedMm ?? 0, 2)} mm plié, c’est grâce à une batterie silicium-carbone. Honor revendique une teneur en silicium de 25 % et une densité énergétique de 921 Wh/L.
+        Motorola a fait le même choix pour les {mah(razrFold.battery)} du Razr Fold et les 5 000 mAh du Razr 70 Ultra.
+      </p>
+      <p>
+        Le principe tient en une phrase : dans une batterie lithium-ion classique, l’anode est en graphite ; en y incorporant du silicium, capable de stocker davantage de lithium, on augmente l’énergie contenue dans un même volume.
+        À volume égal, la capacité grimpe. À capacité égale, la batterie s’amincit. Sur un pliant, où chaque dixième de millimètre compte, l’intérêt saute aux yeux.
+      </p>
+      <p>
+        Deux réserves s’imposent toutefois. Le silicium gonfle pendant la charge, ce qui oblige les constructeurs à limiter sa proportion et à conserver une anode mixte. Et le recul manque encore sur le vieillissement de ces batteries au bout de plusieurs années d’utilisation dans un pliant.
+        Une capacité record ne dit rien, non plus, de la consommation de l’appareil.
+      </p>
+
+      <h2>Charge 25 W ou 80 W : ce que signifient vraiment ces chiffres</h2>
+      <p>
+        La puissance en watts indique le maximum que le téléphone accepte, pas une vitesse moyenne. Un smartphone ne charge à pleine puissance que sur une partie du cycle : la puissance baisse ensuite pour limiter la chauffe et protéger la batterie, surtout à l’approche des 100 %.
+        Deux modèles annoncés à 45 et 68 W peuvent donc afficher un écart plus faible qu’attendu sur une recharge complète. Il faut aussi un chargeur capable de fournir cette puissance avec le bon protocole, sinon le téléphone se recharge au rythme de l’adaptateur utilisé.
+      </p>
+      <p>Faute de protocole commun, nous ne retenons que les durées publiées par les constructeurs eux-mêmes :</p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Vitesses de recharge annoncées par les constructeurs</caption>
+          <thead>
+            <tr><th scope="col">Modèle</th><th scope="col">Puissance</th><th scope="col">Recharge annoncée</th><th scope="col">Source</th></tr>
+          </thead>
+          <tbody>
+            {
+              chargeRows.map((r) => (
+                <tr>
+                  <th scope="row">{r.phone.fullName}</th>
+                  <td class="num">{r.power}</td>
+                  <td class="num"><strong>{r.result}</strong></td>
+                  <td>{r.source}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1.2rem">
+        {joinFr(fastestWired.map((p) => `le ${p.fullName}`)).replace(/^le/, 'Le')} montent à {maxWired} W, et les Razr Ultra à clapet à 68 W, sans durée de recharge constructeur comparable à reprendre ici.
+        À l’autre bout, {joinFr(slowestWired.map((p) => `le ${p.name}`))} restent à {minWired} W, soit {num(maxWired / minWired, 1)} fois moins de puissance de pointe.
+      </p>
+      <p>
+        En sans-fil, l’écart est encore plus marqué : {maxWireless} W pour le {joinFr(fastestWireless.map((p) => p.fullName))}, 50 W pour {joinFr(wireless50.map((p) => `le ${p.name}`))}, mais 15 W sur les Galaxy Z Flip8 et Razr 70.
+        Le Pixel 11 Pro Fold et l’iPhone Duo misent sur la charge magnétique Qi2 à 25 W : moins rapide, mais les aimants garantissent un bon alignement sur le chargeur.
+        {noWireless.length > 0 && ` Le ${joinFr(noWireless.map((p) => p.fullName))} n’a pas de charge sans fil du tout.`}
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Les trois pliants les plus endurants selon nos notes</h2>
+        <p>
+          Ce podium suit la note d’autonomie de nos fiches, sur 10, qui compte pour 20 % de la note globale. Elle ne se limite pas à la capacité : la vitesse de recharge et la consommation attendue des écrans et de la puce entrent aussi en ligne de compte.
+        </p>
+      </div>
+      <div class="stack" style="margin-top:1.5rem">
+        {top3.map((p, i) => <PhoneCard phone={p} rank={i + 1} badge={`Autonomie ${num(p.scores.autonomie)}/10`} ctaLabel={cta[i]} />)}
+      </div>
+      <div class="prose" style="margin-top:1.4rem">
+        {
+          top3NoGoogle.length > 0 && (
+            <p>Attention, le {joinFr(top3NoGoogle.map((p) => p.fullName))} n’a pas accès aux services Google : une contrainte bien plus lourde au quotidien qu’une heure d’autonomie gagnée.</p>
+          )
+        }
+        <p>
+          Le premier clapet de ce classement d’autonomie est le {firstClapetEndurance.fullName} ({num(firstClapetEndurance.scores.autonomie)}/10), avec {mah(firstClapetEndurance.battery)} et une charge de {firstClapetEndurance.wired}.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap prose">
+      <h2 class="mt-0">Quel smartphone pliant tient le plus longtemps sans recharge ?</h2>
+      <p>
+        Nous ne publions pas d’heures d’autonomie que nous n’avons pas mesurées, et les durées annoncées par les constructeurs ne suivent pas un protocole commun.
+        Sur la fiche technique, le {biggest.fullName} part avec la plus grosse réserve ({mah(biggest.battery)}). En tenant compte de la recharge et de la consommation attendue, notre note d’autonomie place en tête le {endurance[0].fullName} ({num(endurance[0].scores.autonomie)}/10), devant le {endurance[1].fullName} ({num(endurance[1].scores.autonomie)}/10).
+        Côté Apple, l’iPhone Duo annonce jusqu’à 24 heures en usage mixte.
+      </p>
+
+      <h2>Un clapet a-t-il moins d’autonomie qu’un pliant format livre ?</h2>
+      <p>
+        En capacité, oui : les clapets de notre comparatif embarquent en moyenne environ {mah(avgClapet)}, contre environ {mah(avgLivre)} pour les formats livre. Mais leur écran intérieur de 6,7 à 7 pouces consomme moins, à luminosité égale, qu’une dalle de 8 pouces, ce qui réduit l’écart à l’usage.
+        Le {bestClapet.fullName} ({mah(bestClapet.battery)}, charge {bestClapet.wired}) est le clapet le mieux armé ; le {smallest.fullName} ({mah(smallest.battery)}) le plus juste.
+      </p>
+
+      <h2>La charge rapide use-t-elle la batterie d’un pliant ?</h2>
+      <p>
+        La chaleur est le principal ennemi d’une batterie lithium-ion, et une charge très rapide en produit davantage. Les constructeurs pilotent donc la puissance selon la température et le niveau de charge.
+        Pour préserver la batterie sur plusieurs années, Samsung, Google et Apple proposent une option qui plafonne la charge autour de 80 %. Évitez aussi de recharger en jouant ou sous une coque épaisse, deux situations où la chaleur s’accumule.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <Siblings path={path} variant="chips" heading="Choisir selon un autre critère" />
+  </div>
+</BaseLayout>

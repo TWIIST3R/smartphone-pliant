@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('razr-fold');
+const ultra = byId('razr-70-ultra');
+const plus = byId('razr-70-plus');
+const base = byId('razr-70');
+const old = byId('razr-60-ultra');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const magic = byId('honor-magic-v6');
+const pixel = byId('pixel-11-pro-fold');
+const path = p.path;
+const title = 'Test du Motorola Razr Fold : autonomie, photo et stylet';
+const description =
+  'Test du Motorola Razr Fold : 16 h 03 d’autonomie chez GSMArena, charge complète en une heure, zoom x3 et stylet fourni. Synthèse des tests à 2 199 €.';
+
+const GSMA = 'https://www.gsmarena.com/motorola_razr_fold-review-2974.php';
+const GSMA_DESIGN = 'https://www.gsmarena.com/motorola_razr_fold-review-2974p2.php';
+const GSMA_LAB = 'https://www.gsmarena.com/motorola_razr_fold-review-2974p3.php';
+const GSMA_PERF = 'https://www.gsmarena.com/motorola_razr_fold-review-2974p4.php';
+const GSMA_SPECS = 'https://www.gsmarena.com/motorola_razr_fold_5g-14402.php';
+const PHONANDROID = 'https://www.phonandroid.com/test-motorola-razr-fold.html';
+const JDG = 'https://www.journaldugeek.com/test/test-motorola-razr-fold-un-marathonien-photogenique/';
+const FNAC = 'https://leclaireur.fnac.com/test/677830-test-labo-du-motorola-razr-fold-un-premier-pliant-du-genre-tres-reussi/';
+const DXO = 'https://www.dxomark.com/smartphones/Motorola/Razr-Fold';
+const TG = 'https://www.tomsguide.com/phones/motorola-phones/motorola-razr-fold-battery-life-test-results-are-in-and-it-sets-a-new-record-for-notebook-style-foldables';
+const MOTO_SPECS = 'https://en-emea.support.motorola.com/app/answers/detail/a_id/192857/~/specifications---motorola-razr-fold';
+const MOTO_CARE = 'https://www.motorola.com/fr/fr/motocare';
+
+const enduranceMeasures = [
+  { label: 'Score d’usage actif, écran intérieur', value: '16 h 03', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Score d’usage actif, écran externe seul', value: '20 h 17', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'PCMark, écran intérieur seul', value: '11 h 11', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'PCMark, écran externe seul', value: '16 h 08', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Autonomie, protocole du Labo Fnac', value: '18 h 24', source: 'Le Claireur Fnac', url: FNAC },
+  { label: 'Navigation web continue en 5G (écran à 150 cd/m²)', value: '14 h 44', source: 'Tom’s Guide', url: TG },
+  { label: 'Charge 80 W, déplié : 15 min / 30 min', value: '36 % / 66 %', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge : 15 min / 30 min', value: '42 % / 75 %', source: 'Tom’s Guide', url: TG },
+  { label: 'Charge complète 80 W (déplié / plié)', value: '60 min / 66 min', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge 80 W : 0 à 30 % / 0 à 100 %', value: '10 min / 60 min', source: 'Journal du Geek', url: JDG },
+  { label: 'Charge complète, chargeur Motorola 68 W', value: '62 min', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Endurance par cycle, étiquette énergie UE', value: '59 h 17', source: 'GSMArena (fiche)', url: GSMA_SPECS },
+];
+
+const labMeasures = [
+  { label: 'Luminosité max. manuelle (intérieur / externe)', value: '503 / 482 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité en mode auto (intérieur / externe)', value: '1 478 / 1 510 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité de pointe, petite zone de l’image (deux écrans)', value: 'environ 2 860 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Geekbench 6, mono / multicœur (déplié)', value: '2 745 / 8 804', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'AnTuTu v11 (déplié)', value: '3 024 369', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Stress test, stabilité CPU / GPU (déplié)', value: '57 % / 72 %', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Stress test, stabilité CPU / GPU (plié)', value: '52 % / 53 %', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Température relevée en usage intensif', value: 'environ 53 °C', source: 'Phonandroid', url: PHONANDROID },
+  { label: 'Score photo (Camera)', value: '164', source: 'DXOMARK', url: DXO },
+  { label: 'Sous-scores zoom / basse lumière / portrait', value: '169 / 161 / 149', source: 'DXOMARK', url: DXO },
+  { label: 'Sous-score vidéo', value: '154', source: 'DXOMARK', url: DXO },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSMA,
+    date: '2026-06-29',
+    note: '4,7/5',
+    verdict:
+      'L’un des meilleurs pliants du moment sans domination nette : autonomie de référence, beaux écrans et photo polyvalente, mais haut-parleurs moyens et puce un cran sous les Snapdragon Elite.',
+  },
+  {
+    media: 'Le Claireur Fnac (Labo)',
+    url: FNAC,
+    date: '2026-06-27',
+    note: '5/5',
+    verdict:
+      'Premier essai au format livre jugé très réussi : plus de 18 heures d’autonomie, performances et photo de haut niveau ; écran un cran derrière les Galaxy Z Fold et selfies peu définis.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: JDG,
+    date: '2026-07-16',
+    note: '8,5/10',
+    verdict:
+      'Un grand pliant endurant et très bon en photo, qui tient une vraie journée complète ; le poids, le prix et l’absence de puce Elite modèrent l’enthousiasme.',
+  },
+  {
+    media: 'Phonandroid',
+    url: PHONANDROID,
+    date: '2026-07-17',
+    verdict:
+      'Bon rival du Galaxy Z Fold7 avec ses grands écrans bien calibrés et son stylet fourni, mais autonomie jugée moyenne pour le prix, son décevant et photos de soirée moins nettes.',
+  },
+  {
+    media: 'DXOMARK',
+    url: DXO,
+    note: '164 (photo)',
+    verdict:
+      'Le module photo prend la tête des pliants du classement caméra, porté par le capteur principal (175) devant l’ultra grand-angle (161) et le téléobjectif (153).',
+  },
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Motorola Razr Fold ?',
+    a: 'D’après les tests publiés, l’autonomie du Motorola Razr Fold est excellente pour un pliant au format livre. GSMArena mesure un score d’usage actif de 16 h 03 écran intérieur et de 20 h 17 sur l’écran externe seul, le Labo Fnac 18 h 24 et Tom’s Guide 14 h 44 en navigation continue. Phonandroid, plus sévère, obtient 11 h 11 sous PCMark en restant déplié.',
+  },
+  {
+    q: 'Le stylet est-il fourni avec le Razr Fold ?',
+    a: 'Oui. En France, le Motorola Razr Fold est vendu 2 199 € en 16 Go / 512 Go avec le stylet Moto Pen Ultra dans la boîte. GSMArena liste aussi une coque de protection, un câble USB-C, une station de recharge pour le stylet et une pointe de rechange. Aucun logement n’est prévu dans le téléphone pour ranger le stylet, qu’il faut donc transporter à part.',
+  },
+  {
+    q: 'Le chargeur est-il fourni avec le Motorola Razr Fold ?',
+    a: 'Non. Ni la liste de GSMArena ni la fiche d’assistance européenne de Motorola ne mentionnent de bloc secteur dans la boîte du Motorola Razr Fold. Pour profiter de la charge filaire de 80 W, qui remplit la batterie en une heure selon GSMArena et le Journal du Geek, il faut acheter un chargeur compatible à part. La charge sans fil monte à 50 W.',
+  },
+  {
+    q: 'Le Motorola Razr Fold est-il étanche ?',
+    a: 'Le Motorola Razr Fold est certifié IP48 et IP49. Il résiste à une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes et aux jets d’eau à haute pression. Le premier chiffre, 4, ne garantit qu’une protection contre les particules de plus de 1 mm : le sable et la poussière fine restent à éviter, notamment autour de la charnière.',
+  },
+  {
+    q: 'Combien de temps le Razr Fold sera-t-il mis à jour ?',
+    a: 'Motorola a annoncé sept ans de mises à jour pour le Motorola Razr Fold, que GSMArena présente comme sept versions majeures d’Android. En septembre 2026, la fiche d’assistance européenne de Motorola n’affiche toutefois que quatre ans de correctifs de sécurité, jusqu’en mars 2030. Cet écart entre l’annonce et la fiche officielle mérite d’être vérifié avant l’achat.',
+  },
+  {
+    q: 'Le Motorola Razr Fold est-il compatible eSIM et Wi-Fi 7 ?',
+    a: 'Oui. Selon Motorola et le Journal du Geek, le Motorola Razr Fold associe une nano-SIM et une eSIM, et prend en charge la 5G, le Wi-Fi 7, le Bluetooth 6.0, le NFC pour le paiement sans contact et l’ultra-large bande. Son port USB-C passe en USB 3.2 avec sortie DisplayPort d’après GSMArena, de quoi afficher le téléphone sur un moniteur.',
+  },
+  {
+    q: 'Razr Fold ou Razr 70 Ultra : lequel choisir ?',
+    a: 'Le Motorola Razr Fold, à 2 199 €, est un format livre de 243 g avec un écran de 8,1 pouces, un téléobjectif x3 et le stylet fourni. Le Razr 70 Ultra, lancé à 1 499 €, est un clapet de 199 g qui se glisse plus facilement dans une poche, mais sans zoom optique et avec seulement trois versions d’Android promises.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Motorola Razr Fold', 'Motorola', 'Smartphone pliant format livre'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test complet · le premier Razr au format livre</span>
+        <h1>Test du Motorola Razr Fold : le premier Razr qui s’ouvre comme un livre</h1>
+        <ProductSummary phone={p} ctaLabel="Voir le prix du Razr Fold sur Amazon" />
+        <p class="lede">
+          Le Motorola Razr Fold est le premier modèle au format livre de la <a href="/smartphone-pliant-motorola-razr/">gamme de smartphones pliants Motorola Razr</a>. Vendu {euro(p.launchPrice)} en France dans une unique version 16 Go / 512 Go, stylet Moto Pen Ultra compris, il a été testé par GSMArena, le Labo Fnac, le Journal du Geek et Phonandroid entre fin juin et mi-juillet 2026. Leur constat commun : une endurance hors norme pour ce format, un appareil photo très polyvalent et un prix qui fait réfléchir.
+        </p>
+        <Byline minutes={17} />
+      </div>
+    </header>
+
+    <div class="wrap prose">
+      <Callout variant="answer" title="Verdict : faut-il acheter le Motorola Razr Fold ?">
+        <p>
+          Oui, si l’endurance et la photo comptent davantage que le poids. Le Motorola Razr Fold obtient 16 h 03 au score d’usage actif de GSMArena écran intérieur déplié, la référence actuelle des pliants au format livre selon le site, se recharge en une heure et place son module photo en tête des pliants chez DXOMARK grâce à un téléobjectif x3.
+          Il vise ceux qui veulent réunir tablette, bloc-notes et compact photo dans une seule poche, et ceux qui passent de longues journées loin d’une prise. Il convient moins aux amateurs de pliants légers, aux joueurs en quête de la puce la plus rapide et aux utilisateurs exposés au sable ou à la poussière fine.
+          Des haut-parleurs jugés moyens par tous les tests et une durée de suivi de sécurité peu limpide complètent les réserves. Notre note : <strong>{num(overall(p))}/10</strong>, la plus haute de la gamme Razr.
+        </p>
+      </Callout>
+    </div>
+
+    <div class="wrap">
+      <div class="grid" style="--min:300px;margin-top:1.5rem">
+        <div class="card">
+          <h2 class="mt-0" style="font-size:1.2rem">Trois raisons de le choisir</h2>
+          <ol class="small" style="padding-left:1.2rem;margin:0">
+            <li><strong>L’autonomie.</strong> 6 000 mAh, entre 16 et 20 heures au protocole de GSMArena selon l’écran utilisé, et une charge complète en 60 minutes.</li>
+            <li><strong>Le zoom.</strong> Un vrai téléobjectif x3 stabilisé, premier du genre chez Motorola, salué par GSMArena, le Labo Fnac et DXOMARK.</li>
+            <li><strong>L’équipement.</strong> Stylet livré dans la boîte, Wi-Fi 7, ultra-large bande et sortie vidéo par USB-C.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h2 class="mt-0" style="font-size:1.2rem">Deux raisons d’hésiter</h2>
+          <ol class="small" style="padding-left:1.2rem;margin:0">
+            <li><strong>Le poids.</strong> 243 g, soit 44 g de plus qu’un Razr 70 Ultra : GSMArena le classe parmi les grands pliants les plus lourds du moment.</li>
+            <li><strong>Le prix.</strong> {euro(p.launchPrice)}, que Phonandroid juge difficile à défendre face au Galaxy Z Fold7 de Samsung.</li>
+          </ol>
+        </div>
+      </div>
+      <p style="margin-top:1rem"><AmazonButton phone={p} label="Vérifier la disponibilité du Razr Fold" /></p>
+    </div>
+
+    <div class="wrap cols-2 section">
+      <div class="prose">
+        <h2 class="mt-0">Design : cuir végan, aluminium et charnière en goutte d’eau</h2>
+        <p>
+          Le Motorola Razr Fold reprend les codes esthétiques des Motorola Edge : dos en cuir végan, châssis en aluminium brossé et écran externe protégé par un verre Gorilla Glass Ceramic 3. Il est vendu en France en deux coloris Pantone, Blackened Blue et Lily White. GSMArena décrit deux textures différentes, soyeuse et mate pour le Lily White, plus accrocheuse avec un motif en losanges pour le Blackened Blue. Phonandroid apprécie ce revêtement nervuré, qui conserve une bonne prise même avec des mains humides.
+        </p>
+        <p>
+          Selon la fiche de <a href={GSMA_SPECS} target="_blank" rel="noopener">GSMArena</a>, le Razr Fold mesure 160,1 × 73,6 mm et 10,1 mm d’épaisseur plié, puis 160,1 × 144,5 mm et 4,7 mm déplié : fermé, il garde la largeur d’un smartphone classique. Motorola publie des épaisseurs légèrement différentes sur sa fiche d’assistance.
+        </p>
+        <PhoneGallery id="razr-fold" />
+        <p>
+          Le poids est la première concession. Avec 243 g, le Razr Fold pèse 44 g de plus que le <a href={ultra.path}>Razr 70 Ultra</a>, et GSMArena le range parmi les grands pliants les plus lourds du marché, sans le trouver encombrant pour autant face au Galaxy Z Fold7 ou à l’Oppo Find N6.
+        </p>
+        <p>
+          Touche dédiée à l’IA à gauche, volume et bouton d’alimentation à lecteur d’empreintes à droite, port USB-C, tiroir SIM et second haut-parleur en bas : <a href={GSMA_DESIGN} target="_blank" rel="noopener">GSMArena</a> décrit une disposition classique.
+        </p>
+        <p>
+          La charnière adopte une forme en goutte d’eau : l’écran se replie en boucle plutôt qu’à angle vif, avec une plaque en titane sous la dalle. Le pli se fait discret. « La pliure est quasi-inexistante à l’usage », écrit le Journal du Geek, qui la distingue surtout écran éteint. GSMArena la dit difficile à sentir au doigt et visible seulement sous certains angles, tandis que Phonandroid décrit une charnière solide, sans fermeté excessive.
+        </p>
+        <p>
+          Elle tient aussi en position intermédiaire. Phonandroid s’en sert en mode tente ou comme un petit ordinateur portable, et GSMArena décrit un mode où la moitié inférieure de l’écran devient pavé tactile, ainsi qu’un affichage de bureau téléphone entrouvert. Les tests consultés ne disent rien de l’ouverture à une main.
+        </p>
+
+        <h2>Écrans : 8,1 pouces bien calibrés, un léger retrait face à Samsung</h2>
+        <p>
+          L’écran intérieur du Motorola Razr Fold mesure 8,1 pouces pour 2 232 × 2 484 pixels : une dalle LTPO à 120 Hz, au format presque carré, pensée pour la lecture et les applications côte à côte. L’écran externe de 6,6 pouces grimpe à 165 Hz et adopte des proportions de smartphone classique, avec 1 080 × 2 520 pixels, ce qui permet de répondre à un message ou de consulter une carte sans ouvrir l’appareil. Motorola annonce jusqu’à 6 000 cd/m² en pointe.
+        </p>
+        <p>
+          Les mesures publiées ramènent ces promesses à l’usage réel. En réglage manuel, GSMArena relève 503 cd/m² sur l’écran intérieur et 482 cd/m² à l’extérieur, et Phonandroid environ 490 cd/m² sur les deux dalles. En mode automatique, les écrans montent à 1 478 et 1 510 cd/m² selon GSMArena, un niveau confortable en extérieur.
+        </p>
+        <p>
+          Les deux dalles gèrent le HDR10+ et le Dolby Vision. GSMArena mesure environ 2 860 cd/m² en pointe sur une petite zone de l’image, mais Netflix ne reconnaissait aucun des deux écrans comme compatible HDR lors de son test, contrairement à YouTube.
+        </p>
+        <p>
+          Sur la qualité d’image, les avis convergent. Phonandroid salue un excellent calibrage, et le Labo Fnac attribue 10/10 au contraste comme à la fidélité des couleurs. Le même Labo estime pourtant que l’affichage reste un cran derrière celui des Galaxy Z Fold de Samsung, un reproche qui revient dans son verdict sans être chiffré.
+        </p>
+
+        <h2>Moto Pen Ultra et contenu de la boîte : le stylet fait partie du prix</h2>
+        <p>
+          En France, le Motorola Razr Fold est livré avec le stylet Moto Pen Ultra. GSMArena liste dans la boîte une coque transparente en deux parties, un câble USB-C, le stylet, sa station de recharge et une pointe de rechange ; Phonandroid mentionne aussi un étui de transport. Ni ces tests ni la <a href={MOTO_SPECS} target="_blank" rel="noopener">fiche d’assistance de Motorola</a> ne mentionnent de chargeur : la charge à 80 W suppose un bloc compatible acheté à part.
+        </p>
+        <p>
+          Connecté en Bluetooth selon le Journal du Geek, le Moto Pen Ultra détecte le survol, la pression et l’inclinaison. GSMArena juge la conversion de l’écriture manuscrite en texte presque sans faute et détaille la transformation d’un croquis en image par l’IA ainsi qu’une calculatrice manuscrite capable de traiter des intégrales ; Phonandroid relève un bouton qui ouvre un menu contextuel.
+        </p>
+        <p>
+          Le Journal du Geek souligne la recharge sans fil du stylet par son étui, mais regrette de ne disposer d’aucun moyen de le garder solidaire du téléphone. Le Razr Fold ne prévoit pas de logement interne : il faut donc penser à l’emporter à part, au risque de l’oublier sur un bureau.
+        </p>
+        <p><AmazonButton phone={p} label="Vérifier le contenu de l’offre" variant="ghost" /></p>
+
+        <h2>Performances : un Snapdragon 8 Gen 5 qui tient la distance</h2>
+        <p>
+          Le Motorola Razr Fold utilise le Snapdragon 8 Gen 5 gravé en 3 nm, avec 16 Go de mémoire vive dans sa version française. Qualcomm le positionne sous le Snapdragon 8 Elite Gen 5 du Honor Magic V6 ou du Galaxy Z Fold8 Ultra, et GSMArena comme le Journal du Geek rangent ce choix parmi les défauts. Les benchmarks relativisent le reproche : GSMArena mesure 2 745 points en monocœur et 8 804 en multicœur sur Geekbench 6, et plus de 3 millions de points sur AnTuTu v11.
+        </p>
+        <p>
+          La tenue dans la durée compte davantage sur un pliant. Au stress test de GSMArena, le Razr Fold conserve 57 % de ses performances processeur et 72 % en graphique téléphone ouvert, un résultat que le site juge correct pour ce format. Plié, la stabilité tombe à 52 et 53 % : la chaleur s’évacue moins bien quand les deux moitiés sont plaquées l’une contre l’autre. Phonandroid relève environ 53 °C sur la coque et l’écran intérieur en usage soutenu, tout en décrivant des performances stables.
+        </p>
+        <p>
+          En jeu, le Journal du Geek a lancé Diablo Immortal, Wild Rift, Dead Cells, Call of Duty Mobile et Rocket League Sideswipe sans difficulté, et GSMArena constate que les jeux tournent sans accroc sur les deux écrans. Le Labo Fnac attribue 10/10 à tous les niveaux d’usage et 9/10 en graphisme. Les joueurs en quête de la puce la plus rapide regarderont ailleurs ; pour le multitâche sur grand écran et la retouche photo, le processeur ne constitue pas une limite d’après les tests.
+        </p>
+        <Measures items={labMeasures} caption="Écrans, performances et photo du Motorola Razr Fold : mesures publiées" />
+
+        <h2>Photo : le zoom x3 change la donne chez Motorola</h2>
+        <p>
+          Le Motorola Razr Fold associe un capteur principal de 50 Mpx ouvrant à f/1,6 et stabilisé, un ultra grand-angle de 50 Mpx à 122° et un téléobjectif périscope x3, stabilisé lui aussi. C’est le premier Razr doté d’un zoom optique, et le point le plus salué par les tests. D’après GSMArena, le capteur principal mesure 1/1,28 pouce, et l’ultra grand-angle, doté de l’autofocus, sert aussi à la macro.
+        </p>
+        <p>
+          DXOMARK lui attribue 164 points en photo, un score qui le place en tête des pliants de son classement, avec 175 points pour le capteur principal, 161 pour l’ultra grand-angle et 153 pour le téléobjectif. Par usage, le laboratoire donne 169 points au zoom, 161 à la basse lumière et 149 au portrait. Le Labo Fnac donne 9,8/10 au module arrière, dont 9,9 au téléobjectif. GSMArena décrit des clichés de jour contrastés et colorés, un zoom x3 net et flatteur pour le portrait, et un ultra grand-angle étonnamment précis pour une focale aussi courte.
+        </p>
+        <p>
+          Le Journal du Geek apprécie le mode portrait et ses focales de 24 à 85 mm, et juge les photos de nuit propres et détaillées. Les autres tests se montrent plus réservés sur la basse lumière : GSMArena trouve les détails un peu grossiers la nuit et estime le Honor Magic V6 légèrement meilleur au téléobjectif dans l’obscurité ; Phonandroid relève une perte de netteté en soirée, un mode nuit capricieux, un voile sur le zoom x3 dans les scènes très lumineuses et du grain dès le x6.
+        </p>
+        <p>
+          Les selfies des deux caméras frontales, de 20 et 32 Mpx, manquent de définition selon le Labo Fnac ; GSMArena conseille plutôt d’utiliser les capteurs arrière avec l’écran externe comme viseur. En vidéo, le capteur principal et le téléobjectif filment en 8K à 30 images par seconde. GSMArena juge la stabilisation excellente, sans effet de gelée, quand Phonandroid relève du bruit lorsqu’on zoome en filmant.
+        </p>
+
+        <h2>Autonomie et charge : le marathonien des grands pliants</h2>
+        <p>
+          L’autonomie est l’atout majeur du Motorola Razr Fold, grâce à une batterie de 6 000 mAh en silicium-carbone, la plus grosse jamais montée dans un Razr. GSMArena lui attribue un score d’usage actif de 16 h 03 écran intérieur déplié et de 20 h 17 sur l’écran externe seul, et le désigne comme le meilleur pliant au format livre sur ce critère. Le Labo Fnac mesure 18 h 24 selon son propre protocole.
+        </p>
+        <p>
+          <a href={TG} target="_blank" rel="noopener">Tom’s Guide</a> arrive à la même conclusion avec sa navigation web continue en 5G, écran réglé à 150 cd/m² : 14 h 44, son meilleur résultat pour un pliant au format livre, contre 10 h 55 pour le Galaxy Z Fold7 et 12 h 16 pour le Pixel 10 Pro Fold.
+        </p>
+        <p>
+          Phonandroid nuance ce tableau : 16 h 08 sous PCMark sur l’écran externe, mais 11 h 11 sur l’écran intérieur seul, soit un jour et demi à deux jours en usage réel, un résultat qu’il juge moyen pour le prix. Le Journal du Geek parle d’une vraie journée complète. L’écart tient aux protocoles : plus vous restez déplié, plus l’autonomie se rapproche du bas de la fourchette.
+        </p>
+        <p>
+          La charge filaire de 80 W est rapide pour une batterie de cette taille. GSMArena mesure 36 % en 15 minutes, 66 % en 30 minutes et une charge complète en une heure téléphone ouvert, et les autres tests obtiennent des résultats proches. La charge sans fil atteint 50 W, mais la station compatible n’était pas encore commercialisée lors du test de GSMArena. Aucun chargeur n’est fourni.
+        </p>
+        <Measures items={enduranceMeasures} caption="Autonomie et charge du Motorola Razr Fold : mesures publiées" />
+
+        <h2>Logiciel et suivi : un grand écran bien exploité, une promesse à vérifier</h2>
+        <p>
+          Le Motorola Razr Fold est livré sous Android 16 avec la surcouche Hello UI. Au lancement, Motorola annonçait sept ans de mises à jour, que GSMArena présente comme sept versions majeures d’Android et Phonandroid comme sept ans de mises à jour d’Android et de sécurité. En septembre 2026, la <a href={MOTO_SPECS} target="_blank" rel="noopener">fiche d’assistance européenne de Motorola</a> n’indique pourtant que quatre ans de correctifs de sécurité, jusqu’en mars 2030. Même dans l’hypothèse basse, le suivi dépasse celui du <a href={base.path}>Razr 70</a>, limité à trois versions d’Android.
+        </p>
+        <p>
+          Sur grand écran, Hello UI range accueil, réglages et notifications en deux volets, ajoute une barre des tâches et gère l’écran partagé comme les fenêtres flottantes, détaille GSMArena. Le Journal du Geek mentionne un mode bureau comparable à celui de Samsung, et Phonandroid note que de nombreuses applications s’adaptent à la position entrouverte.
+        </p>
+        <p>
+          GSMArena apprécie une interface propre et riche en fonctions. Moto AI s’appelle depuis la touche latérale ou d’un double tapotement au dos, résume les notifications, transcrit une conversation et intègre Copilot Vision ; Gemini reste disponible. Phonandroid compte en revanche huit applications partenaires préinstallées, dont Facebook, Adobe et Opera.
+        </p>
+
+        <h2>Audio, connectivité et biométrie : très complet, sauf le son</h2>
+        <p>
+          Le Motorola Razr Fold dispose de deux haut-parleurs stéréo certifiés Dolby Atmos et accordés par Bose selon Motorola. Le son reste pourtant le point faible commun aux tests : résultat moyen au test de volume de GSMArena, qui trouve les voix quelconques ; expérience décevante pour Phonandroid, qui relève peu de présence au-delà de 10 kHz et des basses granuleuses ; 6,9/10 en qualité audio pour le Labo Fnac. Sans prise jack, un casque Bluetooth s’impose pour les films.
+        </p>
+        <p>
+          La connectivité, elle, ne laisse rien de côté. Motorola liste la 5G, le Wi-Fi 7, le Bluetooth 6.0, le NFC et l’ultra-large bande (UWB), confirmés par le Journal du Geek ; Phonandroid indique pour sa part du Wi-Fi 6E. Le port USB-C passe en USB 3.2 avec sortie DisplayPort selon GSMArena, pour brancher un écran externe. Le Journal du Geek décrit une nano-SIM associée à une eSIM ; GSMArena signale aussi des variantes à deux nano-SIM, avec deux lignes actives au maximum.
+        </p>
+        <p>
+          Le lecteur d’empreintes du bouton d’alimentation se montre rapide et fiable d’après GSMArena, et Motorola ajoute la reconnaissance faciale. Accéléromètre, gyroscope, capteur de proximité, boussole et baromètre complètent la liste.
+        </p>
+
+        <h2>Solidité et réparabilité : IP49, verre Ceramic 3 et classe B</h2>
+        <p>
+          Côté résistance, la double certification IP48 et IP49 du Motorola Razr Fold couvre l’immersion en eau douce jusqu’à 1,5 m pendant 30 minutes et les jets d’eau à haute pression. Le premier chiffre, 4, ne protège en revanche que des particules de plus de 1 mm.
+        </p>
+        <p>
+          L’écran externe est le premier à recevoir le Gorilla Glass Ceramic 3 de Corning, souligne GSMArena, dont la fiche indique pour l’écran intérieur une résistance aux rayures de niveau 4 sur l’échelle de Mohs, une valeur basse. La charnière associe acier inoxydable et plaque de titane ; aucune des sources consultées ne cite de nombre de pliages garanti.
+        </p>
+        <p>
+          L’étiquette énergie européenne, reprise par GSMArena, apporte des repères normalisés, à ne pas confondre avec les tests d’autonomie des médias.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Étiquette énergie européenne du Motorola Razr Fold</caption>
+            <thead>
+              <tr>
+                <th scope="col">Critère de l’étiquette UE</th>
+                <th scope="col">Razr Fold</th>
+                <th scope="col">Lecture</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Efficacité énergétique</th><td>Classe A</td><td class="small">Échelle de A à G</td></tr>
+              <tr><th scope="row">Endurance par cycle de charge</th><td class="num">59 h 17</td><td class="small">Protocole européen normalisé</td></tr>
+              <tr><th scope="row">Endurance de la batterie</th><td class="num">1 200 cycles</td><td class="small">Avant de passer sous 80 % de la capacité</td></tr>
+              <tr><th scope="row">Résistance aux chutes répétées</th><td>Classe C (95 chutes)</td><td class="small">Échelle de A à E</td></tr>
+              <tr><th scope="row">Réparabilité</th><td>Classe B</td><td class="small">Échelle de A à E</td></tr>
+              <tr><th scope="row">Protection eau et poussière</th><td>IP48 / IP49</td><td class="small">Poussière : particules de plus de 1 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:.5rem">Source : étiquette énergie UE reprise sur la <a href={GSMA_SPECS} target="_blank" rel="noopener">fiche technique de GSMArena</a>.</p>
+        <p>
+          Contre la casse, Motorola France vend des extensions <a href={MOTO_CARE} target="_blank" rel="noopener">Moto Care</a> : protection de l’écran sur un an, dommages accidentels sur deux ans, ou extension de garantie et dommages accidentels sur trois ans. L’éligibilité du Razr Fold est à vérifier au moment de la commande.
+        </p>
+
+        <TestSources
+          sources={sources}
+          heading="Les tests publiés, en résumé"
+          intro="Cinq médias ont publié un test ou une évaluation du Motorola Razr Fold entre juin et juillet 2026. Phonandroid n’affiche pas de note chiffrée."
+        />
+
+        <h2>Versions, coloris et prix de lancement en France</h2>
+        <p>
+          En France, le Motorola Razr Fold n’existe qu’en 16 Go / 512 Go, à {euro(p.launchPrice)} avec le stylet. La version 12 Go / 256 Go à 1 999 €, annoncée lors de l’officialisation au MWC le 3 mars 2026, n’y a pas été commercialisée. Les deux coloris se distinguent surtout par la texture du dos.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Version et coloris du Motorola Razr Fold vendus en France</caption>
+            <tbody>
+              <tr><th scope="row">Configuration</th><td>{p.launchConfig}</td></tr>
+              <tr><th scope="row">Prix de lancement</th><td class="num">{euro(p.launchPrice)}</td></tr>
+              <tr><th scope="row">Mise en vente en Europe</th><td>13 avril 2026</td></tr>
+              <tr><th scope="row">Coloris</th><td>Pantone Blackened Blue, Pantone Lily White</td></tr>
+              <tr><th scope="row">Stylet Moto Pen Ultra</th><td>Fourni, avec station de recharge</td></tr>
+              <tr><th scope="row">Chargeur</th><td>Non fourni</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem"><AmazonButton phone={p} label="Voir les deux coloris" variant="ghost" /></p>
+
+        <h2>Prix et alternatives dans la gamme Motorola</h2>
+        <p>
+          À {euro(p.launchPrice)}, le Motorola Razr Fold est le Razr le plus cher lancé en France, et Phonandroid conseille d’attendre une baisse avant de le préférer au Galaxy Z Fold7.
+        </p>
+        <p>
+          Dans la gamme Motorola, le <a href={ultra.path}>Razr 70 Ultra</a> coûte {euro(p.launchPrice - ultra.launchPrice)} de moins au lancement ({euro(ultra.launchPrice)}) : Snapdragon 8 Elite, 5 000 mAh et 68 W dans un clapet de 199 g, mais ni téléobjectif ni grand écran de travail. Le <a href={plus.path}>Razr 70 Plus</a> ({euro(plus.launchPrice)}) et le <a href={base.path}>Razr 70</a> ({euro(base.launchPrice)}) visent un budget plus serré. Quant au <a href={old.path}>Razr 60 Ultra</a>, lancé à {euro(old.launchPrice)} en 2025, il se trouve souvent nettement moins cher depuis l’arrivée de la génération 2026.
+        </p>
+        <p><AmazonButton phone={p} label="Consulter l’offre Razr Fold" /></p>
+
+        <h2>Face à la concurrence : trois grands pliants à mettre en balance</h2>
+        <p>
+          Le <ObfLink href={fold8u.path} class="obf-text">Samsung Galaxy Z Fold8 Ultra</ObfLink>, sorti le 7 août 2026, démarre au même prix de {euro(fold8u.launchPrice)}, mais en 256 Go. Plus léger ({fold8u.weight} g) et plus fin plié ({num(fold8u.foldedMm, 2)} mm), il mise sur un capteur de 200 Mpx avec téléobjectif x3 et sur les sept ans de mises à jour de Samsung. Le Razr Fold garde l’avantage de la batterie ({mah(p.battery)} contre {mah(fold8u.battery)}), de la charge ({p.wired} contre {fold8u.wired}, {p.wireless} contre {fold8u.wireless} sans fil) et du stylet fourni.
+        </p>
+        <p>
+          Le <ObfLink href={magic.path} class="obf-text">Honor Magic V6</ObfLink>, disponible depuis le 2 juillet 2026 à {euro(magic.launchPrice)} en 16 Go / 512 Go, va plus loin sur la fiche : {mah(magic.battery)}, {magic.wired} en filaire et {magic.wireless} sans fil, périscope x3, IP68 et IP69 pour {magic.weight} g. Si l’eau et la poussière vous inquiètent, c’est lui ; le Motorola répond par son stylet inclus et un prix de lancement inférieur.
+        </p>
+        <p>
+          Le Google Pixel 11 Pro Fold, lancé à {euro(pixel.launchPrice)} en 256 Go, mise sur le zoom optique x5, l’IP68 et la charge sans fil magnétique, mais plafonne à {pixel.wired} en filaire avec une puce Tensor G6 moins rapide que les Snapdragon. Meilleur pour le long zoom et la résistance, il cède au Razr Fold sur la capacité de batterie, la vitesse de charge et la prise de notes.
+        </p>
+
+        <h2>Fiche technique du Razr Fold</h2>
+        <SpecTable phone={p} caption="Caractéristiques techniques du Motorola Razr Fold" />
+
+        <h2>Points forts et points faibles selon les tests</h2>
+        <ProsCons
+          pros={[
+            'Autonomie de référence (16 h 03 chez GSMArena, 14 h 44 chez Tom’s Guide)',
+            'Charge complète en une heure, sans fil jusqu’à 50 W',
+            'Téléobjectif x3 et module photo en tête des pliants chez DXOMARK',
+            'Stylet Moto Pen Ultra fourni',
+            'Wi-Fi 7, UWB et USB 3.2 avec sortie vidéo',
+            'Écran externe 6,6" au format d’un smartphone classique',
+          ]}
+          cons={[
+            '243 g en poche',
+            'IP48 / IP49 : poussière fine mal protégée',
+            'Haut-parleurs moyens',
+            'Photo de nuit et selfies en retrait',
+            'Chargeur absent de la boîte',
+            'Suivi de sécurité affiché à quatre ans sur la fiche européenne de Motorola',
+          ]}
+          prosTitle="Ce que saluent les tests"
+          consTitle="Ce qu’ils reprochent"
+        />
+      </div>
+
+      <aside class="sticky">
+        <ScoreBars phone={p} />
+        <div class="card" style="margin-top:1rem">
+          <p class="small mb-0"><strong>Notre note :</strong> {num(overall(p))}/10</p>
+          <p class="small"><strong>Lancement en France :</strong> {euro(p.launchPrice)} ({p.launchConfig})</p>
+          <AmazonButton phone={p} label="Voir l’offre" size="sm" />
+        </div>
+      </aside>
+    </div>
+
+    <div class="wrap prose">
+      <Faq items={faq} heading="Razr Fold : vos questions avant l’achat" />
+
+      <RelatedArticles />
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="Plutôt tenté par un clapet Razr ?"
+        intro="Plus légers et moins chers : les autres tests de la gamme Motorola."
+      />
+    </div>
+  </article>
+</BaseLayout>

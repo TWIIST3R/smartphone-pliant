@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, ranked, byId, FORMAT_LABELS, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro } from '../lib/format';
+
+const path = '/smartphone-pliant-resistant/';
+const title = 'Smartphone pliant résistant : IP68, IP48 et charnière';
+const description = `IP48, IP58, IP68, IP69 : que valent les indices de protection des smartphones pliants ? Les ${phones.length} modèles classés, charnière, écran et matériaux décryptés.`;
+
+const joinFr = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+
+// Ordre de résistance : du plus protégé au moins protégé. Tout indice inconnu est ajouté en fin de liste.
+const IP_ORDER = ['IP68 / IP69', 'IP68', 'IP58 / IP59', 'IP48 / IP49', 'IP48', 'Non certifié'];
+const presentIps = [...new Set(phones.map((p) => p.ip))];
+const order = [...IP_ORDER.filter((ip) => presentIps.includes(ip)), ...presentIps.filter((ip) => !IP_ORDER.includes(ip))];
+const ipLevel = (p: Phone) => order.indexOf(p.ip);
+
+const groupNotes: Record<string, string> = {
+  'IP68 / IP69': 'Étanche à la poussière, immersion prolongée et jets d’eau chaude à haute pression',
+  IP68: 'Étanche à la poussière et à l’immersion prolongée',
+  'IP58 / IP59': 'Protégé contre la poussière, immersion et jets haute pression',
+  'IP48 / IP49': 'Immersion et jets haute pression, poussière fine non couverte',
+  IP48: 'Immersion prolongée, poussière fine non couverte',
+  'Non certifié': 'Aucune garantie officielle contre l’eau ni la poussière',
+};
+const groups = order.map((ip) => ({ ip, note: groupNotes[ip] ?? '', list: ranked(phones.filter((p) => p.ip === ip)) }));
+
+const toughRank = ranked(phones).sort((a, b) => ipLevel(a) - ipLevel(b));
+const top3 = toughRank.slice(0, 3);
+const dustDigit = (p: Phone) => p.ip.match(/IP(\d)/)?.[1];
+const dustTight = ranked(phones.filter((p) => dustDigit(p) === '6'));
+const dustProtected = ranked(phones.filter((p) => dustDigit(p) === '5'));
+const notCertified = phones.filter((p) => !dustDigit(p));
+const ip68 = dustTight.filter((p) => p.ip.includes('IP68'));
+const cheapestIp68 = [...ip68].sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const clapetBestIp = phones.filter((p) => p.format === 'clapet').sort((a, b) => ipLevel(a) - ipLevel(b))[0];
+const heaviest2026 = phones.filter((p) => p.format === 'livre' && p.release.startsWith('2026')).sort((a, b) => b.weight - a.weight)[0];
+const countWith = (code: string) => phones.filter((p) => p.ip.includes(code)).length;
+
+const duo = byId('iphone-duo');
+const razrFold = byId('razr-fold');
+
+const ipRows = [
+  {
+    code: 'IP48',
+    dust: '4 : corps solides de plus de 1 mm',
+    water: '8 : immersion prolongée, conditions fixées par le constructeur',
+    daily: 'Survit à une chute dans l’eau. Le sable fin et la poussière ne sont pas couverts.',
+  },
+  {
+    code: 'IP49',
+    dust: '4 : corps solides de plus de 1 mm',
+    water: '9 : jets d’eau à haute pression et haute température (80 °C)',
+    daily: 'Résiste à un jet puissant, sans mieux protéger de la poussière fine.',
+  },
+  {
+    code: 'IP58',
+    dust: '5 : protégé contre la poussière (elle peut entrer, mais pas en quantité gênante)',
+    water: '8 : immersion prolongée',
+    daily: 'Bonne tenue en milieu poussiéreux, immersion couverte.',
+  },
+  {
+    code: 'IP59',
+    dust: '5 : protégé contre la poussière',
+    water: '9 : jets d’eau à haute pression et haute température',
+    daily: 'Même protection contre la poussière, plus les jets haute pression.',
+  },
+  {
+    code: 'IP68',
+    dust: '6 : étanche à la poussière',
+    water: '8 : immersion prolongée',
+    daily: 'Le plus haut niveau contre la poussière, immersion couverte.',
+  },
+  {
+    code: 'IP69',
+    dust: '6 : étanche à la poussière',
+    water: '9 : jets d’eau à haute pression et haute température',
+    daily: 'Étanche à la poussière et aux jets d’eau chaude sous pression.',
+  },
+];
+
+const cta = ['Voir le prix sur Amazon', 'Vérifier la disponibilité', 'Consulter l’offre'];
+
+const faq = [
+  {
+    q: 'Quel smartphone pliant est vraiment étanche ?',
+    a: `${ip68.length} pliants de notre comparatif sont certifiés IP68, donc étanches à la poussière et à l’immersion prolongée : ${joinFr(ip68.map((p) => `le ${p.fullName}`))}. Le Honor Magic V6 ajoute l’IP69 contre les jets d’eau chaude sous pression. Les Huawei Mate X7 et Honor Magic V5 sont IP58/IP59, les Samsung et les Motorola restent en IP48, ou IP48/IP49 pour le Razr Fold.`,
+  },
+  {
+    q: 'Que signifie IP48 sur un Galaxy Z Flip ou un Motorola Razr ?',
+    a: 'IP48 signifie que le téléphone résiste à une immersion prolongée dans l’eau douce (chiffre 8), mais qu’il n’est protégé que contre les corps solides de plus de 1 mm (chiffre 4). La poussière fine et le sable ne sont donc pas couverts, ce qui compte sur un pliant dont la charnière peut piéger des particules. C’est l’indice de tous les Samsung Galaxy Z et des Razr à clapet.',
+  },
+  {
+    q: 'Peut-on se baigner avec un smartphone pliant IP68 ?',
+    a: 'Mieux vaut éviter. L’indice IP68 est obtenu en laboratoire, en eau douce et dans des conditions fixées par le constructeur, par exemple 6 mètres pendant 30 minutes pour l’iPhone Duo selon Apple. L’eau de mer, le chlore, les vagues et le vieillissement des joints ne sont pas couverts, et les dégâts liés aux liquides sont souvent exclus de la garantie.',
+  },
+  {
+    q: 'Combien de pliages peut supporter un smartphone pliant ?',
+    a: 'Les chiffres vérifiables sont rares. Honor annonce que la charnière du Magic V6 a passé un test de 500 000 pliages certifié par SGS. Bureau Veritas a vérifié en 2025 que l’écran pliable de 8 pouces du Galaxy Z Fold7 restait fonctionnel après 500 000 pliages, soit 2,5 fois la référence du secteur, fixée à 200 000 pliages.',
+  },
+  {
+    q: 'Faut-il retirer le film de protection de l’écran intérieur d’un pliant ?',
+    a: 'Non. Sur les smartphones pliants, le film posé en usine sur l’écran intérieur fait partie de la dalle. Le retirer risque d’endommager l’écran et peut annuler la garantie. S’il se décolle, se raye profondément ou forme des bulles, faites-le remplacer en centre agréé plutôt que de le retirer vous-même.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Indice de protection IP', 'IEC 60529'] }),
+  itemList(
+    'Smartphones pliants classés par indice de protection',
+    toughRank.map((p) => ({ name: p.fullName })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap prose section-tight">
+    <span class="eyebrow">Guide · étanchéité et solidité</span>
+    <h1>Smartphone pliant étanche et résistant : l’indice IP décodé</h1>
+    <p class="lede">
+      L’indice IP, défini par la norme internationale IEC 60529, mesure la protection d’un appareil contre les corps solides et l’eau : le premier chiffre concerne la poussière, le second les liquides.
+      Sur les pliants, il va de IP48 à IP69, et ce premier chiffre compte plus qu’on ne le croit pour la charnière. Nous avons passé au crible les {phones.length} modèles de notre <a href="/">comparatif complet des smartphones pliants</a>.
+    </p>
+    <Byline minutes={9} />
+
+    <h2>IP48, IP58, IP68, IP69 : ce que disent les deux chiffres</h2>
+    <p>
+      Chaque chiffre renvoie à un essai précis de la norme. Plus il est élevé, plus la protection est poussée ; un « X » à la place d’un chiffre signifie que l’essai n’a pas été réalisé. Voici les indices que l’on croise sur les pliants vendus en France.
+    </p>
+    <div class="table-scroll">
+      <table>
+        <caption class="sr-only">Signification des indices IP rencontrés sur les smartphones pliants</caption>
+        <thead>
+          <tr>
+            <th scope="col">Indice</th>
+            <th scope="col">Poussière (1er chiffre)</th>
+            <th scope="col">Eau (2e chiffre)</th>
+            <th scope="col">Au quotidien</th>
+            <th scope="col">Pliants</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            ipRows.map((r) => (
+              <tr>
+                <th scope="row">{r.code}</th>
+                <td class="small">{r.dust}</td>
+                <td class="small">{r.water}</td>
+                <td class="small">{r.daily}</td>
+                <td class="num">{countWith(r.code)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1.2rem">
+      Deux précisions évitent les contresens. Le chiffre 8 ne correspond pas à une profondeur fixe : la norme exige des conditions plus sévères que l’IPX7 (immersion à 1 mètre pendant 30 minutes), et c’est le constructeur qui les précise. Apple annonce ainsi 6 mètres pendant 30 minutes pour l’iPhone Duo.
+    </p>
+    <p>
+      Ensuite, l’essai d’immersion (8) et celui des jets haute pression (9) sont distincts : réussir l’un ne garantit pas l’autre, d’où les doubles mentions IP68/IP69 ou IP58/IP59. Le 9 figure dans la norme IEC 60529, tandis que la variante « 9K », fréquente dans l’automobile, relève d’une autre norme, l’ISO 20653.
+    </p>
+
+    <h2>Les {phones.length} pliants classés par indice de protection</h2>
+    <p>À indice égal, les modèles sont rangés selon leur note globale dans notre comparatif. Les prix sont ceux du lancement en France.</p>
+    <div class="table-scroll">
+      <table>
+        <caption class="sr-only">Smartphones pliants regroupés par indice de protection IP</caption>
+        <thead>
+          <tr>
+            <th scope="col">Modèle</th>
+            <th scope="col">Format</th>
+            <th scope="col">Poids</th>
+            <th scope="col">Prix lancement</th>
+          </tr>
+        </thead>
+        {
+          groups.map((g) => (
+            <tbody>
+              <tr>
+                <th scope="rowgroup" colspan="4" style="background:var(--paper)">
+                  {g.ip} <span class="small muted">· {g.list.length} modèle{g.list.length > 1 ? 's' : ''}{g.note && ` · ${g.note}`}</span>
+                </th>
+              </tr>
+              {g.list.map((p) => (
+                <tr>
+                  <td>{p.fullName}</td>
+                  <td>{FORMAT_LABELS[p.format]}</td>
+                  <td class="num">{p.weight} g</td>
+                  <td class="num">{euro(p.launchPrice)}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))
+        }
+      </table>
+    </div>
+    <p style="margin-top:1.2rem">
+      Seuls {dustTight.length} modèles sont étanches à la poussière : {joinFr(dustTight.map((p) => `le ${p.fullName}`))}. {dustProtected.length} autres, {joinFr(dustProtected.map((p) => `le ${p.fullName}`))}, sont protégés contre la poussière sans être totalement étanches.
+    </p>
+    <p>
+      Le constat est sévère pour Samsung et Motorola. Samsung reste en IP48 sur tous ses pliants, Galaxy Z Fold8 Ultra à 2 199 € compris, tout comme les Razr à clapet. Le {razrFold.fullName} ajoute l’IP49 contre les jets d’eau, sans mieux protéger de la poussière fine.
+      {notCertified.length > 0 && ` Enfin, le ${joinFr(notCertified.map((p) => p.fullName))} n’${notCertified.length > 1 ? 'ont' : 'a'} aucune certification.`}
+    </p>
+
+    <h2>Charnière : que valent les chiffres de pliages ?</h2>
+    <p>
+      Le nombre de pliages est l’argument de durabilité le plus cité, et le plus délicat à interpréter. Nous ne reprenons ici que des chiffres vérifiés pour un modèle précis.
+    </p>
+    <p>
+      Honor indique que la charnière du Magic V6 a passé un test de 500 000 pliages certifié par l’organisme SGS. Elle est construite dans un acier d’une résistance à la traction de 2 800 MPa, selon le constructeur.
+    </p>
+    <p>
+      Chez Samsung, le chiffre le plus solide concerne l’écran. Bureau Veritas a vérifié en juillet 2025 que la dalle pliable de 8 pouces du Galaxy Z Fold7, produite par Samsung Display, restait fonctionnelle après 500 000 pliages réalisés en 13 jours à 25 °C.
+      Le certificateur rappelle que la référence du secteur est de 200 000 pliages. Samsung Display attribue ce résultat à un verre ultrafin 50 % plus épais.
+    </p>
+    <p>
+      Pour les autres modèles, les constructeurs décrivent la charnière sans chiffre vérifiable : charnière « Flex » en titane sur le Galaxy Z Fold8 Ultra, charnière en titane sur le Razr 70 Ultra, mécanisme sans engrenage sur le Pixel 11 Pro Fold, plus de 100 pièces sur celle de l’iPhone Duo.
+    </p>
+    <p>
+      Gardez en tête qu’un banc d’essai plie l’appareil dans un laboratoire propre, à température constante. Au quotidien, l’ennemi de la charnière est moins la répétition du geste que le grain de sable qui s’y glisse. D’où l’importance du premier chiffre de l’indice IP.
+    </p>
+
+    <h2>Écran intérieur : le film de protection ne s’enlève pas</h2>
+    <p>
+      L’écran intérieur reste la pièce la plus sensible d’un smartphone pliant. Sa surface n’est pas une vitre rigide comme sur un smartphone classique : elle associe un verre ultrafin, assez souple pour se plier, et une couche de protection en plastique posée en usine.
+    </p>
+    <p>
+      Ce film fait partie de l’écran. Le retirer peut abîmer la dalle et annuler la garantie ; s’il se décolle ou forme une bulle, il doit être remplacé en centre agréé. Évitez aussi d’y coller une protection qui n’est pas prévue pour votre modèle.
+    </p>
+    <p>
+      Au quotidien, trois gestes font la différence : ne jamais refermer le téléphone sur un objet (clé, carte, écouteur), ne pas appuyer avec un ongle ou un stylet non compatible, et nettoyer l’écran avec un chiffon doux plutôt qu’avec un produit.
+      Les constructeurs travaillent aussi l’épaisseur du verre : Google annonce ainsi un verre intérieur plus épais sur le Pixel 11 Pro Fold pour atténuer le pli.
+    </p>
+
+    <h2>Titane, Armor Aluminum, fibre de verre : ce que changent les matériaux</h2>
+    <p>
+      Le cadre et le dos protègent la structure en cas de chute, mais ne remplacent pas un bon indice IP. Trois approches se distinguent en 2026.
+    </p>
+    <p>
+      L’iPhone Duo utilise du titane grade 5 poli miroir pour son châssis et un Ceramic Shield 2 en façade. Le titane est réputé pour sa rigidité par rapport à son poids, ce qui n’empêche pas l’iPhone Duo de peser {duo.weight} g{heaviest2026.id === duo.id && ', le plus lourd des pliants au format livre sortis en 2026'}.
+    </p>
+    <p>
+      Samsung associe sur le Galaxy Z Fold8 Ultra un cadre Armor Aluminum, le nom de son aluminium renforcé, à une charnière « Flex » en titane. La structure vise la résistance aux chocs, mais l’appareil reste IP48.
+    </p>
+    <p>
+      Google remplace le verre arrière du Pixel 11 Pro Fold par un composite de fibre de verre. Sur le papier, ce type de matériau craint moins le bris qu’un dos en verre. Côté autres marques, Motorola protège l’écran externe du Razr Fold par un Gorilla Glass Ceramic 3, et Huawei construit le Mate X7 en aluminium aéronautique.
+    </p>
+
+    <Callout variant="warn" title="Sable, plage et piscine : les limites de l’étanchéité">
+      <p>
+        Un pliant IP48 résiste à l’immersion, pas au sable : le chiffre 4 ne couvre que les particules de plus de 1 mm, et un sable fin glissé dans la charnière peut rayer l’écran intérieur ou gêner le mécanisme.
+        Même un IP68 n’invite pas à la baignade : les essais se font en eau douce, sans sel ni chlore, et les joints vieillissent. Après la plage, séchez soigneusement la charnière et rangez le téléphone dans une pochette fermée plutôt que dans un sac ouvert.
+      </p>
+    </Callout>
+
+    <h2>Les trois pliants les plus résistants</h2>
+    <p>
+      Notre ordre : l’indice de protection d’abord, puis la note globale à indice égal. Les trois modèles retenus sont tous étanches à la poussière.
+    </p>
+  </div>
+
+  <div class="wrap">
+    <div class="stack" style="margin-top:1rem">
+      {top3.map((p, i) => <PhoneCard phone={p} rank={i + 1} badge={p.ip} ctaLabel={cta[i]} />)}
+    </div>
+  </div>
+
+  <div class="wrap prose section">
+    <p class="mt-0">
+      Budget plus serré ? Le {cheapestIp68.fullName} est le pliant IP68 le moins cher au lancement ({euro(cheapestIp68.launchPrice)}), et il se trouve souvent nettement moins cher aujourd’hui.
+      <AmazonButton phone={cheapestIp68} variant="text" label="Voir son prix" />
+    </p>
+    <p>
+      En clapet, en revanche, aucun modèle ne dépasse l’indice {clapetBestIp.ip} : si l’étanchéité à la poussière est une priorité, il faut passer au format livre.
+    </p>
+
+    <Faq items={faq} heading="Résistance des pliants : questions fréquentes" />
+  </div>
+
+  <div class="wrap">
+    <Siblings path={path} variant="cards" heading="Autres usages, autres classements" />
+  </div>
+</BaseLayout>

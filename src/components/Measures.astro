@@ -1,0 +1,51 @@
+---
+// Tableau de mesures publiées (autonomie, luminosité, temps de charge, benchmarks…), chaque ligne sourcée.
+
+interface Measure {
+  label: string;
+  value: string;
+  source: string;
+  url?: string;
+}
+
+interface Props {
+  items: Measure[];
+  caption: string;
+}
+
+const { items, caption } = Astro.props;
+---
+
+<div class="table-scroll">
+  <table class="measures">
+    <caption class="sr-only">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Mesure</th>
+        <th scope="col">Résultat</th>
+        <th scope="col">Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        items.map((m) => (
+          <tr>
+            <th scope="row">{m.label}</th>
+            <td class="num">
+              <strong>{m.value}</strong>
+            </td>
+            <td class="small">
+              {m.url ? (
+                <a href={m.url} target="_blank" rel="noopener">
+                  {m.source}
+                </a>
+              ) : (
+                m.source
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

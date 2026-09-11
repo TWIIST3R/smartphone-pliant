@@ -1,0 +1,537 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('galaxy-z-fold7');
+const ultra = byId('galaxy-z-fold8-ultra');
+const fold8 = byId('galaxy-z-fold8');
+const pixel10 = byId('pixel-10-pro-fold');
+const v5 = byId('honor-magic-v5');
+const path = p.path;
+const title = 'Test Galaxy Z Fold7 : vaut-il encore le coup en 2026 ?';
+const description =
+  'Test du Galaxy Z Fold7 : 16 h 09 d’autonomie chez Fnac, charge 25 W lente, capteur 200 Mpx. Ce que disent les tests et s’il vaut encore le coup en 2026.';
+
+const src = {
+  gsmarena: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-review-2856.php',
+  gsmarenaDesign: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-review-2856p2.php',
+  gsmarenaLab: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-review-2856p3.php',
+  gsmarenaPerf: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-review-2856p4.php',
+  gsmarenaPhoto: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-review-2856p5.php',
+  gsmarenaSpecs: 'https://www.gsmarena.com/samsung_galaxy_z_fold7-13826.php',
+  gsmarenaEu2026: 'https://www.gsmarena.com/eu_listings_confirm_shorter_battery_lifespan_for_new_galaxy_foldables-news-73870.php',
+  fnac: 'https://leclaireur.fnac.com/test/623809-test-labo-du-samsung-galaxy-z-fold-7-une-reussite-pour-samsung/',
+  clubic: 'https://www.clubic.com/test-produit-580108-test-du-samsung-galaxy-z-fold-7.html',
+  clubicSolidite: 'https://www.clubic.com/actualite-573819-plus-fin-le-samsung-galaxy-z-fold-7-est-pourtant-aussi-beaucoup-plus-solide-que-son-predecesseur.html',
+  jdg: 'https://www.journaldugeek.com/test/test-samsung-galaxy-z-fold7-le-format-ideal/',
+  notebookcheck: 'https://www.notebookcheck.net/The-market-leader-strikes-back-Samsung-Galaxy-Z-Fold7-review.1093384.0.html',
+  phonandroid: 'https://www.phonandroid.com/test-samsung-galaxy-z-fold-7.html',
+  dxomark: 'https://www.dxomark.com/samsung-galaxy-z-fold7-display-test/',
+  dxomarkPhone: 'https://www.dxomark.com/smartphones/Samsung/Galaxy-Z-Fold7',
+  samsungFiche: 'https://www.samsung.com/fr/business/smartphones/galaxy-z/galaxy-z-fold7-blue-shadow-256gb-sm-f966bdbbeub/',
+  samsungNews: 'https://news.samsung.com/fr/samsung-annonce-le-lancement-mondial-de-ses-galaxy-z-fold7-galaxy-z-flip7-et-galaxy-watch8-series',
+  samsungCoque: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-fold7-silicone-case-blue-ef-mf966cnegww/',
+  samsungCare: 'https://www.samsung.com/fr/offer/samsung-care-plus/',
+};
+
+const gap = Math.round((overall(ultra) - overall(p)) * 10) / 10;
+
+const rows: { k: string; a: string; b: string; d: string; loss?: boolean }[] = [
+  { k: 'Sortie en France', a: '25 juillet 2025', b: '7 août 2026', d: 'Un an' },
+  { k: 'Prix de lancement 256 Go', a: euro(p.launchPrice), b: euro(ultra.launchPrice), d: `+ ${euro(ultra.launchPrice - p.launchPrice)}` },
+  { k: 'Prix de lancement 512 Go', a: euro(2219), b: euro(2399), d: `+ ${euro(2399 - 2219)}` },
+  { k: 'Écrans intérieur / extérieur', a: '8" / 6,5"', b: '8" / 6,5"', d: 'Aucun' },
+  { k: 'Processeur', a: p.chip, b: ultra.chip, d: 'Une génération', loss: true },
+  { k: 'Batterie', a: '4 400 mAh', b: '5 000 mAh', d: '+ 600 mAh (+ 14 %)', loss: true },
+  { k: 'Charge filaire', a: '25 W', b: '45 W (67 % en 30 min annoncés)', d: '+ 20 W', loss: true },
+  { k: 'Cycles de charge (étiquette UE)', a: '2 000', b: '1 200', d: '800 cycles de mieux pour le Fold7' },
+  { k: 'Ultra grand-angle', a: '12 Mpx', b: '50 Mpx', d: 'Nouveau capteur', loss: true },
+  { k: 'Capteur principal / téléobjectif', a: '200 Mpx / 10 Mpx x3', b: '200 Mpx / 10 Mpx x3', d: 'Aucun' },
+  { k: 'Poids', a: `${p.weight} g`, b: `${ultra.weight} g`, d: 'Aucun' },
+  { k: 'Épaisseur plié / déplié', a: '8,9 / 4,2 mm', b: '8,9 / 4,1 mm', d: '0,1 mm ouvert' },
+  { k: 'Étanchéité', a: p.ip, b: ultra.ip, d: 'Aucun' },
+  { k: 'Système au lancement', a: p.os, b: ultra.os, d: 'Un an de suivi en moins', loss: true },
+];
+
+const versions = [
+  { v: '256 Go', ram: '12 Go', price: euro(2099) },
+  { v: '512 Go', ram: '12 Go', price: euro(2219) },
+  { v: '1 To', ram: '16 Go', price: euro(2519) },
+];
+
+const measures = [
+  { label: 'Autonomie, protocole du Labo Fnac', value: '16 h 09', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Active Use Score, écran intérieur / écran externe', value: '11 h 44 / 12 h 56', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Charge 25 W : batterie après 15 min / 30 min', value: '28 % / 53 %', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète (0 à 100 %)', value: '1 h 27', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète, protocole du Labo Fnac', value: '1 h 17', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Pic de luminosité, écran intérieur / externe', value: '2 481 / 2 605 cd/m²', source: 'DXOMARK', url: src.dxomark },
+  { label: 'Luminosité APL18, écran intérieur', value: '2 570 cd/m²', source: 'Notebookcheck', url: src.notebookcheck },
+  { label: 'Delta E moyen, mode Naturel / mode Vif', value: '1,2 / 2,1', source: 'Phonandroid', url: src.phonandroid },
+  { label: 'AnTuTu 10', value: '1 995 132', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Geekbench 6, monocœur / multicœur', value: '2 910 / 9 152', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: '3DMark Wild Life Extreme', value: '5 952', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Température maximale au dos, sous forte charge', value: '47 °C', source: 'Phonandroid', url: src.phonandroid },
+  { label: 'Score photo DXOMARK', value: '145', source: 'DXOMARK', url: src.dxomarkPhone },
+  { label: 'Volume des haut-parleurs', value: '−28,0 LUFS', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Note de qualité audio, Labo Fnac', value: '6,9/10', source: 'L’Éclaireur Fnac', url: src.fnac },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: src.clubic,
+    note: '9/10',
+    verdict:
+      'Samsung corrige les trois reproches historiques du Fold (épaisseur, écran externe étroit, photo moyenne). La recharge lente, l’absence de chargeur et le prix restent les freins.',
+  },
+  {
+    media: 'L’Éclaireur Fnac',
+    url: src.fnac,
+    note: '4/5',
+    verdict: 'Le laboratoire salue un Fold affiné qui garde sa puissance et tient environ 16 heures malgré une batterie modeste. Le contraste, pénalisé par la luminosité selon ses critères, déçoit.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: src.jdg,
+    note: '9/10',
+    verdict: 'Premier Fold à concilier vraiment tablette et téléphone de poche. Il tient une journée chargée mais pas deux, et chauffe nettement sous forte sollicitation.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: src.notebookcheck,
+    note: '87 %',
+    verdict: 'Un pliant fin et rapide à l’autonomie correcte. Le site regrette la batterie jugée petite, un scintillement PWM à basse fréquence et la fin du S Pen.',
+  },
+  {
+    media: 'GSMArena',
+    url: src.gsmarena,
+    verdict: 'Bien plus facile à recommander que ses prédécesseurs. Autonomie, charge, téléobjectif et abandon du S Pen restent les faux pas relevés.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Le Galaxy Z Fold7 vaut-il encore le coup en 2026 ?',
+    a: 'Oui, s’il est vendu nettement sous le prix du Galaxy Z Fold8 Ultra. Le Samsung Galaxy Z Fold7 partage avec lui ses écrans de 8 et 6,5 pouces, son capteur de 200 Mpx, son zoom x3 et son poids de 215 g. Il recule sur la batterie (4 400 mAh contre 5 000), la charge (25 W contre 45 W) et l’ultra grand-angle.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Galaxy Z Fold7 ?',
+    a: 'Le Labo Fnac a mesuré 16 h 09 d’autonomie sur son protocole, et GSMArena obtient un Active Use Score de 11 h 44 écran intérieur, 12 h 56 écran externe. En usage réel, Clubic et le Journal du Geek décrivent une journée complète en usage intensif, et environ une journée et demie en usage modéré.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Galaxy Z Fold7 ?',
+    a: 'Avec un chargeur 25 W, GSMArena a mesuré 28 % en 15 minutes, 53 % en 30 minutes et une charge complète en 1 h 27. Le Labo Fnac relève 1 h 17, Phonandroid 1 h 40. Samsung ne fournit pas de chargeur dans la boîte, qui contient seulement un câble USB-C et l’outil d’éjection SIM.',
+  },
+  {
+    q: 'Le Galaxy Z Fold7 aura-t-il encore des mises à jour ?',
+    a: 'Oui. Le Samsung Galaxy Z Fold7 est sorti sous Android 16 et One UI 8, et Samsung lui promet sept mises à jour majeures d’Android et sept ans de correctifs de sécurité. Le suivi court donc jusqu’en 2032 environ, soit un an de moins que le Galaxy Z Fold8 Ultra lancé en 2026.',
+  },
+  {
+    q: 'Le Galaxy Z Fold7 est-il étanche ?',
+    a: 'En partie seulement. Le Samsung Galaxy Z Fold7 est certifié IP48 : il supporte 30 minutes sous 1,5 mètre d’eau douce, mais ne bloque que les particules de plus d’un millimètre, précise GSMArena. Le sable fin peut donc atteindre la charnière. Le Galaxy Z Fold8 Ultra garde le même indice, alors que le Pixel 10 Pro Fold de Google est certifié IP68.',
+  },
+  {
+    q: 'L’écran pliant du Galaxy Z Fold7 est-il solide ?',
+    a: 'Samsung a fait certifier l’écran pliant du Galaxy Z Fold7 par Bureau Veritas pour 500 000 pliages réalisés en 13 jours à environ 25 °C, 2,5 fois le chiffre du Fold6 selon Clubic. L’étiquette énergie européenne le classe A en résistance aux chutes, mais C en réparabilité. L’écran intérieur reste couvert d’un film plastique, plus sensible aux rayures qu’un verre.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fold7', 'Samsung', 'Smartphone pliant'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test · génération 2025 face à 2026</span>
+        <h1>Test du Samsung Galaxy Z Fold7 : le Fold de 2025 tient-il encore face au Fold8 Ultra ?</h1>
+      </div>
+      <ProductSummary phone={p} ctaLabel="Voir les offres du Galaxy Z Fold7" />
+      <div class="prose">
+        <p class="lede">
+          Lancé le 25 juillet 2025 à {euro(p.launchPrice)}, le Samsung Galaxy Z Fold7 est l’un des pliants les plus testés par la presse. Depuis le 7 août 2026, il a laissé la tête de la gamme des
+          <a href="/smartphone-pliant-samsung/">smartphones pliants Samsung</a> au Fold8 Ultra, qui reprend ses écrans, son capteur de 200 Mpx et ses 215 g.
+          Cette synthèse rassemble les mesures publiées par les laboratoires pour trancher : faut-il encore l’acheter ?
+        </p>
+        <Byline minutes={19} />
+      </div>
+    </header>
+
+    <div class="wrap prose">
+      <Callout variant="answer" title="Verdict en 2026">
+        <p>
+          <strong>Oui, à condition de le payer nettement moins cher que le Galaxy Z Fold8 Ultra</strong> ({euro(ultra.launchPrice)} au lancement). Les tests publiés en 2025 saluent unanimement le gabarit du Galaxy Z Fold7, ses deux écrans et son capteur principal, trois domaines où le modèle 2026 n’apporte rien de décisif.
+          <strong>Le revers est connu</strong> : une batterie de 4 400 mAh qui tient la journée sans grande marge et une charge de 25 W que GSMArena a mesurée à 53 % en 30 minutes, quand Samsung annonce 67 % pour l’Ultra. Des haut-parleurs en recul et l’IP48 complètent la liste des concessions.
+        </p>
+        <p>
+          <strong>Pour qui ?</strong> Celui qui veut une tablette de 8 pouces dans la poche, photographie beaucoup et recharge chaque soir. <strong>Pas pour qui ?</strong> Le joueur assidu, l’utilisateur qui passe ses journées loin d’une prise ou qui prend des notes au stylet.
+          Note Smartphone-Pliant.fr : <strong>{num(overall(p))}/10</strong>.
+        </p>
+      </Callout>
+
+      <nav class="toc" aria-label="Sommaire du test">
+        <strong>Au sommaire</strong>
+        <ol>
+          <li><a href="#vieilli">Ce qui a vieilli en un an</a></li>
+          <li><a href="#design">Design</a></li>
+          <li><a href="#ecrans">Écrans</a></li>
+          <li><a href="#performances">Performances</a></li>
+          <li><a href="#photo">Photo</a></li>
+          <li><a href="#autonomie">Autonomie et charge</a></li>
+          <li><a href="#logiciel">Logiciel et suivi</a></li>
+          <li><a href="#connectivite">Son, réseaux et biométrie</a></li>
+          <li><a href="#solidite">Solidité et réparabilité</a></li>
+          <li><a href="#boite">Boîte, versions et prix</a></li>
+          <li><a href="#prix">Alternatives</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="vieilli">Fold7 contre Fold8 Ultra : ce qui a vieilli en un an</h2>
+      <p>
+        Le Samsung Galaxy Z Fold7 et son successeur partagent l’essentiel de leur fiche technique, et c’est ce qui rend la question de l’achat intéressante en 2026.
+        Le tableau ci-dessous isole chaque différence avec le <a href="/smartphone-pliant-samsung/galaxy-z-fold8-ultra/">Galaxy Z Fold8 Ultra</a>, vendu 100 € de plus au lancement en 256 Go.
+      </p>
+    </div>
+
+    <div class="wrap" style="margin-top:1.2rem">
+      <div class="table-scroll">
+        <table class="gap-table">
+          <caption class="sr-only">Comparaison du Samsung Galaxy Z Fold7 et du Galaxy Z Fold8 Ultra</caption>
+          <thead>
+            <tr>
+              <th scope="col">Critère</th>
+              <th scope="col">Galaxy Z Fold7</th>
+              <th scope="col">Galaxy Z Fold8 Ultra</th>
+              <th scope="col">Écart</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((r) => (
+                <tr class:list={[r.loss && 'is-loss']}>
+                  <th scope="row">{r.k}</th>
+                  <td>{r.a}</td>
+                  <td>{r.b}</td>
+                  <td class="gap">{r.d}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">
+        Lignes surlignées : les points où le Fold7 a pris un coup de vieux. Charge du Fold8 Ultra : donnée annoncée par Samsung. Cycles : étiquettes énergie européennes relayées par
+        <a href={src.gsmarenaEu2026} target="_blank" rel="noopener">GSMArena</a>.
+      </p>
+    </div>
+
+    <div class="wrap prose section">
+      <p class="mt-0">
+        Le Galaxy Z Fold7 a vieilli sur l’énergie, la puce et l’ultra grand-angle, pas sur ce qui se voit et se tient en main : dans une poche, les deux modèles sont indiscernables.
+      </p>
+
+      <h2 id="design">Design : la finesse qui a fait basculer la critique</h2>
+      <p>
+        Le design du Samsung Galaxy Z Fold7 est le point sur lequel les tests publiés sont les plus unanimes. Plié, il mesure 8,9 mm contre 12,1 mm pour le Fold6, rappelle Phonandroid ; déplié, il descend à 4,2 mm.
+        Avec 215 g, il se manipule fermé comme un smartphone classique, ce que Clubic présente comme la correction du défaut numéro un des Fold précédents.
+      </p>
+      <p>
+        <a href={src.gsmarenaSpecs} target="_blank" rel="noopener">GSMArena</a> relève 158,4 × 72,8 mm plié et 158,4 × 143,2 mm déplié. Le cadre est en Armor Aluminum, l’écran externe protégé par un Gorilla Glass Ceramic 2 et le dos par un Gorilla Glass Victus 2.
+        En France, Samsung le vend en Bleu Nuit, Gris et Noir Absolu, plus un Vert d’Eau réservé à sa boutique en ligne, selon <a href={src.samsungNews} target="_blank" rel="noopener">Samsung Newsroom France</a>.
+      </p>
+      <PhoneGallery id={p.id} />
+      <p>
+        Cette cure d’amaigrissement a un prix. Samsung a supprimé la compatibilité avec le S Pen, regret partagé par GSMArena, Notebookcheck, Clubic et le Journal du Geek.
+        La caméra sous l’écran intérieur a aussi disparu au profit d’un poinçon classique, que Clubic range parmi les points faibles.
+      </p>
+      <p>
+        La charnière Armor FlexHinge tient ses promesses d’après le Journal du Geek, qui la décrit sans jeu une fois l’appareil ouvert à plat. <a href={src.gsmarenaDesign} target="_blank" rel="noopener">GSMArena</a> la trouve même si ferme que l’ouverture demande un effort : n’espérez pas déplier le Fold7 d’un seul pouce.
+        En contrepartie, elle maintient l’écran sur une large plage d’angles, note Notebookcheck, ce qui permet de poser le téléphone entrouvert pour une visio ou une photo de groupe.
+      </p>
+      <p>
+        Le pli reste visible. Phonandroid note que la marque se fait « de plus en plus discrète au fil des ans », sans avoir disparu, tandis que le Journal du Geek la juge moins gênante que jamais devant une vidéo.
+        Dernier défaut d’ergonomie, relevé par GSMArena comme par Notebookcheck : le bloc photo dépasse tellement que le Fold7 bascule quand on le pose à plat sur une table.
+      </p>
+
+      <h2 id="ecrans">Écrans : un 8 pouces bien calibré, un externe enfin utilisable</h2>
+      <p>
+        Les deux écrans du Samsung Galaxy Z Fold7 sont l’autre grande réussite du modèle. À l’extérieur, la dalle AMOLED de 6,5 pouces en 2 520 × 1 080 pixels adopte un ratio 21:9 proche d’un smartphone classique, contre 6,2 pouces sur le Fold6.
+        À l’intérieur, l’écran atteint 8 pouces en 2 184 × 1 968 pixels. Les deux montent à 120 Hz et Samsung annonce 2 600 cd/m² en pic.
+      </p>
+      <p>
+        Les mesures publiées confirment une luminosité de très haut niveau. DXOMARK a relevé un pic de 2 481 cd/m² sur l’écran intérieur et de 2 605 cd/m² sur l’écran externe, et attribue au Fold7 un score écran de 155 points, qui le classe 13e de son classement général en septembre 2026.
+        Notebookcheck obtient 2 570 cd/m² sur l’écran intérieur en mesure APL18. En usage courant, GSMArena plafonne à 1 408 cd/m² en luminosité automatique, un niveau suffisant en plein soleil.
+      </p>
+      <p>
+        La colorimétrie est soignée. Phonandroid mesure un Delta E moyen de 1,2 en mode Naturel, et 2,1 en mode Vif, qui sature volontairement les couleurs. Notebookcheck, avec son propre protocole, relève 2,4.
+        Les réserves portent ailleurs : DXOMARK pointe une dalle très réfléchissante et des touches involontaires fréquentes, Notebookcheck un scintillement PWM à 240 Hz qui peut gêner les yeux sensibles, et le Labo Fnac un contraste jugé en retrait.
+      </p>
+      <p>
+        Regard 2026 : le Galaxy Z Fold8 Ultra garde les mêmes diagonales. Le Fold7 ne souffre d’aucun retard sur l’affichage, ce qui pèse lourd sur un appareil dont l’écran est la raison d’être.
+      </p>
+
+      <h2 id="performances">Performances : un Snapdragon 8 Elite bridé par la finesse</h2>
+      <p>
+        Le Samsung Galaxy Z Fold7 embarque le Snapdragon 8 Elite for Galaxy et 12 Go de mémoire vive, mais les tests montrent qu’il n’en exploite pas toute la puissance.
+        GSMArena relève 1 995 132 points sur AnTuTu 10, 2 910 et 9 152 points sur Geekbench 6 et 5 952 points sur 3DMark Wild Life Extreme, des scores légèrement inférieurs à ceux des autres téléphones équipés de la même puce.
+        Clubic obtient des résultats du même ordre avec 2 056 082 points sur AnTuTu et 5 984 points sur 3DMark Wild Life Extreme.
+      </p>
+      <p>
+        L’explication tient à la gestion thermique. Selon GSMArena, processeur et puce graphique réduisent leur cadence peu après le début des tests d’endurance, tout en gardant la coque à une température confortable.
+        Phonandroid chiffre la perte à 12 % par rapport au Galaxy S25 Ultra, doté du même processeur, et relève une pointe à 47 °C sur le dos. Le Journal du Geek parle d’une chauffe sensible mais supportable.
+      </p>
+      <p>
+        Au quotidien, rien de tout cela ne se ressent : le Labo Fnac attribue la note maximale aux quatre scénarios d’usage, de la navigation simple aux tâches les plus lourdes, et 9/10 à la partie graphique.
+        Regard 2026 : le Snapdragon 8 Elite Gen 5 du Fold8 Ultra ne creuse l’écart que sur les jeux 3D exigeants et les longues sessions.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Consulter l’offre sur Amazon" /></p>
+
+      <h2 id="photo">Photo : le 200 Mpx au niveau, le zoom en retrait</h2>
+      <p>
+        Le module photo du Samsung Galaxy Z Fold7 associe un capteur principal de 200 Mpx, un ultra grand-angle de 12 Mpx et un téléobjectif de 10 Mpx au zoom optique x3. C’est la première fois qu’un Fold reçoit un capteur principal de ce calibre.
+      </p>
+      <p>
+        De jour, le capteur principal fait jeu égal avec les Galaxy S25 selon GSMArena, qui salue la plage dynamique, le niveau de détail et un traitement des couleurs sans excès. Phonandroid le place tout près du Galaxy S25 Ultra sur ce capteur.
+        En portrait, Clubic juge le mode convaincant la plupart du temps et GSMArena apprécie la découpe du sujet, tout en la plaçant un cran sous les meilleurs smartphones de 2025.
+        La nuit, il faut forcer le mode Nuit : sans lui, GSMArena obtient des clichés mous et pauvres en détails.
+      </p>
+      <p>
+        L’ultra grand-angle bénéficie désormais d’un autofocus, ce qui lui ouvre la macro. Le téléobjectif x3 est le maillon faible : son petit capteur donne des images correctes en plein jour, mais très bruitées dès que la lumière baisse, même en mode Nuit d’après GSMArena.
+        Au-delà, Clubic trouve le zoom solide jusqu’à x10 et encore exploitable à x30, là où Phonandroid juge les clichés trop bruités hors de la plage optique. Le Labo Fnac note 4,7/10 la sensibilité en basse lumière du module principal.
+        <a href={src.dxomarkPhone} target="_blank" rel="noopener">DXOMARK</a> lui accorde 145 points en photo, 3e score des pliants de son classement en septembre 2026, avec un bokeh réussi mais un téléobjectif et un ultra grand-angle en retrait.
+      </p>
+      <p>
+        En vidéo, le Fold7 filme en 8K à 30 images par seconde avec une image propre et détaillée, et GSMArena qualifie la stabilisation en 4K d’excellente. Les deux caméras frontales de 10 Mpx restent modestes : le Labo Fnac leur reproche un manque de définition, et <a href={src.gsmarenaPhoto} target="_blank" rel="noopener">GSMArena</a> préfère nettement celle de l’écran intérieur, aux teintes de peau plus justes que la caméra externe.
+        Regard 2026 : le Fold8 Ultra passe à un ultra grand-angle de 50 Mpx mais conserve le même capteur principal et le même téléobjectif. Le zoom de nuit reste donc un point faible dans les deux générations.
+      </p>
+
+      <h2 id="autonomie">Autonomie et charge : la journée, pas beaucoup plus</h2>
+      <p>
+        L’autonomie du Samsung Galaxy Z Fold7 est correcte selon les mesures publiées, mais c’est le critère sur lequel le modèle a le plus vieilli. Sa batterie de 4 400 mAh est identique à celle du Fold6, pour des écrans plus grands.
+      </p>
+      <p>
+        Les résultats varient selon les protocoles. Le Labo Fnac obtient 16 h 09, un résultat qu’il juge d’autant plus solide que la batterie paraît modeste sur le papier. GSMArena mesure un Active Use Score de 11 h 44 écran intérieur et de 12 h 56 écran externe : mieux que le Fold6, mais un peu sous la moyenne des pliants concurrents.
+        En usage réel, Clubic tient une journée et demie en usage modéré et une journée en usage intensif, le Journal du Geek une journée chargée sans jamais atteindre deux jours, et Phonandroid termine ses soirées avec 45 à 55 % de batterie.
+      </p>
+      <p>
+        La recharge est le vrai point noir. Limité à 25 W, le Galaxy Z Fold7 récupère 28 % en 15 minutes et 53 % en 30 minutes dans le test de GSMArena, et se recharge entièrement en 1 h 27.
+        Le Labo Fnac relève 1 h 17, Clubic près de 100 minutes, Phonandroid 1 h 40. Aucun chargeur n’est fourni. La charge sans fil plafonne à 15 W, une puissance que Clubic trouve dépassée, et la recharge inversée d’accessoires à 4,5 W.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <h3 class="measures-title">Les mesures publiées sur le Galaxy Z Fold7</h3>
+      <Measures items={measures} caption="Mesures publiées par la presse sur le Samsung Galaxy Z Fold7" />
+      <p class="small muted" style="margin-top:.5rem">Chaque média applique son propre protocole : les résultats ne se comparent qu’au sein d’une même source.</p>
+    </div>
+
+    <div class="wrap prose section">
+      <h2 id="logiciel" class="mt-0">Logiciel et suivi : sept ans promis, un an déjà consommé</h2>
+      <p>
+        Le Samsung Galaxy Z Fold7 est sorti sous Android 16 et One UI 8, parmi les tout premiers appareils livrés avec cette version selon GSMArena. Samsung lui promet sept mises à jour majeures d’Android et sept ans de correctifs de sécurité.
+      </p>
+      <p>
+        Sur un grand écran, l’interface de Samsung reste une référence : Phonandroid la juge excellente et souligne l’arrivée de Gemini Live, capable de répondre même écran éteint, tandis que Clubic et le Journal du Geek mettent en avant les outils Galaxy AI.
+        La gestion du multitâche, avec plusieurs applications ouvertes côte à côte, est citée par GSMArena comme l’un des atouts majeurs du modèle, qui gère aussi Samsung DeX pour afficher un bureau sur un moniteur.
+      </p>
+      <p>
+        Regard 2026 : l’engagement de Samsung court à partir de la sortie. Un Galaxy Z Fold7 acheté en septembre 2026 dispose donc encore de six ans de suivi environ, jusqu’en 2032, contre sept pour le Fold8 Ultra livré sous Android 17 et One UI 9.
+      </p>
+
+      <h2 id="connectivite">Son, réseaux et biométrie : la finesse a coûté aux haut-parleurs</h2>
+      <p>
+        Les haut-parleurs sont le domaine où le Samsung Galaxy Z Fold7 recule face au Fold6. Ses deux transducteurs stéréo logent dans la moitié qui porte l’écran externe ;
+        <a href={src.gsmarenaLab} target="_blank" rel="noopener">GSMArena</a> mesure un volume correct (−28,0 LUFS) mais décrit un son plat, aux basses discrètes, et impute la régression à des cavités réduites par la finesse du châssis.
+        Notebookcheck fait le même constat, Phonandroid compare le rendu à celui d’un vieux poste de radio et le Labo Fnac note la qualité audio 6,9/10. Pas de prise jack.
+      </p>
+      <p>
+        La connectivité, elle, ne manque de rien. D’après la <a href={src.samsungFiche} target="_blank" rel="noopener">fiche de Samsung France</a>, le Fold7 gère la 5G, le Wi-Fi 7 sur les bandes 2,4, 5 et 6 GHz, le Bluetooth 5.4, le NFC pour le paiement sans contact, l’ultra large bande (UWB) et l’USB-C 3.2 Gen 1.
+        Il accepte deux nano-SIM, une nano-SIM et une eSIM, ou deux eSIM, avec deux lignes actives à la fois. Notebookcheck a mesuré environ 1 500 Mbit/s en Wi-Fi sur la bande des 6 GHz et juge la qualité des appels très bonne.
+      </p>
+      <p>
+        Le déverrouillage passe par un capteur d’empreinte intégré au bouton d’alimentation, accessible appareil ouvert comme fermé. Notebookcheck note qu’il demande parfois un second essai ; la reconnaissance faciale par la caméra frontale sert de solution d’appoint.
+      </p>
+
+      <h2 id="solidite">Solidité et réparabilité : classe A aux chutes, classe C pour la réparation</h2>
+      <p>
+        Certifié IP48, le Samsung Galaxy Z Fold7 résiste à 30 minutes sous 1,5 mètre d’eau douce mais ne filtre que les particules de plus d’un millimètre, rappelle GSMArena : le sable fin reste une menace pour la charnière.
+      </p>
+      <p>
+        Samsung a fait certifier son écran pliant par Bureau Veritas : 500 000 pliages en 13 jours à environ 25 °C sans défaillance, soit 2,5 fois le chiffre du Fold6, rapporte <a href={src.clubicSolidite} target="_blank" rel="noopener">Clubic</a>. Le constructeur attribue ce progrès à un verre ultrafin 50 % plus épais.
+        L’écran intérieur reste couvert d’un film plastique, classé au niveau 1 de l’échelle de Mohs par GSMArena, donc plus sensible aux rayures qu’un verre.
+      </p>
+      <p>
+        L’étiquette énergie européenne, obligatoire depuis juin 2025, complète le tableau. Selon les données reprises par GSMArena, le Fold7 obtient la classe B en efficacité énergétique, la classe A en résistance aux chutes et la classe C en réparabilité, avec 40 h 28 d’autonomie par cycle et une batterie qui conserve 80 % de sa capacité après 2 000 cycles.
+        Regard 2026 : les fiches du Fold8 Ultra, du Fold8 et du Flip8 n’annoncent que 1 200 cycles, 40 % de moins, une baisse que GSMArena relie à leur nouvelle technologie de batterie.
+      </p>
+      <p>
+        Nous n’avons pas trouvé chez Samsung France d’offre d’écran réservée aux pliants : la protection passe par <a href={src.samsungCare} target="_blank" rel="noopener">Samsung Care+</a>, assurance à souscrire dans les 60 jours suivant l’achat, qui couvre les dommages accidentels avec franchise et remplace la batterie sous 80 % de capacité dans sa formule mensuelle.
+      </p>
+    </div>
+
+    <section class="section band">
+      <div class="wrap">
+        <div class="grid" style="--min:300px;align-items:start">
+          <ScoreBars phone={p} />
+          <div class="prose">
+            <h2 class="mt-0">Notre note : {num(overall(p))}/10, à {num(gap)} point de l’Ultra</h2>
+            <p>
+              Le Samsung Galaxy Z Fold7 obtient {num(overall(p))}/10, contre {num(overall(ultra))}/10 au Fold8 Ultra. Il perd du terrain en autonomie ({num(p.scores.autonomie)}/10 contre {num(ultra.scores.autonomie)}/10) et en performances, mais en regagne sur le rapport qualité/prix ({num(p.scores.prix)}/10 contre {num(ultra.scores.prix)}/10).
+            </p>
+            <p>
+              Cette note est une synthèse éditoriale fondée sur la fiche technique et les tests publiés, pas sur une prise en main. Le calcul est détaillé dans <a href="/methodologie/">notre méthodologie</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap prose section">
+      <ProsCons
+        prosTitle="Ce que les tests saluent"
+        consTitle="Ce qu’ils reprochent"
+        pros={[
+          'Gabarit de smartphone classique : 215 g et 8,9 mm plié',
+          'Écran externe de 6,5" au format 21:9, confortable fermé',
+          'Écran intérieur de 8" lumineux et bien calibré',
+          'Capteur principal de 200 Mpx au niveau des Galaxy S25 de jour',
+          'Wi-Fi 7, UWB et double SIM ou double eSIM',
+          'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
+          'Sept mises à jour Android promises',
+        ]}
+        cons={[
+          'Charge 25 W : 53 % en 30 min chez GSMArena, sans chargeur fourni',
+          'Téléobjectif x3 faible en basse lumière',
+          'Throttling rapide sous forte charge',
+          'Haut-parleurs plus plats que ceux du Fold6',
+          'Plus de compatibilité S Pen',
+          'IP48 : poussière fine mal filtrée',
+        ]}
+      />
+
+      <TestSources
+        sources={sources}
+        heading="Galaxy Z Fold7 : le verdict de la presse"
+        intro="Cinq tests publiés en 2025, de la presse française aux laboratoires internationaux. Les notes n’utilisent pas la même échelle."
+      />
+
+      <h2 id="boite">Dans la boîte, les accessoires et les versions vendues en France</h2>
+      <p>
+        La boîte du Samsung Galaxy Z Fold7 se limite au téléphone, à un câble USB-C et à l’outil d’éjection du tiroir SIM, selon Samsung France. Pas de chargeur : il faut un bloc USB Power Delivery d’au moins 25 W pour la charge rapide, rappelle GSMArena.
+        Pas de coque non plus. Samsung vend des <a href={src.samsungCoque} target="_blank" rel="noopener">coques en silicone</a> avec support amovible ou lanière, accompagnées de films de protection, dans les teintes du téléphone.
+      </p>
+      <p>
+        Le Galaxy Z Fold7 existe en trois capacités, sans lecteur de carte mémoire. Seule la version 1 To passe à 16 Go de mémoire vive, un argument pour qui compte le garder jusqu’au bout de son suivi logiciel.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="table-scroll">
+        <table class="versions">
+          <caption class="sr-only">Versions et prix de lancement du Samsung Galaxy Z Fold7 en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Stockage</th>
+              <th scope="col">Mémoire vive</th>
+              <th scope="col">Prix de lancement en France</th>
+              <th scope="col">Coloris</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              versions.map((v, i) => (
+                <tr>
+                  <th scope="row">{v.v}</th>
+                  <td>{v.ram}</td>
+                  <td class="num">{v.price}</td>
+                  {i === 0 && <td rowspan={3}>Bleu Nuit, Gris, Noir Absolu ; Vert d’Eau en exclusivité sur samsung.com</td>}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">
+        Prix publics conseillés au lancement, relevés par le <a href={src.jdg} target="_blank" rel="noopener">Journal du Geek</a>. Coloris : Samsung Newsroom France.
+      </p>
+    </div>
+
+    <div class="wrap prose section">
+      <p class="mt-0">
+        Notre conseil d’achat : la version 256 Go suffit à la plupart des usages, et c’est elle qu’il faut comparer au Fold8 Ultra.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Voir les coloris disponibles" /></p>
+
+      <h2 id="prix">Alternatives : Fold8 Ultra, Fold8, Pixel ou Honor ?</h2>
+      <p>
+        Un an après sa sortie, le Samsung Galaxy Z Fold7 se trouve souvent nettement moins cher que ses {euro(p.launchPrice)} de lancement. Son intérêt dépend de l’écart avec les deux Fold de 2026, et de ce que proposent Google et Honor.
+      </p>
+      <p>
+        <strong>Face au Galaxy Z Fold8 Ultra</strong> ({euro(ultra.launchPrice)} au lancement), le Fold7 offre la même expérience d’écran et de photo principale. Si l’écart de prix constaté se limite à une centaine d’euros, l’Ultra est le meilleur achat : 600 mAh de plus, une charge presque deux fois plus puissante et un an de suivi supplémentaire valent largement cette somme.
+      </p>
+      <p>
+        <strong>Face au <a href="/smartphone-pliant-samsung/galaxy-z-fold8/">Galaxy Z Fold8</a></strong> ({euro(fold8.launchPrice)} au lancement), le choix porte sur le format. Le Fold8 adopte un écran intérieur de 7,6 pouces au ratio 4:3 et un écran externe de 5,5 pouces, pèse 201 g et embarque 4 800 mAh rechargés en 45 W (63 % en 30 minutes selon Samsung).
+        Il renonce en revanche au téléobjectif et au capteur de 200 Mpx. Si vous photographiez beaucoup et tenez au grand écran externe, le Fold7 garde l’avantage ; si l’autonomie et la compacité priment, le Fold8 est plus cohérent.
+      </p>
+      <p>
+        <strong>Face au Google Pixel 10 Pro Fold</strong> ({euro(pixel10.launchPrice)} au lancement), c’est la robustesse qui se paie en grammes. Le pliant de Google est certifié IP68, embarque 5 015 mAh et un zoom x5, mais pèse 258 g, soit 43 g de plus, et mesure 10,8 mm plié.
+        Son Tensor G5 est aussi moins à l’aise en jeu. Pour la plage ou le chantier, <ObfLink href={pixel10.path} class="obf-text">le Pixel 10 Pro Fold</ObfLink> rassure davantage ; pour la poche, le Fold7 reste plus agréable.
+      </p>
+      <p>
+        <strong>Face au Honor Magic V5</strong> ({euro(v5.launchPrice)} au lancement en 16 Go / 512 Go), la fiche technique penche nettement vers Honor : 5 820 mAh, charge 66 W filaire et 50 W sans fil, périscope 64 Mpx x3, IP58 et IP59, pour 217 g et 8,8 mm plié.
+        Le Fold7 garde son 200 Mpx et une interface plus sobre que MagicOS ; si l’autonomie prime, <ObfLink href={v5.path} class="obf-text">le Magic V5</ObfLink> mérite la comparaison.
+      </p>
+      <Callout variant="tip" title="Avant d’acheter un Fold de l’an dernier">
+        <p>
+          Neuf, le Galaxy Z Fold7 profite de la garantie légale de deux ans à partir de l’achat. Chez un vendeur tiers, exigez une facture et une version européenne pour pouvoir la faire jouer en France.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} variant="ghost" label="Vérifier la disponibilité" /></p>
+
+      <h2>Fiche technique du Samsung Galaxy Z Fold7</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Galaxy Z Fold7 : les questions avant d’acheter" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="Les autres Galaxy Z de notre dossier Samsung" />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .gap-table tbody th {
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .gap-table .gap {
+    font-weight: 750;
+  }
+  .gap-table tr.is-loss td,
+  .gap-table tr.is-loss th {
+    background: var(--accent-soft);
+  }
+  .measures-title {
+    margin: 0 0 0.7rem;
+  }
+  .versions td[rowspan] {
+    vertical-align: middle;
+  }
+</style>

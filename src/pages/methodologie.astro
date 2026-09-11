@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { WEIGHTS, SCORE_LABELS, type Scores } from '../data/phones';
+import { SITE } from '../data/site';
+import { article } from '../lib/schema';
+import { frDate } from '../lib/format';
+
+const title = 'Méthodologie : comment nous comparons les smartphones pliants';
+const description =
+  'Sources, critères de notation, pondération et politique d’affiliation : comment Smartphone-Pliant.fr établit ses comparatifs de smartphones pliants.';
+const keys = Object.keys(WEIGHTS) as (keyof Scores)[];
+
+const criteria: Record<keyof Scores, string> = {
+  ecran: 'Taille et définition des deux écrans, luminosité, fréquence de rafraîchissement, visibilité du pli et confort de l’écran externe au quotidien.',
+  performances: 'Puissance de la puce, mémoire vive, comportement en usage prolongé (chauffe) et fluidité du multitâche.',
+  photo: 'Nombre et qualité des capteurs, présence d’un téléobjectif, zoom optique, vidéo et résultats observés dans les tests publiés.',
+  autonomie: 'Capacité de la batterie rapportée à la taille des écrans, vitesse de charge filaire et sans fil, charge inversée.',
+  portabilite: 'Poids, épaisseur fermé et ouvert, résistance à l’eau et à la poussière.',
+  prix: 'Prix de lancement comparé à l’équipement, prix couramment constaté chez les marchands, durée du suivi logiciel.',
+};
+
+const schema = [article({ path: '/methodologie/', title, description })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <section class="section">
+    <div class="wrap prose">
+      <span class="eyebrow">Transparence</span>
+      <h1>Notre méthodologie</h1>
+      <p class="lede">
+        Un comparatif n’a de valeur que si l’on sait comment il est construit. Voici nos sources, nos critères et la façon dont nous gagnons de l’argent.
+      </p>
+      <p class="small muted">Dernière révision : {frDate(SITE.updated)}</p>
+
+      <h2>D’où viennent les données</h2>
+      <p>
+        Les caractéristiques techniques proviennent en priorité des fiches officielles des constructeurs (sites Samsung, Apple, Google, Motorola, Honor, Huawei et Xiaomi, communiqués de presse).
+        Lorsqu’une donnée n’est pas publiée, nous l’indiquons « n.c. » plutôt que de reprendre une estimation. Les dates de sortie et les prix sont ceux annoncés pour la France.
+      </p>
+      <p>
+        Les prix affichés sont les <strong>prix publics conseillés au lancement</strong>, dans la configuration de base. Ils servent de repère stable : le prix réel chez les marchands évolue chaque jour et s’affiche en suivant nos liens.
+      </p>
+
+      <h2>Comment la note sur 10 est calculée</h2>
+      <p>
+        Chaque smartphone reçoit une note sur 10 pour six critères. La note globale est la moyenne pondérée de ces six notes, arrondie au dixième.
+        Les notes sont éditoriales : elles combinent l’analyse de la fiche technique et la synthèse des tests publiés par la presse spécialisée francophone et internationale.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Critères de notation et pondération</caption>
+          <thead><tr><th scope="col">Critère</th><th scope="col">Poids</th><th scope="col">Ce que nous regardons</th></tr></thead>
+          <tbody>
+            {keys.map((k) => (
+              <tr>
+                <td><strong>{SCORE_LABELS[k]}</strong></td>
+                <td class="num">{Math.round(WEIGHTS[k] * 100)} %</td>
+                <td>{criteria[k]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le critère « rapport qualité/prix » explique pourquoi un modèle de l’année précédente peut devancer une nouveauté : quand son prix baisse, sa note sur ce critère augmente.
+      </p>
+
+      <h2>Notes provisoires</h2>
+      <p>
+        Un modèle annoncé mais pas encore commercialisé reçoit une <strong>note provisoire</strong>, clairement signalée. Elle repose uniquement sur les caractéristiques officielles et sera révisée après la sortie.
+        Lorsque nous n’avons pas eu un appareil en main, la fiche le précise.
+      </p>
+
+      <h2>Comment sont construits nos tests</h2>
+      <p>
+        Nos tests sont des <strong>synthèses sourcées</strong>. Pour chaque modèle, nous rassemblons les mesures et les verdicts publiés par plusieurs rédactions spécialisées (Les Numériques, Frandroid, GSMArena, Phonandroid, Journal du Geek, etc.),
+        nous les confrontons à la fiche technique officielle et nous en tirons un avis argumenté.
+      </p>
+      <ul>
+        <li>chaque mesure reprise (autonomie, luminosité, temps de charge, benchmarks) indique le média qui l’a réalisée, avec un lien vers son test ;</li>
+        <li>les verdicts des autres médias sont résumés avec nos propres mots, et leurs notes sont reprises telles que publiées ;</li>
+        <li>nous n’affirmons jamais avoir manipulé un appareil que nous n’avons pas eu en main.</li>
+      </ul>
+      <p>
+        Les tests sont rédigés par <a href="/auteur/theo-marceau/">Théo Marceau</a> selon cette méthode.
+      </p>
+
+      <h2>Mises à jour</h2>
+      <p>
+        Le comparatif est revu à chaque lancement important et au minimum une fois par mois. La date de dernière mise à jour figure en haut de chaque page. Les corrections signalées par nos lecteurs sont intégrées dès vérification.
+      </p>
+
+      <h2>Affiliation et indépendance</h2>
+      <p>
+        Smartphone-Pliant.fr est financé par l’affiliation. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises, lorsque vous passez par nos liens.
+        Cela ne modifie pas le prix que vous payez.
+      </p>
+      <p>
+        Les commissions ne jouent aucun rôle dans le classement : les notes sont calculées avant de choisir les liens, et un modèle mal noté conserve son lien d’achat au même titre qu’un modèle bien noté.
+        Aucun constructeur ne paie pour apparaître dans nos comparatifs.
+      </p>
+
+      <h2>Signaler une erreur</h2>
+      <p>
+        Une caractéristique vous semble fausse ? Écrivez-nous à <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a> en précisant la page et la source. Vous pouvez aussi en savoir plus sur l’équipe dans la page <a href="/a-propos/">à propos</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

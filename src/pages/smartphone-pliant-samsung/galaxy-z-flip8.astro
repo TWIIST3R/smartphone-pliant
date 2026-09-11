@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('galaxy-z-flip8');
+const flip7 = byId('galaxy-z-flip7');
+const flipFe = byId('galaxy-z-flip7-fe');
+const fold8 = byId('galaxy-z-fold8');
+const path = p.path;
+const title = 'Test du Galaxy Z Flip8 : faut-il craquer à 1 299 € ?';
+const description =
+  'Test du Samsung Galaxy Z Flip8 : autonomie, charge 25 W, chauffe de l’Exynos 2600, photo et étiquette énergie d’après GSMArena, Clubic et Presse-citron.';
+
+const SRC = {
+  gsm: 'https://www.gsmarena.com/samsung_galaxy_z_flip8-review-2989.php',
+  gsmDesign: 'https://www.gsmarena.com/samsung_galaxy_z_flip8-review-2989p2.php',
+  gsmLab: 'https://www.gsmarena.com/samsung_galaxy_z_flip8-review-2989p3.php',
+  gsmPerf: 'https://www.gsmarena.com/samsung_galaxy_z_flip8-review-2989p4.php',
+  gsmCam: 'https://www.gsmarena.com/samsung_galaxy_z_flip8-review-2989p5.php',
+  gsmSpecs: 'https://www.gsmarena.com/samsung_galaxy_z_flip8_5g-14803.php',
+  gsmCycles: 'https://www.gsmarena.com/eu_listings_confirm_shorter_battery_lifespan_for_new_galaxy_foldables-news-73870.php',
+  techadvisor: 'https://www.techadvisor.com/article/3219620/samsung-galaxy-z-flip-8-review.html',
+  pc: 'https://www.presse-citron.net/samsung-galaxy-z-flip-8-test/',
+  clubic: 'https://www.clubic.com/test-produit-623890-samsung-galaxy-z-flip-8.html',
+  eprel: 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2610204_EN.pdf',
+  eprelFe: 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2284542_EN.pdf',
+  mobigeeks: 'https://www.mobigeeks.fr/galaxy-z-fold-8-et-flip-8-le-prix-dun-ecran-casse/',
+  samsung: 'https://www.samsung.com/fr/smartphones/galaxy-z-flip8/',
+  samsungNews: 'https://news.samsung.com/global/samsung-officially-launches-galaxy-z-fold8-ultra-fold8-flip8-watch-ultra2-and-watch9',
+  samsungCare: 'https://www.samsung.com/fr/offer/samsung-care-plus/',
+  samsungPrecautions: 'https://www.samsung.com/fr/support/mobile-devices/precautions-d-usage-pour-les-smartphones-galaxy-fold-et-flip/',
+  caseClear: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-flip8-clear-magnet-case-transparent-ef-cf776ctegww/',
+  caseRing: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-flip8-silicone-ring-magnet-case-pink-ef-ef776cvegww/',
+};
+
+const measures = [
+  { label: 'Score d’usage actif', value: '14 h 14', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'PCMark Work 3.0 (200 cd/m², 120 Hz)', value: '15 h 40', source: 'Tech Advisor', url: SRC.techadvisor },
+  { label: 'Streaming vidéo (forte luminosité, 60 Hz)', value: 'environ 16 h', source: 'Tech Advisor', url: SRC.techadvisor },
+  { label: 'Endurance par cycle et cycles de batterie, étiquette UE', value: '44 h · 1 200 cycles', source: 'EPREL', url: SRC.eprel },
+  { label: 'Charge, adaptateur Samsung 25 W', value: '30 % en 15 min · 56 % en 30 min · 100 % en 79 min', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Charge, chargeur 45 W', value: '25 % en 15 min · 50 % en 30 min', source: 'Tech Advisor', url: SRC.techadvisor },
+  { label: 'Luminosité auto, écran intérieur / externe', value: '1 470 / 1 444 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Pic sur 10 % de l’écran, intérieur / externe', value: '2 679 / 2 482 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Geekbench 6, monocœur / multicœur', value: '2 977 / 10 466', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'AnTuTu 11', value: '2 477 554', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: '3DMark Wild Life Extreme', value: '6 916', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'Test de stabilité (processeur / graphique)', value: '> 50 % de perte en moins de 5 min / environ 65 %', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'Stabilité au stress test 3DMark', value: '50 %', source: 'Clubic', url: SRC.clubic },
+  { label: 'Consommation en jeu (Fortnite)', value: 'environ 5 % par quart d’heure', source: 'Presse-citron', url: SRC.pc },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: SRC.gsm,
+    date: '2026-08-21',
+    note: '4,3/5',
+    verdict:
+      'Un clapet compact aux écrans lumineux et à l’autonomie solide, mais trop proche du Flip7 et lourdement bridé par la chauffe de sa puce.',
+  },
+  {
+    media: 'Tech Advisor',
+    url: SRC.techadvisor,
+    date: '2026-08-25',
+    verdict:
+      'Plus fin, plus endurant et plus libre côté écran externe. Photo limitée et charge lente : le testeur garde une préférence pour le Razr 70 Ultra.',
+  },
+  {
+    media: 'Clubic',
+    url: SRC.clubic,
+    date: '2026-08-11',
+    note: '7/10',
+    verdict:
+      'Vidéo bien stabilisée et écrans lisibles au soleil, mais une chauffe marquée, une autonomie juste et 100 € de plus que le Flip7 rendent ce clapet difficile à recommander.',
+  },
+  {
+    media: 'Presse-citron',
+    url: SRC.pc,
+    date: '2026-08-15',
+    note: 'Non noté',
+    verdict:
+      'Testé une semaine seulement, donc sans note. Un clapet très bien fini et suivi longtemps, mais une évolution trop timide pour justifier 100 € de plus que le Flip7.',
+  },
+];
+
+const pros = [
+  '180 g et 6,1 mm déplié : le Flip le plus fin et le plus léger',
+  'Charnière revue, pli jugé pratiquement invisible par GSMArena',
+  'Autonomie en progrès : 14 h 14 chez GSMArena, 15 h 40 chez Tech Advisor',
+  'Haut-parleurs jugés « très bien » en puissance par GSMArena',
+  'Vidéo 4K à 60 i/s, bien stabilisée',
+  'Classe A en efficacité énergétique et en résistance aux chutes',
+  'Sept mises à jour majeures d’Android promises',
+];
+const cons = [
+  'Exynos 2600 fortement bridé sous effort prolongé',
+  'Charge 25 W : 79 minutes pour le plein selon GSMArena',
+  'Photo en retrait, surtout de nuit',
+  'Peu de changements face au Flip7, pour 100 € de plus au lancement',
+  'IP48 et réparabilité classée C',
+  'Ni chargeur ni coque dans la boîte',
+];
+
+const faq = [
+  {
+    q: 'Le Galaxy Z Flip8 chauffe-t-il ?',
+    a: 'Sous effort prolongé, oui. Selon GSMArena, l’Exynos 2600 du Samsung Galaxy Z Flip8 perd plus de 50 % de sa puissance processeur en moins de cinq minutes, et environ 65 % côté graphique. Clubic situe la chauffe dans la partie haute, près de l’écran externe, et Presse-citron la ressent lors des longues parties. En usage courant, Tech Advisor décrit au contraire un téléphone plutôt frais.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Galaxy Z Flip8 ?',
+    a: 'GSMArena a mesuré 14 h 14 à son score d’usage actif, en progrès face au Galaxy Z Flip7 malgré la même batterie de 4 300 mAh. Tech Advisor obtient 15 h 40 sur PCMark Work 3.0 et environ 16 heures en streaming vidéo. En usage réel, Presse-citron estime que le Samsung Galaxy Z Flip8 tient une journée à une journée et demie, quand Clubic juge son endurance juste.',
+  },
+  {
+    q: 'Le Galaxy Z Flip8 a-t-il un processeur Snapdragon ?',
+    a: 'Pas en France. Le Samsung Galaxy Z Flip8 vendu en Europe utilise l’Exynos 2600, gravé en 2 nm, avec 12 Go de mémoire vive. Selon GSMArena, la version équipée du Snapdragon 8 Elite Gen 5 for Galaxy est réservée aux États-Unis, au Canada et à la Chine. Les Galaxy Z Fold8 et Fold8 Ultra embarquent, eux, le Snapdragon.',
+  },
+  {
+    q: 'Combien de temps pour recharger le Galaxy Z Flip8 ?',
+    a: 'Avec l’adaptateur Samsung de 25 W, GSMArena a mesuré 56 % en 30 minutes et 79 minutes pour une charge complète du Samsung Galaxy Z Flip8. Presse-citron et Clubic indiquent environ 1 h 30. Un chargeur plus puissant n’accélère rien : Tech Advisor obtient 50 % en 30 minutes avec un bloc de 45 W. La charge sans fil plafonne à 15 W.',
+  },
+  {
+    q: 'Le chargeur est-il fourni avec le Galaxy Z Flip8 ?',
+    a: 'Non. Selon le déballage de GSMArena, la boîte du Samsung Galaxy Z Flip8 contient un câble USB-C vers USB-C et l’outil d’éjection de la carte SIM, sans chargeur ni coque. Clubic fait le même constat. Comme la charge filaire plafonne à 25 W, un chargeur USB-C de 25 W compatible avec la charge rapide de Samsung suffit à obtenir les meilleurs temps.',
+  },
+  {
+    q: 'Le Galaxy Z Flip8 est-il étanche ?',
+    a: 'Le Samsung Galaxy Z Flip8 est certifié IP48. Il supporte une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, mais ne protège que des particules solides de plus de 1 mm : sable et poussière fine restent à éviter, et Samsung précise que ses pliants ne sont pas résistants à la poussière. Sur l’étiquette énergie européenne, il obtient la classe A en résistance aux chutes.',
+  },
+  {
+    q: 'Quelle capacité de stockage choisir pour le Galaxy Z Flip8 ?',
+    a: 'Le Galaxy Z Flip8 existe en 256 Go (1 299 € au lancement) et en 512 Go (1 499 €), toujours avec 12 Go de mémoire vive, sans version 1 To ni lecteur microSD. La version 256 Go suffit à un usage courant. Les 200 € supplémentaires se justifient surtout si vous filmez beaucoup en 4K ou conservez vos photos sur le téléphone plutôt que dans le cloud.',
+  },
+  {
+    q: 'Galaxy Z Flip8 ou Motorola Razr 70 Ultra : lequel choisir ?',
+    a: 'Le Motorola Razr 70 Ultra, lancé à 1 499 € en 16 Go / 512 Go, offre une batterie de 5 000 mAh, une charge de 68 W, des écrans à 165 Hz et un Snapdragon 8 Elite. Le Samsung Galaxy Z Flip8 est plus léger (180 g contre 199 g), plus fin fermé (13,1 mm contre 15,7 mm) et suivi plus longtemps, avec sept mises à jour d’Android promises.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Samsung Galaxy Z Flip8', 'Samsung', 'Smartphone pliant à clapet'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <section class="hero">
+      <div class="wrap">
+        <div class="prose">
+          <span class="eyebrow">Test · clapet Samsung 2026</span>
+          <h1>Test du Samsung Galaxy Z Flip8 : les questions à se poser avant de craquer</h1>
+          <ProductSummary phone={p} ctaLabel="Voir le prix du Flip8 sur Amazon" />
+          <p class="lede">
+            Le Samsung Galaxy Z Flip8 est le clapet 2026 de la gamme <a href="/smartphone-pliant-samsung/">smartphone pliant Samsung</a>. Sorti le 7 août 2026 à {euro(p.launchPrice)} en 256 Go, il ne pèse que 180 g et passe à l’Exynos 2600,
+            mais garde la batterie de 4 300 mAh et la charge 25 W du Flip7. Les tests de GSMArena, Tech Advisor, Clubic et Presse-citron, complétés par l’étiquette énergie européenne, permettent de répondre aux questions que se posent les acheteurs.
+          </p>
+          <Byline minutes={19} />
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap prose section-tight">
+      <Callout variant="answer" title="La réponse courte">
+        <p>
+          Le Galaxy Z Flip8 est un bon clapet, pas une grande mise à jour. Les tests publiés saluent sa légèreté, sa charnière et ses écrans lumineux, et mesurent une autonomie en progrès (14 h 14 au score d’usage actif de GSMArena).
+          En face, l’Exynos 2600 perd plus de la moitié de sa puissance après quelques minutes d’effort, la charge reste lente et l’écart avec le Flip7 est mince.
+          Il conviendra à qui veut un Android compact, bien fini et suivi sept ans, et passe plus de temps sur les réseaux sociaux et en photo de jour que dans les jeux 3D.
+          Les joueurs assidus, les grands voyageurs loin des prises et les propriétaires d’un Flip7 ont en revanche peu de raisons de craquer. Notre note : <strong>{num(overall(p))}/10</strong>.
+        </p>
+      </Callout>
+
+      <p class="small muted">
+        Synthèse des tests publiés par GSMArena, Tech Advisor, Clubic et Presse-citron, de la fiche EPREL et des données de Samsung France : Smartphone-Pliant.fr n’a pas manipulé l’appareil, et chaque mesure est attribuée à sa source. Notre barème est expliqué dans <a href="/methodologie/">la méthodologie</a>.
+      </p>
+
+      <h2 class="mt-0">Qu’apporte le Galaxy Z Flip8 face au Galaxy Z Flip7 ?</h2>
+      <p>
+        Le Galaxy Z Flip8 améliore surtout le poids, la finesse et la puce. Le <a href={flip7.path}>Galaxy Z Flip7</a>, sorti le 25 juillet 2025, avait déjà inauguré l’écran externe de 4,1 pouces et l’écran intérieur de 6,9 pouces que conserve son successeur, tout comme la batterie et les capteurs photo.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Galaxy Z Flip7 et Galaxy Z Flip8 : évolution des caractéristiques</caption>
+          <thead>
+            <tr><th scope="col">Critère</th><th scope="col">Galaxy Z Flip7</th><th scope="col">Galaxy Z Flip8</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Sortie en France</td><td>25 juillet 2025</td><td>7 août 2026</td></tr>
+            <tr><td>Processeur</td><td>{flip7.chip}</td><td><strong>{p.chip} (2 nm)</strong></td></tr>
+            <tr><td>Poids</td><td class="num">{flip7.weight} g</td><td class="num"><strong>{p.weight} g</strong></td></tr>
+            <tr><td>Épaisseur pliée / dépliée</td><td class="num">13,7 / 6,5 mm</td><td class="num"><strong>13,1 / 6,1 mm</strong></td></tr>
+            <tr><td>Écrans intérieur / externe</td><td class="num">6,9" / 4,1"</td><td class="num">6,9" / 4,1"</td></tr>
+            <tr><td>Batterie</td><td class="num">4 300 mAh</td><td class="num">4 300 mAh</td></tr>
+            <tr><td>Cycles de batterie certifiés (étiquette UE)</td><td class="num"><strong>2 000</strong></td><td class="num">1 200</td></tr>
+            <tr><td>Charge filaire / sans fil</td><td class="num">25 W / 15 W</td><td class="num">25 W / 15 W</td></tr>
+            <tr><td>Appareils photo</td><td>50 Mpx + 12 Mpx ultra grand-angle</td><td>50 Mpx + 12 Mpx ultra grand-angle</td></tr>
+            <tr><td>Prix 256 Go / 512 Go</td><td class="num">1 199 € / 1 319 €</td><td class="num">1 299 € / 1 499 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        GSMArena et Presse-citron aboutissent à la même conclusion : les progrès sont réels mais minces. GSMArena relève une autonomie meilleure sur ses quatre sous-tests et une charge un peu plus rapide à capacité égale ; Presse-citron parle d’une évolution a minima et conseille d’économiser en choisissant le Flip7.
+        Seul recul, discret mais réel : la nouvelle batterie silicium-carbone est certifiée pour 1 200 cycles, contre 2 000 pour le Flip7 selon <a href={SRC.gsmCycles} target="_blank" rel="noopener">GSMArena</a>. Pour un propriétaire de Flip7, le changement ne se justifie pas.
+      </p>
+
+      <h2>Est-il agréable à manipuler au quotidien ?</h2>
+      <p>
+        Oui, et c’est son principal atout. Le Samsung Galaxy Z Flip8 pèse 180 g et mesure 6,1 mm déplié, contre 188 g et 6,5 mm pour le Flip7. <a href={SRC.gsmSpecs} target="_blank" rel="noopener">La fiche de GSMArena</a> donne 85,7 × 75,4 × 13,1 mm fermé et 166,9 × 75,4 × 6,1 mm ouvert. Presse-citron note que la hauteur et la largeur augmentent de 0,2 mm, un écart imperceptible.
+      </p>
+      <p>
+        <a href={SRC.gsmDesign} target="_blank" rel="noopener">GSMArena décrit une charnière Flex Hinge revue</a>, aux aimants mieux agencés, qui se referme sans interstice et s’ouvre complètement à plat. Le pli y est jugé pratiquement invisible et à peine perceptible sous le doigt.
+        Le cadre est en Armor Aluminum, les faces en Gorilla Glass Victus 2, et la partie basse du dos en verre mat retient peu les traces de doigts selon le même test. Tech Advisor résume l’impression d’ensemble : plus léger, plus fin et plus confortable en main que son prédécesseur.
+      </p>
+      <p>
+        Comme tous les Flip, il tient entrouvert à la façon d’un petit ordinateur portable : posé sur une table, il sert de trépied pour un selfie de groupe ou un appel vidéo, sans accessoire. <a href={SRC.samsung} target="_blank" rel="noopener">Samsung France</a> le propose en quatre coloris, Rose, Graphite, Blanc et Vert d’eau ; d’après <a href={SRC.samsungNews} target="_blank" rel="noopener">le communiqué de lancement de Samsung</a>, la teinte menthe est réservée à la boutique en ligne.
+      </p>
+
+      <PhoneGallery id="galaxy-z-flip8" heading="Le Samsung Galaxy Z Flip8 plié et déplié" />
+
+      <p>
+        La protection, elle, ne bouge pas. L’indice IP48 autorise une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, mais ne couvre que les particules de plus de 1 mm. GSMArena recommande de rester prudent avec le sable : une journée de plage n’est pas le terrain idéal d’un Flip.
+      </p>
+      <p><AmazonButton phone={p} label="Voir le prix sur Amazon" /></p>
+
+      <h2>Ses écrans restent-ils lisibles en plein soleil ?</h2>
+      <p>
+        Oui, sans difficulté. Le Samsung Galaxy Z Flip8 combine un écran intérieur OLED LTPO de 6,9 pouces (2 520 × 1 080 pixels) et un écran externe de 4,1 pouces (1 048 × 948 pixels), tous deux à 120 Hz selon Presse-citron et GSMArena. Presse-citron et Tech Advisor retiennent un pic annoncé de 2 600 cd/m², valeur que reprend Samsung France.
+      </p>
+      <p>
+        Les mesures confirment. <a href={SRC.gsmLab} target="_blank" rel="noopener">GSMArena a relevé</a> 1 470 cd/m² en luminosité automatique sur l’écran intérieur et 1 444 cd/m² sur l’écran externe, avec des pics à 2 679 et 2 482 cd/m² sur une petite zone blanche.
+        En réglage manuel, les deux dalles plafonnent autour de 750 cd/m² : dehors, laissez le capteur de luminosité faire son travail. Le minimum descend à 1 cd/m², confortable pour lire dans le noir.
+        Ces pics restent un cran sous ceux du Galaxy Z Fold8, mesuré au-delà de 3 000 cd/m² par le même média, sans que Presse-citron ou Clubic y trouvent à redire : l’écran reste lisible en plein soleil.
+      </p>
+
+      <h2>L’Exynos 2600 tient-il la comparaison, et chauffe-t-il ?</h2>
+      <p>
+        L’Exynos 2600 démarre fort, puis décroche. Gravé en 2 nm et associé à 12 Go de mémoire vive, il obtient selon <a href={SRC.gsmPerf} target="_blank" rel="noopener">GSMArena</a> 2 977 points en monocœur et 10 466 en multicœur sur Geekbench 6, 2 477 554 points sur AnTuTu 11 et 6 916 points sur 3DMark Wild Life Extreme.
+        Tech Advisor relève des scores du même ordre, avec 2 981 et 10 540 points sur Geekbench et 7 184 points sur Wild Life Extreme. À titre de repère, GSMArena a mesuré 3 528 points en monocœur sur le Galaxy Z Fold8 et son Snapdragon : l’écart existe, mais il ne se voit pas en usage courant.
+      </p>
+      <p>
+        Le problème, c’est la durée. Au test de stabilité de GSMArena, le processeur perd plus de 50 % de sa puissance en moins de cinq minutes et la partie graphique environ 65 % après trois à cinq minutes. Le média va jusqu’à se demander si une puce de ce calibre avait sa place dans un boîtier aussi contraint thermiquement.
+        <a href={SRC.clubic} target="_blank" rel="noopener">Clubic</a> obtient 50 % de stabilité au stress test de 3DMark et situe la chaleur dans la partie haute, près de l’écran externe ; il relève entre 40 et 60 images par seconde dans les jeux exigeants.
+        Presse-citron constate une chauffe marquée lors des longues parties, tout en faisant tourner Fortnite à 60 images par seconde en réglages élevés. Tech Advisor décrit au contraire un téléphone plutôt frais et économe : tout dépend de l’intensité de l’usage.
+      </p>
+      <p>
+        Concrètement, réseaux sociaux, photo, navigation et multitâche ne posent aucun problème. Les joueurs réguliers verront en revanche les performances fondre au bout de quelques minutes de jeu 3D.
+      </p>
+
+      <h2>Que valent ses photos et ses vidéos ?</h2>
+      <p>
+        Des photos correctes de jour, moyennes de nuit, et de très bonnes vidéos. Le Samsung Galaxy Z Flip8 reprend le capteur principal de 50 Mpx (f/1,8, stabilisé) et l’ultra grand-angle de 12 Mpx du Flip7, avec une caméra frontale de 10 Mpx. <a href={SRC.gsmCam} target="_blank" rel="noopener">GSMArena identifie</a> un capteur Samsung GN3 pour le module principal.
+      </p>
+      <p>
+        GSMArena juge les photos de jour réussies, détaillées et bien exposées, malgré des zones floues aléatoires dans la végétation, et trouve le zoom x2 par recadrage plutôt bon, y compris pour les portraits. Clubic juge le zoom exploitable jusqu’à x4, avant une dégradation nette. De nuit, le mode dédié améliore le résultat au prix d’un accentuage trop appuyé ; l’ultra grand-angle, à mise au point fixe, devient plus mou, et Clubic note des temps de pose longs.
+        Presse-citron se montre plus critique : couleurs criardes, aberrations chromatiques et piqué inférieur à celui de smartphones moins chers. Tech Advisor range lui aussi l’appareil photo parmi les points faibles.
+      </p>
+      <p>
+        La vidéo rattrape la photo. Le Flip8 filme en 4K à 60 images par seconde, avec une stabilisation que GSMArena qualifie de très bonne et que Clubic salue aussi. Le format clapet ajoute son atout habituel : fermé, il permet de cadrer un selfie avec le capteur principal sur l’écran externe, et GSMArena note que ces clichés surpassent ceux de la caméra frontale, pourtant jugée excellente.
+      </p>
+
+      <h2>Combien de temps tient sa batterie ?</h2>
+      <p>
+        Une journée sans difficulté, parfois un peu plus. Le Samsung Galaxy Z Flip8 garde 4 300 mAh, mais les mesures publiées sont meilleures que ne le laissait craindre la fiche technique.
+        GSMArena obtient 14 h 14 à son score d’usage actif, en progrès sur les quatre sous-tests par rapport au Flip7. Tech Advisor mesure 15 h 40 sur PCMark Work 3.0, à 200 cd/m² et en 120 Hz, et environ 16 heures de streaming vidéo à forte luminosité en 60 Hz.
+        La <a href={SRC.eprel} target="_blank" rel="noopener">fiche EPREL</a> de l’étiquette énergie indique pour sa part 44 heures d’endurance par cycle.
+      </p>
+      <p>
+        En usage réel, Presse-citron le juge « capable de tenir une journée à une journée et demie selon votre usage », quand Clubic parle d’une autonomie juste. Le même Presse-citron relève une consommation d’environ 5 % par quart d’heure de Fortnite : deux heures de jeu entament sérieusement la réserve.
+      </p>
+
+      <Measures items={measures} caption="Mesures publiées sur le Samsung Galaxy Z Flip8" />
+      <p class="small muted" style="margin-top:.5rem">Protocoles propres à chaque média : un chiffre ne se compare qu’à ceux de la même source.</p>
+
+      <Callout variant="warn" title="Charge 25 W : toujours le talon d’Achille">
+        <p>
+          GSMArena a mesuré 30 % en 15 minutes, 56 % en 30 minutes et 79 minutes pour une charge complète avec l’adaptateur Samsung de 25 W ; Presse-citron et Clubic comptent environ 1 h 30. Tech Advisor n’obtient pas mieux avec un chargeur de 45 W (25 % en 15 minutes, 50 % en 30 minutes), puisque le Flip8 plafonne de toute façon à 25 W.
+          Chez Samsung, les Fold8 passent pourtant à 45 W cette année.
+        </p>
+      </Callout>
+
+      <h2>Que fait-on avec l’écran externe et One UI 9 ?</h2>
+      <p>
+        Beaucoup de choses, sans tout remplacer. Le Samsung Galaxy Z Flip8 fonctionne sous Android 17 et One UI 9, avec la promesse de sept mises à jour majeures d’Android et des correctifs de sécurité, confirmée par GSMArena : acheté en 2026, il peut rester à jour jusqu’en 2033. Presse-citron salue une fluidité exemplaire.
+      </p>
+      <p>
+        L’écran externe de 4,1 pouces reprend l’interface à widgets du Flip7. GSMArena constate qu’une bonne partie des applications y fonctionnent, sans que toutes soient prises en charge, et Tech Advisor apprécie le contrôle plus fin laissé à l’utilisateur sur ce qui s’y affiche.
+        Presse-citron nuance : certaines applications restent mal adaptées, et les commandes de YouTube Music n’apparaissent pas sur l’écran d’accueil externe.
+      </p>
+      <p>
+        Deux irritants reviennent chez Presse-citron : de nombreuses applications Samsung préinstallées, parfois en doublon avec celles de Google, et plusieurs fonctions Galaxy AI qui exigent un compte Samsung pour fonctionner. Samsung France ajoutait au lancement six mois d’abonnement à Google AI Pro.
+      </p>
+
+      <h2>Côté son, réseau et empreinte, que vaut-il ?</h2>
+      <p>
+        Plutôt bien, avec un détail d’ergonomie à connaître. Le Samsung Galaxy Z Flip8 dispose de deux haut-parleurs stéréo que <a href={SRC.gsmLab} target="_blank" rel="noopener">GSMArena</a> classe « très bien » en puissance, avec des basses propres, des voix claires et des aigus bien définis. C’est mieux que les Galaxy Z Fold8, dont les haut-parleurs ne dépassent pas la mention « moyen » chez le même média.
+      </p>
+      <p>
+        La connectivité est celle d’un haut de gamme 2026 : 5G, Wi-Fi 7, Bluetooth 5.4, NFC pour le paiement sans contact et USB-C, d’après Clubic et GSMArena. Le Flip8 accepte une nano-SIM et des eSIM, deux lignes actives au maximum. Il n’a ni prise jack ni lecteur microSD, et sa fiche technique chez GSMArena ne mentionne pas l’ultra-large bande (UWB), présente sur les Fold8.
+      </p>
+      <p>
+        Le lecteur d’empreinte est logé dans le bouton latéral. Clubic le trouve placé trop haut sur la tranche droite, peu naturel à atteindre : un point à vérifier en boutique si vous avez de petites mains.
+      </p>
+
+      <h2>Résiste-t-il aux chutes, et se répare-t-il ?</h2>
+      <p>
+        Mieux qu’on ne l’imagine pour les chutes, moins bien pour la réparation. La <a href={SRC.eprel} target="_blank" rel="noopener">fiche de l’étiquette énergie européenne</a> du Samsung Galaxy Z Flip8 (modèle SM-F776B) indique 210 chutes répétées sans défaut appareil plié et 45 appareil ouvert, ce qui lui vaut la classe A.
+        La classe de réparabilité tombe en revanche à C, avec un indice de 2,67 sur 5. Le tableau ci-dessous le compare au <a href={flipFe.path}>Galaxy Z Flip7 FE</a>, dont la <a href={SRC.eprelFe} target="_blank" rel="noopener">fiche EPREL</a> est publiée dans la même base.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Étiquette énergie UE : Galaxy Z Flip8 et Galaxy Z Flip7 FE</caption>
+          <thead>
+            <tr><th scope="col">Critère (fiche EPREL)</th><th scope="col">Galaxy Z Flip8</th><th scope="col">Galaxy Z Flip7 FE</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Classe d’efficacité énergétique</td><td><strong>A</strong></td><td>B</td></tr>
+            <tr><td>Endurance par cycle de charge</td><td class="num"><strong>44 h</strong></td><td class="num">37 h</td></tr>
+            <tr><td>Cycles avant 80 % de capacité</td><td class="num">1 200</td><td class="num"><strong>1 700</strong></td></tr>
+            <tr><td>Chutes sans défaut, plié / ouvert</td><td class="num">210 / 45</td><td class="num">210 / 45</td></tr>
+            <tr><td>Classe de résistance aux chutes</td><td>A</td><td>A</td></tr>
+            <tr><td>Résistance de l’écran aux rayures (Mohs)</td><td class="num">1</td><td class="num">1</td></tr>
+            <tr><td>Classe et indice de réparabilité</td><td>C · 2,67</td><td>C · <strong>2,95</strong></td></tr>
+            <tr><td>Indice de protection</td><td>IP48</td><td>IP48</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le niveau 1 sur l’échelle de Mohs rappelle la fragilité de la dalle pliable : <a href={SRC.samsungPrecautions} target="_blank" rel="noopener">Samsung France</a> demande d’éviter ongles et objets pointus, interdit de retirer le film posé en usine et en offre un remplacement en centre agréé pendant la garantie de deux ans. Le constructeur précise aussi que ses pliants ne sont pas résistants à la poussière.
+        Autre détail de la fiche EPREL : Samsung n’y garantit que cinq ans minimum de mises à jour, sa promesse commerciale de sept mises à jour majeures d’Android allant au-delà de cette obligation.
+      </p>
+      <p>
+        En cas de casse, <a href={SRC.mobigeeks} target="_blank" rel="noopener">Mobigeeks</a> cite des tarifs européens indicatifs d’environ 279 € pour l’écran intérieur et 162 € pour l’écran externe, soit bien moins que sur les Fold8. L’assurance <a href={SRC.samsungCare} target="_blank" rel="noopener">Samsung Care+</a>, au mois ou sur deux ans, couvre les dommages accidentels, à un tarif qui dépend de la formule choisie.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Qu’en pensent les autres tests ?"
+        intro="Quatre tests aux conclusions proches : un clapet soigné, mais une mise à jour trop légère pour son prix."
+      />
+
+      <h2>Quelle note mérite le Galaxy Z Flip8 ?</h2>
+      <p>
+        {num(overall(p))}/10. Le Galaxy Z Flip8 décroche la meilleure note de portabilité de toute la gamme Samsung ({num(p.scores.portabilite)}), mais son autonomie ({num(p.scores.autonomie)}) et son rapport qualité/prix ({num(p.scores.prix)}) le tirent vers le bas.
+        Il ne devance le Flip7 ({num(overall(flip7))}/10) que de peu, ce qui résume l’ampleur de la mise à jour. Les tests publiés depuis la sortie, meilleurs qu’attendu en autonomie mais inquiétants en stabilité, ne modifient pas cet équilibre.
+      </p>
+      <div class="scores-end">
+        <ScoreBars phone={p} />
+      </div>
+
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce qui plaît" consTitle="Ce qui coince" />
+
+      <h2>Que contient la boîte ?</h2>
+      <p>
+        Le strict minimum. Selon <a href={SRC.gsm} target="_blank" rel="noopener">le déballage de GSMArena</a>, le Samsung Galaxy Z Flip8 est livré avec un câble USB-C vers USB-C et l’outil d’éjection de la carte SIM, sans chargeur ni coque ; Clubic fait le même constat.
+        Comme le Flip8 plafonne à 25 W, un chargeur Samsung de 25 W suffit : Tech Advisor n’a rien gagné avec un bloc de 45 W. La recharge inversée de 4,5 W dépanne des écouteurs ou une montre.
+      </p>
+      <p>
+        Samsung France vend deux coques magnétiques dédiées : une <a href={SRC.caseClear} target="_blank" rel="noopener">coque transparente</a> et une <a href={SRC.caseRing} target="_blank" rel="noopener">coque en silicone avec anneau</a>, déclinée en plusieurs couleurs dont le rose. Leurs aimants facilitent la charge sans fil et l’usage d’accessoires magnétiques, et l’anneau assure une meilleure prise pour les photos à bras tendu.
+      </p>
+      <p><AmazonButton query="coque Samsung Galaxy Z Flip8" variant="ghost" size="sm" label="Voir les coques du Flip8" /></p>
+
+      <h2>Quelle version et quel coloris choisir ?</h2>
+      <p>
+        Le Galaxy Z Flip8 existe en deux capacités, toutes deux avec 12 Go de mémoire vive et sans microSD. Voici les prix de lancement en France et leur écart avec le Flip7.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Versions et prix de lancement du Galaxy Z Flip8 en France</caption>
+          <thead>
+            <tr><th scope="col">Version</th><th scope="col">Mémoire vive</th><th scope="col">Prix de lancement</th><th scope="col">Flip7 au lancement</th><th scope="col">Hausse</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>256 Go</td><td>12 Go</td><td class="num"><strong>1 299 €</strong></td><td class="num">1 199 €</td><td class="num">+ 100 €</td></tr>
+            <tr><td>512 Go</td><td>12 Go</td><td class="num"><strong>1 499 €</strong></td><td class="num">1 319 €</td><td class="num">+ 180 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Côté teintes, le Rose, le Graphite et le Blanc sont les coloris principaux, le Vert d’eau étant réservé à la boutique en ligne de Samsung. Le coloris ne change pas le prix : choisissez d’abord la capacité, en gardant en tête que 256 Go suffisent à la plupart des usages.
+      </p>
+
+      <h2>Vaut-il 1 299 €, ou faut-il un autre Galaxy Z ?</h2>
+      <p>
+        Oui si la légèreté et le suivi logiciel priment ; sinon, regardez du côté du Flip7. Le Galaxy Z Flip8 coûte 100 € de plus que le Flip7 à son lancement en version de base, et 180 € de plus en 512 Go.
+      </p>
+      <p>
+        Le Galaxy Z Flip7 offre une expérience très proche, et un modèle de l’an dernier se trouve souvent nettement moins cher : c’est d’ailleurs l’alternative que citent GSMArena et Presse-citron. Sa batterie est même certifiée pour davantage de cycles.
+        Le Galaxy Z Flip7 FE, lancé à 999 € et arrêté en juillet 2026, ne se justifie que s’il est vraiment bradé en fin de série ; Samsung n’a annoncé aucun Flip8 FE pour lui succéder.
+      </p>
+      <p>
+        Enfin, si l’autonomie ou la taille d’écran vous importent plus que la compacité, le <a href={fold8.path}>Galaxy Z Fold8</a> change de catégorie : écran 4:3 de 7,6 pouces, 4 800 mAh et charge 45 W, pour 700 € de plus au lancement et 21 g supplémentaires.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Vérifier la disponibilité" /></p>
+
+      <h2>Et hors de chez Samsung, quels clapets regarder ?</h2>
+      <p>
+        Le principal rival porte le nom de <ObfLink href="/smartphone-pliant-motorola-razr/razr-70-ultra/" class="obf-text">Motorola Razr 70 Ultra</ObfLink>, que Tech Advisor préfère d’ailleurs au Flip8. Lancé à 1 499 € en 16 Go / 512 Go, il répond exactement aux faiblesses du Samsung : batterie de 5 000 mAh, charge de 68 W filaire et 30 W sans fil, Snapdragon 8 Elite et écrans à 165 Hz de 7 et 4 pouces.
+        En contrepartie, il pèse 199 g, mesure 15,7 mm fermé et bénéficie d’un suivi logiciel plus court que les sept ans de Samsung.
+      </p>
+      <p>
+        Moins cher, le Motorola Razr 70 Plus (1 199 € en 12 Go / 512 Go) offre deux fois plus de stockage que le Flip8 de base, un écran externe de 4 pouces à 165 Hz et une charge de 45 W, mais avec un Snapdragon 8s Gen 3 d’ancienne génération et 4 500 mAh. Pour un budget sous 1 000 €, le Razr 70 à 999 € reste la porte d’entrée du clapet en 2026, au prix d’une puce milieu de gamme.
+      </p>
+
+      <h2>Que contient sa fiche technique ?</h2>
+      <SpecTable phone={p} />
+      <p><AmazonButton phone={p} variant="ghost" size="sm" label="Voir les coloris du Flip8" /></p>
+
+      <Faq items={faq} heading="Encore une question sur le Galaxy Z Flip8 ?" />
+    </div>
+
+    <div class="wrap">
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="Quels autres Galaxy Z comparer ?" />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .scores-end {
+    max-width: 440px;
+    margin-top: 1rem;
+  }
+</style>

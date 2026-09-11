@@ -1,0 +1,468 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Byline from '../../components/Byline.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Faq from '../../components/Faq.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('pixel-11-pro-fold');
+const prev = byId('pixel-10-pro-fold');
+const ultra = byId('galaxy-z-fold8-ultra');
+const v6 = byId('honor-magic-v6');
+const razr = byId('razr-fold');
+const path = p.path;
+const title = 'Test Google Pixel 11 Pro Fold : avis complet et mesures';
+const description =
+  'Test du Google Pixel 11 Pro Fold : autonomie, charge, écrans et chauffe mesurés par Phonandroid, Clubic et Engadget. Verdict et prix de lancement à 1 999 €.';
+
+const SRC = {
+  clubic: 'https://www.clubic.com/test-produit-627091-test-google-pixel-11-pro-fold.html',
+  phonandroid: 'https://www.phonandroid.com/test-google-pixel-11-pro-fold.html',
+  engadget: 'https://www.engadget.com/2240020/google-pixel-11-pro-fold-review-more-but-not-enough/',
+  techradar:
+    'https://global.techradar.com/fr-fr/phones/google-pixel-phones/test-du-google-pixel-11-pro-fold-le-meilleur-pixel-pliable-a-ce-jour-mais-samsung-reste-devant',
+  nineToFive: 'https://9to5google.com/2026/08/26/google-pixel-11-pro-fold-review/',
+  gsmSpecs: 'https://www.gsmarena.com/google_pixel_11_pro_fold-14874.php',
+  google: 'https://blog.google/products-and-platforms/devices/pixel/pixel-11-pro-fold/',
+  bendTest: 'https://9to5google.com/2026/08/21/pixel-11-pro-fold-still-doesnt-survive-bend-test-but-at-least-it-didnt-explode-this-time-video/',
+};
+
+const versions = [
+  { cap: '256 Go', eur: 1999 },
+  { cap: '512 Go', eur: 2129 },
+  { cap: '1 To', eur: 2389 },
+];
+
+const measures = [
+  { label: 'Autonomie PCMark, écran externe à 60 Hz', value: '11 h 37', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Autonomie PCMark, écran pliant jusqu’à 120 Hz', value: '9 h 35', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Streaming Netflix, écran externe', value: '22 h 13', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Vidéo en boucle, écran externe', value: '27 h 09', source: 'Engadget', url: SRC.engadget },
+  { label: 'Charge filaire 30 W : 30 minutes', value: '48 %', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge filaire 30 W : 30 minutes', value: '50 à 56 %', source: 'Clubic', url: SRC.clubic },
+  { label: 'Charge filaire 30 W : 75 minutes', value: '93 %', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Luminosité automatique max. (externe / pliant)', value: '2 398 / 2 117 cd/m²', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Delta E moyen (pliant / externe)', value: '2,97 / 3,55', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Geekbench 6 (monocœur / multicœur)', value: '2 617 / 5 757', source: 'Clubic', url: SRC.clubic },
+  { label: 'AnTuTu', value: '1 193 492', source: 'Clubic', url: SRC.clubic },
+  { label: '3DMark Wild Life Extreme', value: '3 398', source: 'Clubic', url: SRC.clubic },
+  { label: 'Puissance conservée sous charge prolongée', value: '50 % après 3 min', source: 'Clubic', url: SRC.clubic },
+];
+
+const euLabel = [
+  { k: 'Efficacité énergétique', v: 'Classe B' },
+  { k: 'Autonomie par cycle de charge', v: '45 h 05' },
+  { k: 'Endurance de la batterie', v: '1 000 cycles' },
+  { k: 'Résistance aux chutes répétées', v: 'Classe A (210 chutes)' },
+  { k: 'Réparabilité', v: 'Classe B' },
+];
+
+const rivals = [
+  { ph: p, obf: false, zoom: 'x5 optique' },
+  { ph: prev, obf: false, zoom: 'x5 optique' },
+  { ph: ultra, obf: true, zoom: 'x3 optique' },
+  { ph: v6, obf: true, zoom: 'x3 optique' },
+  { ph: razr, obf: false, zoom: 'x3 optique' },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: SRC.clubic,
+    date: '2026-09-05',
+    note: '8/10',
+    verdict:
+      'Des écrans remarquables et une IA locale convaincante, mais un Tensor G6 qui se bride fortement sous l’effort, des fonctions d’IA absentes en Europe et 100 € de plus qu’en 2025.',
+  },
+  {
+    media: 'Engadget',
+    url: SRC.engadget,
+    date: '2026-08-19',
+    note: '8,5/10',
+    verdict:
+      'Progrès réels sur le poids, la charge sans fil et le capteur principal, mais trop modestes pour distancer les Galaxy Z Fold8 et le Razr Fold, notamment en autonomie.',
+  },
+  {
+    media: 'Phonandroid',
+    url: SRC.phonandroid,
+    date: '2026-09-07',
+    verdict:
+      'Un pliant soigné et très bien équipé, porté par ses fonctions Gemini et ses selfies ; l’autonomie limitée et la puissance graphique modeste freinent l’enthousiasme.',
+  },
+  {
+    media: 'TechRadar (édition française)',
+    url: SRC.techradar,
+    date: '2026-08-21',
+    verdict:
+      'Le Pixel pliable le plus abouti à ce jour, plus fin et plus léger, sans convaincre de le préférer à un pliant Samsung ni de quitter un Pixel 10 Pro Fold.',
+  },
+  {
+    media: '9to5Google',
+    url: SRC.nineToFive,
+    date: '2026-08-26',
+    verdict:
+      'Un bon pliant qui assure l’essentiel, avec une intégration Qi2 excellente et une chauffe maîtrisée au quotidien, mais une autonomie juste et aucun atout décisif.',
+  },
+];
+
+const pros = [
+  'Écrans très lumineux : 2 398 cd/m² en automatique selon Phonandroid',
+  'Téléobjectif optique x5 et nouveau capteur principal',
+  'IP68 et classe A en résistance aux chutes sur l’étiquette UE',
+  'Charge sans fil magnétique Qi2 à 25 W',
+  'Sept ans de mises à jour, jusqu’en 2033',
+  'Wi-Fi 7, UWB, eSIM et connectivité satellite',
+];
+const cons = [
+  'Tensor G6 ramené à 50 % de sa puissance sous charge (Clubic)',
+  'Autonomie en retrait : 9 h 35 à 11 h 37 sous PCMark (Phonandroid)',
+  'Charge filaire plafonnée à 30 W',
+  'Plusieurs fonctions d’IA indisponibles en France au lancement',
+  '239 g et 100 € de plus que le modèle 2025 au lancement',
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Google Pixel 11 Pro Fold ?',
+    a: 'Sous PCMark, Phonandroid mesure entre 9 h 35 (écran pliant jusqu’à 120 Hz) et 11 h 37 (écran externe à 60 Hz), et 22 h 13 en streaming Netflix. Engadget obtient 27 h 09 en lecture vidéo sur l’écran externe, moins que le Galaxy Z Fold8 et le Razr Fold. En usage réel, Clubic passe une journée complète sans difficulté avec la batterie de 4 806 mAh.',
+  },
+  {
+    q: 'Le Pixel 11 Pro Fold chauffe-t-il ?',
+    a: 'Au quotidien, peu : 9to5Google n’a pas relevé de chauffe gênante, même en extérieur en été. Sous une charge prolongée, en revanche, Clubic a vu le Tensor G6 redescendre à 50 % de sa puissance nominale au bout de trois minutes. Les longues sessions de jeu 3D sont donc le point faible du Google Pixel 11 Pro Fold.',
+  },
+  {
+    q: 'Le pli de l’écran du Pixel 11 Pro Fold est-il visible ?',
+    a: 'Il se voit encore, mais peu. Google a épaissi le verre de l’écran intérieur pour l’atténuer. Clubic le juge quasi imperceptible en usage, visible surtout écran éteint ou sous un angle marqué. 9to5Google estime qu’il reste parfaitement vivable, tout en notant qu’il a peu évolué par rapport aux générations précédentes de Pixel Fold.',
+  },
+  {
+    q: 'Combien coûtait le Google Pixel 11 Pro Fold à sa sortie ?',
+    a: 'Au lancement en France, le 20 août 2026, le Google Pixel 11 Pro Fold coûtait 1 999 € en 256 Go, 2 129 € en 512 Go et 2 389 € en 1 To, toujours avec 16 Go de mémoire vive. C’est 100 € de plus que le Pixel 10 Pro Fold à sa sortie en 2025, une hausse que Clubic range parmi ses défauts.',
+  },
+  {
+    q: 'Le Google Pixel 11 Pro Fold résiste-t-il aux chutes ?',
+    a: 'Sur le papier, plutôt bien. L’étiquette énergie européenne relevée par GSMArena classe le Google Pixel 11 Pro Fold en catégorie A pour les chutes répétées, avec 210 chutes sans défaut, et en catégorie B pour la réparabilité. Il est aussi certifié IP68. Un test de torsion extrême relayé par 9to5Google montre toutefois que le châssis cède sous une flexion forcée, hors usage normal.',
+  },
+  {
+    q: 'Le Pixel 11 Pro Fold accepte-t-il une eSIM ?',
+    a: 'Oui. Le Google Pixel 11 Pro Fold associe un tiroir nano-SIM et l’eSIM, selon GSMArena et Phonandroid, et Clubic indique qu’il peut accueillir deux profils eSIM. Il gère aussi la 5G, le Wi-Fi 7, le Bluetooth 6.0, le NFC, l’ultra-large bande (UWB) et, d’après Clubic, la connectivité par satellite.',
+  },
+  {
+    q: 'Quelles fonctions d’IA du Pixel 11 Pro Fold manquent en France ?',
+    a: 'D’après Clubic, l’assistance proactive, Magic Cue, les automatisations conversationnelles de Gemini et la transcription en langue des signes française ne sont pas proposées en France au lancement du Google Pixel 11 Pro Fold. Rambler, qui nettoie la dictée vocale, Circle to Search dans l’appareil photo et la traduction instantanée fonctionnent en revanche en local.',
+  },
+  {
+    q: 'Pixel 11 Pro Fold ou Honor Magic V6 : lequel choisir ?',
+    a: 'Le Google Pixel 11 Pro Fold coûtait 1 999 € au lancement contre 2 299,90 € pour le Honor Magic V6. Le Pixel mise sur le zoom optique x5, la charge sans fil Qi2 et Android sans surcouche. Le Magic V6 répond par une batterie de 6 660 mAh, la charge 80 W, l’IP69 et 20 g de moins, mais son zoom optique s’arrête à x3.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Google Pixel 11 Pro Fold'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap cols-2 section-tight">
+    <article class="prose">
+      <span class="eyebrow">Test · Google · septembre 2026</span>
+      <h1>Test du Google Pixel 11 Pro Fold : les questions à trancher avant d’acheter</h1>
+      <ProductSummary phone={p} ctaLabel="Voir le prix sur Amazon" />
+      <p class="lede">
+        Vendu depuis le 20 août 2026 à {euro(p.launchPrice)} en 16 Go / 256 Go, le Google Pixel 11 Pro Fold perd 19 g, passe au Tensor G6 et à la charge sans fil 25 W.
+        Les tests publiés saluent ses écrans et son zoom x5, mais relèvent une autonomie moyenne et une puce qui se bride vite sous l’effort : Clubic lui donne 8/10, Engadget 8,5/10, et notre note éditoriale s’établit à {num(overall(p))}/10.
+        Ce test complète notre guide des <a href="/smartphone-pliant-google-pixel/">smartphones pliants Google Pixel</a>.
+      </p>
+      <Byline minutes={18} />
+      <p class="small muted">
+        Cette synthèse croise les mesures et verdicts publiés par Clubic, Phonandroid, Engadget, TechRadar et 9to5Google avec la fiche technique de Google et celle de GSMArena. La rédaction n’a pas manipulé l’appareil : chaque chiffre mesuré est attribué au média qui l’a publié. Voir notre <a href="/methodologie/">méthodologie</a>.
+      </p>
+
+      <Callout variant="answer" title="Faut-il l’acheter ? La réponse courte">
+        <p>
+          Oui, si vous cherchez un pliant au format livre étanche (IP68), doté d’un vrai téléobjectif x5 et d’un logiciel suivi sept ans. Non, si l’autonomie ou le jeu passent avant tout : Phonandroid mesure moins de 12 heures sous PCMark, et Clubic voit le Tensor G6 retomber à la moitié de sa puissance après trois minutes d’effort.
+          Pour un possesseur de Pixel 10 Pro Fold, le changement ne se justifie pas.
+          Le profil idéal : un amateur de photo qui zoome souvent, apprécie Android sans surcouche et veut un appareil qui ne craint ni la pluie ni le sable.
+          Les gros joueurs, ceux qui passent leurs journées loin d’une prise et ceux qui achètent pour les fonctions Gemini vantées par Google aux États-Unis, dont plusieurs restent bloquées en France, trouveront mieux ailleurs.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} label="Voir le prix sur Amazon" /></p>
+
+      <h2>Qu’est-ce qui change vraiment face au Pixel 10 Pro Fold ?</h2>
+      <p>
+        Le gabarit, d’abord. Le Google Pixel 11 Pro Fold pèse 239 g et mesure 10,1 mm plié selon Google, contre 258 g et 10,8 mm pour le modèle 2025. Déplié, il descend à 5 mm pour une surface de 155,2 × 150,4 mm, et se referme sur 76 mm de large d’après la fiche de <a href={SRC.gsmSpecs} target="_blank" rel="noopener">GSMArena</a>.
+        Google annonce une nouvelle charnière, toujours sans engrenage, avec un rayon de courbure plus large pour ménager l’écran intérieur. Le dos passe à un composite de fibre de verre que la marque présente comme presque impossible à fissurer, et la certification IP68, toujours rare sur un pliant, est conservée.
+      </p>
+      <p>
+        TechRadar retient une charnière mieux intégrée et un bloc photo moins saillant, et considère ce modèle comme le Pixel pliable le plus réussi à ce jour. Engadget tempère : malgré le régime, le design reste massif à côté des pliants Samsung, et 239 g restent beaucoup pour un format livre de 2026.
+        Phonandroid, qui apprécie les finitions, relève un détail d’ergonomie : la disposition des boutons latéraux est inversée par rapport à la plupart des smartphones, ce qui demande un temps d’adaptation.
+      </p>
+      <p>
+        Deux coloris sont vendus en France : noir, baptisé Obsidian par Google, et olive. Engadget décrit la version olive avec un cadre doré pâle, et TechRadar y voit un vert sauge réussi.
+        Côté mécanique, TechRadar note un mouvement plus fluide qu’auparavant et 9to5Google une charnière à la fois souple et ferme.
+      </p>
+      <p>
+        Nouveauté plus anecdotique, HiLight allume des diodes logées dans le module photo pour signaler les notifications quand le téléphone est posé face contre table. Phonandroid la range parmi les bonnes idées ; Engadget la juge encore peu exploitée au lancement, limitée aux appels de contacts choisis et aux déclenchements de Gemini.
+      </p>
+      <PhoneGallery id={p.id} />
+
+      <h2>Les écrans et le pli sont-ils à la hauteur ?</h2>
+      <p>
+        Oui : les deux dalles OLED du Google Pixel 11 Pro Fold font l’unanimité des tests. L’écran intérieur de 8 pouces (2 076 × 2 152 pixels) et l’écran externe de 6,5 pouces (1 080 × 2 342 pixels) fonctionnent jusqu’à 120 Hz et grimpent à 3 600 cd/m² en pointe selon Google, contre 3 000 cd/m² sur la génération précédente.
+        Clubic retient ce pic sur une petite zone et environ 2 400 cd/m² en HDR plein écran.
+      </p>
+      <p>
+        Les relevés de Phonandroid parlent davantage de l’usage quotidien : 1 350 cd/m² en réglage manuel sur les deux écrans, puis 2 398 cd/m² sur l’écran externe et 2 117 cd/m² sur l’écran pliant en luminosité automatique. La lecture en plein soleil ne pose donc aucun problème.
+        L’étalonnage est un peu moins irréprochable. Avec le profil Couleurs adaptatives, Phonandroid mesure un Delta E moyen de 2,97 sur le grand écran et de 3,55 sur le petit. Plus ce chiffre est bas, plus les couleurs sont fidèles : la dalle externe dépasse légèrement le seuil de 3, au-delà duquel un œil exercé commence à percevoir les écarts.
+      </p>
+      <p>
+        Reste le pli. Google affirme l’avoir atténué grâce à un verre intérieur plus épais. Clubic le trouve « quasi imperceptible » en usage, visible seulement écran éteint ou sous un angle marqué.
+        9to5Google se montre moins enthousiaste : la marque reste parfaitement vivable, mais n’a guère changé d’une génération de Pixel Fold à l’autre, alors que Samsung a réglé la question sur ses derniers modèles.
+      </p>
+
+      <h2>Le Tensor G6 bride-t-il le Pixel 11 Pro Fold ?</h2>
+      <p>
+        Sous une charge soutenue, oui. Dans le test de stabilité de Clubic, le Google Pixel 11 Pro Fold redescend à 50 % de sa puissance nominale au bout de trois minutes, oscille, puis se stabilise à ce niveau. C’est le principal reproche formulé par le site.
+      </p>
+      <p>
+        Les scores bruts relevés par Clubic dessinent une puce paradoxale. En monocœur, Geekbench 6 affiche 2 617 points, 14 % de mieux que le Pixel 10 Pro Fold ; en multicœur, 5 757 points, soit 6 % de moins.
+        AnTuTu recule de 20 % (1 193 492 points) et 3DMark Wild Life Extreme plafonne à 3 398 points, autour de 20 images par seconde. Seul l’AI Benchmark bondit, de 864 à 1 622 points : le Tensor G6 a été pensé pour l’IA embarquée, pas pour les jeux 3D.
+      </p>
+      <p>
+        Au quotidien, la situation est plus sereine. 9to5Google n’a constaté aucune chauffe gênante, y compris en extérieur en plein été, et les 16 Go de mémoire vive laissent de la marge pour afficher deux applications côte à côte sur l’écran de 8 pouces.
+        Phonandroid classe tout de même la puissance graphique parmi les faiblesses, en notant un bridage qui intervient alors que les températures restent raisonnables. Notre note performances (8,2/10) traduit cet écart entre le confort d’usage et la tenue sous l’effort.
+      </p>
+
+      <h2>Le zoom x5 en fait-il le meilleur pliant photo ?</h2>
+      <p>
+        Pour photographier de loin, le Google Pixel 11 Pro Fold garde un atout rare : un téléobjectif optique x5 de 10,8 Mpx, associé à un capteur principal de 48 Mpx et à un ultra grand-angle de 10,5 Mpx. Sur le papier, ces définitions n’impressionnent pas, mais la photo Pixel repose d’abord sur le traitement logiciel de Google.
+      </p>
+      <p>
+        Le capteur principal est nouveau, et Engadget comme Clubic notent un gain de netteté. Les deux autres modules n’ont pas bougé, ce que Clubic regrette à ce niveau de prix.
+        Engadget relève aussi que le pliant ne profite pas du zoom x120 du Pixel 11 Pro classique, mais apprécie les nouveaux styles de rendu de l’application photo. Phonandroid salue la qualité des selfies, un domaine où les pliants déçoivent souvent.
+      </p>
+      <p>
+        Scène par scène, le test de <a href={SRC.clubic} target="_blank" rel="noopener">Clubic</a> affine le portrait. De jour, le piqué est satisfaisant, les couleurs fidèles avec un contraste appuyé, et les forts écarts de luminosité sont bien tenus. La nuit, les images restent propres, avec un bruit discret, tant que le zoom ne dépasse pas x10.
+        Le zoom numérique monte désormais à x30, contre x20 auparavant : Clubic le juge exploitable jusqu’à x10, puis de plus en plus pâteux au-delà.
+      </p>
+      <p>
+        Le mode portrait détoure correctement les sujets selon Clubic, mais 9to5Google trouve son flou d’arrière-plan moins naturel que celui des pliants d’Oppo et d’Honor. Engadget, lui, insiste sur la netteté du nouveau capteur de 48 Mpx en plein jour comme en basse lumière, où le mode Vision de nuit reste une force, et sur Magic Capture, qui déclenche automatiquement au bon moment.
+        Les caméras frontales de 10 Mpx (f/2,2) livrent des selfies honnêtes pour la visioconférence d’après Clubic, un avis plus réservé que celui de Phonandroid. En vidéo, l’enregistrement monte à la 4K à 60 images par seconde.
+      </p>
+      <p>
+        Le jugement d’ensemble reste nuancé. TechRadar estime que le Galaxy Z Fold8 Ultra conserve l’avantage en photo, quand 9to5Google décrit des résultats constants, solides pour un pliant, mais en retrait face aux modèles les plus spécialisés.
+        Nous accordons 9,2/10 au Pixel 11 Pro Fold dans ce critère : pour le zoom longue portée et la régularité des résultats, il reste parmi les meilleurs pliants du marché.
+      </p>
+
+      <h2>4 806 mAh : combien d’heures d’autonomie selon les tests ?</h2>
+      <p>
+        Moins que la concurrence directe. Le Google Pixel 11 Pro Fold perd 209 mAh par rapport au Pixel 10 Pro Fold (4 806 contre 5 015 mAh), et les mesures publiées décrivent une endurance correcte, sans plus.
+      </p>
+      <p>
+        Phonandroid a fait tourner PCMark à 250 cd/m² sur chaque écran : 11 h 37 sur l’écran externe à 60 Hz, 10 h 23 en affichage fluide jusqu’à 120 Hz, puis 11 h et 9 h 35 dans les mêmes réglages sur l’écran pliant. En streaming Netflix sur le petit écran, le téléphone tient 22 h 13.
+        Le protocole d’<a href={SRC.engadget} target="_blank" rel="noopener">Engadget</a>, une vidéo en boucle sur l’écran externe, aboutit à 27 h 09, derrière le Galaxy Z Fold8 (28 h 14) et le Motorola Razr Fold (31 h) mesurés de la même façon.
+      </p>
+      <p>
+        Sur le terrain, Clubic a tenu de 8 h à 22 h 30 en usage intensif, et une journée complète sans difficulté en usage courant. 9to5Google la juge honnête sans être bonne : 4 à 6 heures d’écran allumé, avec un passage fréquent en mode économie d’énergie avant le coucher.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Google Pixel 11 Pro Fold" />
+      <p class="small muted" style="margin-top:.5rem">Les protocoles diffèrent d’un média à l’autre : comparez les chiffres d’une même source entre eux.</p>
+
+      <h3>Et la recharge ?</h3>
+      <p>
+        Elle reste le parent pauvre du Google Pixel 11 Pro Fold. La charge filaire plafonne à 30 W, pour 50 % en 30 minutes selon Google. <a href={SRC.phonandroid} target="_blank" rel="noopener">Phonandroid</a> relève 48 % en 30 minutes, 80 % en une heure et 93 % en 75 minutes ; Clubic mesure 50 à 56 % en 30 minutes et compte ce plafond de 30 W parmi les défauts.
+      </p>
+      <p>
+        La charge sans fil magnétique compatible Qi2 progresse en revanche de 15 à 25 W. 9to5Google en fait l’un des meilleurs arguments du modèle : le téléphone se fixe sur un chargeur ou un accessoire aimanté sans anneau à coller.
+      </p>
+
+      <h2>Son, réseaux et déverrouillage : l’équipement d’un haut de gamme</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold coche toutes les cases de la connectivité récente. Selon la fiche de GSMArena, il gère le Wi-Fi 7 tri-bande, le Bluetooth 6.0, le NFC et l’ultra-large bande (UWB), utile pour localiser des objets ou déverrouiller certains accessoires, et son port USB-C suit la norme 3.2.
+        Côté SIM, il associe un tiroir nano-SIM à l’eSIM ; Clubic précise qu’il peut accueillir deux profils eSIM et qu’il prend en charge la connectivité par satellite. Engadget remarque qu’il conserve un tiroir physique, contrairement aux autres Pixel 11 vendus aux États-Unis.
+      </p>
+      <p>
+        Le son passe par deux haut-parleurs stéréo, sans prise jack. Phonandroid trouve le rendu de bonne qualité, avec un volume maximal et une spatialisation satisfaisants, mais des basses un peu courtes.
+        TechRadar va dans le même sens : assez de puissance pour remplir une pièce, une restitution claire et, logiquement sur un châssis aussi fin, peu de graves.
+      </p>
+      <p>
+        Le lecteur d’empreintes est intégré au bouton d’alimentation, sur la tranche, et fonctionne donc téléphone plié comme déplié. TechRadar le juge efficace et rappelle que la reconnaissance faciale reste proposée en complément. Seul bémol, déjà cité : la position de ce bouton, inversée avec celle du volume, déroute les premiers jours selon Phonandroid.
+      </p>
+
+      <h2>Solidité et réparabilité : ce que disent l’IP68 et l’étiquette européenne</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold est certifié IP68 : il est étanche à la poussière et, d’après GSMArena, immergeable jusqu’à 1,5 m pendant 30 minutes. Selon <a href={SRC.google} target="_blank" rel="noopener">Google</a>, l’appareil est trois fois plus résistant que le Pixel 10 Pro Fold, grâce à un nouveau verre céramique sur l’écran externe, à une couche de verre ultrafin plus épaisse sur l’écran intérieur et au dos en composite de fibre de verre.
+      </p>
+      <p>
+        L’étiquette énergie européenne, obligatoire sur les smartphones vendus dans l’Union depuis juin 2025, apporte des données normalisées. Voici celles du Pixel 11 Pro Fold, relevées par GSMArena :
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Étiquette énergie UE du Google Pixel 11 Pro Fold</caption>
+          <thead>
+            <tr><th scope="col">Critère de l’étiquette UE</th><th scope="col">Pixel 11 Pro Fold</th></tr>
+          </thead>
+          <tbody>
+            {euLabel.map((r) => (
+              <tr>
+                <th scope="row">{r.k}</th>
+                <td class="num">{r.v}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        La classe A en chutes répétées est la meilleure de l’échelle, et la réparabilité gagne un cran par rapport au Pixel 10 Pro Fold, classé C sur la même étiquette. Les 1 000 cycles désignent les charges complètes que la batterie doit supporter en conservant au moins 80 % de sa capacité.
+      </p>
+      <p>
+        Un test de torsion extrême, publié en vidéo et relayé par <a href={SRC.bendTest} target="_blank" rel="noopener">9to5Google</a>, rappelle les limites de l’exercice : le modèle 2026 ne survit toujours pas à une flexion forcée, mais sans l’incident de batterie observé l’an dernier sur le Pixel 10 Pro Fold.
+      </p>
+
+      <h2>Android 17, Gemini et sept ans de suivi : quelles limites en France ?</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold est livré sous Android 17, et Google promet sept ans de mises à jour du système et de sécurité, soit un suivi jusqu’en 2033. C’est l’un des engagements les plus longs du marché, et un argument solide pour amortir un achat à ce prix.
+      </p>
+      <p>
+        L’interface Pixel exploite bien le grand écran, avec Gemini intégré dans la plupart des applications de Google. Phonandroid juge l’offre logicielle complète et originale.
+        Clubic a en revanche centré son titre sur une limite européenne : plusieurs fonctions d’IA mises en avant par Google ne sont pas proposées en France au lancement. Le site souligne que la puce progresse nettement sur les calculs d’IA locaux, encore peu exploités chez nous.
+      </p>
+      <p>
+        Le site détaille ces absences : l’assistance proactive, Magic Cue, les automatisations conversationnelles de Gemini et la transcription en langue des signes française. D’autres nouveautés fonctionnent en local, comme Rambler, qui débarrasse la dictée vocale de ses hésitations et passe d’une langue à l’autre, Circle to Search directement dans l’appareil photo et la traduction instantanée.
+      </p>
+      <p>
+        Pour le travail sur grand écran, Engadget met en avant Bubble Anything : presque n’importe quelle application peut s’ouvrir en fenêtre flottante par-dessus une autre, avec un sélecteur rapide dans le coin inférieur droit.
+      </p>
+
+      <h2>Que trouve-t-on dans la boîte, et quels accessoires prévoir ?</h2>
+      <p>
+        Aucun des tests consultés ne détaille le contenu du carton du Google Pixel 11 Pro Fold, et nous n’avons pas pu le vérifier. Pour mémoire, le Journal du Geek ne trouvait dans celui du Pixel 10 Pro Fold qu’un câble USB-C et la documentation, sans chargeur ni coque.
+      </p>
+      <p>
+        Google vend séparément une coque dotée d’un cache de charnière intégré. La compatibilité Qi2 aimantée ouvre surtout l’accès aux chargeurs et supports magnétiques du marché sans coque spécifique, un avantage souligné par Engadget et 9to5Google.
+      </p>
+
+      <h2>256 Go, 512 Go ou 1 To : quelle version, et pourquoi pas le Pixel 10 Pro Fold ?</h2>
+      <p>
+        Toutes les versions du Google Pixel 11 Pro Fold embarquent 16 Go de mémoire vive : seul le stockage fait varier le prix, dans les coloris noir et olive.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Prix de lancement du Google Pixel 11 Pro Fold selon la capacité</caption>
+          <thead>
+            <tr><th scope="col">Stockage</th><th scope="col">Mémoire vive</th><th scope="col">Prix de lancement</th><th scope="col">Supplément</th></tr>
+          </thead>
+          <tbody>
+            {versions.map((v) => (
+              <tr>
+                <td>{v.cap}</td>
+                <td>16 Go</td>
+                <td class="num"><strong>{euro(v.eur)}</strong></td>
+                <td class="num">{v.eur === 1999 ? 'Version de base' : `+ ${euro(v.eur - 1999)}`}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Faute de lecteur de carte mémoire, la version 512 Go se justifie dès que vous filmez beaucoup en 4K.
+      </p>
+      <p>
+        Clubic reproche à Google une hausse de 100 € sur la version de base. C’est exactement l’écart entre les prix de lancement du Pixel 11 Pro Fold et du <a href={prev.path}>Google Pixel 10 Pro Fold</a> ({euro(prev.launchPrice)} en 256 Go).
+        Le modèle 2025 partage l’écran de 8 pouces, le trio photo à zoom x5, la charge filaire 30 W et l’IP68, et garde même 209 mAh de batterie en plus. Depuis l’arrivée de son successeur, il se trouve souvent nettement moins cher.
+      </p>
+      <p>
+        Le Pixel 11 Pro Fold répond par 19 g et 0,7 mm de moins, un capteur principal plus net, la charge sans fil 25 W, une meilleure classe de réparabilité et un suivi logiciel qui court un an plus loin. TechRadar résume la situation : l’intérêt est réel pour qui possède un Pixel Fold plus ancien, beaucoup moins pour un propriétaire de Pixel 10 Pro Fold.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Voir les coloris sur Amazon" /></p>
+
+      <h2>Face à la concurrence : quatre pliants à mettre en balance</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold affronte en 2026 des pliants au format livre mieux armés en autonomie ou en puissance. Le tableau ci-dessous reprend les prix de lancement en France et les caractéristiques clés de ses principaux rivaux.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Le Google Pixel 11 Pro Fold face à ses concurrents</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Prix de lancement</th>
+              <th scope="col">Batterie / charge</th>
+              <th scope="col">Zoom</th>
+              <th scope="col">Poids</th>
+              <th scope="col">Protection</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rivals.map((r) => (
+              <tr>
+                <th scope="row">{r.ph.fullName}</th>
+                <td class="num">{euro(r.ph.launchPrice)} <span class="small muted">({r.ph.launchConfig})</span></td>
+                <td class="num">{mah(r.ph.battery)} · {r.ph.wired}</td>
+                <td>{r.zoom}</td>
+                <td class="num">{r.ph.weight} g</td>
+                <td>{r.ph.ip}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        <strong>Pour la photo polyvalente</strong>, le <ObfLink href={ultra.path} class="obf-text">Samsung Galaxy Z Fold8 Ultra</ObfLink> est l’adversaire le plus direct. Lancé à {euro(ultra.launchPrice)}, 200 € de plus, il aligne un capteur de 200 Mpx que TechRadar place devant le Pixel en photo, une batterie de 5 000 mAh chargée en 45 W et 215 g sur la balance. Engadget lui mesure 32 h 11 en lecture vidéo sur l’écran externe. En contrepartie, il reste IP48, moins bien protégé contre la poussière, et son zoom optique s’arrête à x3.
+      </p>
+      <p>
+        <strong>Pour l’autonomie et la finesse</strong>, le <ObfLink href={v6.path} class="obf-text">Honor Magic V6</ObfLink> joue dans une autre catégorie : 6 660 mAh, charge 80 W filaire et 66 W sans fil, IP68 et IP69, 8,75 mm plié. Son Snapdragon 8 Elite Gen 5 domine le Tensor G6 en puissance brute, même si les tests relèvent un bridage thermique marqué. Il coûtait {euro(v6.launchPrice)} au lancement, dans une configuration unique de 512 Go, sans zoom x5.
+      </p>
+      <p>
+        <strong>Pour le travail avec un stylet</strong>, le Motorola Razr Fold, lancé à {euro(razr.launchPrice)} en 16 Go / 512 Go, fournit le Moto Pen Ultra dans la boîte, embarque 6 000 mAh chargés en 80 W et tient 31 h en lecture vidéo chez Engadget. Il pèse cependant 243 g et se contente d’un indice IP48 / IP49.
+      </p>
+      <p>
+        Face à ces rivaux, le Google Pixel 11 Pro Fold garde deux arguments que personne ne réunit : un zoom optique x5 et l’IP68 dans le même appareil.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Que disent les tests publiés ?"
+        intro="Cinq médias ont publié un test complet du Google Pixel 11 Pro Fold entre le 19 août et le 7 septembre 2026. Tous ne notent pas les appareils."
+      />
+
+      <h2>Pour qui, et contre quoi ?</h2>
+      <p>
+        Le Google Pixel 11 Pro Fold s’adresse à l’amateur de photo qui veut un pliant étanche et un logiciel suivi jusqu’en 2033. Les tests convergent sur ses écrans et son zoom, divergent sur son intérêt face au modèle 2025, et s’accordent sur deux faiblesses : une autonomie juste et une recharge filaire lente.
+        Le joueur exigeant, comme celui qui passe ses journées loin d’une prise, trouvera des pliants plus adaptés.
+      </p>
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce qui plaide pour lui" consTitle="Ce qui freine" />
+      <p style="margin-top:1rem"><AmazonButton phone={p} size="sm" label="Consulter l’offre" /></p>
+
+      <h2>Que contient la fiche technique ?</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Huit questions de plus sur le Pixel 11 Pro Fold" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="L’autre Pixel pliant testé" />
+    </article>
+
+    <aside class="sticky">
+      <ScoreBars phone={p} />
+      <div class="card" style="margin-top:1rem">
+        <p class="small mb-0"><strong>Prix de lancement :</strong> {euro(p.launchPrice)} (256 Go)</p>
+        <p class="small mb-0"><strong>En vente depuis :</strong> 20 août 2026</p>
+        <p class="small mb-0"><strong>Notes de la presse :</strong> 8/10 (Clubic), 8,5/10 (Engadget)</p>
+        <p class="small mb-0"><strong>Coloris :</strong> noir, olive</p>
+        <p class="small"><strong>Étiquette UE :</strong> chutes A, réparabilité B</p>
+        <AmazonButton phone={p} label="Vérifier la disponibilité" />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

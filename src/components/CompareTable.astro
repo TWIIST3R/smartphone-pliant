@@ -1,0 +1,144 @@
+---
+import { type Phone, overall, FORMAT_LABELS } from '../data/phones';
+import { euro, inches, mah, num } from '../lib/format';
+import Score from './Score.astro';
+import AmazonButton from './AmazonButton.astro';
+import PhoneImage from './PhoneImage.astro';
+import ObfLink from './ObfLink.astro';
+
+type Col = 'format' | 'score' | 'price' | 'screens' | 'chip' | 'battery' | 'charge' | 'camera' | 'zoom' | 'weight' | 'thickness' | 'ip';
+
+interface Props {
+  phones: Phone[];
+  columns?: Col[];
+  caption: string;
+  id?: string;
+  /** Vrais liens vers les tests : uniquement sur la page mère des tests (page marque) */
+  linkNames?: boolean;
+  /** Aucun lien du tout (par défaut : liens obfusqués, cliquables mais hors cocon) */
+  noLink?: boolean;
+  cta?: boolean;
+  ctaLabel?: string;
+}
+
+const {
+  phones,
+  columns = ['format', 'score', 'price', 'screens', 'battery', 'weight', 'ip'],
+  caption,
+  id,
+  linkNames = false,
+  noLink = false,
+  cta = true,
+  ctaLabel = 'Voir le prix',
+} = Astro.props;
+
+const mode = linkNames ? 'real' : noLink ? 'none' : 'obf';
+
+const head: Record<Col, string> = {
+  format: 'Format',
+  score: 'Note',
+  price: 'Prix lancement',
+  screens: 'Écrans (int./ext.)',
+  chip: 'Processeur',
+  battery: 'Batterie',
+  charge: 'Charge',
+  camera: 'Photo',
+  zoom: 'Zoom',
+  weight: 'Poids',
+  thickness: 'Épaisseur pliée',
+  ip: 'IP',
+};
+
+const testLabel = (p: Phone) => (p.provisional ? 'Voir la fiche' : 'Lire le test');
+---
+
+<div class="table-scroll">
+  <table class="compare" id={id}>
+    <caption class="sr-only">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col" class="col-sticky">Modèle</th>
+        {columns.map((c) => <th scope="col">{head[c]}</th>)}
+        {cta && <th scope="col" class="col-cta">Offre Amazon</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        phones.map((p) => (
+          <tr
+            data-format={p.format}
+            data-score={overall(p)}
+            data-price={p.launchPrice}
+            data-weight={p.weight}
+            data-battery={p.battery ?? 0}
+            data-release={p.release}
+          >
+            <td class="name col-sticky">
+              <div class="name-cell">
+                {mode === 'real' && (
+                  <a href={p.path} class="thumb-link" tabindex="-1" aria-hidden="true">
+                    <PhoneImage id={p.id} variant="thumb" />
+                  </a>
+                )}
+                {mode === 'obf' && (
+                  <ObfLink href={p.path} class="thumb-link" focusable={false}>
+                    <PhoneImage id={p.id} variant="thumb" />
+                  </ObfLink>
+                )}
+                {mode === 'none' && <PhoneImage id={p.id} variant="thumb" />}
+                <div>
+                  <strong>
+                    {mode === 'real' && <a href={p.path}>{p.fullName}</a>}
+                    {mode === 'obf' && (
+                      <ObfLink href={p.path} class="obf-text">
+                        {p.fullName}
+                      </ObfLink>
+                    )}
+                    {mode === 'none' && p.fullName}
+                  </strong>
+                  <span class="small muted">{p.generation === 'actuelle' ? 'Modèle 2026' : 'Génération précédente'}</span>
+                  {mode === 'real' && (
+                    <a class="test-link small" href={p.path}>
+                      {testLabel(p)} →
+                    </a>
+                  )}
+                  {mode === 'obf' && (
+                    <ObfLink href={p.path} class="test-link small">
+                      {testLabel(p)} →
+                    </ObfLink>
+                  )}
+                  {cta && (
+                    <span class="cta-inline">
+                      <AmazonButton phone={p} size="sm" label={ctaLabel} />
+                    </span>
+                  )}
+                </div>
+              </div>
+            </td>
+            {columns.map((c) => (
+              <td class={['price', 'battery', 'weight', 'thickness', 'score'].includes(c) ? 'num' : ''}>
+                {c === 'format' && FORMAT_LABELS[p.format]}
+                {c === 'score' && <Score value={overall(p)} />}
+                {c === 'price' && euro(p.launchPrice)}
+                {c === 'screens' && `${inches(p.innerScreen)} / ${inches(p.outerScreen)}`}
+                {c === 'chip' && p.chip}
+                {c === 'battery' && mah(p.battery, 'n.c.')}
+                {c === 'charge' && `${p.wired} · ${p.wireless}`}
+                {c === 'camera' && p.cameras}
+                {c === 'zoom' && p.zoom}
+                {c === 'weight' && `${p.weight} g`}
+                {c === 'thickness' && (p.foldedMm ? `${num(p.foldedMm, 2)} mm` : 'n.c.')}
+                {c === 'ip' && p.ip}
+              </td>
+            ))}
+            {cta && (
+              <td class="col-cta">
+                <AmazonButton phone={p} size="sm" label={ctaLabel} />
+              </td>
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

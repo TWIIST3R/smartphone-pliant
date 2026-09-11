@@ -1,0 +1,448 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('galaxy-z-flip7-fe');
+const flip7 = byId('galaxy-z-flip7');
+const flip8 = byId('galaxy-z-flip8');
+const r70 = byId('razr-70');
+const r60 = byId('razr-60-ultra');
+const path = p.path;
+const title = 'Test Galaxy Z Flip7 FE : avis sur le Flip en fin de série';
+const description =
+  'Test du Galaxy Z Flip7 FE : 12 h 23 d’autonomie chez Fnac, Exynos 2400, écran externe 3,4". Lancé à 999 €, arrêté en juillet 2026 : faut-il encore l’acheter ?';
+
+const src = {
+  gsmarena: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861.php',
+  gsmarenaDesign: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861p2.php',
+  gsmarenaLab: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861p3.php',
+  gsmarenaPerf: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861p4.php',
+  gsmarenaPhoto: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe-review-2861p5.php',
+  gsmarenaSpecs: 'https://www.gsmarena.com/samsung_galaxy_z_flip7_fe_5g-13844.php',
+  gsmarenaEu2026: 'https://www.gsmarena.com/eu_listings_confirm_shorter_battery_lifespan_for_new_galaxy_foldables-news-73870.php',
+  fnac: 'https://leclaireur.fnac.com/test/655584-test-labo-du-samsung-galaxy-z-flip7-fe-un-pliant-genereux-a-prix-doux/',
+  pressecitron: 'https://www.presse-citron.net/test-samsung-galaxy-z-flip-7-fe/',
+  expertreviews: 'https://www.expertreviews.co.uk/technology/phones/samsung-galaxy-z-flip-7-fe-review',
+  techadvisor: 'https://www.techadvisor.com/article/2868494/samsung-galaxy-z-flip-7-fe-review.html',
+  sammobileEu: 'https://www.sammobile.com/news/galaxy-z-flip-7-flip-7-fe-battery-durability-details-revealed/',
+  samsungFiche: 'https://www.samsung.com/fr/business/smartphones/galaxy-z/galaxy-z-flip7-fe-black-256gb-sm-f761bzkheub/',
+  samsungNews: 'https://news.samsung.com/fr/galaxy-z-flip7-et-galaxy-z-flip7-fe',
+  samsungCoque: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-flip6-silicone-case-black-ef-pf741tbegww/',
+  samsungCare: 'https://www.samsung.com/fr/offer/samsung-care-plus/',
+};
+
+const measures = [
+  { label: 'Autonomie, protocole du Labo Fnac', value: '12 h 23', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Lecture vidéo en continu', value: '25 h 49', source: 'Expert Reviews', url: src.expertreviews },
+  { label: 'Active Use Score', value: 'un peu plus de 10 h', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Charge 25 W : batterie après 15 min / 30 min', value: '31 % / 54 %', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète (0 à 100 %)', value: '1 h 29', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète, protocole du Labo Fnac', value: '1 h 39', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Luminosité automatique, écran intérieur / externe', value: '1 444 / 1 154 cd/m²', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Luminosité manuelle, écran externe', value: '443 cd/m²', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Delta E moyen / couverture sRGB', value: '1,53 / 97,1 %', source: 'Expert Reviews', url: src.expertreviews },
+  { label: 'AnTuTu 10', value: '1 355 845', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Geekbench 6, monocœur / multicœur', value: '1 853 / 6 108', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: '3DMark Wild Life Extreme', value: '4 036', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Notes photo, capteur arrière / caméra selfie', value: '8,1 / 6,9 sur 10', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Volume des haut-parleurs', value: '−26,9 LUFS', source: 'GSMArena', url: src.gsmarenaSpecs },
+  { label: 'Note de qualité audio, Labo Fnac', value: '6,9/10', source: 'L’Éclaireur Fnac', url: src.fnac },
+];
+
+const sources = [
+  {
+    media: 'L’Éclaireur Fnac',
+    url: src.fnac,
+    note: '3/5',
+    verdict: 'Une proposition solide pour qui se passe des fonctions les plus récentes, aux couleurs d’écran flatteuses. Les performances en jeu déçoivent pour le prix.',
+  },
+  {
+    media: 'Presse-citron',
+    url: src.pressecitron,
+    note: '7,4/10',
+    verdict: 'Correct sur l’écran, la photo et l’autonomie, le Flip7 FE s’effondre sur le rapport qualité/prix (4,5/10) face à un Flip6 qui reste disponible et moins cher.',
+  },
+  {
+    media: 'GSMArena',
+    url: src.gsmarena,
+    verdict: 'Un pliant compétent au positionnement bancal. Charge très lente, autonomie sous la concurrence et throttling marqué : à envisager seulement après une baisse de prix.',
+  },
+  {
+    media: 'Expert Reviews',
+    url: src.expertreviews,
+    verdict: 'Correct pour ce qu’il est, mais trop cher et trop proche du Flip6 déjà remisé. L’autonomie en vidéo ne gagne qu’une heure environ sur son aîné.',
+  },
+  {
+    media: 'Tech Advisor',
+    url: src.techadvisor,
+    verdict: 'Design soigné, bel écran principal et capteur photo convaincant, mais autonomie, stockage de base et écran externe en retrait. Le site conseille d’étirer son budget jusqu’au Flip7.',
+  },
+];
+
+const versions = [
+  { v: '128 Go', fe: euro(999), f7: 'Non proposé', d: '—' },
+  { v: '256 Go', fe: euro(1059), f7: euro(1199), d: `${euro(1199 - 1059)} de plus pour le Flip7` },
+  { v: '512 Go', fe: 'Non proposé', f7: euro(1319), d: '—' },
+];
+
+const faq = [
+  {
+    q: 'Le Samsung Galaxy Z Flip7 FE est-il arrêté ?',
+    a: 'Oui. Samsung a arrêté le Galaxy Z Flip7 FE en juillet 2026, un an après sa sortie du 25 juillet 2025, et aucun Galaxy Z Flip8 FE n’a été annoncé. Le modèle reste vendu tant que les stocks des revendeurs durent, et il continue de recevoir les mises à jour Android promises par Samsung.',
+  },
+  {
+    q: 'Que veut dire FE sur un smartphone Samsung ?',
+    a: 'FE signifie Fan Edition. Samsung utilise ce suffixe pour des versions moins chères de ses modèles haut de gamme, qui gardent l’essentiel et font des concessions ailleurs. Le Galaxy Z Flip7 FE, premier FE de la gamme Flip, reprend le châssis, les écrans et la batterie du Galaxy Z Flip6 de 2024 avec un processeur Exynos 2400 et 8 Go de mémoire vive.',
+  },
+  {
+    q: 'Quelle différence entre le Galaxy Z Flip7 et le Galaxy Z Flip7 FE ?',
+    a: 'Le Galaxy Z Flip7 a un écran externe de 4,1 pouces à 120 Hz contre 3,4 pouces à 60 Hz, un écran intérieur de 6,9 pouces contre 6,7, l’Exynos 2500 au lieu de l’Exynos 2400, 12 Go de mémoire vive au lieu de 8, 4 300 mAh au lieu de 4 000 et le Wi-Fi 7. Il coûtait 1 199 € au lancement, contre 999 € pour le FE.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Galaxy Z Flip7 FE ?',
+    a: 'Le Labo Fnac a mesuré 12 h 23 d’autonomie sur son protocole, contre 14 h 40 pour le Galaxy Z Flip7. Expert Reviews obtient 25 h 49 en lecture vidéo et GSMArena un Active Use Score d’un peu plus de 10 heures. La batterie de 4 000 mAh se recharge complètement en 1 h 29 à 1 h 39 selon les tests.',
+  },
+  {
+    q: 'Le Galaxy Z Flip7 FE aura-t-il encore des mises à jour ?',
+    a: 'Oui. Le Samsung Galaxy Z Flip7 FE est sorti sous Android 16 et One UI 8, avec une promesse de sept mises à jour majeures d’Android et sept ans de correctifs de sécurité. L’arrêt de la production en juillet 2026 ne remet pas en cause cet engagement, qui court jusqu’en 2032 environ.',
+  },
+  {
+    q: 'Le Galaxy Z Flip7 FE est-il étanche ?',
+    a: 'Le Samsung Galaxy Z Flip7 FE est certifié IP48, comme le Flip7 et le Flip8 : il supporte 30 minutes sous 1,5 mètre d’eau douce, mais ne bloque que les particules de plus d’un millimètre, selon GSMArena. Il survit donc à une chute dans l’eau, pas au sable fin. Son étiquette énergie européenne le classe A en résistance aux chutes et C en réparabilité.',
+  },
+  {
+    q: 'Les coques du Galaxy Z Flip6 vont-elles sur le Galaxy Z Flip7 FE ?',
+    a: 'Oui. Le Samsung Galaxy Z Flip7 FE reprend le châssis du Galaxy Z Flip6, et Samsung France indique que les accessoires du Flip6 sont compatibles avec lui. Le choix de coques est donc très large. Attention en revanche aux coques personnalisables Flipsuit du Galaxy Z Flip7 : Samsung précise qu’elles ne fonctionnent pas sur le FE.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7 FE', 'Samsung', 'Smartphone pliant à clapet'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <div class="flex head-tags">
+          <span class="eyebrow mb-0">Test complet · fin de série</span>
+          <span class="badge badge-gold">Arrêté en juillet 2026</span>
+        </div>
+        <h1>Test du Samsung Galaxy Z Flip7 FE : le petit Flip mérite-t-il ses derniers stocks ?</h1>
+      </div>
+      <ProductSummary phone={p} ctaLabel="Vérifier les stocks sur Amazon" />
+      <div class="prose">
+        <p class="lede">
+          Le Samsung Galaxy Z Flip7 FE a été lancé le 25 juillet 2025 à {euro(p.launchPrice)}, le prix plancher de notre
+          <a href="/smartphone-pliant-samsung/">dossier smartphone pliant Samsung</a>. Arrêté en juillet 2026 sans successeur, il reste le Galaxy Z le plus abordable tant que les stocks tiennent.
+          Les tests publiés sont sans appel sur un point : c’est un Galaxy Z Flip6 doté d’une autre puce, et son intérêt dépend entièrement du prix.
+        </p>
+        <Byline minutes={18} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <KeyFacts
+        items={[
+          { label: 'Statut', value: 'Arrêté en juillet 2026' },
+          { label: 'Autonomie Labo Fnac', value: '12 h 23' },
+          { label: 'Vidéo (Expert Reviews)', value: '25 h 49' },
+          { label: 'Écran externe', value: '3,4" à 60 Hz' },
+          { label: 'Processeur', value: 'Exynos 2400' },
+          { label: 'Cycles de batterie (étiquette UE)', value: '1 700' },
+        ]}
+      />
+    </div>
+
+    <div class="wrap prose">
+      <Callout variant="warn" title="Fin de série : ce que ça change pour vous">
+        <p>Samsung a cessé la production du Galaxy Z Flip7 FE en juillet 2026, et aucun Flip8 FE n’a été annoncé pour lui succéder. Trois conséquences concrètes :</p>
+        <ul>
+          <li><strong>Les stocks</strong> ne seront pas renouvelés. Un coloris (noir ou blanc) ou la version 256 Go peut disparaître chez un vendeur sans préavis.</li>
+          <li><strong>La garantie</strong> ne dépend pas de la date d’arrêt : un appareil neuf acheté aujourd’hui bénéficie de la garantie légale de conformité de deux ans, à compter de l’achat.</li>
+          <li><strong>Les mises à jour</strong> restent assurées. Le Flip7 FE est sorti sous Android 16 et Samsung lui promet sept versions majeures d’Android ; la fin de la production n’y change rien.</li>
+        </ul>
+      </Callout>
+    </div>
+
+    <div class="wrap cols-2 section-tight">
+      <div class="prose">
+        <h2 class="mt-0">Verdict : un bon clapet, un mauvais calcul au prix de lancement</h2>
+        <p>
+          Le Samsung Galaxy Z Flip7 FE n’a convaincu aucun testeur à 999 €. Le Labo Fnac lui accorde 3/5, Presse-citron 7,4/10 avec un rapport qualité/prix noté 4,5/10, et GSMArena comme Expert Reviews estiment qu’il ne se justifie qu’après une baisse de prix.
+          Tous reconnaissent pourtant ses qualités : un écran intérieur bien calibré, un capteur principal de 50 Mpx efficace et le suivi logiciel de Samsung.
+        </p>
+        <p>
+          <strong>En fin de série, le calcul change.</strong> Si le Flip7 FE se trouve nettement sous le Galaxy Z Flip7, il redevient une porte d’entrée cohérente vers le format clapet. Si l’écart reste proche des 200 € d’origine, le Flip7 est le meilleur achat, sans hésitation.
+          Note Smartphone-Pliant.fr : <strong>{num(overall(p))}/10</strong>.
+        </p>
+        <p>
+          <strong>Pour qui ?</strong> Un premier pliant destiné à la messagerie, aux réseaux sociaux et à la photo de tous les jours, acheté nettement sous le prix d’un Flip7.
+          <strong>Pas pour qui ?</strong> Les joueurs, ceux qui veulent tout faire sans ouvrir le téléphone et ceux qui comptent le garder cinq ans avec 8 Go de mémoire vive.
+        </p>
+        <p><AmazonButton phone={p} label="Voir les offres restantes" /></p>
+
+        <h2>Design : le châssis du Flip6, sans retouche</h2>
+        <p>
+          FE signifie « Fan Edition ». Chez Samsung, ce suffixe désigne une version simplifiée d’un modèle haut de gamme. Le Galaxy Z Flip7 FE est le premier FE de la gamme Z Flip, et sa recette surprend :
+          plutôt que d’alléger le Flip7, Samsung a repris le Galaxy Z Flip6 de 2024. GSMArena résume le constat en décrivant le même boîtier, les mêmes écrans et la même batterie, seuls les liserés autour des objectifs changeant d’aspect.
+        </p>
+        <p>
+          Concrètement, le Flip7 FE pèse 187 g et mesure 85,1 × 71,9 × 14,9 mm fermé, 165,1 × 71,9 × 6,9 mm ouvert, d’après <a href={src.gsmarenaSpecs} target="_blank" rel="noopener">GSMArena</a>. Le Flip7 fait quasiment le même poids (188 g) mais descend à 13,7 mm fermé et 6,5 mm ouvert.
+          Plus étroit de 3,3 mm, le FE se tient en revanche mieux d’une main, note <a href={src.gsmarenaDesign} target="_blank" rel="noopener">GSMArena</a>. Le cadre est en Armor Aluminum, le dos et l’écran externe en Gorilla Glass Victus 2. Seuls deux coloris sont proposés, Noir et Blanc, là où le Flip7 en compte quatre.
+        </p>
+        <PhoneGallery id={p.id} />
+        <p>
+          La charnière referme complètement l’appareil, sans jour entre les deux moitiés, et le pli reste à peine visible et peu perceptible au toucher, selon Presse-citron. Elle maintient aussi l’écran entrouvert pour poser le téléphone et photographier en mode FlexCam.
+          GSMArena voit un pli bien présent, mais estime que seuls les testeurs s’en plaignent vraiment.
+        </p>
+        <p>
+          Presse-citron qualifie le Flip7 FE de « drôle d’oiseau », et l’expression résume bien le malaise : c’est un appareil neuf de 2025 qui reprend un design de 2024, lancé à côté d’un Flip6 encore largement disponible et souvent moins cher.
+        </p>
+
+        <h2>Écrans : la dalle intérieure brille, l’externe a vieilli</h2>
+        <p>
+          L’écran intérieur du Samsung Galaxy Z Flip7 FE est son meilleur atout. La dalle AMOLED de 6,7 pouces en 2 640 × 1 080 pixels monte à 120 Hz, et Samsung annonce 2 600 cd/m² en pic HDR.
+          Expert Reviews mesure un Delta E moyen de 1,53 et une couverture sRGB de 97,1 %, un calibrage de très bon niveau. Le Labo Fnac attribue la note maximale au contraste et à la fidélité des couleurs, tout en trouvant la dalle un peu juste en luminosité, et limite sa note écran globale à 6,6/10.
+        </p>
+        <p>
+          Les mesures de luminosité confirment ce léger retrait. GSMArena relève 1 444 cd/m² en réglage automatique sur l’écran intérieur, et Expert Reviews 1 122 cd/m² en luminosité adaptative sous une lampe. Des niveaux corrects, inférieurs à ceux du Flip7.
+        </p>
+        <p>
+          L’écran externe est la vraie concession. Il mesure 3,4 pouces en 720 × 748 pixels, rafraîchi à 60 Hz, et contourne les capteurs photo en forme de dossier. GSMArena y mesure 443 cd/m² en réglage manuel et 1 154 cd/m² en automatique.
+          Il suffit pour l’heure, les notifications et le cadrage d’un selfie ; GSMArena le juge trop petit et moins exploitable que celui des Razr de Motorola, et Presse-citron constate que beaucoup d’actions obligent à ouvrir le téléphone.
+        </p>
+        <p>
+          Regard 2026 : depuis la sortie du Flip8, qui garde l’écran externe de 4,1 pouces à bord à bord, le Flip7 FE est le seul Galaxy Z encore en rayon avec cet ancien format de fenêtre.
+        </p>
+
+        <h2>Performances : l’Exynos 2400 de 2024 montre ses limites en jeu</h2>
+        <p>
+          Le Samsung Galaxy Z Flip7 FE embarque l’Exynos 2400, une puce gravée en 4 nm apparue sur les Galaxy S24 européens, épaulée par 8 Go de mémoire vive contre 12 Go sur le Flip7.
+          Au quotidien, le Labo Fnac ne relève aucune faiblesse : note maximale pour les quatre scénarios d’usage, de la navigation simple aux tâches lourdes.
+        </p>
+        <p>
+          Les benchmarks racontent une autre histoire. GSMArena mesure 1 355 845 points sur AnTuTu 10, 1 853 et 6 108 points sur Geekbench 6, et 4 036 points sur 3DMark Wild Life Extreme.
+          Face au Flip7 testé par le même site, l’écart atteint 28 % sur 3DMark (5 636 points) et 18 % en multicœur sur Geekbench (7 433 points).
+        </p>
+        <p>
+          La chauffe aggrave le constat. En charge prolongée, GSMArena voit le processeur conserver environ 50 % de ses performances initiales. Le Labo Fnac note la partie graphique 6/10 et regrette des performances en jeu en deçà de ce que le prix laissait espérer.
+          Regard 2026 : le Flip8 embarque l’Exynos 2600, soit deux générations de puces d’avance sur le FE.
+        </p>
+
+        <h2>Photo : le même module que le Flip7</h2>
+        <p>
+          Sur la photo, le Samsung Galaxy Z Flip7 FE ne fait aucune concession : il partage le capteur principal de 50 Mpx et l’ultra grand-angle de 12 Mpx du Flip7, avec une caméra de 10 Mpx dans l’écran intérieur. GSMArena le considère aussi capable que le modèle standard.
+        </p>
+        <p>
+          De jour, GSMArena obtient de très bonnes photos, détaillées et peu bruitées, et juge le zoom x2 par recadrage tout à fait exploitable. En portrait, le site relève des teintes de peau naturelles et une exposition juste, le cadrage en x2 perdant un peu de netteté au profit d’une perspective plus flatteuse.
+          La nuit, le mode Nuit donne des images plus propres au prix d’un traitement plus appuyé. L’ultra grand-angle, sans autofocus, ne permet pas la macro et se montre un peu moins net en basse lumière que sur le Flip7.
+        </p>
+        <p>
+          Pour les selfies, <a href={src.gsmarenaPhoto} target="_blank" rel="noopener">GSMArena</a> et Presse-citron conseillent le capteur principal, l’écran externe servant de viseur : plus de détail et un meilleur flou d’arrière-plan qu’avec la caméra intérieure, que le Labo Fnac note 2/10 en définition comme en basse lumière. Le petit écran externe rend toutefois ce cadrage moins confortable que sur le Flip7.
+        </p>
+        <p>
+          En vidéo, le Flip7 FE monte en 4K à 60 images par seconde et propose l’enregistrement HDR10+ en codec h.265 ainsi qu’un profil Log en mode Pro, d’après GSMArena. La stabilisation électronique s’arrête à la 4K à 30 images par seconde. Au global, le Labo Fnac note le capteur arrière 8,1/10.
+        </p>
+
+        <h2>Autonomie et charge : la plus petite batterie de la gamme</h2>
+        <p>
+          Avec 4 000 mAh, le Samsung Galaxy Z Flip7 FE embarque la plus petite batterie des Galaxy Z encore vendus, identique à celle du Flip6. Les mesures publiées le placent sous le Flip7, sans faire de lui un mauvais élève.
+        </p>
+        <p>
+          Le Labo Fnac mesure 12 h 23 sur son protocole, soit 2 h 17 de moins que le Flip7 (14 h 40) sur le même test. Expert Reviews obtient 25 h 49 en lecture vidéo, un peu plus d’une heure de mieux que le Flip6.
+          GSMArena calcule un Active Use Score d’un peu plus de 10 heures, et note que le Flip7 le devance nettement en navigation web et en lecture vidéo. Le site résume l’autonomie comme décevante, sans être rédhibitoire. En usage modéré, Presse-citron boucle sans peine sa journée.
+        </p>
+        <p>
+          La recharge, limitée à 25 W, est lente mais un peu moins que sur le Flip7, faute de capacité à remplir. GSMArena mesure 31 % en 15 minutes, 54 % en 30 minutes et 100 % en 1 h 29. Le Labo Fnac relève 1 h 39, Expert Reviews environ 1 h 40 et Presse-citron entre 1 h 20 et 1 h 35.
+          Sans fil, Samsung annonce 15 W, mais <a href={src.gsmarenaLab} target="_blank" rel="noopener">GSMArena</a> rappelle que la certification Qi du FE ne couvre que le profil de base de 5 W : les 15 W supposent un chargeur Samsung compatible. La recharge inversée d’accessoires plafonne à 4,5 W.
+        </p>
+
+        <h2>Son, réseaux et empreinte : tout est là, sauf le Wi-Fi 7</h2>
+        <p>
+          Le Samsung Galaxy Z Flip7 FE conserve deux haut-parleurs stéréo : un en bas, l’autre au-dessus de l’écran, qui sert aussi d’écouteur. GSMArena juge le volume bon (−26,9 LUFS), au niveau du Flip7, et le Labo Fnac note la qualité audio 6,9/10, exactement comme le Flip7. Pas de prise jack.
+        </p>
+        <p>
+          La connectivité trahit l’âge du châssis. D’après la <a href={src.samsungFiche} target="_blank" rel="noopener">fiche de Samsung France</a>, le FE s’arrête au Wi-Fi 6E sur les bandes 2,4, 5 et 6 GHz, là où le Flip7 passe au Wi-Fi 7. Le reste est complet : 5G, Bluetooth 5.4, NFC pour le paiement sans contact, USB-C 3.2 Gen 1, et une nano-SIM avec une eSIM ou deux eSIM.
+          Sans box compatible Wi-Fi 7, la différence ne se remarque pas.
+        </p>
+        <p>
+          Le capteur d’empreinte loge dans le bouton d’alimentation, sur la tranche. GSMArena le décrit comme fiable, avec un enregistrement qui se fait en faisant glisser le doigt.
+        </p>
+      </div>
+
+      <aside class="sticky">
+        <ScoreBars phone={p} />
+        <div class="card" style="margin-top:1rem">
+          <span class="badge badge-gold">Fin de série</span>
+          <p class="small" style="margin:.7rem 0 .3rem"><strong>Lancement :</strong> {euro(p.launchPrice)} ({p.launchConfig})</p>
+          <p class="small muted">Production arrêtée en juillet 2026 : les stocks ne sont plus réapprovisionnés.</p>
+          <AmazonButton phone={p} variant="ghost" size="sm" label="Comparer les offres" />
+        </div>
+      </aside>
+    </div>
+
+    <div class="wrap">
+      <h2>Les mesures des laboratoires</h2>
+      <Measures items={measures} caption="Mesures publiées par la presse sur le Samsung Galaxy Z Flip7 FE" />
+      <p class="small muted" style="margin-top:.5rem">Chaque média suit son propre protocole : ne comparez les résultats qu’au sein d’une même source.</p>
+    </div>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Logiciel et suivi : la fin de série ne raccourcit rien</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 FE est sorti sous Android 16 et One UI 8, avec la même promesse que les modèles plus chers : sept mises à jour majeures d’Android et sept ans de correctifs de sécurité, rappelle GSMArena.
+        Il profite de Galaxy AI et des fonctions de l’écran externe propres aux Flip, dans la limite de sa petite diagonale.
+      </p>
+      <p>
+        Regard 2026 : l’arrêt de la production ne change pas l’engagement logiciel. Un Flip7 FE acheté neuf en septembre 2026 dispose encore d’environ six ans de suivi, jusqu’en 2032, exactement comme le Flip7. Le Flip8, livré sous Android 17 et One UI 9, compte un an de plus.
+        Les 8 Go de mémoire vive sont en revanche la limite la plus probable à long terme, à mesure que les fonctions d’IA gagnent en appétit.
+      </p>
+
+      <h2>Solidité et réparabilité : 1 700 cycles, moins que le Flip7</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 FE est certifié IP48 : 30 minutes sous 1,5 mètre d’eau douce, mais aucune protection contre les particules de moins d’un millimètre, rappelle GSMArena. L’écran intérieur, couvert d’un film plastique que le site classe au niveau 1 de l’échelle de Mohs, craint davantage les rayures que le Gorilla Glass Victus 2 de l’écran externe.
+      </p>
+      <p>
+        Son étiquette énergie européenne, détaillée par <a href={src.sammobileEu} target="_blank" rel="noopener">SamMobile</a>, affiche la classe B en efficacité énergétique, A en résistance aux chutes et C en réparabilité, comme le Flip7. La batterie fait la différence : 37 heures d’autonomie par cycle et 80 % de capacité conservés après 1 700 cycles, contre 42 h 04 et 2 000 cycles pour le Flip7.
+        Regard 2026 : le Flip8 n’annonce que 1 200 cycles, selon <a href={src.gsmarenaEu2026} target="_blank" rel="noopener">GSMArena</a>, un chiffre que le FE dépasse encore.
+      </p>
+      <p>
+        En fin de série, pensez au calendrier : <a href={src.samsungCare} target="_blank" rel="noopener">Samsung Care+</a> se souscrit dans les 60 jours suivant l’achat. L’assurance couvre les dommages accidentels avec franchise et remplace la batterie sous 80 % de capacité dans sa formule mensuelle.
+      </p>
+
+      <h2>Dans la boîte et côté accessoires : l’avantage d’un vieux châssis</h2>
+      <p>
+        GSMArena ne trouve dans la boîte du Samsung Galaxy Z Flip7 FE qu’un câble USB-C et l’outil d’éjection SIM, sans chargeur ni coque. Reprendre le châssis du Flip6 a ici du bon : selon Samsung France, les accessoires du Flip6 sont compatibles, et le choix de coques est donc très large.
+        Samsung vend aussi une <a href={src.samsungCoque} target="_blank" rel="noopener">coque en silicone avec anneau</a> estampillée Flip7 FE. Les coques personnalisables Flipsuit du Flip7, elles, ne vont pas sur ce modèle.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Ce que retiennent les tests"
+        intro="Cinq tests publiés entre juillet 2025 et février 2026. Aucun ne recommande le Flip7 FE à son prix de lancement."
+      />
+
+      <h2>Versions et prix de lancement : l’écart réel avec le Flip7</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 FE a été lancé en deux capacités, toujours avec 8 Go de mémoire vive, en Noir ou en Blanc. Mis en regard du Flip7, l’écart à stockage égal était plus faible que les 200 € souvent cités.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="table-scroll">
+        <table class="fe-versions">
+          <caption class="sr-only">Prix de lancement du Galaxy Z Flip7 FE et du Galaxy Z Flip7 en France, par capacité</caption>
+          <thead>
+            <tr>
+              <th scope="col">Stockage</th>
+              <th scope="col">Galaxy Z Flip7 FE (8 Go)</th>
+              <th scope="col">Galaxy Z Flip7 (12 Go)</th>
+              <th scope="col">Écart au lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              versions.map((v) => (
+                <tr>
+                  <th scope="row">{v.v}</th>
+                  <td class="is-fe">{v.fe}</td>
+                  <td>{v.f7}</td>
+                  <td>{v.d}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">
+        Prix publics conseillés au lancement. Version 256 Go du Flip7 FE : <a href={src.pressecitron} target="_blank" rel="noopener">Presse-citron</a>. Coloris : <a href={src.samsungNews} target="_blank" rel="noopener">Samsung Newsroom France</a>.
+      </p>
+    </div>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Prix et alternatives : Flip7 FE, Flip7, Flip8 ou Razr ?</h2>
+      <p>
+        Le <a href="/smartphone-pliant-samsung/galaxy-z-flip7/">Samsung Galaxy Z Flip7</a> coûtait {euro(flip7.launchPrice)} en 256 Go à sa sortie, soit 200 € de plus que le Flip7 FE en 128 Go.
+        Pour cette somme, il apporte un écran externe bord à bord de 4,1 pouces à 120 Hz, un écran intérieur de 6,9 pouces, l’Exynos 2500, 12 Go de mémoire vive, 300 mAh supplémentaires et deux fois plus de stockage de base.
+        Au protocole Fnac, il tient 2 h 17 de plus ; sur 3DMark chez GSMArena, il affiche 40 % de score en plus.
+      </p>
+      <p>
+        Le <a href="/smartphone-pliant-samsung/galaxy-z-flip8/">Galaxy Z Flip8</a>, lancé le 7 août 2026 à {euro(flip8.launchPrice)}, joue dans une autre catégorie de prix : 180 g, 6,1 mm ouvert, Exynos 2600 et Android 17. Il n’a de sens face au FE que si vous visez un appareil gardé cinq ans ou plus.
+      </p>
+      <p>
+        Le <strong>Motorola Razr 70</strong> ({euro(r70.launchPrice)} au lancement en 8 Go / 256 Go) est l’alternative la plus directe : même prix que le FE en 128 Go, mais deux fois plus de stockage, 4 800 mAh, une charge de 30 W et un écran externe de 3,63 pouces à 90 Hz, plus fluide que la fenêtre à 60 Hz du Samsung.
+        Sa puce Dimensity 7450X reste limitée en jeu, et Motorola promet trois versions d’Android contre sept chez Samsung. <ObfLink href={r70.path} class="obf-text">Le test complet du Razr 70</ObfLink> détaille ces compromis.
+      </p>
+      <p>
+        Le <strong>Motorola Razr 60 Ultra</strong>, lancé à {euro(r60.launchPrice)} en 2025, se trouve souvent nettement moins cher depuis l’arrivée du Razr 70 Ultra. Snapdragon 8 Elite, écrans à 165 Hz, 4 700 mAh et charge 68 W : c’est l’option des joueurs que le FE déçoit, au prix de 199 g et 15,7 mm fermé.
+        <ObfLink href={r60.path} class="obf-text">Le Razr 60 Ultra</ObfLink> demande simplement un budget un peu plus élevé.
+      </p>
+      <p>
+        Notre conseil : si l’écart constaté entre le Flip7 FE et le Flip7 reste proche des 200 € d’origine, prenez le Flip7. S’il se creuse nettement, le Flip7 FE redevient pertinent pour un premier pliant, à condition d’accepter un écran externe d’appoint et de ne pas jouer.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Comparer les offres Flip7 FE" /></p>
+
+      <ProsCons
+        prosTitle="Les atouts relevés par les tests"
+        consTitle="Les limites"
+        pros={[
+          'Le Galaxy Z le moins cher au lancement (999 €)',
+          'Écran intérieur 120 Hz très bien calibré (Delta E 1,53 chez Expert Reviews)',
+          'Même module photo que le Flip7, vidéo 4K60 HDR10+',
+          '25 h 49 en lecture vidéo chez Expert Reviews',
+          'Accessoires du Flip6 compatibles, classe A aux chutes (étiquette UE)',
+          'Sept mises à jour Android promises malgré la fin de série',
+        ]}
+        cons={[
+          'Châssis, écrans et batterie du Flip6 de 2024',
+          'Écran externe 3,4" à 60 Hz, peu exploitable',
+          'Exynos 2400 et 8 Go : performances graphiques notées 6/10 par Fnac',
+          '12 h 23 au Labo Fnac, 2 h 17 de moins que le Flip7',
+          'Wi-Fi 6E seulement et 1 700 cycles de batterie',
+          'Fin de série : stocks limités, coloris et capacités aléatoires',
+        ]}
+      />
+
+      <h2>Fiche technique du Galaxy Z Flip7 FE</h2>
+      <SpecTable phone={p} caption="Caractéristiques du Samsung Galaxy Z Flip7 FE" />
+
+      <Faq items={faq} heading="Flip7 FE : sept questions fréquentes" />
+    </div>
+
+    <div class="wrap">
+      <RelatedArticles />
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="Le reste de la gamme Galaxy Z"
+        intro="Clapets plus récents ou formats livre : les autres pliants Samsung que nous suivons."
+      />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .head-tags {
+    margin-bottom: 0.7rem;
+  }
+  .fe-versions td.is-fe {
+    font-weight: 700;
+  }
+</style>

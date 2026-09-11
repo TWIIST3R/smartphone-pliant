@@ -1,0 +1,91 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhoneImage from '../../components/PhoneImage.astro';
+import { publishedArticles, articlePath, CATEGORY_LABELS, FORMAT_LABELS, frDay, type Article } from '../../lib/blog';
+import { SITE } from '../../data/site';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await publishedArticles();
+  return paginate(posts, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props as { page: Page<Article> };
+const first = page.currentPage === 1;
+const title = first ? 'Actualités des smartphones pliants' : `Actualités des smartphones pliants, page ${page.currentPage}`;
+const description = first
+  ? 'Actualités, analyses et guides sur les smartphones pliants : lancements, mises à jour, rumeurs vérifiées et conseils d’achat, publiés chaque jour par la rédaction.'
+  : `Page ${page.currentPage} des actualités de Smartphone-Pliant.fr : lancements, mises à jour, analyses et guides pratiques sur les smartphones pliants.`;
+const abs = (p: string) => new URL(p, SITE.url).href;
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${abs(page.url.current)}#page`,
+    name: title,
+    description,
+    inLanguage: 'fr-FR',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: page.data.map((a, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(articlePath(a)), name: a.data.title })),
+    },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema} ogType="website">
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <span class="eyebrow">Le blog</span>
+        <h1>{first ? 'Actualités des smartphones pliants' : `Actualités, page ${page.currentPage}`}</h1>
+        {
+          first && (
+            <p class="lede">
+              Lancements, mises à jour, rumeurs passées au crible et guides pratiques. Pour choisir un modèle, commencez par notre <a href="/">comparatif des smartphones pliants</a>.
+            </p>
+          )
+        }
+      </div>
+
+      {
+        page.data.length === 0 ? (
+          <p class="muted">Les premiers articles arrivent très bientôt.</p>
+        ) : (
+          <ul class="post-list">
+            {page.data.map((a) => (
+              <li class="card post-item">
+                {a.data.phone && (
+                  <a href={articlePath(a)} class="post-thumb" tabindex="-1" aria-hidden="true">
+                    <PhoneImage id={a.data.phone} variant="card" />
+                  </a>
+                )}
+                <div>
+                  <span class="small muted">
+                    {CATEGORY_LABELS[a.data.category]} · {FORMAT_LABELS[a.data.format] ?? a.data.format} · <time datetime={a.data.pubDate.toISOString()}>{frDay(a.data.pubDate)}</time>
+                  </span>
+                  <h2 class="post-title">
+                    <a href={articlePath(a)}>{a.data.title}</a>
+                  </h2>
+                  <p class="small mb-0">{a.data.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      {
+        page.lastPage > 1 && (
+          <nav class="pagination" aria-label="Pagination">
+            {page.url.prev ? <a href={page.url.prev}>← Articles plus récents</a> : <span />}
+            <span class="small muted">
+              Page {page.currentPage} sur {page.lastPage}
+            </span>
+            {page.url.next ? <a href={page.url.next}>Articles plus anciens →</a> : <span />}
+          </nav>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

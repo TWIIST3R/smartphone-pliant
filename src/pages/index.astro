@@ -1,0 +1,476 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompareTable from '../components/CompareTable.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import FoldIcon from '../components/FoldIcon.astro';import Score from '../components/Score.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import ObfLink from '../components/ObfLink.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import { phones, ranked, overall, byId } from '../data/phones';
+import { SITE } from '../data/site';
+import { article, itemList } from '../lib/schema';
+import { euro, num } from '../lib/format';
+
+const title = 'Comparatif smartphones pliants 2026 : le classement complet';
+const description = `Quel smartphone pliant acheter en 2026 ? Comparatif de ${phones.length} modèles : iPhone Duo, Galaxy Z Fold8 Ultra, Razr Fold, Pixel 11 Pro Fold, Honor Magic V6. Notes et prix.`;
+
+const list = ranked();
+const top = list[0];
+const v6 = byId('honor-magic-v6');
+const razrUltra = byId('razr-70-ultra');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const duo = byId('iphone-duo');
+const razr70 = byId('razr-70');
+const flipFe = byId('galaxy-z-flip7-fe');
+const flip8 = byId('galaxy-z-flip8');
+const pixel11 = byId('pixel-11-pro-fold');
+
+const count = phones.length;
+const clapets = phones.filter((p) => p.format === 'clapet').length;
+const livres = phones.filter((p) => p.format === 'livre').length;
+
+const faq = [
+  {
+    q: 'Quel est le meilleur smartphone pliant en 2026 ?',
+    a: `En septembre 2026, notre classement place le Honor Magic V6 en tête (${num(overall(v6))}/10) grâce à sa batterie de 6 660 mAh, sa charge 80 W et sa double certification IP68/IP69. Le Samsung Galaxy Z Fold8 Ultra reste le choix le plus sûr pour le suivi logiciel, et le Motorola Razr 70 Ultra est le meilleur modèle à clapet.`,
+  },
+  {
+    q: 'Quel est le smartphone pliant le moins cher ?',
+    a: 'Parmi les modèles neufs vendus en France, le Motorola Razr 70 (999 € au lancement) et le Samsung Galaxy Z Flip7 FE (999 € au lancement, désormais en fin de série et souvent bien moins cher) sont les pliants les plus accessibles. Les modèles de la génération précédente, comme le Xiaomi Mix Flip ou le Razr 60 Ultra, voient aussi leur prix baisser fortement.',
+  },
+  {
+    q: 'L’iPhone Duo est-il disponible en France ?',
+    a: 'Oui. Apple a annoncé l’iPhone Duo le 9 septembre 2026. Les précommandes ouvrent en France le vendredi 16 octobre 2026 et la sortie est fixée au vendredi 23 octobre 2026, à partir de 2 339 € en 256 Go.',
+  },
+  {
+    q: 'Un smartphone pliant est-il fragile ?',
+    a: 'Beaucoup moins qu’à ses débuts. Les charnières actuelles sont annoncées pour plusieurs centaines de milliers de pliages et plusieurs modèles sont certifiés IP68 (iPhone Duo, Pixel 11 Pro Fold, Honor Magic V6). Le point faible reste l’écran intérieur, plus sensible aux rayures et aux pressions qu’une vitre classique, et la poussière pour les modèles seulement IP48.',
+  },
+  {
+    q: 'Le pli de l’écran se voit-il encore ?',
+    a: 'Il reste perceptible au toucher et sous une lumière rasante sur la plupart des modèles, mais il est devenu très discret. Les pliants au format livre de 2026 utilisent des charnières à goutte d’eau et des verres plus épais qui réduisent nettement la marque, qui disparaît presque face à l’écran allumé.',
+  },
+  {
+    q: 'Clapet ou format livre : que choisir ?',
+    a: 'Le clapet (Galaxy Z Flip, Motorola Razr) replie un smartphone classique en deux pour gagner en compacité, à partir de 999 €. Le format livre (Galaxy Z Fold, iPhone Duo, Pixel Fold) déplie une petite tablette de 7,6 à 8 pouces pour le multitâche, la lecture et la vidéo, mais coûte en général plus de 1 900 €.',
+  },
+  {
+    q: 'Faut-il retirer le film de protection de l’écran intérieur ?',
+    a: 'Non. Sur tous les pliants, le film pré-installé sur l’écran intérieur fait partie de la dalle. Le retirer peut l’endommager et annuler la garantie. S’il se décolle, il doit être remplacé en centre agréé.',
+  },
+  {
+    q: 'Les prix affichés sont-ils les prix Amazon ?',
+    a: 'Non. Nous indiquons le prix public conseillé au lancement en France, qui sert de repère stable. Le prix réel sur Amazon ou chez les autres marchands est souvent inférieur, surtout pour les modèles sortis depuis plusieurs mois : cliquez sur les boutons pour voir le prix du jour.',
+  },
+];
+
+const schema = [
+  article({ path: '/', title, description, about: ['Smartphone pliant', 'Comparatif'] }),
+  itemList(
+    'Classement des smartphones pliants 2026',
+    list.map((p) => ({ name: p.fullName, url: p.path })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema} ogType="website">
+  <section class="hero">
+    <div class="wrap hero-split">
+      <div>
+        <span class="eyebrow">Comparatif · septembre 2026</span>
+        <h1>Comparatif des smartphones pliants 2026 : lequel acheter ?</h1>
+        <p class="lede">
+          {count} modèles vendus en France passés au crible : {livres} au format livre, {clapets} à clapet et un tri-pliant.
+          Notes détaillées, fiches techniques vérifiées et prix de lancement, mis à jour après l’annonce de l’iPhone Duo.
+        </p>
+        <Byline minutes={14} />
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <FoldIcon format="clapet" color="#e2471b" />
+        <FoldIcon format="livre" color="#0f6d63" />
+        <FoldIcon format="tri-pliant" color="#a86a00" />
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <Callout variant="answer" title="La réponse courte">
+      <p>
+        Le <strong>{top.fullName}</strong> est le meilleur smartphone pliant du moment ({num(overall(top))}/10) : c’est le plus endurant, le seul à cumuler IP68 et IP69, et il reste plus fin fermé (8,75 mm) qu’un Galaxy Z Fold8 Ultra.
+        Sur iPhone, l’<strong>iPhone Duo</strong> arrive le 23 octobre à {euro(duo.launchPrice)}. En clapet, le <strong>Motorola Razr 70 Ultra</strong> domine le Galaxy Z Flip8 sur la batterie et la puissance.
+        Budget serré ? Le <strong>Razr 70</strong> démarre à {euro(razr70.launchPrice)}.
+      </p>
+    </Callout>
+
+    <div class="podium">
+      <div class="card">
+        <span class="label">Meilleur pliant 2026</span>
+        <div class="flex"><Score value={overall(v6)} /><strong><ObfLink href={v6.path} class="obf-text">{v6.fullName}</ObfLink></strong></div>
+        <p class="small muted mb-0">6 660 mAh, charge 80 W, IP69 : la fiche technique la plus complète.</p>
+        <ObfLink href={v6.path} class="small podium-test">Lire le test complet →</ObfLink>
+        <AmazonButton phone={v6} size="sm" />
+      </div>
+      <div class="card">
+        <span class="label">Meilleur clapet</span>
+        <div class="flex"><Score value={overall(razrUltra)} /><strong><ObfLink href={razrUltra.path} class="obf-text">{razrUltra.fullName}</ObfLink></strong></div>
+        <p class="small muted mb-0">Snapdragon 8 Elite, écrans 165 Hz et 5 000 mAh dans un format de poche.</p>
+        <ObfLink href={razrUltra.path} class="small podium-test">Lire le test complet →</ObfLink>
+        <AmazonButton phone={razrUltra} size="sm" label="Voir l’offre Amazon" />
+      </div>
+      <div class="card">
+        <span class="label">Le plus polyvalent</span>
+        <div class="flex"><Score value={overall(fold8u)} /><strong><ObfLink href={fold8u.path} class="obf-text">{fold8u.fullName}</ObfLink></strong></div>
+        <p class="small muted mb-0">200 Mpx, grand écran externe et sept ans de mises à jour Samsung.</p>
+        <ObfLink href={fold8u.path} class="small podium-test">Lire le test complet →</ObfLink>
+        <AmazonButton phone={fold8u} size="sm" label="Consulter le prix" />
+      </div>
+      <div class="card">
+        <span class="label">Pour les utilisateurs d’iPhone</span>
+        <div class="flex"><Score value={overall(duo)} /><strong><ObfLink href={duo.path} class="obf-text">{duo.fullName}</ObfLink></strong></div>
+        <p class="small muted mb-0">Seul pliant sous iOS, IP68 et titane. Note provisoire avant sortie.</p>
+        <ObfLink href={duo.path} class="small podium-test">Voir la fiche complète →</ObfLink>
+        <AmazonButton phone={duo} size="sm" label="Suivre la disponibilité" />
+      </div>
+    </div>
+  </div>
+
+  <section class="section band" id="comparatif">
+    <div class="wrap">
+      <h2 class="mt-0">Tableau comparatif des {count} smartphones pliants</h2>
+      <p class="muted" style="max-width:70ch">
+        Filtrez par format et triez selon ce qui compte pour vous. Les prix correspondent au prix public conseillé au lancement en France, dans la configuration de base ;
+        le prix du jour s’affiche sur Amazon.
+      </p>
+      <div class="filters" data-filters>
+        <div class="chips" role="group" aria-label="Filtrer par format">
+          <button class="chip" type="button" aria-pressed="true" data-filter="all">Tous</button>
+          <button class="chip" type="button" aria-pressed="false" data-filter="livre">Format livre</button>
+          <button class="chip" type="button" aria-pressed="false" data-filter="clapet">Clapet</button>
+          <button class="chip" type="button" aria-pressed="false" data-filter="tri-pliant">Tri-pliant</button>
+        </div>
+        <label class="small">
+          <span class="muted">Trier par</span>
+          <select class="select" data-sort>
+            <option value="score">Note</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="battery">Batterie</option>
+            <option value="weight">Poids (léger d’abord)</option>
+            <option value="release">Plus récent</option>
+          </select>
+        </label>
+      </div>
+      <CompareTable
+        id="comparatif-table"
+        phones={list}
+        caption="Comparatif des smartphones pliants disponibles en France"
+        columns={['score', 'price', 'screens', 'battery', 'weight', 'ip']}
+        ctaLabel="Voir le prix"
+      />
+      <p class="disclosure" style="margin-top:.8rem">
+        <span aria-hidden="true">ⓘ</span>
+        <span>Liens affiliés Amazon. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Le classement détaillé, modèle par modèle</h2>
+        <p>
+          La note globale combine six critères pondérés : écrans (20 %), photo (20 %), autonomie (20 %), performances (15 %), rapport qualité/prix (15 %) et portabilité (10 %).
+          Un modèle ancien peut donc devancer un modèle récent s’il est devenu nettement moins cher. Le détail du calcul est expliqué dans <a href="/methodologie/">notre méthodologie</a>.
+        </p>
+      </div>
+      <div class="stack" style="margin-top:1.5rem">
+        {list.map((p, i) => <PhoneCard phone={p} rank={i + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Clapet, livre ou tri-pliant : commencez par le format</h2>
+        <p>
+          Avant de comparer les processeurs, il faut choisir une forme. Les deux familles n’ont presque rien en commun à l’usage, et leurs prix non plus.
+        </p>
+        <p>
+          Le <a href="/smartphone-pliant-clapet/">smartphone pliant à clapet</a> reprend l’idée des téléphones des années 2000 : un écran de 6,7 à 7 pouces se referme en deux pour tenir dans une poche de jean.
+          On gagne en compacité, pas en surface d’affichage. C’est le format le plus abordable, à partir de 999 € au lancement.
+        </p>
+        <p>
+          Le <a href="/smartphone-pliant-format-livre/">smartphone pliant au format livre</a> fonctionne à l’inverse : fermé, c’est un smartphone presque normal ; ouvert, il révèle un écran de 7,6 à 8 pouces proche d’une mini-tablette.
+          Il vise ceux qui lisent, travaillent ou regardent des vidéos sur leur téléphone, avec un ticket d’entrée autour de 1 900 à 2 300 €.
+        </p>
+        <p>
+          Reste le <a href="/smartphone-tri-pliant/">smartphone tri-pliant</a>, avec deux charnières et un écran de 10 pouces. Spectaculaire, mais encore rare en France, lourd et très cher.
+        </p>      </div>
+      <div class="grid" style="--min:240px;margin-top:1.5rem">
+        <a class="card tile-link" href="/smartphone-pliant-clapet/">
+          <div style="width:52px"><FoldIcon format="clapet" /></div>
+          <h3>À clapet</h3>
+          <p class="small muted">{clapets} modèles comparés · dès {euro(Math.min(...phones.filter((p) => p.format === 'clapet').map((p) => p.launchPrice)))}</p>
+          <span class="arrow">Voir le guide →</span>
+        </a>
+        <a class="card tile-link" href="/smartphone-pliant-format-livre/">
+          <div style="width:64px"><FoldIcon format="livre" color="#0f6d63" /></div>
+          <h3>Format livre</h3>
+          <p class="small muted">{livres} modèles comparés · écrans de 7,6 à 8 pouces</p>
+          <span class="arrow">Voir le guide →</span>
+        </a>
+        <a class="card tile-link" href="/smartphone-tri-pliant/">
+          <div style="width:84px"><FoldIcon format="tri-pliant" color="#a86a00" /></div>
+          <h3>Tri-pliant</h3>
+          <p class="small muted">Écran de 10,2 pouces · offre très limitée en France</p>
+          <span class="arrow">Voir le guide →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <span class="eyebrow">Actualité</span>
+      <h2 class="mt-0">iPhone Duo : pourquoi 2026 change la donne pour les pliants</h2>
+      <p>
+        Pendant sept ans, le marché du pliant a été porté presque seul par Samsung, suivi de Motorola, Google, Honor et Huawei.
+        L’annonce de l’<a href="/iphone-pliable/">iPhone pliable d’Apple, baptisé iPhone Duo</a>, le 9 septembre 2026, fait basculer le sujet dans le grand public : écrans de 7,6 et 5,4 pouces, châssis en titane, certification IP68 et puce A20 Pro.
+      </p>
+      <p>
+        Son prix de départ, {euro(duo.launchPrice)} en France, le place au-dessus de tous les pliants Android sauf le tri-pliant de Huawei. Deux effets sont probables pour les acheteurs :
+        une baisse accélérée des prix des Fold et Flip de l’an dernier, et une concurrence plus forte sur le format « large » que Samsung a anticipé avec le Galaxy Z Fold8.
+      </p>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Les marques de smartphones pliants vendues en France</h2>
+        <p>Sept constructeurs proposent aujourd’hui au moins un pliant sur le marché français. Leurs stratégies sont très différentes.</p>
+      </div>
+      <div class="grid" style="--min:300px;margin-top:1.2rem">
+        <div class="card">
+          <h3>Samsung, l’offre la plus large</h3>
+          <p class="small">
+            Trois nouveautés en 2026 (Fold8 Ultra, Fold8 au format large, Flip8) et trois modèles 2025 encore vendus. Sept ans de mises à jour et un réseau SAV dense.
+            Notre guide des <a href="/smartphone-pliant-samsung/">smartphones pliants Samsung</a> aide à s’y retrouver.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Apple, le nouvel entrant</h3>
+          <p class="small">
+            Un seul modèle, l’iPhone Duo, en quatre capacités de 256 Go à 2 To. Le seul choix possible pour rester sous iOS : tout savoir sur l’<a href="/iphone-pliable/">iPhone pliable</a>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Motorola, le spécialiste du clapet</h3>
+          <p class="small">
+            Trois Razr 70 à clapet de 999 à 1 499 € et, depuis avril 2026, un premier format livre très endurant, le Razr Fold. Le détail dans notre dossier <a href="/smartphone-pliant-motorola-razr/">Motorola Razr</a>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Google, la photo et l’IA</h3>
+          <p class="small">
+            Le Pixel 11 Pro Fold garde le zoom x5 et l’IP68 inauguré par son prédécesseur. Comparaison des deux générations sur notre page <a href="/smartphone-pliant-google-pixel/">Google Pixel Fold</a>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Honor, la fiche technique d’abord</h3>
+          <p class="small">
+            Batteries géantes et finesse record : le Magic V6 mène notre classement. Voir la gamme des <a href="/smartphone-pliant-honor/">pliants Honor</a>.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Huawei et Xiaomi, des cas à part</h3>
+          <p class="small">
+            Huawei vend du très haut de gamme sans services Google (<a href="/smartphone-pliant-huawei/">Mate X7 et Mate XT</a>), tandis que Xiaomi n’a plus de nouveauté pliante en France depuis le Mix Flip (<a href="/smartphone-pliant-xiaomi/">état de la gamme Xiaomi</a>).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap cols-2">
+      <div class="prose">
+        <h2 class="mt-0">Combien faut-il mettre dans un smartphone pliant ?</h2>
+        <p>
+          Les prix de lancement s’étalent de 999 € à 3 499 €. L’écart se joue moins sur la puissance que sur le format, l’autonomie et la photo. Voici comment se répartit l’offre, et nos guides pour chaque enveloppe.
+        </p>
+        <div class="table-scroll" style="margin-bottom:1.2rem">
+          <table>
+            <caption class="sr-only">Répartition des smartphones pliants par budget</caption>
+            <thead>
+              <tr><th scope="col">Budget</th><th scope="col">Ce qu’on obtient</th><th scope="col">Guide</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">Moins de 1 000 €</td>
+                <td>Clapets d’entrée de gamme ou fins de série</td>
+                <td><a href="/smartphone-pliant-pas-cher/">Pliants pas chers</a></td>
+              </tr>
+              <tr>
+                <td class="num">1 000 à 1 500 €</td>
+                <td>Clapets haut de gamme : Razr 70 Ultra, Galaxy Z Flip8</td>
+                <td><a href="/smartphone-pliant-moins-de-1500-euros/">Moins de 1 500 €</a></td>
+              </tr>
+              <tr>
+                <td class="num">1 500 à 2 000 €</td>
+                <td>Format livre récent : Fold8, Pixel 11 Pro Fold</td>
+                <td><a href="/smartphone-pliant-moins-de-2000-euros/">Moins de 2 000 €</a></td>
+              </tr>
+              <tr>
+                <td class="num">Plus de 2 000 €</td>
+                <td>iPhone Duo, Fold8 Ultra, Magic V6, Razr Fold, tri-pliant</td>
+                <td><a href="/smartphone-pliant-haut-de-gamme/">Haut de gamme</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Un conseil : un pliant perd vite de sa valeur dans les mois qui suivent sa sortie. Le {flipFe.fullName}, lancé à {euro(flipFe.launchPrice)}, et le Galaxy Z Flip7 se négocient déjà bien en dessous de leur prix d’origine depuis l’arrivée du {flip8.name}.
+        </p>
+
+        <h2>Quel pliant choisir selon votre usage ?</h2>
+        <p>La meilleure note globale ne fait pas forcément le meilleur téléphone pour vous. Nos classements par usage reprennent les mêmes modèles, mais avec d’autres priorités :</p>
+        <ul>
+          <li>
+            <strong>Photo :</strong> les téléobjectifs font la différence. Le {pixel11.name} (zoom x5) et les modèles à périscope d’Honor et Huawei se détachent dans notre <a href="/smartphone-pliant-photo/">classement photo</a>.
+          </li>
+          <li>
+            <strong>Travail :</strong> grand écran intérieur, multi-fenêtres et bureau sur écran externe. Voir les <a href="/smartphone-pliant-travail/">pliants pour la productivité</a>.
+          </li>
+          <li>
+            <strong>Autonomie :</strong> de 4 000 à 6 660 mAh selon les modèles, avec des charges de 25 à 80 W. Le palmarès est dans notre page <a href="/smartphone-pliant-autonomie/">autonomie</a>.
+          </li>
+          <li>
+            <strong>Jeu vidéo :</strong> les Snapdragon 8 Elite et l’A20 Pro dominent, mais la chauffe compte autant que la puissance brute. Notre sélection <a href="/smartphone-pliant-gaming/">gaming</a>.
+          </li>
+          <li>
+            <strong>Résistance :</strong> IP68, IP48, IP69… la différence est réelle pour la poussière et le sable. Tout est expliqué dans le guide des <a href="/smartphone-pliant-resistant/">pliants résistants</a>.
+          </li>
+        </ul>
+      </div>
+      <aside class="sticky">
+        <div class="card">
+          <strong>Sommaire</strong>
+          <nav class="toc" aria-label="Sommaire">
+            <ol>
+              <li><a href="#comparatif">Tableau comparatif</a></li>
+              <li><a href="#criteres">Les critères d’achat</a></li>
+              <li><a href="#faq">Questions fréquentes</a></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <strong>Repères de prix</strong>
+          <ul class="small" style="padding-left:1.1rem;margin:.6rem 0 0">
+            <li>Pliant le moins cher : {euro(razr70.launchPrice)}</li>
+            <li>Format livre le moins cher : {euro(Math.min(...phones.filter((p) => p.format === 'livre').map((p) => p.launchPrice)))}</li>
+            <li>iPhone Duo : {euro(duo.launchPrice)} à 3 839 €</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section band" id="criteres">
+    <div class="wrap prose">
+      <h2 class="mt-0">Sept points à vérifier avant d’acheter un pliant</h2>
+      <p>Les fiches techniques se ressemblent. Voici ce qui distingue vraiment un bon pliant d’un mauvais achat.</p>
+
+      <h3>1. L’indice de protection, surtout contre la poussière</h3>
+      <p>
+        Un pliant IP48 résiste à l’immersion mais ne protège que contre les particules de plus de 1 mm : le sable fin reste un danger pour la charnière.
+        Seuls quelques modèles sont IP68, dont l’iPhone Duo, le Pixel 11 Pro Fold et le Honor Magic V6 (qui ajoute l’IP69 contre les jets haute pression).
+      </p>
+
+      <h3>2. L’écran externe</h3>
+      <p>
+        On passe la majorité du temps téléphone fermé. Sur un format livre, un écran externe trop étroit rend la saisie pénible ; sur un clapet, un écran de 4 pouces permet de répondre à un message sans ouvrir.
+        Le Galaxy Z Fold8 Ultra (6,5") et le Razr 70 Ultra (4") sont les références.
+      </p>
+
+      <h3>3. L’autonomie réelle, pas seulement les mAh</h3>
+      <p>
+        Deux écrans et une batterie répartie de chaque côté de la charnière compliquent l’équation. Regardez aussi la vitesse de charge : 25 W sur un Flip8 contre 80 W sur un Magic V6, c’est trois fois plus de temps branché.
+      </p>
+
+      <h3>4. Le poids et l’épaisseur fermés</h3>
+      <p>
+        Entre les 180 g du Flip8 et les 258 g du Pixel 10 Pro Fold, l’écart se sent dans la poche. Pour un format livre, tout ce qui dépasse 10 mm plié commence à peser au quotidien.
+      </p>
+
+      <h3>5. Le suivi logiciel</h3>
+      <p>
+        Samsung et Google promettent sept ans de mises à jour Android. C’est un critère important sur un appareil de plus de 1 500 € que l’on garde souvent longtemps.
+        Sur Huawei, l’absence des services Google (Play Store, Gmail, Maps) reste rédhibitoire pour la plupart des utilisateurs.
+      </p>
+
+      <h3>6. La photo quand le téléphone est fermé</h3>
+      <p>
+        Les pliants cèdent souvent sur le téléobjectif pour gagner en finesse. Ni le Galaxy Z Fold8, ni le Z Flip8, ni les Razr 70 n’en ont. Si vous zoomez souvent, visez un modèle avec zoom optique x3 ou plus.
+      </p>
+
+      <h3>7. La réparation et l’assurance</h3>
+      <p>
+        Hors garantie, le remplacement d’un écran intérieur coûte souvent plusieurs centaines d’euros. Vérifiez les offres de protection d’écran des constructeurs et l’indice de réparabilité affiché en magasin avant de choisir.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <Faq items={faq} heading="Smartphones pliants : les questions qu’on nous pose" />
+      <p class="small muted" style="margin-top:2rem">
+        Notes et fiches établies par {SITE.author.name} à partir des données constructeurs et des tests publiés. Pour savoir comment nous travaillons et qui nous sommes, consultez la page <a href="/a-propos/">à propos</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector('[data-filters]');
+  const table = document.querySelector<HTMLTableElement>('#comparatif-table');
+  if (root && table) {
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+    const chips = root.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const select = root.querySelector<HTMLSelectElement>('[data-sort]');
+
+    chips.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+        const f = chip.dataset.filter;
+        rows.forEach((r) => (r.hidden = f !== 'all' && r.dataset.format !== f));
+      }),
+    );
+
+    select?.addEventListener('change', () => {
+      const v = select.value;
+      const n = (r: HTMLTableRowElement, k: string) => Number(r.dataset[k] ?? 0);
+      const sorted = [...rows].sort((a, b) => {
+        switch (v) {
+          case 'price-asc':
+            return n(a, 'price') - n(b, 'price');
+          case 'price-desc':
+            return n(b, 'price') - n(a, 'price');
+          case 'battery':
+            return n(b, 'battery') - n(a, 'battery');
+          case 'weight':
+            return n(a, 'weight') - n(b, 'weight');
+          case 'release':
+            return (b.dataset.release ?? '').localeCompare(a.dataset.release ?? '');
+          default:
+            return n(b, 'score') - n(a, 'score');
+        }
+      });
+      sorted.forEach((r) => tbody.appendChild(r));
+    });
+  }
+</script>

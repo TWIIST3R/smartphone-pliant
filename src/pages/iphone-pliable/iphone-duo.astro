@@ -1,0 +1,432 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import TestSources from '../../components/TestSources.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import { byId } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro } from '../../lib/format';
+
+const p = byId('iphone-duo');
+const fold8 = byId('galaxy-z-fold8');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const pixel = byId('pixel-11-pro-fold');
+const v6 = byId('honor-magic-v6');
+const path = p.path;
+const title = 'iPhone Duo : aperçu complet, prix et premières impressions';
+const description =
+  'iPhone Duo : écrans 7,6" et 5,4", A20 Pro, 254 g, IP68, Touch ID. Prix de 2 339 à 3 839 €, sortie le 23 octobre 2026 et premières impressions de la presse.';
+
+const APPLE = 'https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/';
+const APPLE_FR = 'https://www.apple.com/fr/newsroom/2026/09/apple-unveils-iphone-duo/';
+const APPLE_SPECS = 'https://www.apple.com/fr/iphone-duo/specs/';
+const MR_FEATURES = 'https://www.macrumors.com/2026/09/10/iphone-duo-launching-october-23-twelve-features/';
+const MR_ROUNDUP = 'https://www.macrumors.com/roundup/iphone-duo/';
+const NTM = 'https://9to5mac.com/2026/09/09/apple-unveils-foldable-iphone-duo/';
+const IGEN_ACC =
+  'https://www.igen.fr/accessoires/2026/09/les-nouvelles-coques-et-accessoires-pour-iphone-18-pro-pro-max-et-iphone-duo-sont-disponibles-157963';
+
+const prices = [
+  { storage: '256 Go', price: '2 339 €' },
+  { storage: '512 Go', price: '2 589 €' },
+  { storage: '1 To', price: '3 089 €' },
+  { storage: '2 To', price: '3 839 €' },
+];
+
+const impressions = [
+  {
+    media: '9to5Mac',
+    url: 'https://9to5mac.com/2026/09/09/hands-on-with-the-foldable-iphone-duo-gallery/',
+    date: '2026-09-09',
+    verdict:
+      'Pli difficile à repérer sous la plupart des angles, charnière impressionnante et animation soignée à l’ouverture : le site y voit une prouesse d’ingénierie promise à de nombreux usages.',
+  },
+  {
+    media: 'MacRumors',
+    url: 'https://www.macrumors.com/2026/09/09/iphone-duo-hands-on/',
+    date: '2026-09-09',
+    verdict:
+      'Pli encore visible sous certains éclairages, mais mieux masqué que chez Samsung ; interface bien adaptée au format. Réserves sur un appareil photo limité et sur la tenue dans le temps.',
+  },
+  {
+    media: 'Gizmodo',
+    url: 'https://gizmodo.com/iphone-duo-hands-on-2000808932',
+    date: '2026-09-09',
+    verdict:
+      'Écran intérieur mat sans reflets, pli imperceptible au doigt et charnière sans jeu. La perte de Face ID et le prix freinent l’enthousiasme.',
+  },
+  {
+    media: 'iGeneration (synthèse)',
+    url: 'https://www.igen.fr/iphone/2026/09/iphone-duo-la-pliure-lepreuve-des-premieres-prises-en-main-157953',
+    date: '2026-09-10',
+    verdict:
+      'La presse s’accorde sur un pli très discret et un revêtement mat réussi ; plusieurs médias, dont ZDNET, trouvent la caméra placée sous l’écran nettement en retrait.',
+  },
+  {
+    media: 'iPhon.fr (synthèse)',
+    url: 'https://www.iphon.fr/post/iphone-duo-pliant-premiers-avis-test',
+    date: '2026-09-11',
+    verdict:
+      'Des avis plus nuancés : Engadget sent davantage le pli qu’il ne le voit et insiste sur les 254 g, MKBHD regrette des bords d’écran asymétriques peu pratiques pour les gauchers.',
+  },
+];
+
+const accessories = [
+  { name: 'Folio pour iPhone Duo', colors: 'Bleu marine, taupe', detail: 'Rabat avec béquille à plusieurs angles, compatible MagSafe et Qi2', price: '149 €' },
+  { name: 'Coque pour iPhone Duo', colors: 'Bleu marine, sable', detail: 'Protection en deux parties, une par moitié, compatible MagSafe et Qi2', price: '89 €' },
+];
+
+const faq = [
+  {
+    q: 'Quand sort l’iPhone Duo en France et à quel prix ?',
+    a: 'L’iPhone Duo est précommandable en France à partir du 16 octobre 2026 à 14 h et sort le 23 octobre 2026. Il coûte 2 339 € en 256 Go, 2 589 € en 512 Go, 3 089 € en 1 To et 3 839 € en 2 To. Aux États-Unis, il démarre à 1 999 dollars.',
+  },
+  {
+    q: 'Le pli de l’iPhone Duo se voit-il ?',
+    a: 'D’après les premières prises en main publiées le 9 septembre 2026, le pli de l’iPhone Duo reste visible sous certains angles et éclairages, mais il est très discret. MacRumors le juge mieux masqué que chez Samsung, et Gizmodo ne le sent pas au doigt. Apple utilise une couche polymère texturée plus rigide pour l’atténuer.',
+  },
+  {
+    q: 'Quelle est l’autonomie de l’iPhone Duo ?',
+    a: 'Apple annonce jusqu’à 24 heures en usage partagé entre les deux écrans, 31 heures de lecture vidéo sur l’écran intérieur et 44 heures sur l’écran extérieur, grâce à deux batteries dont la capacité n’est pas communiquée. Aucune mesure indépendante n’a encore été publiée.',
+  },
+  {
+    q: 'L’iPhone Duo a-t-il un téléobjectif ?',
+    a: 'Non. L’iPhone Duo embarque deux capteurs de 48 Mpx, un principal et un ultra grand-angle. Le zoom x2 annoncé en qualité optique est obtenu par recadrage du capteur principal. Les pliants de Google, Honor et Huawei proposent un vrai zoom optique x3 à x5.',
+  },
+  {
+    q: 'Peut-on utiliser une carte SIM physique dans l’iPhone Duo ?',
+    a: 'Non. L’iPhone Duo fonctionne uniquement en eSIM, dans tous les pays où il est vendu. Les opérateurs français proposent la conversion d’une carte SIM physique en eSIM, généralement depuis leur application ou leur espace client.',
+  },
+  {
+    q: 'L’iPhone Duo a-t-il Face ID ?',
+    a: 'Non. L’iPhone Duo abandonne Face ID au profit de Touch ID, intégré au bouton latéral et utilisable téléphone ouvert comme fermé. 9to5Mac précise que plusieurs empreintes peuvent être enregistrées, et le déverrouillage depuis une Apple Watch reste possible. Plusieurs médias, dont Gizmodo, voient dans la disparition de la reconnaissance faciale un recul.',
+  },
+  {
+    q: 'Que contient la boîte de l’iPhone Duo ?',
+    a: 'Selon la fiche technique d’Apple France, la boîte de l’iPhone Duo contient uniquement le téléphone et un câble de charge USB-C d’un mètre. Aucun adaptateur secteur n’est fourni : pour atteindre 50 % de charge en 20 minutes environ, Apple indique qu’il faut un adaptateur de 60 W ou plus. Le Folio et la coque sont vendus séparément.',
+  },
+  {
+    q: 'L’iPhone Duo est-il étanche ?',
+    a: 'Sur le papier, oui. L’iPhone Duo est certifié IP68 : Apple annonce une résistance à l’immersion jusqu’à 6 mètres de profondeur pendant 30 minutes, et l’indice 6 correspond à une protection totale contre la poussière. C’est rare sur un pliant, les Galaxy Z Fold8 restant IP48. Aucun test indépendant de durabilité n’a encore été publié.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['iPhone Duo', 'Smartphone pliant'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap cols-2 section-tight">
+    <article class="prose">
+      <span class="eyebrow">Aperçu complet · avis provisoire</span>
+      <h1>Apple iPhone Duo : aperçu complet du premier iPhone pliable avant sa sortie</h1>
+      <ProductSummary phone={p} ctaLabel="Vérifier la disponibilité" />
+      <p class="lede">
+        Annoncé le 9 septembre 2026, l’iPhone Duo sort en France le 23 octobre à partir de {euro(p.launchPrice)}. Deux écrans au même ratio, un A20 Pro, un châssis en titane certifié IP68 et un pli que la presse juge très discret : voici tout ce que l’on sait, en attendant les premiers tests.
+        Pour le contexte, le calendrier et l’historique du projet, consultez notre dossier consacré à l’<a href="/iphone-pliable/">iPhone pliable</a>.
+      </p>
+      <Byline minutes={15} />
+
+      <Callout variant="accent" title="L’avis provisoire en 30 secondes">
+        <p>
+          Sur le papier, l’iPhone Duo corrige deux défauts historiques des pliants : l’étanchéité, avec un IP68, et les applications mal adaptées, grâce à deux écrans au même ratio. Les premières prises en main confirment un pli très bien atténué et une charnière sans jeu.
+          En contrepartie, il est lourd (254 g), épais fermé (11,3 mm), privé de téléobjectif et vendu à partir de 2 339 €.
+          Il vise l’utilisateur d’iPhone qui lit, travaille ou regarde des vidéos sur son téléphone et veut un grand écran sans quitter iOS : pour lui, c’est le seul pliant envisageable.
+          Le photographe amateur, l’acheteur attentif au rapport qualité/prix et les nostalgiques de Face ID ont en revanche de bonnes raisons de passer leur tour, ou d’attendre les tests.
+        </p>
+      </Callout>
+
+      <p class="small muted">
+        Aucun test complet n’est encore publié. Cette page s’appuie sur les caractéristiques officielles d’Apple et sur les prises en main publiées par la presse après la keynote du 9 septembre ; la note affichée est provisoire et sera révisée à la lumière des premiers tests.
+      </p>
+
+      <h2>Calendrier et prix en France</h2>
+      <p>
+        L’iPhone Duo a été présenté le 9 septembre 2026, lors de la première keynote de John Ternus en tant que PDG d’Apple. Les précommandes ouvrent en France le 16 octobre 2026 à 14 h, pour une sortie le 23 octobre. La France fait partie de la première vague de plus de 70 pays, selon Apple.
+      </p>
+      <ol class="timeline">
+        <li><time datetime="2026-09-09">9 septembre 2026</time> Présentation de l’iPhone Duo à Cupertino.</li>
+        <li><time datetime="2026-10-16">16 octobre 2026, 14 h</time> Ouverture des précommandes en France.</li>
+        <li><time datetime="2026-10-23">23 octobre 2026</time> Sortie dans plus de 70 pays, dont la France.</li>
+        <li><time datetime="2026-10-30">30 octobre 2026</time> Arrivée dans 28 pays supplémentaires, selon Apple.</li>
+      </ol>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Prix de lancement de l’iPhone Duo en France</caption>
+          <thead><tr><th scope="col">Stockage</th><th scope="col">Prix de lancement</th></tr></thead>
+          <tbody>
+            {prices.map((r) => (
+              <tr><th scope="row">{r.storage}</th><td class="num">{r.price}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Aux États-Unis, le modèle de base est affiché à 1 999 dollars. Deux coloris sont proposés dans toutes les capacités : blanc stellaire et ciel nocturne, selon le <a href={APPLE_FR} target="_blank" rel="noopener">communiqué français d’Apple</a> (Star White et Night Sky en anglais). Passer de 256 Go à 512 Go coûte 250 € ; le saut vers 1 To, puis vers 2 To, en coûte 500 et 750 de plus.
+      </p>
+      <p><AmazonButton phone={p} label="Vérifier la disponibilité sur Amazon" /></p>
+
+      <h2>Design : du titane et une charnière de plus de 100 pièces</h2>
+      <p>
+        L’iPhone Duo utilise un châssis en titane grade 5 poli miroir et un capot de charnière imprimé en 3D, en titane 100 % recyclé selon Apple. La charnière elle-même assemble plus de 100 composants et intègre un réseau d’aimants pour tenir le téléphone fermé. Le dos est protégé par du Ceramic Shield, la face avant par le Ceramic Shield 2, présenté comme trois fois plus résistant aux rayures que la génération précédente.
+      </p>
+      <p>
+        L’ensemble pèse 254 g et mesure 11,3 mm fermé, 5,2 mm ouvert. Engadget, cité par iPhon.fr, rappelle l’écart avec un Galaxy Z Fold8 de 201 g, et Gizmodo le trouve légèrement plus épais que ce dernier une fois fermé. En main, Gizmodo salue une charnière qui ne présente pas le léger jeu constaté sur d’autres pliants.
+      </p>
+      <p>
+        Les autres dimensions sont moins habituelles. D’après la <a href={APPLE_SPECS} target="_blank" rel="noopener">fiche technique d’Apple France</a>, l’iPhone Duo mesure 117,8 mm de haut dans les deux positions, 84,1 mm de large fermé et 164,6 mm ouvert. Fermé, il est donc bien plus court qu’un iPhone classique, mais aussi plus large : un gabarit à essayer en boutique avant de le glisser dans une poche de jean.
+      </p>
+      <PhoneGallery id="iphone-duo" heading="L’iPhone Duo ouvert et fermé" />
+      <p>
+        L’iPhone Duo est certifié IP68, jusqu’à 6 mètres de profondeur pendant 30 minutes, un niveau rare sur un pliant. Face ID disparaît au profit de Touch ID dans le bouton latéral, utilisable ouvert comme fermé, et du déverrouillage par Apple Watch. Gizmodo y voit un recul ; MKBHD, cité par iPhon.fr, regrette aussi des bords d’écran asymétriques, arrondis d’un côté et droits de l’autre, peu pratiques pour les gauchers.
+      </p>
+
+      <h2>Écrans : un seul ratio, une finition mate et un pli atténué</h2>
+      <p>
+        L’écran intérieur de 7,6 pouces (430 ppi) et l’écran extérieur de 5,4 pouces (460 ppi) ont la même proportion. Les deux montent à 120 Hz avec ProMotion, gèrent l’affichage permanent et atteignent 3 000 cd/m² en extérieur, selon Apple. Une photo, une page web ou une vidéo passent ainsi d’un écran à l’autre sans recadrage, là où les pliants Android réorganisent souvent l’affichage.
+      </p>
+      <p>
+        Les définitions sont de 2 670 × 1 878 pixels à l’intérieur et de 2 034 × 1 398 pixels à l’extérieur, avec un contraste annoncé de 2 000 000:1 et une luminosité standard de 1 000 cd/m². Apple précise que l’écran externe offre 90 % de la surface d’affichage d’un iPhone 18 Pro. Sur l’écran extérieur, la Dynamic Island est redessinée à la verticale.
+      </p>
+      <p>
+        Pour atténuer le pli, Apple recouvre l’écran intérieur d’une couche en polymère sur mesure, jusqu’à 40 % plus rigide, avec une finition nano-texturée qui réduit les reflets. C’est le point le plus commenté par la presse. 9to5Mac a eu du mal à distinguer le pli sous la plupart des angles, MacRumors le voit encore sous certains éclairages mais le juge mieux caché que chez Samsung, et Gizmodo compare la surface mate à du papier.
+      </p>
+      <p>
+        Les avis ne sont pas unanimes : Engadget, selon iPhon.fr, sent davantage le pli qu’il ne le voit. Et d’après la synthèse d’iGeneration, Numerama a remarqué que le revêtement mat est découpé à l’endroit de la caméra placée sous l’écran.
+      </p>
+
+      <h2>A20 Pro : la puce des iPhone 18 Pro, avec un refroidissement dédié</h2>
+      <p>
+        L’iPhone Duo reprend l’A20 Pro des iPhone 18 Pro, gravé en 2 nm. Apple annonce un processeur à six cœurs jusqu’à 20 % plus rapide que l’A19 Pro, une puce graphique à sept cœurs jusqu’à 40 % plus rapide et 35 % de performances soutenues en plus par rapport à l’iPhone 17 Pro, grâce à une chambre à vapeur reliée directement à la puce. Aucun benchmark indépendant n’est encore disponible.
+      </p>
+      <p>
+        Le processeur combine deux cœurs de performance et quatre cœurs d’efficacité, d’après la fiche d’Apple France. Pour l’intelligence artificielle, l’A20 Pro double son Neural Engine : deux unités de 16 cœurs, soit deux fois la puissance de calcul de la génération précédente selon le <a href={APPLE} target="_blank" rel="noopener">communiqué d’Apple</a>, avec 50 % de bande passante mémoire en plus. Apple ne communique pas la quantité de mémoire vive. 9to5Mac précise que la puce intègre un contrôleur d’affichage qui pilote les deux écrans simultanément.
+      </p>
+
+      <h2>iOS 27 : ce que le format pliant change vraiment</h2>
+      <p>
+        La nouveauté la plus visible reste logicielle. iOS 27 permet pour la première fois d’afficher deux applications côte à côte sur un iPhone, un usage que les pliants Android proposent depuis 2019. MacRumors précise qu’on peut aussi ouvrir deux fenêtres de la même application.
+        Déplié, l’écran d’accueil affiche deux pages, les commandes essentielles glissent sur les côtés à portée de pouce, le dock passe à la verticale et la Dynamic Island se loge sur le bord. 9to5Mac et Gizmodo saluent l’animation qui accompagne l’ouverture, au lieu d’un simple basculement d’un écran à l’autre.
+      </p>
+      <p>
+        Selon <a href={MR_FEATURES} target="_blank" rel="noopener">MacRumors</a>, les paires d’applications utilisées en Split View peuvent être enregistrées pour être rouvertes d’un geste. 9to5Mac décrit un téléphone utilisable dans n’importe quelle orientation, y compris à demi plié, avec la possibilité d’épingler une vidéo en haut de l’écran pendant qu’on travaille dessous. Apple ajoute que l’écran d’accueil ouvert intègre la vue Aujourd’hui et ses widgets, et que StandBy fonctionne sur l’un ou l’autre écran, même sans charger.
+      </p>
+      <p>
+        L’iPhone Duo sera livré avec iOS 27.1. D’après Apple, la nouvelle version de Siri arrive d’abord en bêta en anglais, puis en français en octobre. Enfin, Apple promet la compatibilité avec l’Apple Pencil d’ici la fin de l’année, sur les deux écrans ; <a href={MR_ROUNDUP} target="_blank" rel="noopener">MacRumors</a> indique que seul le modèle USB-C est concerné, pas l’Apple Pencil Pro.
+      </p>
+
+      <h2>Photo : deux capteurs de 48 Mpx, pas de téléobjectif</h2>
+      <p>
+        Le module arrière réunit un capteur principal Fusion de 48 Mpx stabilisé et un ultra grand-angle Fusion de 48 Mpx. Le zoom x2 « qualité optique » est obtenu par recadrage. En vidéo, l’iPhone Duo filme en 4K à 120 images par seconde en Dolby Vision. À l’avant, une caméra Center Stage de 12 Mpx équipe l’écran externe et une caméra FaceTime est dissimulée sous l’écran interne.
+      </p>
+      <p>
+        La fiche d’Apple France détaille les optiques : 26 mm et f/1,6 avec stabilisation par déplacement du capteur pour le module principal, qui produit par défaut des images de 24 Mpx ; 13 mm, f/2,2 et 120 degrés de champ pour l’ultra grand-angle, qui gère aussi la macro. Le mode x2 fournit des photos de 12 Mpx à une focale de 52 mm. La caméra Center Stage ouvre à f/2,2, la caméra FaceTime sous l’écran à f/1,8.
+      </p>
+      <p>
+        Le format pliant sert surtout à des fonctions inédites sur iPhone. Apple décrit un aperçu en direct affiché sur l’écran extérieur, pour que la personne photographiée voie son cadrage, et la possibilité de réaliser ses selfies avec les capteurs arrière. Une fonction de capture intelligente analyse la scène pour déclencher automatiquement les photos de groupe, et des animations Peanuts sur l’écran extérieur aident à capter l’attention des enfants. En FaceTime, une seconde personne peut participer depuis l’écran extérieur, et les caméras avant et arrière peuvent filmer en même temps.
+      </p>
+      <p>
+        C’est pourtant le point où l’iPhone Duo est le plus en retrait. MacRumors juge le système photo limité par rapport aux iPhone 18 Pro, et la caméra sous l’écran déçoit plusieurs médias, dont ZDNET selon iGeneration, ainsi que MKBHD selon iPhon.fr. Le Pixel 11 Pro Fold propose un zoom x5 et le Honor Magic V6 un périscope x3 ; notre <a href="/iphone-pliable/iphone-duo-vs-galaxy-z-fold8/">comparatif iPhone Duo contre Galaxy Z Fold8</a> détaille le match face à Samsung.
+      </p>
+      <p>
+        En vidéo, Apple ajoute les effets Cinématique appliqués après la prise de vue jusqu’à 60 images par seconde, le mixage audio qui isole les voix ou la musique, et les accélérés en 4K Dolby Vision HDR. Aucun échantillon indépendant n’a encore été analysé.
+      </p>
+
+      <h2>Autonomie et recharge : les promesses d’Apple</h2>
+      <p>
+        L’iPhone Duo intègre deux batteries, une dans chaque moitié, dont Apple ne communique pas la capacité. Les chiffres ci-dessous sont ceux du constructeur : aucune mesure indépendante n’a encore été publiée.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Autonomie et recharge annoncées de l’iPhone Duo</caption>
+          <thead><tr><th scope="col">Usage (données Apple)</th><th scope="col">Annonce</th></tr></thead>
+          <tbody>
+            <tr><td>Usage partagé entre les deux écrans</td><td class="num">jusqu’à 24 h</td></tr>
+            <tr><td>Vidéo sur l’écran intérieur</td><td class="num">jusqu’à 31 h</td></tr>
+            <tr><td>Vidéo sur l’écran extérieur</td><td class="num">jusqu’à 44 h</td></tr>
+            <tr><td>Charge filaire (adaptateur 60 W)</td><td class="num">50 % en ~20 min</td></tr>
+            <tr><td>Charge MagSafe ou Qi2 (25 W)</td><td class="num">50 % en ~30 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:.5rem">
+        Source : <a href={APPLE} target="_blank" rel="noopener">communiqué d’Apple du 9 septembre 2026</a>.
+      </p>
+      <p>
+        Deux précisions de la fiche technique française comptent au moment de s’équiper. La charge rapide filaire suppose un adaptateur USB-C d’au moins 60 W, et la charge MagSafe à 50 % en 30 minutes un adaptateur d’au moins 35 W relié au chargeur MagSafe. Or aucun adaptateur n’est fourni dans la boîte. Apple assure que les deux batteries fonctionnent comme une seule ; leur capacité n’étant pas publiée, seuls les tests diront si les 24 heures annoncées tiennent en usage réel.
+      </p>
+
+      <h2>Connectivité, audio et Touch ID : la fiche la plus moderne d’un iPhone</h2>
+      <p>
+        L’iPhone Duo fonctionne uniquement en eSIM et embarque le modem C2 d’Apple, ainsi que la puce N1 pour le Wi-Fi 7, le Bluetooth 6 et Thread. La fiche française précise la double eSIM (deux lignes actives, huit profils ou plus enregistrables), la 5G sur les bandes utilisées en France, dont la n78, et le LTE Gigabit. La 5G millimétrique reste réservée au modèle américain.
+      </p>
+      <ul>
+        <li><strong>Sans fil :</strong> Wi-Fi 7 (802.11be) en MIMO 2x2, Bluetooth 6, Thread, puce ultra large bande de deuxième génération et NFC avec mode lecteur.</li>
+        <li><strong>Satellite :</strong> la fiche française liste l’appel d’urgence et Localiser via satellite. Les Messages par satellite et l’assistance routière, cités dans le communiqué américain, n’y figurent pas.</li>
+        <li><strong>Port :</strong> USB-C à la norme USB 3, jusqu’à 10 Gbit/s, avec sortie DisplayPort.</li>
+        <li><strong>Audio :</strong> haut-parleurs stéréo, audio spatial et Dolby Atmos.</li>
+      </ul>
+      <p>
+        L’eSIM est compatible avec plus de 500 opérateurs dans le monde, selon Apple. La fonction qui permet d’utiliser le même numéro sur deux iPhone n’est annoncée, au lancement, qu’avec T-Mobile aux États-Unis et Telekom en Allemagne.
+      </p>
+      <p>
+        Pour le déverrouillage, Touch ID revient dans le bouton latéral. <a href={NTM} target="_blank" rel="noopener">9to5Mac</a> précise que plusieurs empreintes peuvent être enregistrées, et l’Apple Watch peut toujours déverrouiller le téléphone. Les premiers avis y voient un recul : Gizmodo, notamment, regrette l’absence de Face ID.
+      </p>
+
+      <h2>Solidité : IP68 sur le papier, durabilité à prouver</h2>
+      <p>
+        Sur le papier, l’iPhone Duo est l’un des pliants les mieux protégés. Son indice IP68 garantit une protection totale contre la poussière et une immersion jusqu’à 6 mètres pendant 30 minutes, là où les Galaxy Z Fold8 restent IP48. Le Ceramic Shield 2 couvre la face avant, le Ceramic Shield le dos, et Apple annonce un revêtement résistant aux rayures sur l’écran intérieur.
+      </p>
+      <p>
+        Apple ne communique en revanche aucun nombre de cycles d’ouverture pour la charnière, et MacRumors émet des réserves sur la tenue du pli dans le temps. Nous n’avons pas encore trouvé les données de l’étiquette énergie européenne de l’iPhone Duo (classe de réparabilité, résistance aux chutes, cycles de batterie) : elles doivent accompagner sa mise en vente, et nous les ajouterons dès leur publication.
+      </p>
+      <p>
+        AppleCare+ reste la seule protection proposée par le constructeur. Selon le communiqué français d’Apple, elle couvre les chutes et les renversements de liquide accidentels, le remplacement de la batterie et une assistance prioritaire ; Apple n’a pas encore détaillé son tarif pour l’iPhone Duo dans les documents consultés.
+      </p>
+
+      <TestSources
+        sources={impressions}
+        heading="Premières impressions publiées"
+        intro="Ces articles décrivent de courtes prises en main réalisées lors de la keynote du 9 septembre 2026, pas des tests : ni autonomie, ni photo, ni solidité n’ont pu être évaluées."
+      />
+
+      <h2>Accessoires, boîte et configurations</h2>
+      <p>
+        Apple vend un étui Folio doté d’une béquille à plusieurs angles et une coque en deux parties, une pour chaque moitié du téléphone. L’iPhone Duo arrive sous iOS 27.1. Apple annonce 35 % de matériaux recyclés au total et du cobalt 100 % recyclé dans les batteries.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Accessoires Apple pour l’iPhone Duo et prix de lancement en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Accessoire</th>
+              <th scope="col">Coloris</th>
+              <th scope="col">Caractéristiques</th>
+              <th scope="col">Prix de lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {accessories.map((a) => (
+              <tr>
+                <th scope="row">{a.name}</th>
+                <td>{a.colors}</td>
+                <td class="small">{a.detail}</td>
+                <td class="num">{a.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Les prix sont ceux du communiqué français d’Apple. <a href={IGEN_ACC} target="_blank" rel="noopener">iGeneration</a> précise que la coque est en polycarbonate, et que le Folio, en tissu technique, se fixe par des aimants répartis sur sa surface. Aux États-Unis, les deux accessoires coûtent 129 et 79 dollars.
+      </p>
+      <p>
+        La boîte, elle, se limite au téléphone et à un câble de charge USB-C d’un mètre, selon la fiche d’Apple France : ni adaptateur secteur, ni protection. L’emballage est entièrement en fibres, et Apple indique que 60 % de l’électricité utilisée pour la fabrication provient de sources renouvelables. Côté stylet, l’Apple Pencil USB-C devra attendre la mise à jour promise d’ici la fin de l’année.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Voir les coloris" /></p>
+
+      <h2>Face aux autres pliants haut de gamme</h2>
+      <p>
+        À 2 339 €, l’iPhone Duo est le format livre le plus cher du marché en version de base. Ses rivaux Android coûtent moins cher, pèsent moins lourd et proposent souvent un vrai téléobjectif ; ils ne tournent évidemment pas sous iOS.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Alternatives à l’iPhone Duo</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Prix de lancement</th>
+              <th scope="col">Atout face à l’iPhone Duo</th>
+              <th scope="col">Limite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Samsung Galaxy Z Fold8</th>
+              <td class="num">{euro(fold8.launchPrice)}</td>
+              <td>340 € de moins, 201 g, écran intérieur 4:3, charge 45 W</td>
+              <td>Pas de téléobjectif, IP48</td>
+            </tr>
+            <tr>
+              <th scope="row">Google Pixel 11 Pro Fold</th>
+              <td class="num">{euro(pixel.launchPrice)}</td>
+              <td>Zoom x5, écrans de 8 et 6,5 pouces, IP68 également</td>
+              <td>239 g, charge filaire 30 W</td>
+            </tr>
+            <tr>
+              <th scope="row">Honor Magic V6</th>
+              <td class="num">{euro(v6.launchPrice)} (512 Go)</td>
+              <td>6 660 mAh, 80 W, IP68 et IP69, 219 g, périscope x3</td>
+              <td>Une seule configuration</td>
+            </tr>
+            <tr>
+              <th scope="row">Samsung Galaxy Z Fold8 Ultra</th>
+              <td class="num">{euro(fold8u.launchPrice)}</td>
+              <td>Capteur 200 Mpx et téléobjectif x3, 215 g, 140 € de moins</td>
+              <td>IP48, charge sans fil 20 W</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le rival désigné reste le Galaxy Z Fold8, que notre <a href="/iphone-pliable/iphone-duo-vs-galaxy-z-fold8/">duel iPhone Duo contre Galaxy Z Fold8</a> examine critère par critère : même diagonale intérieure de 7,6 pouces, 53 g de moins, mais un écran intérieur au format 4:3 et une étanchéité limitée à l’IP48.
+        Le <ObfLink href="/smartphone-pliant-google-pixel/pixel-11-pro-fold/" class="obf-text">Pixel 11 Pro Fold</ObfLink> est le meilleur choix pour le zoom, avec le même IP68 que l’iPhone Duo.
+      </p>
+      <p>
+        À capacité égale, le <ObfLink href="/smartphone-pliant-honor/magic-v6/" class="obf-text">Honor Magic V6</ObfLink> en 512 Go coûte 289,10 € de moins qu’un iPhone Duo en 512 Go (2 589 €), pour une batterie record et une double certification IP68 et IP69. Enfin, le <ObfLink href="/smartphone-pliant-samsung/galaxy-z-fold8-ultra/" class="obf-text">Galaxy Z Fold8 Ultra</ObfLink> reste le format livre le plus complet en photo, avec un capteur de 200 Mpx et un vrai téléobjectif.
+      </p>
+
+      <h2>Fiche technique complète</h2>
+      <SpecTable phone={p} />
+
+      <ProsCons
+        pros={[
+          ...p.pros,
+          'Pli jugé très discret lors des premières prises en main',
+          'Wi-Fi 7, Bluetooth 6 et USB-C à 10 Gbit/s',
+        ]}
+        cons={[...p.cons, 'Touch ID à la place de Face ID', 'eSIM uniquement, pas d’adaptateur secteur fourni']}
+        prosTitle="Ce qu’on aime sur le papier"
+        consTitle="Ce qui freine"
+      />
+
+      <h2>À qui s’adresse l’iPhone Duo ?</h2>
+      <p>
+        Au propriétaire d’iPhone qui lit, travaille ou regarde beaucoup de vidéos sur son téléphone et qui voulait un pliant sans quitter iOS. Les premières impressions laissent penser qu’Apple a soigné ce qui fâche le plus sur les pliants : le pli, la charnière et les transitions entre les écrans.
+        Il intéressera moins le photographe amateur, qui trouvera un meilleur zoom ailleurs, et l’acheteur qui compare au centime près : à capacité égale, les pliants Android coûtent souvent plusieurs centaines d’euros de moins. Pour les plus prudents, attendre les tests d’autonomie et de solidité n’a rien d’absurde sur une première génération.
+      </p>
+      <p>
+        Côté capacité, la version de 256 Go suffit à la plupart des usages ; celle de 512 Go se justifie si vous filmez souvent en 4K à 120 images par seconde, un format très gourmand en stockage. Les versions de 1 et 2 To, facturées 3 089 et 3 839 €, s’adressent aux vidéastes qui tournent directement sur leur téléphone.
+      </p>
+
+      <Faq items={faq} heading="iPhone Duo : vos questions" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="À lire aussi dans notre dossier iPhone pliable" />
+    </article>
+
+    <aside class="sticky">
+      <ScoreBars phone={p} />
+      <div class="card" style="margin-top:1rem">
+        <p class="small mb-0"><strong>Prix de lancement :</strong> {euro(p.launchPrice)}</p>
+        <p class="small mb-0"><strong>Précommandes :</strong> 16 octobre 2026</p>
+        <p class="small mb-0"><strong>Sortie :</strong> 23 octobre 2026</p>
+        <p class="small"><strong>Coloris :</strong> blanc stellaire, ciel nocturne</p>
+        <AmazonButton phone={p} label="Voir sur Amazon" />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

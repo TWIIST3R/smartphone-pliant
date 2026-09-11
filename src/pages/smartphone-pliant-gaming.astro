@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, ranked, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num } from '../lib/format';
+
+const path = '/smartphone-pliant-gaming/';
+const title = 'Smartphone pliant gaming : lequel choisir en 2026 ?';
+const description =
+  'Puce, écran 165 Hz, chauffe : quel smartphone pliant choisir pour jouer ? Tous les modèles classés par niveau de processeur, de l’A20 Pro au Dimensity 7450X.';
+
+const joinFr = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+
+// Classement « performances » (tri stable sur ranked() : note globale en cas d’égalité).
+const perfRank = ranked(phones).sort((a, b) => b.scores.performances - a.scores.performances);
+const chipName = (p: Phone) => p.chip.replace(/^(Apple|Google|MediaTek)\s+/, '').replace(/\s+for Galaxy$/, '');
+
+const chipMap = new Map<string, Phone[]>();
+for (const p of perfRank) chipMap.set(chipName(p), [...(chipMap.get(chipName(p)) ?? []), p]);
+
+const tierDefs = [
+  { min: 9, label: 'Niveau 1', title: 'Jeux exigeants, réglages élevés' },
+  { min: 7.8, label: 'Niveau 2', title: 'Confortable, quelques réglages à ajuster' },
+  { min: 0, label: 'Niveau 3', title: 'Jeux légers et titres peu gourmands' },
+];
+const tierIndex = (score: number) => tierDefs.findIndex((t) => score >= t.min);
+const tiers = tierDefs.map((t) => ({ ...t, chips: [] as { chip: string; list: Phone[] }[] }));
+for (const [chip, list] of chipMap) tiers[tierIndex(list[0].scores.performances)].chips.push({ chip, list });
+const tierOfPhone = (p: Phone) => tierDefs[tierIndex(chipMap.get(chipName(p))![0].scores.performances)].label.toLowerCase();
+const modelsOf = (chip: string) => joinFr((chipMap.get(chip) ?? []).map((p) => p.name));
+
+const livres = phones.filter((p) => p.format === 'livre');
+const livreInner = [Math.min(...livres.map((p) => p.innerScreen)), Math.max(...livres.map((p) => p.innerScreen))];
+const livreWeight = [Math.min(...livres.map((p) => p.weight)), Math.max(...livres.map((p) => p.weight))];
+const hz165 = ranked(phones.filter((p) => p.refresh.includes('165')));
+const hz165Brands = new Set(hz165.map((p) => p.brand));
+
+const topPerf = perfRank[0];
+const topAndroidScore = perfRank.find((p) => !p.os.startsWith('iOS'))!.scores.performances;
+const topAndroid = perfRank.filter((p) => !p.os.startsWith('iOS') && p.scores.performances === topAndroidScore);
+
+const budgets = [
+  {
+    label: 'Jusqu’à 1 300 €',
+    test: (p: Phone) => p.launchPrice <= 1300,
+    note: 'Dans cette tranche de prix de lancement, on ne trouve que des clapets : pas de grand écran, mais une puce haut de gamme pour qui choisit bien.',
+    cta: 'Voir le prix sur Amazon',
+  },
+  {
+    label: 'De 1 300 à 2 000 €',
+    test: (p: Phone) => p.launchPrice > 1300 && p.launchPrice < 2000,
+    note: 'Sous la barre des 2 000 €, le format livre et son grand écran intérieur deviennent accessibles, avec des puces de premier plan.',
+    cta: 'Consulter l’offre',
+  },
+  {
+    label: 'Plus de 2 000 €',
+    test: (p: Phone) => p.launchPrice >= 2000,
+    note: 'Au-delà, on paie la puce la plus récente, mais aussi des qualités qui ne servent pas le jeu : titane, étanchéité, capteurs photo haut de gamme.',
+    cta: 'Vérifier la disponibilité',
+  },
+].map((b) => {
+  const list = perfRank.filter(b.test);
+  return { ...b, pick: list[0], alt: list[1] };
+});
+
+const faq = [
+  {
+    q: 'Quel est le smartphone pliant le plus puissant pour jouer ?',
+    a: `Sur le papier, le ${topPerf.fullName} et sa puce ${chipName(topPerf)} obtiennent la meilleure note performances de notre comparatif (${num(topPerf.scores.performances)}/10). Côté Android, ${joinFr(topAndroid.map((p) => `le ${p.fullName}`))} se partagent la tête (${num(topAndroidScore)}/10). La puissance ne fait pas tout : sur un pliant très fin, la gestion de la chauffe compte autant pour les longues parties.`,
+  },
+  {
+    q: 'Les smartphones pliants chauffent-ils en jeu ?',
+    a: 'Comme tous les smartphones haut de gamme, oui, et leur finesse n’aide pas : il y a moins de volume pour dissiper la chaleur. Après plusieurs minutes sur un jeu exigeant, le système réduit la puissance pour protéger les composants. Apple annonce une chambre à vapeur sur l’iPhone Duo, tandis que Samsung utilise des feuilles de graphite sur ses derniers Galaxy Z Fold.',
+  },
+  {
+    q: 'Le Motorola Razr 70 est-il adapté au jeu vidéo ?',
+    a: 'Pour des jeux légers, oui. Le Motorola Razr 70, lancé à 999 €, utilise une puce milieu de gamme Dimensity 7450X, la moins performante de notre comparatif, avec un écran intérieur de 6,9 pouces à 120 Hz. Les jeux 3D les plus lourds demanderont des réglages réduits. Pour jouer sérieusement en clapet, le Razr 70 Ultra ou le Razr 60 Ultra et leur Snapdragon 8 Elite sont mieux armés.',
+  },
+  {
+    q: 'Un écran 165 Hz est-il utile pour jouer sur smartphone ?',
+    a: 'Seulement si le jeu calcule plus de 120 images par seconde, ce que peu de jeux mobiles proposent, et si la puce tient ce rythme. Dans les autres cas, l’écran affiche le nombre d’images fourni par le jeu et le gain se limite à la fluidité de l’interface. Sur les pliants, seuls les Motorola Razr montent à 165 Hz.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Jeu vidéo mobile', 'Processeur'] }),
+  itemList(
+    'Smartphones pliants pour le jeu vidéo, par budget',
+    budgets.map((b) => ({ name: b.pick.fullName })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Guide gaming · puces, écrans et chauffe</span>
+      <h1>Jouer sur un smartphone pliant : quelle puce, quel écran ?</h1>
+      <p class="lede">
+        Un grand écran qui se déplie fait rêver pour jouer, mais la finesse d’un pliant complique le refroidissement. Pour y voir clair, nous avons rangé les modèles de notre
+        <a href="/">sélection des meilleurs smartphones pliants</a> par niveau de processeur, avant de parler écran, chauffe et budget.
+      </p>
+      <Byline minutes={8} />
+    </div>
+  </div>
+
+  <section class="section band" id="puces">
+    <div class="wrap prose">
+      <h2 class="mt-0">Les puces des pliants, rangées en trois niveaux</h2>
+      <p>
+        Le niveau de chaque puce reprend la meilleure note « performances » obtenue dans nos fiches par un pliant qui l’embarque. Une même puce peut donc briller dans un modèle et un peu moins dans un autre, selon le refroidissement et la mémoire.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Processeurs des smartphones pliants classés par niveau de performances</caption>
+          <thead>
+            <tr>
+              <th scope="col">Puce</th>
+              <th scope="col">Pliants équipés (note performances)</th>
+              <th scope="col">Meilleure note</th>
+            </tr>
+          </thead>
+          {
+            tiers
+              .filter((t) => t.chips.length > 0)
+              .map((t) => (
+                <tbody>
+                  <tr>
+                    <th scope="rowgroup" colspan="3" style="background:var(--paper)">
+                      {t.label} · {t.title}
+                    </th>
+                  </tr>
+                  {t.chips.map((c) => (
+                    <tr>
+                      <th scope="row">{c.chip}</th>
+                      <td class="small">{c.list.map((p) => `${p.name} (${num(p.scores.performances)})`).join(', ')}</td>
+                      <td class="num">{num(c.list[0].scores.performances)}/10</td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))
+          }
+        </table>
+      </div>
+      <p style="margin-top:1.2rem">
+        Au premier niveau, l’A20 Pro de l’iPhone Duo, gravée en 2 nm, devance le Snapdragon 8 Elite Gen 5 des {modelsOf('Snapdragon 8 Elite Gen 5')}.
+        Le Snapdragon 8 Elite de 2025 reste dans ce groupe : c’est la puce des {modelsOf('Snapdragon 8 Elite')}, et donc la voie la moins chère vers la très haute performance.
+      </p>
+      <p>
+        Le deuxième niveau s’ouvre avec le Snapdragon 8 Gen 5 du Motorola Razr Fold, un cran sous les Snapdragon 8 Elite Gen 5. Suivent l’Exynos 2600 du Galaxy Z Flip8, lui aussi gravé en 2 nm, et le Tensor G6 du Pixel 11 Pro Fold :
+        Google privilégie l’IA et la photo, et sa puce reste moins puissante que les Snapdragon. Le Kirin 9030 Pro du Huawei Mate X7 figure aussi dans ce groupe, avec un handicap qui dépasse la puissance : sans Play Store, l’installation de nombreux jeux se complique.
+      </p>
+      <p>
+        Le troisième niveau réunit des puces plus anciennes ou milieu de gamme : le Tensor G5 du Pixel 10 Pro Fold, moyen en jeu, l’Exynos 2400 du Galaxy Z Flip7 FE, le Kirin 9010 du Mate XT et le Dimensity 7450X du Motorola Razr 70, suffisant au quotidien mais limité dès qu’un jeu 3D réclame de la puissance.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap prose section">
+    <h2 class="mt-0">Le grand écran intérieur : un atout pour quels jeux ?</h2>
+    <p>
+      Déplié, un pliant au format livre offre de {num(livreInner[0], 2)} à {num(livreInner[1], 2)} pouces, la taille d’une petite tablette. Les jeux qui en profitent le plus sont ceux où l’écran fourmille d’informations : stratégie, gestion, jeux de rôle aux inventaires chargés, jeux de cartes ou d’enquête.
+      Le jeu en streaming y gagne aussi, surtout manette en main.
+    </p>
+    <p>
+      Le format a pourtant ses pièges. Ces écrans sont presque carrés, alors que la plupart des jeux d’action sont conçus pour un écran allongé : selon le titre, l’image s’entoure de bandes noires ou l’interface s’étire.
+      Le Galaxy Z Fold8 et son écran 4:3 limitent un peu cet effet, et l’iPhone Duo garde le même ratio sur ses deux écrans, si bien qu’un jeu conserve sa mise en page quand on ouvre l’appareil.
+    </p>
+    <p>
+      Pour les jeux de tir compétitifs, le gain est moins évident. Les pouces ont plus de chemin à parcourir, le pli passe au centre de l’écran, et un format livre de {livreWeight[0]} à {livreWeight[1]} g fatigue vite les poignets tenu à l’horizontale.
+      Un clapet déplié, avec son écran de 6,7 à 7 pouces au format d’un smartphone classique, reste plus naturel pour ce type de jeu.
+    </p>
+
+    <h2>Écrans 165 Hz des Razr : utile ou argument marketing ?</h2>
+    <p>
+      {hz165Brands.size === 1 && hz165[0].brand === 'motorola' ? 'Motorola est le seul constructeur de notre comparatif à monter à 165 Hz' : 'Quelques pliants montent à 165 Hz'} :
+      sur les Razr 70 Ultra, Razr 70 Plus et Razr 60 Ultra, ainsi que sur l’écran externe du Razr Fold, dont l’écran intérieur reste à 120 Hz. Aucun autre pliant ne dépasse 120 Hz.
+    </p>
+    <p>
+      Un écran à 165 Hz peut afficher 165 images par seconde. Le bénéfice n’apparaît que si le jeu en calcule lui-même plus de 120, et peu de jeux mobiles proposent un tel mode. Dans les autres cas, l’écran affiche le nombre d’images fourni par le jeu, et la différence avec 120 Hz se résume à un défilement plus fluide dans l’interface.
+    </p>
+    <p>
+      Encore faut-il une puce capable de suivre. Les Razr 70 Ultra et 60 Ultra, avec leur Snapdragon 8 Elite, sont les mieux armés. Le Razr 70 Plus et son Snapdragon 8s Gen 3 se situent un cran en dessous : son écran 165 Hz sert davantage la navigation que les jeux gourmands.
+      Cas à part, le Razr Fold : téléphone fermé, son écran externe de 6,6 pouces à 165 Hz a la taille d’un smartphone classique, ce qui en fait un écran de jeu tout à fait exploitable sans déplier l’appareil.
+    </p>
+
+    <h2>Chauffe et chambre à vapeur : le vrai point faible</h2>
+    <p>
+      La finesse est l’ennemie du jeu prolongé. Un processeur haut de gamme dégage beaucoup de chaleur, et un pliant dispose de moins de volume et de matière pour l’absorber. Quand la température grimpe, le système réduit la puissance pour protéger les composants :
+      c’est le bridage thermique, qui fait baisser la fluidité après plusieurs minutes de jeu.
+    </p>
+    <p>
+      Les constructeurs ne font pas tous le même choix. Apple indique que l’A20 Pro de l’iPhone Duo est reliée directement à une chambre à vapeur conçue sur mesure. Samsung a pris la direction opposée sur ses Fold :
+      selon SamMobile, la marque utilisait une chambre à vapeur jusqu’au Galaxy Z Fold6, l’a remplacée par des feuilles de graphite à partir du Galaxy Z Fold7, et a reconduit cette solution sur le Galaxy Z Fold8 Ultra.
+    </p>
+    <p>
+      Une chambre à vapeur n’est pas une garantie, et une solution graphite n’est pas forcément insuffisante : tout dépend de la puce, du logiciel et du jeu. Quelques réflexes limitent la chauffe, quel que soit le modèle :
+      retirer une coque épaisse pendant les longues sessions, éviter de jouer en rechargeant et plafonner la fréquence d’images dans les jeux qui le permettent.
+    </p>
+  </div>
+
+  <section class="section band" id="selection">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Trois pliants pour jouer, selon votre budget</h2>
+        <p>Dans chaque tranche de prix de lancement, nous retenons le modèle le mieux noté en performances, puis une alternative.</p>
+      </div>
+      {
+        budgets.map((b) => (
+          <div style="margin-top:1.8rem">
+            <p class="eyebrow mb-0">Budget · {b.label}</p>
+            <p class="small" style="max-width:var(--prose)">{b.note}</p>
+            <PhoneCard phone={b.pick} badge={`${chipName(b.pick)} · ${tierOfPhone(b.pick)}`} ctaLabel={b.cta} />
+            {b.alt && (
+              <p class="small" style="margin-top:.7rem;max-width:var(--prose)">
+                Alternative : <strong>{b.alt.fullName}</strong>, {chipName(b.alt)}, {num(b.alt.scores.performances)}/10 en performances, {euro(b.alt.launchPrice)} au lancement.{' '}
+                <AmazonButton phone={b.alt} variant="text" label="Voir cette offre" />
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="wrap prose section">
+    <Callout variant="tip" title="Manette : le bon réflexe sur un pliant">
+      <p>
+        Les manettes télescopiques qui enserrent le téléphone sont pensées pour des smartphones classiques. Sur un pliant, vérifiez que la pince tient le cadre sans appuyer sur l’écran intérieur ni forcer sur la charnière, ce que le format presque carré d’un modèle au format livre ouvert rend délicat.
+        Le plus simple reste une manette Bluetooth, avec le pliant posé à moitié ouvert sur une table : le grand écran est à bonne distance et vos mains ne pèsent pas sur l’appareil.
+      </p>
+    </Callout>
+
+    <Faq items={faq} heading="Jeu vidéo sur pliant : les réponses" />
+  </div>
+
+  <div class="wrap">
+    <Siblings path={path} variant="list" heading="Les autres classements par usage" intro="Performances mises à part, voici comment se classent les mêmes pliants sur d’autres critères." />
+  </div>
+</BaseLayout>

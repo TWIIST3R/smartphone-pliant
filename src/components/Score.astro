@@ -1,0 +1,21 @@
+---
+import { num } from '../lib/format';
+
+interface Props {
+  value: number;
+  size?: 'md' | 'lg';
+  label?: string;
+}
+
+const { value, size = 'md', label = 'Note Smartphone-Pliant.fr' } = Astro.props;
+const color = value >= 8.5 ? 'var(--good)' : value >= 7.5 ? 'var(--accent)' : 'var(--gold)';
+---
+
+<span
+  class:list={['score', size === 'lg' && 'score-lg']}
+  style={`--s:${value};--score-color:${color}`}
+  title={`${label} : ${num(value)}/10`}
+  aria-label={`${label} : ${num(value)} sur 10`}
+>
+  {num(value)}
+</span>

@@ -1,0 +1,51 @@
+# Build et mise en ligne sur OVH.
+# - à chaque push sur main (nouvel article, modification du site) ;
+# - toutes les heures : publie les articles programmés dont l'heure de publication est passée
+#   (le build n'inclut que les articles dont pubDate <= maintenant).
+# Secrets à créer dans GitHub (Settings › Secrets and variables › Actions) :
+#   FTP_SERVER      ex. ftp.cluster0XX.hosting.ovh.net (espace client OVH › Hébergement › FTP-SSH)
+#   FTP_USERNAME    identifiant FTP OVH
+#   FTP_PASSWORD    mot de passe FTP OVH
+#   FTP_SERVER_DIR  ex. /www/  (dossier racine du site, avec le slash final)
+name: Build et mise en ligne
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ovh
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Contrôle du cocon
+        run: npm run check-links
+
+      - name: Envoi FTP (fichiers modifiés uniquement)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}

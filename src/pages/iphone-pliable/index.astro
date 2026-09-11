@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import FoldIcon from '../../components/FoldIcon.astro';
+import { byId } from '../../data/phones';
+import { article } from '../../lib/schema';
+import { euro } from '../../lib/format';
+
+const path = '/iphone-pliable/';
+const title = 'iPhone pliable : l’iPhone Duo, prix, sortie et fiche technique';
+const description =
+  'L’iPhone pliable s’appelle iPhone Duo : écrans 7,6" et 5,4", titane, IP68, à partir de 2 339 € en France. Précommandes le 16 octobre, sortie le 23 octobre 2026.';
+
+const duo = byId('iphone-duo');
+const rivals = [duo, byId('galaxy-z-fold8'), byId('pixel-11-pro-fold'), byId('honor-magic-v6')];
+
+const prices = [
+  { cap: '256 Go', eur: 2339 },
+  { cap: '512 Go', eur: 2589 },
+  { cap: '1 To', eur: 3089 },
+  { cap: '2 To', eur: 3839 },
+];
+
+const faq = [
+  {
+    q: 'Comment s’appelle l’iPhone pliable ?',
+    a: 'Le premier iPhone pliable s’appelle iPhone Duo. Il a été présenté par Apple le 9 septembre 2026, aux côtés des iPhone 18 Pro et 18 Pro Max. Les noms « iPhone Fold » et « iPhone Ultra » qui circulaient avant l’annonce n’ont pas été retenus.',
+  },
+  {
+    q: 'Quel est le prix de l’iPhone Duo en France ?',
+    a: 'L’iPhone Duo coûte 2 339 € en 256 Go, 2 589 € en 512 Go, 3 089 € en 1 To et 3 839 € en 2 To. Aux États-Unis, il démarre à 1 999 dollars hors taxes.',
+  },
+  {
+    q: 'Quand sort l’iPhone Duo ?',
+    a: 'Les précommandes ouvrent en France le vendredi 16 octobre 2026 à 14 h et la commercialisation commence le vendredi 23 octobre 2026. La France fait partie de la première vague de plus de 70 pays.',
+  },
+  {
+    q: 'L’iPhone Duo a-t-il Face ID ?',
+    a: 'Non. Apple a choisi Touch ID, intégré au bouton latéral, qui fonctionne téléphone ouvert comme fermé. Le déverrouillage avec l’Apple Watch reste disponible.',
+  },
+  {
+    q: 'L’iPhone Duo est-il étanche ?',
+    a: 'Oui, il est certifié IP68 (jusqu’à 6 mètres pendant 30 minutes selon Apple). C’est un avantage net sur les Galaxy Z Fold8 et Z Flip8 de Samsung, qui restent IP48 et donc peu protégés contre la poussière.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['iPhone Duo', 'Apple', 'iPhone pliable'] })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Apple · dossier mis à jour après la keynote</span>
+        <h1>iPhone pliable : l’iPhone Duo arrive le 23 octobre</h1>
+        <p class="lede">
+          Apple rejoint enfin le marché que nous suivons dans notre <a href="/">comparatif des smartphones pliants</a>. Son premier modèle, l’iPhone Duo, adopte le format livre avec un écran intérieur de 7,6 pouces, un châssis en titane et un prix qui démarre à {euro(duo.launchPrice)}.
+        </p>
+        <Byline minutes={7} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <KeyFacts
+        items={[
+          { label: 'Prix en France', value: 'dès 2 339 €' },
+          { label: 'Précommandes', value: '16 oct. 2026' },
+          { label: 'Sortie', value: '23 oct. 2026' },
+          { label: 'Écrans', value: '7,6" / 5,4"' },
+          { label: 'Poids', value: '254 g' },
+          { label: 'Étanchéité', value: 'IP68' },
+        ]}
+      />
+    </div>
+
+    <div class="wrap cols-2">
+      <div class="prose">
+        <h2 class="mt-0">Ce qu’Apple a présenté le 9 septembre</h2>
+        <p>
+          Il a fallu attendre sept ans après le premier Galaxy Fold pour voir un iPhone se plier. Présenté lors de la première keynote de John Ternus en tant que PDG, l’iPhone Duo ne cherche pas à imiter les pliants Android : ses deux écrans partagent le même ratio d’image.
+          Concrètement, une application ouverte sur l’écran externe de 5,4 pouces s’agrandit à l’identique sur l’écran interne de 7,6 pouces, sans bandes noires ni mise en page déformée.
+        </p>
+        <p>
+          Fermé, le téléphone est court et large, pensé pour se glisser dans une poche. Ouvert, il mesure 5,2 mm d’épaisseur, ce qui en fait l’iPhone le plus fin jamais produit. Le châssis en titane grade 5 poli miroir et la charnière de plus de cent pièces visent clairement la durabilité, avec une certification IP68 que peu de concurrents atteignent.
+        </p>
+        <p>
+          Sous le capot, on retrouve l’A20 Pro des iPhone 18 Pro, une chambre à vapeur et deux batteries, une de chaque côté du pli. iOS 27 apporte pour la première fois sur iPhone l’affichage de deux applications côte à côte.
+          Toutes les caractéristiques, écran par écran, sont détaillées dans notre <a href="/iphone-pliable/iphone-duo/">fiche complète de l’iPhone Duo</a>.
+        </p>
+
+        <h2>Chronologie : de la rumeur à la sortie</h2>
+        <ol class="timeline">
+          <li><time>2023 – 2025</time>Brevets de charnière et rumeurs d’un iPhone pliable, successivement surnommé « iPhone Fold » puis « iPhone Ultra ».</li>
+          <li><time>9 septembre 2026</time>Annonce officielle de l’iPhone Duo, en même temps que les iPhone 18 Pro et Pro Max.</li>
+          <li><time>16 octobre 2026, 14 h</time>Ouverture des précommandes en France.</li>
+          <li><time>23 octobre 2026</time>Disponibilité en boutique et premières livraisons.</li>
+        </ol>
+
+        <h2>Prix de l’iPhone Duo en France</h2>
+        <p>
+          Quatre capacités sont proposées, sans option de mémoire vive. L’écart entre le modèle de base et la version 2 To atteint 1 500 €, un record pour un iPhone.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Prix de l’iPhone Duo en France selon la capacité</caption>
+            <thead>
+              <tr><th scope="col">Capacité</th><th scope="col">Prix public</th><th scope="col">Écart avec 256 Go</th></tr>
+            </thead>
+            <tbody>
+              {prices.map((p) => (
+                <tr>
+                  <td>{p.cap}</td>
+                  <td class="num"><strong>{euro(p.eur)}</strong></td>
+                  <td class="num">{p.eur === 2339 ? '—' : `+ ${euro(p.eur - 2339)}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Avec {euro(duo.launchPrice)} en entrée de gamme, l’iPhone Duo coûte 340 € de plus qu’un Galaxy Z Fold8 et dépasse de près de 40 € le prix public du Honor Magic V6.
+        </p>
+      </div>
+
+      <aside class="sticky">
+        <div class="card">
+          <div style="width:110px;margin:0 auto 1rem"><FoldIcon format="livre" color="#6e6e73" label="Silhouette de l’iPhone Duo ouvert" /></div>
+          <strong>iPhone Duo</strong>
+          <p class="small muted">Précommandes le 16 octobre. Le lien ci-dessous affiche les offres disponibles sur Amazon, dont la boutique Apple.</p>
+          <AmazonButton phone={duo} label="Voir l’iPhone Duo sur Amazon" />
+        </div>
+      </aside>
+    </div>
+
+    <section class="section band" style="margin-top:2.5rem">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Face aux pliants Android, où se situe l’iPhone Duo ?</h2>
+          <p>
+            Son vrai rival est le Galaxy Z Fold8, que Samsung a lancé en août avec un écran intérieur 4:3 très proche de celui d’Apple. Le Pixel 11 Pro Fold et le Honor Magic V6 jouent sur d’autres terrains : la photo pour l’un, l’autonomie pour l’autre.
+          </p>
+        </div>
+        <div style="margin-top:1.2rem">
+          <CompareTable
+            phones={rivals}
+            caption="iPhone Duo face aux principaux pliants Android au format livre"
+            columns={['price', 'screens', 'chip', 'battery', 'zoom', 'weight', 'thickness', 'ip']}
+          />
+        </div>
+        <div class="prose" style="margin-top:1.4rem">
+          <p>
+            Sur le papier, l’iPhone Duo est le plus lourd et le plus épais du lot, et le seul sans véritable téléobjectif. Il se rattrape sur l’étanchéité, le suivi logiciel attendu d’Apple et l’écosystème. Le match point par point est dans notre duel <a href="/iphone-pliable/iphone-duo-vs-galaxy-z-fold8/">iPhone Duo vs Galaxy Z Fold8</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Attendre l’iPhone Duo ou choisir un pliant Android maintenant ?</h2>
+      <div class="grid" style="--min:260px">
+        <div class="card">
+          <h3>Attendez l’iPhone Duo si…</h3>
+          <ul class="small" style="padding-left:1.1rem;margin:0">
+            <li>vous utilisez iMessage, FaceTime, un Mac ou une Apple Watch ;</li>
+            <li>l’étanchéité IP68 compte pour vous ;</li>
+            <li>vous gardez vos téléphones plus de quatre ans ;</li>
+            <li>le budget de 2 339 € ne vous arrête pas.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Regardez ailleurs si…</h3>
+          <ul class="small" style="padding-left:1.1rem;margin:0">
+            <li>vous zoomez souvent en photo (x3 à x5 chez la concurrence) ;</li>
+            <li>vous voulez un appareil léger sous les 220 g ;</li>
+            <li>vous préférez une valeur sûre déjà testée plutôt qu’une première génération ;</li>
+            <li>vous cherchez un pliant à moins de 2 000 €.</li>
+          </ul>
+        </div>
+      </div>
+
+      <Callout variant="warn" title="Méfiez-vous des annonces avant le 16 octobre">
+        <p>
+          Avant l’ouverture officielle des précommandes, des vendeurs tiers publient parfois des fiches « iPhone Duo » à des prix fantaisistes. Vérifiez que l’offre est vendue et expédiée par Amazon ou par la boutique officielle Apple.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="L’iPhone pliable en 5 questions" />
+    </div>
+
+    <div class="wrap">
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="Les autres constructeurs de smartphones pliants"
+        intro="Vous hésitez encore ? Chaque marque a sa philosophie du pliant."
+      />
+    </div>
+  </article>
+</BaseLayout>

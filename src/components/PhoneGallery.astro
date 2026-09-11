@@ -1,0 +1,26 @@
+---
+// Galerie de toutes les photos d'un modèle (n'affiche rien s'il y a moins de 2 photos).
+import { Image } from 'astro:assets';
+import { imagesFor } from '../data/images';
+
+interface Props {
+  id: string;
+  heading?: string;
+}
+
+const { id, heading } = Astro.props;
+const imgs = imagesFor(id);
+---
+
+{
+  imgs.length > 1 && (
+    <figure class="phone-gallery">
+      <div class="gallery-grid">
+        {imgs.map((img) => (
+          <Image src={img.src} alt={img.alt} widths={[260, 520]} sizes="(max-width: 600px) 50vw, 260px" format="webp" quality={80} loading="lazy" />
+        ))}
+      </div>
+      {heading && <figcaption class="small muted">{heading}</figcaption>}
+    </figure>
+  )
+}

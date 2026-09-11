@@ -1,0 +1,511 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('huawei-mate-x7');
+const xt = byId('huawei-mate-xt');
+const v6 = byId('honor-magic-v6');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const pixel = byId('pixel-11-pro-fold');
+const path = p.path;
+const title = 'Test Huawei Mate X7 : le pliant photo qui vit sans Google';
+const description =
+  'Test du Huawei Mate X7 : autonomie, écrans et charge mesurés par la presse, photo, Kirin 9030 Pro, vie sans Google ni 5G. Verdict et prix de lancement.';
+
+const HW_SPECS = 'https://consumer.huawei.com/fr/phones/mate-x7/specs/';
+const HW_PAGE = 'https://consumer.huawei.com/fr/phones/mate-x7/';
+const GSM = 'https://www.gsmarena.com/huawei_mate_x7-review-2914.php';
+const GSM_DESIGN = 'https://www.gsmarena.com/huawei_mate_x7-review-2914p2.php';
+const GSM_LAB = 'https://www.gsmarena.com/huawei_mate_x7-review-2914p3.php';
+const GSM_PERF = 'https://www.gsmarena.com/huawei_mate_x7-review-2914p4.php';
+const GSM_CAM = 'https://www.gsmarena.com/huawei_mate_x7-review-2914p5.php';
+const GSM_VERDICT = 'https://www.gsmarena.com/huawei_mate_x7-review-2914p6.php';
+const NBC = 'https://www.notebookcheck.net/Slim-Android-smartphone-impresses-with-excellent-cameras-Huawei-Mate-X7-review.1250817.0.html';
+const PHA = 'https://www.phonandroid.com/test-huawei-mate-x7.html';
+const PHA_FR = 'https://www.phonandroid.com/le-mate-x7-de-huawei-arrive-enfin-en-france-son-prix-va-vous-faire-sourire.html';
+const PA = 'https://www.phonearena.com/reviews/huawei-mate-x7-review_id7817';
+
+const measures = [
+  { label: 'Autonomie, Active Use Score (écran intérieur)', value: '11 h 51', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Autonomie, Active Use Score (écran extérieur)', value: '14 h 40', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Autonomie en navigation Wi-Fi', value: 'environ 17 h', source: 'Notebookcheck', url: NBC },
+  { label: 'Autonomie, protocole maison (écran externe / interne)', value: '21 h 23 / 14 h 30', source: 'Phonandroid', url: PHA },
+  { label: 'Charge filaire 66 W après 15 / 30 min', value: '47 % / 80 %', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge complète de 0 à 100 %', value: '44 min', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Charge complète de 0 à 100 %', value: '52 min', source: 'Phonandroid', url: PHA },
+  { label: 'Luminosité en mode auto (intérieur / extérieur)', value: '1 152 / 1 205 cd/m²', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Luminosité maximale (APL 18)', value: '1 467 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E moyen (ColorChecker)', value: '1,4', source: 'Notebookcheck', url: NBC },
+  { label: 'Geekbench 6 (mono / multicœur)', value: '1 301 / 5 188', source: 'GSMArena', url: GSM_PERF },
+  { label: '3DMark Wild Life Extreme', value: '3 194', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Stabilité CPU sous charge (déplié / plié)', value: '51 % / 33 %', source: 'GSMArena', url: GSM_PERF },
+  { label: 'Température maximale (côté écran interne)', value: '53 °C', source: 'Phonandroid', url: PHA },
+  { label: 'Haut-parleurs, niveau sonore', value: 'Très bon', source: 'GSMArena', url: GSM_LAB },
+  { label: 'Débit Wi-Fi 7 (émission / réception)', value: '944 / 890 Mbit/s', source: 'Notebookcheck', url: NBC },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSM,
+    date: '2025-12-30',
+    verdict:
+      'Fabrication, écrans, endurance et photo de nuit convainquent. Le prix de lancement et une puce qui s’essouffle vite réservent pourtant le Mate X7 aux amateurs de photo, idéalement après une baisse de tarif.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: NBC,
+    date: '2026-03-11',
+    note: '85 %',
+    verdict:
+      'Partie photo excellente et finition haut de gamme, mais sans 5G et avec un Kirin très en dessous des Snapdragon, le tarif de 2 099 € paraît difficile à défendre.',
+  },
+  {
+    media: 'Phonandroid',
+    url: PHA,
+    date: '2026-06-24',
+    note: '7/10',
+    verdict:
+      'Écrans très bien calibrés, bonne endurance et photos très nettes. La chauffe, le grain en vidéo et l’absence de l’écosystème Google l’empêchent de devenir le très bon pliant qu’il aurait pu être.',
+  },
+  {
+    media: 'PhoneArena',
+    url: PA,
+    verdict: 'Le test retient surtout les progrès de Huawei en matière de solidité et la longue autonomie de cette génération.',
+  },
+];
+
+const noGoogle = [
+  { need: 'Installer des applications', how: 'AppGallery de Huawei, dépôts d’APK comme APK Pure', who: 'GSMArena' },
+  { need: 'Retrouver le Play Store', how: 'GBox (environnement virtuel, notifications comprises) ou Aurora Store', who: 'GSMArena, Notebookcheck' },
+  { need: 'Cartographie et recherche', how: 'Petal Maps, Petal Search et le navigateur de Huawei', who: 'GSMArena' },
+  { need: 'Assistant et IA', how: 'Celia ; Gemini et ChatGPT indisponibles, DeepSeek ou Kimi en repli', who: 'GSMArena, Phonandroid' },
+  { need: 'Payer sans contact', how: 'Pas de Google Wallet ; la fiche de Huawei mentionne le portefeuille HUAWEI et la HCE', who: 'Fiche Huawei France' },
+  { need: 'Télécommande infrarouge', how: 'Application Smart Remote, grâce à l’émetteur infrarouge', who: 'GSMArena' },
+];
+
+const versions = [
+  { item: 'Mémoire et stockage', value: '16 Go de mémoire vive, 512 Go de stockage, sans extension' },
+  { item: 'Coloris vendus en France', value: 'Rouge nébuleux et noir, dos en cuir végan' },
+  { item: 'Prix de lancement', value: euro(p.launchPrice) },
+  { item: 'Remise de lancement', value: '250 €' },
+  { item: 'Date de sortie', value: '21 janvier 2026' },
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Huawei Mate X7 ?',
+    a: 'Selon GSMArena, le Huawei Mate X7 obtient un Active Use Score de 11 h 51 sur son écran intérieur et de 14 h 40 sur l’écran extérieur, des résultats parmi les meilleurs des pliants haut de gamme récents. Notebookcheck mesure environ 17 heures en navigation Wi-Fi. La recharge complète demande 44 minutes chez GSMArena et 52 minutes chez Phonandroid.',
+  },
+  {
+    q: 'Peut-on installer les applications Google sur le Huawei Mate X7 ?',
+    a: 'Pas officiellement. Le Huawei Mate X7 est vendu sans services Google. D’après GSMArena, l’application tierce GBox crée un environnement virtuel où le Play Store et les applications Google s’installent, notifications comprises. Rien ne garantit que cette solution fonctionne dans la durée, et Google Wallet reste inutilisable pour le paiement sans contact.',
+  },
+  {
+    q: 'Le Huawei Mate X7 chauffe-t-il ?',
+    a: 'Oui, sous forte charge. GSMArena mesure une chute des performances processeur à 51 % de leur maximum déplié et à 33 % plié lors de son test de stabilité. Phonandroid relève jusqu’à 53 °C côté écran interne en jeu. Au quotidien, Notebookcheck juge la réactivité correcte.',
+  },
+  {
+    q: 'Le Huawei Mate X7 est-il étanche ?',
+    a: 'Le Huawei Mate X7 est certifié IP58 et IP59 : selon Huawei, il supporte une immersion en eau douce à 2 mètres pendant 30 minutes et des jets d’eau à haute pression et à haute température. La protection contre la poussière (indice 5) reste partielle. C’est mieux que l’IP48 des Galaxy Z Fold8, moins que l’IP68 d’un Pixel 11 Pro Fold.',
+  },
+  {
+    q: 'Le Huawei Mate X7 a-t-il la 5G ?',
+    a: 'Non. La fiche technique française du Huawei Mate X7 ne mentionne que la 4G, la 3G et la 2G, avec une nano-SIM et une seconde ligne en nano-SIM ou en eSIM. Notebookcheck et GSMArena classent cette absence de 5G parmi les principaux défauts d’un appareil lancé à 2 099 €.',
+  },
+  {
+    q: 'Quel est le prix du Huawei Mate X7 en France ?',
+    a: 'Le Huawei Mate X7 est sorti en France le 21 janvier 2026 au prix public de 2 099 €, dans une configuration unique de 16 Go de mémoire vive et 512 Go de stockage, en rouge nébuleux ou en noir. Huawei l’a accompagné d’une remise de lancement de 250 €. Il coûte 100 € de plus qu’un Galaxy Z Fold8 en 256 Go.',
+  },
+  {
+    q: 'Que contient la boîte du Huawei Mate X7 ?',
+    a: 'Selon la fiche de Huawei France, la boîte du Mate X7 contient le téléphone, un câble USB-C vers USB-C, un étui en similicuir doté d’un support rotatif, un outil d’éjection du tiroir SIM et la documentation. Aucun chargeur n’est fourni : GSMArena rappelle qu’il faut acheter à part un adaptateur compatible pour profiter de la charge à 66 W.',
+  },
+  {
+    q: 'Le Huawei Mate X7 est-il bon en photo ?',
+    a: 'Oui, c’est son principal atout. Le Huawei Mate X7 associe un capteur principal de 50 Mpx à ouverture variable, un ultra grand-angle de 40 Mpx et un téléobjectif périscopique de 50 Mpx au zoom x3,5. GSMArena salue le progrès en basse lumière et la netteté du zoom de jour, Notebookcheck juge la partie photo excellente. La balance des blancs reste parfois instable.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Huawei Mate X7', 'Test de smartphone pliant'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test complet · format livre sans Google</span>
+        <h1>Test du Huawei Mate X7 : superbe pliant photo, à condition de vivre sans Google</h1>
+        <ProductSummary phone={p} ctaLabel="Voir le prix du Mate X7" />
+        <p class="lede">
+          Le Huawei Mate X7 est vendu en France depuis le 21 janvier 2026 à {euro(p.launchPrice)} en 16 Go / 512 Go. Les tests publiés par GSMArena, Notebookcheck et Phonandroid le placent parmi les formats livre les plus endurants et les mieux armés en photo, mais son Kirin 9030 Pro chauffe et il reste privé des services Google comme de la 5G.
+          Il occupe le haut du panier de notre <a href="/smartphone-pliant-huawei/">guide des smartphones pliants Huawei</a> ; reste à savoir s’il correspond à votre profil.
+        </p>
+        <Byline minutes={18} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Callout variant="answer" title="Le verdict du test">
+        <p>
+          <strong>{num(overall(p))}/10.</strong> Pour qui accepte de passer par l’AppGallery, le Huawei Mate X7 est un excellent format livre : autonomie parmi les meilleures mesurées sur un pliant, charge complète en moins d’une heure, écrans très précis et périscope 50 Mpx x3,5 salué par tous les testeurs.
+          Sa double certification IP58 et IP59 le rend aussi plus serein au bord d’une piscine que la plupart de ses concurrents.
+          Il vise le photographe exigeant, déjà familier de l’écosystème Huawei, qui lit, retouche et regarde des vidéos sur grand écran sans jouer des heures.
+          Pour qui dépend de Gmail, de Google Maps, du paiement sans contact ou de la 5G, les {euro(p.launchPrice)} du lancement achètent surtout des contournements.
+          Et le joueur assidu trouvera ailleurs une puce qui ne perd pas la moitié de sa puissance au bout de quelques minutes.
+        </p>
+      </Callout>
+    </div>
+
+    <div class="wrap section-tight">
+      <div class="grid" style="--min:260px">
+        <div class="card">
+          <h2 class="h3 mt-0" style="font-size:1.1rem">Pour vous si…</h2>
+          <ul class="small" style="padding-left:1.1rem;margin:0">
+            <li>vos applications du quotidien existent hors du Play Store ;</li>
+            <li>vous zoomez souvent en photo ;</li>
+            <li>vous voulez un pliant qui supporte l’immersion (IP58/IP59) ;</li>
+            <li>l’autonomie compte plus que la puissance brute.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 class="h3 mt-0" style="font-size:1.1rem">Pas pour vous si…</h2>
+          <ul class="small" style="padding-left:1.1rem;margin:0">
+            <li>Google Wallet, YouTube ou Gmail sont indispensables ;</li>
+            <li>vous tenez à la 5G ;</li>
+            <li>vous jouez longtemps à des jeux exigeants ;</li>
+            <li>installer des applications à la main vous rebute.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2 class="h3 mt-0" style="font-size:1.1rem">Ce que les labos ont retenu</h2>
+          <ul class="small" style="padding-left:1.1rem;margin:0">
+            <li>11 h 51 d’Active Use Score déplié (GSMArena) ;</li>
+            <li>charge complète en 44 minutes (GSMArena) ;</li>
+            <li>Delta E de 1,4 (Notebookcheck) ;</li>
+            <li>53 °C en jeu côté écran interne (Phonandroid).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap cols-2 section">
+      <div class="prose">
+        <h2 class="mt-0">Sans Google ni 5G : le vrai sujet de ce test</h2>
+        <p>
+          Le Huawei Mate X7 tourne sous EMUI 15, une interface qui repose sur une base Android 12 selon GSMArena et Notebookcheck, sans Play Store ni applications Google. Les sanctions américaines qui visent Huawei depuis 2019 le privent toujours des services Google Mobile. La boutique par défaut est l’AppGallery de Huawei, que l’on complète au besoin par des dépôts d’APK.
+        </p>
+        <p>
+          Le contournement le plus cité s’appelle GBox. D’après GSMArena, cette application crée un environnement virtuel dans lequel le Play Store et les applications Google s’installent, notifications comprises. Rien n’est officiel : l’outil dépend d’un éditeur tiers et peut cesser de fonctionner après une mise à jour. Le même test signale que les applications Gemini et ChatGPT sont indisponibles sur la version internationale ; Phonandroid note que DeepSeek fait office de solution de repli.
+        </p>
+        <p>
+          L’intelligence artificielle maison ne compense pas. GSMArena juge l’assistant Celia peu dégourdi et la galerie limitée à une gomme magique basique, et Phonandroid regrette l’absence des outils d’IA que proposent Samsung ou Google sur leurs pliants.
+          Côté réseau, la fiche française du Mate X7 ne liste que la 4G, la 3G et la 2G. Pour un appareil de ce prix, Notebookcheck et GSMArena rangent l’absence de 5G parmi les défauts majeurs.
+        </p>
+
+        <h3>Vivre sans Google au quotidien : les solutions citées par les tests</h3>
+        <p>
+          Concrètement, chaque usage Google trouve un remplaçant plus ou moins convaincant sur le Huawei Mate X7. Le tableau ci-dessous reprend les solutions décrites par la presse et par la fiche de Huawei ; aucune n’offre la même garantie de fonctionnement qu’un Android certifié par Google.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Remplacer les services Google sur le Huawei Mate X7</caption>
+            <thead>
+              <tr>
+                <th scope="col">Besoin</th>
+                <th scope="col">Solution sur le Mate X7</th>
+                <th scope="col">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {noGoogle.map((r) => (
+                <tr>
+                  <th scope="row">{r.need}</th>
+                  <td>{r.how}</td>
+                  <td class="small">{r.who}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Au quotidien, la friction se loge dans les détails. Phonandroid décrit une expérience moins fluide et moins rassurante qu’avec un Android classique, et relève une présence publicitaire marquée dans les applications et suggestions de Huawei. GSMArena rappelle que la compatibilité des applications reste la principale limite du système, même quand GBox fonctionne. Les applications bancaires, de transport ou de messagerie professionnelle, qui s’appuient souvent sur les services Google, sont celles à tester en priorité.
+        </p>
+
+        <Callout variant="warn" title="Avant d’acheter : trois vérifications">
+          <ul style="margin:0;padding-left:1.1rem">
+            <li><strong>Vos applications critiques.</strong> Banque, transports, messagerie professionnelle : certaines exigent les services Google pour fonctionner. Vérifiez leur disponibilité dans l’AppGallery ou via GBox.</li>
+            <li><strong>Le paiement sans contact.</strong> Google Wallet n’est pas disponible sur le Mate X7. La puce NFC gère le portefeuille HUAWEI et la HCE selon Huawei : renseignez-vous auprès de votre banque.</li>
+            <li><strong>Le suivi logiciel.</strong> Nous n’avons pas trouvé d’engagement chiffré de Huawei sur la durée des mises à jour du Mate X7 en Europe. Notebookcheck rappelle que la réglementation européenne impose au moins cinq ans de correctifs de sécurité. Reste la base Android 12 relevée par GSMArena et Notebookcheck (Phonandroid évoque, lui, une base Android 15) : à terme, des applications récentes pourraient ne plus être compatibles.</li>
+          </ul>
+        </Callout>
+
+        <h2>Design : 236 g, IP58/IP59 et une fabrication saluée</h2>
+        <p>
+          Le Huawei Mate X7 mesure 9,5 mm plié et 4,5 mm déplié pour 236 g, avec un cadre en aluminium de qualité aéronautique, en rouge ou en noir. C’est 21 g de plus qu’un Galaxy Z Fold8 Ultra (215 g), mais 18 g de moins qu’un iPhone Duo (254 g). Fermé, il se manipule comme un smartphone classique grâce à son écran externe de 6,49 pouces.
+        </p>
+        <p>
+          Les dimensions précises, selon la <a href={HW_SPECS} target="_blank" rel="noopener">fiche technique de Huawei France</a>, sont de 156,8 × 73,8 mm plié et de 156,8 × 144,2 mm déplié. En France, les deux coloris associent un dos en cuir végan au cadre métallique : rouge nébuleux ou noir. Phonandroid précise que les teintes bleue, violette et blanche vues en Chine ne sont pas proposées en Europe, et GSMArena signale une finition blanche au dos tissé réservée au marché chinois.
+        </p>
+        <PhoneGallery id="huawei-mate-x7" heading="Le Huawei Mate X7 sous plusieurs angles" />
+        <p>
+          La double certification IP58 et IP59 est l’argument le plus concret : immersion prolongée d’un côté, jets d’eau à haute pression et à haute température de l’autre. PhoneArena fait de cette robustesse le principal progrès de la génération, et GSMArena place la qualité de fabrication en tête de ses points forts.
+        </p>
+        <p>
+          La charnière utilise des pièces en acier. <a href={GSM_DESIGN} target="_blank" rel="noopener">GSMArena</a> reprend la résistance de 2 350 MPa annoncée par Huawei et un mécanisme conçu pour ne pas exercer de pression sur la dalle ; Phonandroid parle d’une charnière en acier et en titane. Les boutons de volume et le bouton d’alimentation, qui intègre le lecteur d’empreintes, sont regroupés sur la tranche droite.
+          Aucun test consulté ne détaille l’ouverture à une main ni la tenue de l’appareil à demi ouvert. Pour poser le téléphone, Huawei mise sur l’étui fourni, doté d’un support rotatif en métal.
+        </p>
+        <p>
+          Deux réserves ressortent des tests. Le pli de l’écran intérieur reste perceptible : Notebookcheck le décrit comme nettement visible, sans être prononcé. Et Phonandroid relève que l’appareil devient instable une fois déplié, à cause d’un bloc photo très proéminent.
+        </p>
+
+        <h2>Écrans : 8 et 6,49 pouces, parmi les mieux calibrés du marché</h2>
+        <p>
+          Déplié, le Huawei Mate X7 offre une dalle OLED LTPO de 8 pouces (2 416 × 2 210 pixels, 412 ppi). Fermé, son écran externe de 6,49 pouces (2 444 × 1 080 pixels) adopte le format allongé d’un smartphone ordinaire. Les deux panneaux varient de 1 à 120 Hz.
+        </p>
+        <p>
+          Côté luminosité, GSMArena relève 1 152 cd/m² sur l’écran intérieur et 1 205 cd/m² sur l’écran extérieur en mode automatique, avec des pointes à 1 501 et 1 650 cd/m² sur une petite zone blanche. Notebookcheck obtient 1 467 cd/m² en APL 18 et 1 496 cd/m² en HDR. Des valeurs solides, sans battre de record : GSMArena note que plusieurs pliants concurrents montent plus haut.
+        </p>
+        <p>
+          La précision des couleurs met en revanche tout le monde d’accord. Phonandroid mesure un Delta E compris entre 0,9 et 1,3, Notebookcheck 1,4 sur la mire ColorChecker et 2,2 en niveaux de gris : des écarts difficilement perceptibles à l’œil. Seul bémol pour les yeux sensibles : Huawei annonce une gradation PWM à 1 440 Hz, mais Notebookcheck détecte un scintillement à 360 Hz, une fréquence assez basse.
+        </p>
+        <p>
+          L’écran externe de 6,49 pouces, aux bordures fines et légèrement incurvé sur ses quatre côtés selon GSMArena, suffit pour la plupart des tâches sans ouvrir l’appareil. Il est protégé par un verre Kunlun, que Huawei présente comme renforcé contre les chutes et les chocs.
+        </p>
+
+        <h2>Kirin 9030 Pro : suffisant au quotidien, vite dépassé en jeu</h2>
+        <p>
+          Le Kirin 9030 Pro du Huawei Mate X7 signe 1 301 points en monocœur et 5 188 points en multicœur sur Geekbench 6, 1 780 819 points sur AnTuTu v11 et 3 194 points sur 3DMark Wild Life Extreme, d’après GSMArena. Notebookcheck obtient des résultats presque identiques (1 297 et 5 234 points sur Geekbench, 3 234 sur 3DMark). GSMArena y voit une puce de milieu de gamme, malgré un gain graphique d’environ 75 % sur la génération précédente.
+        </p>
+        <p>
+          Le problème vient surtout de la tenue dans la durée. Lors du test de stabilité de GSMArena, le processeur tombe à 51 % de ses performances déplié et à 33 % plié ; la puce graphique perd la moitié de sa puissance ouverte et chute à 31 % fermée. Phonandroid mesure une stabilité d’environ 50 % et des pics de 44 °C côté écran externe, 50 °C au niveau du module photo et 53 °C côté écran interne.
+        </p>
+        <p>
+          Pour la navigation, les réseaux sociaux ou la bureautique, Notebookcheck juge la réactivité correcte. Pour le jeu prolongé, un format livre équipé d’un Snapdragon 8 Elite Gen 5 constitue une base nettement plus sereine ; Phonandroid conclut sans détour que le Mate X7 n’est pas un bon choix pour jouer.
+        </p>
+
+        <h2>EMUI 15 sur 8 pouces : un multifenêtre bien pensé</h2>
+        <p>
+          Sur son grand écran, le Huawei Mate X7 tire parti d’un multifenêtre que GSMArena juge très réussi. EMUI 15 partage l’écran horizontalement ou verticalement, avec des proportions réglables bien au-delà du simple 50/50, et ouvre des fenêtres flottantes par-dessus. Le passage d’un écran à l’autre se fait sans accroc, selon le même test.
+        </p>
+        <p>
+          Le système apporte aussi la personnalisation de l’écran de verrouillage, des gestes sans contact, ainsi que les applications maison : Galerie, Musique, Vidéo, Santé, gestionnaire de fichiers. Un appui long sur le bouton d’alimentation lance Celia. L’éditeur photo propose une gomme par IA pour effacer un objet, un outil que GSMArena trouve basique face à la concurrence. Et comme le rappelle Phonandroid, les assistants génératifs les plus répandus manquent à l’appel.
+        </p>
+
+        <h2>Photo : le périscope x3,5 met les testeurs d’accord</h2>
+        <p>
+          Le Huawei Mate X7 réunit un capteur principal de 50 Mpx à ouverture variable (f/1,49 à f/4,0), un ultra grand-angle de 40 Mpx et un téléobjectif périscopique de 50 Mpx au zoom optique x3,5, capable aussi de faire de la macro. Deux caméras frontales de 8 Mpx complètent l’ensemble, et la vidéo monte à la 4K. Le capteur principal RYYB mesure 1/1,28 pouce selon <a href={HW_PAGE} target="_blank" rel="noopener">Huawei</a>.
+        </p>
+        <p>
+          GSMArena décrit un capteur principal très détaillé et aux couleurs vives de jour, mais sujet à une balance des blancs inconstante, avec des dominantes jaunes ou vertes inattendues. L’ouverture se règle le plus souvent d’elle-même autour de f/2,0. La nuit, le grand capteur marque un vrai progrès sur le Mate X6. Le téléobjectif x3,5 se montre nettement plus net de jour que le x4 de l’ancienne génération et fait la mise au point dès 5 cm ; ses clichés nocturnes restent irréguliers.
+        </p>
+        <p>
+          L’ultra grand-angle de 40 Mpx livre de jour beaucoup de détails et une bonne dynamique, d’après <a href={GSM_CAM} target="_blank" rel="noopener">l’analyse photo de GSMArena</a> ; la nuit, il hérite des mêmes hésitations de balance des blancs. Le mode portrait, précise le site, produit des couleurs plus justes que le mode photo classique.
+        </p>
+        <p>
+          En selfie, les deux caméras de 8 Mpx à mise au point fixe, l’une dans l’écran externe et l’autre dans l’écran interne, donnent des autoportraits flatteurs et une dynamique correcte selon GSMArena. Phonandroid les trouve précis en journée mais un peu mous le soir.
+        </p>
+        <p>
+          Notebookcheck qualifie la partie photo d’excellente, et Phonandroid salue la netteté comme la qualité des portraits. Les deux réserves de Phonandroid portent sur le grain en vidéo et les reflets parasites dans les optiques.
+          En vidéo, les trois modules arrière filment en 4K à 60 images par seconde avec une stabilisation active en permanence, que GSMArena juge excellente ; la vidéo nocturne du capteur principal compte même parmi les points forts du test, alors que le zoom x10 déçoit. Huawei annonce aussi un ralenti en 1080p à 960 images par seconde.
+          Sur le papier, peu de pliants font aussi bien : le Galaxy Z Fold8 Ultra se contente d’un téléobjectif de 10 Mpx x3, le Galaxy Z Fold8 n’en a pas.
+        </p>
+        <p><AmazonButton phone={p} variant="ghost" label="Voir le Mate X7 sur Amazon" /></p>
+
+        <h2>Autonomie et charge : l’un des pliants les plus endurants mesurés</h2>
+        <p>
+          L’autonomie est la bonne surprise du Huawei Mate X7. GSMArena mesure un Active Use Score de 11 h 51 sur l’écran intérieur et de 14 h 40 sur l’écran extérieur, parmi les meilleurs résultats des pliants haut de gamme récents. Notebookcheck compte environ 17 heures en navigation Wi-Fi. Avec son propre protocole, Phonandroid obtient 21 h 23 sur l’écran externe et 14 h 30 sur l’écran interne.
+        </p>
+        <p>
+          La recharge suit. Avec le chargeur 66 W, GSMArena atteint 47 % en 15 minutes, 80 % en 30 minutes et 100 % en 44 minutes ; Notebookcheck compte environ 45 minutes, Phonandroid 52 minutes. Le Mate X7 accepte aussi la charge sans fil à 50 W et la recharge inversée à 7,5 W, selon Huawei.
+          Attention toutefois : l’adaptateur n’est pas dans la boîte. GSMArena rappelle qu’il faut s’en procurer un, compatible avec le protocole SuperCharge de Huawei, pour retrouver ces temps de charge.
+        </p>
+
+        <Callout variant="info" title="Quelle capacité de batterie ?">
+          <p>
+            La fiche française de Huawei annonce 5 300 mAh en capacité typique, chiffre que nous retenons. Plusieurs tests publiés citent une capacité différente sans préciser la version examinée : leurs mesures d’autonomie ont pu être réalisées sur une variante qui n’est pas exactement celle vendue en France.
+          </p>
+        </Callout>
+
+        <h2>Audio, réseau et biométrie : du très bon, sauf la 5G</h2>
+        <p>
+          Les deux haut-parleurs du Huawei Mate X7, placés en haut et en bas, obtiennent la mention « très bon » au test de niveau sonore de <a href={GSM_LAB} target="_blank" rel="noopener">GSMArena</a>, un progrès sur le Mate X6. Le site apprécie les aigus et un peu de punch dans les basses, mais trouve les voix légèrement plates ; il note aussi que la spatialisation devient asymétrique une fois l’appareil ouvert. Phonandroid décrit une scène sonore large, adaptée aux films et aux séries, et Notebookcheck compte les haut-parleurs parmi les points positifs.
+        </p>
+        <p>
+          La connectivité sans fil est à jour. Le Mate X7 gère le Wi-Fi 7 et le Bluetooth 6.0 ; Notebookcheck mesure environ 944 Mbit/s en émission et 890 Mbit/s en réception, tout en relevant l’absence de la bande des 6 GHz. Phonandroid liste la prise en charge du LE Audio et des codecs SBC, AAC et L2HC.
+          La fiche française mentionne le NFC (portefeuille HUAWEI, HCE), un port USB-C 3.1 Gen 1 avec sortie DisplayPort 1.2, un émetteur infrarouge et une double SIM : nano-SIM plus nano-SIM ou eSIM. Notebookcheck cite la réception GPS, GLONASS, BeiDou et Galileo.
+        </p>
+        <p>
+          Le maillon faible reste le réseau mobile, limité à la 4G. Les pliants de Honor, Samsung et Google comparés plus bas gèrent tous la 5G : à plus de 2 000 €, le Mate X7 partage cette lacune avec le seul Mate XT.
+        </p>
+        <p>
+          Pour le déverrouillage, le Huawei Mate X7 compte sur un lecteur d’empreintes intégré au bouton d’alimentation. GSMArena le décrit comme toujours actif et très précis ; Notebookcheck relève un bon taux de reconnaissance et une réponse rapide. La fiche technique française ne mentionne pas de reconnaissance faciale.
+        </p>
+
+        <h2>Solidité et réparabilité : ce que l’on sait vraiment</h2>
+        <p>
+          Sur le papier, le Huawei Mate X7 est l’un des pliants les mieux protégés du marché. Selon la <a href={HW_PAGE} target="_blank" rel="noopener">présentation officielle de Huawei</a>, l’indice IP58 correspond à une immersion en eau douce à 2 mètres pendant 30 minutes, et l’IP59 à des jets d’eau sous haute pression et à haute température. L’indice 5 contre la poussière signifie en revanche que les particules fines ne sont pas totalement bloquées.
+        </p>
+        <p>
+          Huawei décrit un écran pliable à trois couches : une couche de protection à base de fluide non newtonien, un verre ultrafin résistant aux chocs et un support en fibre de carbone. D’après GSMArena, le constructeur revendique une résistance aux chocs supérieure de 20 % et une résistance à la flexion doublée par rapport au Mate X6. Aucun nombre de cycles d’ouverture n’est communiqué pour la charnière, et aucun test indépendant de durabilité n’a été publié à notre connaissance.
+        </p>
+        <p>
+          Nous n’avons pas trouvé, sur la fiche française de Huawei, les informations de l’étiquette énergie européenne (classe de réparabilité, résistance aux chutes, nombre de cycles de batterie). La page d’assistance de Huawei France renvoie vers une offre HUAWEI Care+ et un outil de consultation de la garantie, sans détailler de protection spécifique aux écrans : renseignez-vous sur les offres en cours au moment de l’achat.
+        </p>
+
+        <h2>Dans la boîte : un étui, pas de chargeur</h2>
+        <p>
+          La boîte du Huawei Mate X7 contient, selon Huawei France, le téléphone, un câble USB-C vers USB-C, un étui en similicuir (PU) avec support rotatif, un outil d’éjection du tiroir SIM, un guide de démarrage rapide et une carte de garantie. GSMArena précise que l’étui intègre une béquille métallique mais ne protège que le dos, pas l’écran externe.
+        </p>
+        <p>
+          L’absence de chargeur est d’autant plus regrettable que la charge rapide à 66 W exige un adaptateur compatible. Aucune des sources consultées ne mentionne de stylet compatible avec ce modèle.
+        </p>
+
+        <Measures items={measures} caption="Mesures publiées sur le Huawei Mate X7" />
+        <p class="small muted">Chaque mesure provient du test cité ; les protocoles diffèrent d’un média à l’autre et les chiffres ne se comparent pas entre eux.</p>
+
+        <TestSources
+          sources={sources}
+          heading="Ce qu’en disent GSMArena, Notebookcheck, Phonandroid et PhoneArena"
+          intro="Les tests publiés convergent : une réussite matérielle et photo, freinée par la puce et l’écosystème logiciel."
+        />
+
+        <h2>Prix : 2 099 € au lancement, une seule version en France</h2>
+        <p>
+          Le Huawei Mate X7 est sorti en France le 21 janvier 2026 dans une configuration unique de 16 Go de mémoire vive et 512 Go de stockage, au prix public de {euro(p.launchPrice)}, assorti d’une remise de lancement de 250 €. C’est 100 € de plus qu’un Galaxy Z Fold8 en 256 Go et environ 200 € de moins qu’un Honor Magic V6.
+          D’après <a href={PHA_FR} target="_blank" rel="noopener">Phonandroid</a>, le tarif public progresse de 100 € par rapport au Mate X6.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Version, coloris et prix de lancement du Huawei Mate X7 en France</caption>
+            <tbody>
+              {versions.map((v) => (
+                <tr>
+                  <th scope="row">{v.item}</th>
+                  <td>{v.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Notre conseil d’achat tient en une phrase : au prix public, le Mate X7 se justifie difficilement face à des pliants dotés de Google et de la 5G. Phonandroid et GSMArena le recommandent tous deux à tarif réduit. Un modèle sorti en janvier 2026 se trouve souvent moins cher après quelques mois : surveillez les promotions avant de vous décider.
+        </p>
+        <p><AmazonButton phone={p} label="Consulter l’offre Amazon" /></p>
+
+        <h2>Mate X7 ou un concurrent : quatre alternatives sérieuses</h2>
+        <p>
+          Dans la gamme Huawei, la seule autre option est le tri-pliant <a href="/smartphone-pliant-huawei/mate-xt/">Huawei Mate XT Ultimate Design, dont nous synthétisons aussi les tests</a>. Lancé à {euro(xt.launchPrice)}, il coûte 1 400 € de plus et pèse 62 g de plus, avec un Kirin 9010 plus ancien et une résistance à l’eau que les tests jugent absente ou incertaine ; son écran de 10,2 pouces reste son unique avantage. Hors de la marque, <a href={GSM_VERDICT} target="_blank" rel="noopener">GSMArena</a> cite le Galaxy Z Fold7 et le Honor Magic V5 comme des alternatives plus puissantes et moins chères.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Alternatives au Huawei Mate X7</caption>
+            <thead>
+              <tr>
+                <th scope="col">Modèle</th>
+                <th scope="col">Prix de lancement</th>
+                <th scope="col">Mieux que le Mate X7</th>
+                <th scope="col">Moins bien</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Huawei Mate XT Ultimate Design</th>
+                <td class="num">{euro(xt.launchPrice)}</td>
+                <td>Écran de 10,2 pouces, 3,6 mm déplié</td>
+                <td>298 g, Kirin 9010, 7 h 48 d’Active Use Score déplié (GSMArena)</td>
+              </tr>
+              <tr>
+                <th scope="row">Honor Magic V6</th>
+                <td class="num">{euro(v6.launchPrice)}</td>
+                <td>Services Google, 6 660 mAh, 80 W / 66 W, IP68 et IP69, Snapdragon 8 Elite Gen 5</td>
+                <td>Zoom x3 au lieu de x3,5, prix public plus élevé</td>
+              </tr>
+              <tr>
+                <th scope="row">Samsung Galaxy Z Fold8 Ultra</th>
+                <td class="num">{euro(fold8u.launchPrice)}</td>
+                <td>Services Google, puce plus puissante, capteur 200 Mpx, 7 ans de mises à jour promis</td>
+                <td>IP48, téléobjectif 10 Mpx, charge 45 W</td>
+              </tr>
+              <tr>
+                <th scope="row">Google Pixel 11 Pro Fold</th>
+                <td class="num">{euro(pixel.launchPrice)}</td>
+                <td>IP68, zoom x5, charge sans fil magnétique, 100 € de moins</td>
+                <td>Charge filaire 30 W, Tensor G6 moins puissant</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:1rem">
+          Le <ObfLink href="/smartphone-pliant-honor/magic-v6/" class="obf-text">Honor Magic V6</ObfLink> est l’adversaire le plus direct : même format, plus grosse batterie, charge plus rapide, meilleure étanchéité et l’écosystème Google complet, pour 200,90 € de plus au prix public. Le Mate X7 garde l’avantage du zoom x3,5 et d’un poids qui reste raisonnable, mais la balance penche nettement vers le Honor pour un usage courant.
+        </p>
+        <p>
+          Le <ObfLink href="/smartphone-pliant-samsung/galaxy-z-fold8-ultra/" class="obf-text">Galaxy Z Fold8 Ultra</ObfLink> vise ceux qui veulent la puissance et le suivi logiciel : Snapdragon 8 Elite Gen 5, One UI 9 et sept ans de mises à jour Android promis par Samsung. Il cède en revanche du terrain sur l’étanchéité (IP48) et sur le téléobjectif, limité à 10 Mpx.
+          Enfin, le <ObfLink href="/smartphone-pliant-google-pixel/pixel-11-pro-fold/" class="obf-text">Pixel 11 Pro Fold</ObfLink> est le choix du photographe qui veut rester chez Google : zoom x5, certification IP68 et {euro(pixel.launchPrice)} au lancement, avec une charge filaire bien plus lente que les 66 W du Huawei.
+        </p>
+
+        <ProsCons
+          pros={[
+            'Autonomie parmi les meilleures mesurées sur un format livre',
+            'Charge complète en 44 à 52 minutes selon les tests',
+            'Écrans très bien calibrés (Delta E de 0,9 à 1,4)',
+            'Périscope 50 Mpx x3,5 salué par tous les tests',
+            'IP58 / IP59 et fabrication haut de gamme',
+            'Wi-Fi 7, Bluetooth 6.0 et haut-parleurs jugés très bons',
+          ]}
+          cons={[
+            'Ni services Google ni 5G',
+            'Kirin 9030 Pro qui perd la moitié de sa puissance sous charge',
+            'Pli encore visible selon Notebookcheck',
+            'Balance des blancs inconstante, grain en vidéo',
+            '2 099 € au lancement',
+            'Pas de chargeur dans la boîte',
+          ]}
+          prosTitle="Ce que les tests saluent"
+          consTitle="Ce qui fâche"
+        />
+
+        <h2>Fiche technique du Huawei Mate X7</h2>
+        <SpecTable phone={p} />
+        <p><AmazonButton phone={p} variant="ghost" label="Voir les coloris" /></p>
+
+        <Faq items={faq} heading="Huawei Mate X7 : questions pratiques" />
+      </div>
+
+      <aside class="sticky">
+        <ScoreBars phone={p} />
+        <div class="card" style="margin-top:1rem">
+          <p class="small mb-0"><strong>Prix de lancement :</strong> {euro(p.launchPrice)} (16 Go / 512 Go)</p>
+          <p class="small mb-0"><strong>En France depuis :</strong> 21 janvier 2026</p>
+          <p class="small"><strong>Coloris :</strong> rouge nébuleux, noir</p>
+          <AmazonButton phone={p} size="sm" label="Voir le prix sur Amazon" />
+        </div>
+      </aside>
+    </div>
+
+    <div class="wrap">
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="L’autre pliant Huawei passé au crible" />
+    </div>
+  </article>
+</BaseLayout>

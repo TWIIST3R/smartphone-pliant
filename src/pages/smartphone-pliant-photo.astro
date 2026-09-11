@@ -1,0 +1,298 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompareTable from '../components/CompareTable.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import AmazonButton from '../components/AmazonButton.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { num, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-photo/';
+const title = 'Meilleur smartphone pliant pour la photo en 2026';
+const description = `Classement photo des ${phones.length} smartphones pliants vendus en France : zoom x5, capteur 200 Mpx, périscopes Honor et Huawei. Notes, zooms et prix de lancement.`;
+
+// Classement photo : tri stable sur ranked(), donc note globale en cas d’égalité de note photo.
+const photoRank = ranked(phones).sort((a, b) => b.scores.photo - a.scores.photo);
+const top = photoRank[0];
+const tied = photoRank.filter((p) => p.scores.photo === top.scores.photo);
+const top5 = photoRank.slice(0, 5);
+const rankOf = (id: string) => photoRank.findIndex((p) => p.id === id) + 1;
+const ordinal = (n: number) => (n === 1 ? '1er' : `${n}e`);
+const joinFr = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+const pouces = (n: number) => `${num(n, 2)} pouces`;
+
+const fold8u = byId('galaxy-z-fold8-ultra');
+const pixel11 = byId('pixel-11-pro-fold');
+const v6 = byId('honor-magic-v6');
+const matex7 = byId('huawei-mate-x7');
+const razrFold = byId('razr-fold');
+const duo = byId('iphone-duo');
+const mixFlip = byId('xiaomi-mix-flip');
+const flip8 = byId('galaxy-z-flip8');
+const razr70 = byId('razr-70');
+const razrUltra = byId('razr-70-ultra');
+
+const answerTie =
+  tied.length > 1
+    ? `, à égalité avec ${joinFr(tied.slice(1).map((p) => `le ${p.fullName}`))}. Sa note globale de ${num(overall(top))}/10 le place devant`
+    : '';
+
+const hasRealZoom = (p: Phone) => /^x[\d,]+ optique/.test(p.zoom);
+const top5Zoom = top5.filter(hasRealZoom).length;
+const top5Clapets = top5.filter((p) => p.format === 'clapet').length;
+const top5NoGoogle = top5.filter((p) => !p.googleServices);
+const bestClapet = photoRank.find((p) => p.format === 'clapet')!;
+
+const names = (test: (p: Phone) => boolean) =>
+  photoRank
+    .filter(test)
+    .map((p) => p.name)
+    .join(', ') || '—';
+
+const zoomRows = [
+  {
+    zoom: 'Aucun téléobjectif',
+    focal: '—',
+    use: 'Zoom numérique seul : l’image perd vite en détail dès qu’on recadre.',
+    models: names((p) => p.zoom.startsWith('Numérique') && !p.zoom.includes('x2')),
+  },
+  {
+    zoom: 'x2 « qualité optique »',
+    focal: '≈ 48 mm (recadrage)',
+    use: 'Portrait à mi-distance, scène de rue. Pas d’objectif dédié : on recadre le centre du capteur principal.',
+    models: names((p) => p.zoom.includes('x2') && p.zoom.includes('qualité optique')),
+  },
+  {
+    zoom: 'x2 optique',
+    focal: '≈ 48 mm',
+    use: 'Même cadrage, mais obtenu avec un objectif dédié.',
+    models: names((p) => p.zoom.startsWith('x2 optique')),
+  },
+  {
+    zoom: 'x3 optique',
+    focal: '≈ 72 mm',
+    use: 'Portrait serré, détail d’architecture, plat au restaurant sans se lever.',
+    models: names((p) => p.zoom.startsWith('x3 optique')),
+  },
+  {
+    zoom: 'x3,5 optique',
+    focal: '≈ 84 mm',
+    use: 'Un cran plus serré que le x3 : portrait, spectacle en petite salle.',
+    models: names((p) => p.zoom.startsWith('x3,5')),
+  },
+  {
+    zoom: 'x5 optique',
+    focal: '≈ 120 mm',
+    use: 'Sport depuis les tribunes, animaux, concert vu du fond de la salle.',
+    models: names((p) => p.zoom.startsWith('x5 optique')),
+  },
+  {
+    zoom: 'x5,5 optique',
+    focal: '≈ 132 mm',
+    use: 'Sujets lointains, au prix d’un appareil encombrant.',
+    models: names((p) => p.zoom.startsWith('x5,5')),
+  },
+];
+
+const cta = ['Voir le prix sur Amazon', 'Consulter l’offre', 'Vérifier la disponibilité', 'Voir les coloris', 'Comparer les offres'];
+
+const faq = [
+  {
+    q: 'Quel est le meilleur smartphone pliant pour la photo ?',
+    a: `Dans notre classement de septembre 2026, le ${top.fullName} obtient la meilleure note photo (${num(top.scores.photo)}/10)${
+      tied.length > 1 ? `, à égalité avec ${joinFr(tied.slice(1).map((p) => `le ${p.fullName}`))}` : ''
+    }. Le bon choix dépend surtout du zoom dont vous avez besoin : x3 et capteur 200 Mpx chez Samsung, x5 chez Google, périscope x3,5 chez Huawei, mais sans services Google.`,
+  },
+  {
+    q: 'Quel smartphone pliant a le meilleur zoom ?',
+    a: 'Les Google Pixel 11 Pro Fold et Pixel 10 Pro Fold sont les seuls pliants au format livre équipés d’un téléobjectif x5 optique. Le Huawei Mate XT Ultimate Design monte à x5,5, mais c’est un tri-pliant lancé à 3 499 € sans services Google. Suivent le Huawei Mate X7 (x3,5), puis les Galaxy Z Fold8 Ultra et Z Fold7, les Honor Magic V6 et V5 et le Motorola Razr Fold (x3).',
+  },
+  {
+    q: 'Les smartphones pliants à clapet sont-ils bons en photo ?',
+    a: `Ils s’appuient tous sur un capteur principal de 50 Mpx, mais aucun clapet de 2026 n’a de téléobjectif : seul le Xiaomi Mix Flip, sorti en 2024, propose un x2 optique. Le mieux noté en photo est le ${bestClapet.fullName} (${num(bestClapet.scores.photo)}/10). Leur vrai atout reste le selfie pris avec la caméra principale, téléphone fermé.`,
+  },
+  {
+    q: 'L’iPhone Duo est-il bon en photo ?',
+    a: `Sur le papier, il est solide sans être le meilleur pliant dans ce domaine. L’iPhone Duo associe deux capteurs de 48 Mpx, principal et ultra grand-angle, et filme en 4K à 120 images par seconde en Dolby Vision. Il n’a pas de téléobjectif : son zoom x2 est un recadrage. Sa note photo provisoire de ${num(duo.scores.photo)}/10 le classe ${ordinal(rankOf(duo.id))} sur ${phones.length}.`,
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant', 'Photographie mobile', 'Téléobjectif'] }),
+  itemList(
+    'Classement photo des smartphones pliants 2026',
+    photoRank.map((p) => ({ name: p.fullName })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <header class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Classement par usage · photo et vidéo</span>
+      <h1>Photo : quel smartphone pliant prend les meilleures images ?</h1>
+      <p class="lede">
+        Sur un pliant, l’appareil photo est souvent le premier poste sacrifié au nom de la finesse. Nous avons repris les {phones.length} modèles de notre
+        <a href="/">comparatif des smartphones pliants</a> pour les classer sur un seul critère : la photo, du capteur principal au téléobjectif.
+      </p>
+      <Byline minutes={8} />
+    </div>
+  </header>
+
+  <div class="wrap prose">
+    <Callout variant="answer" title="La réponse courte">
+      <p>
+        Le <strong>{top.fullName}</strong> décroche la meilleure note photo de notre comparatif ({num(top.scores.photo)}/10){answerTie}.
+        {top.id === fold8u.id && ' Son capteur de 200 Mpx et son téléobjectif x3 couvrent l’essentiel des situations.'}
+        Si vous zoomez souvent, visez plutôt un x5 : les Pixel Fold de Google sont les seuls pliants au format livre à en proposer un.
+      </p>
+      <p><AmazonButton phone={top} size="sm" label="Voir le prix du n° 1 photo" /></p>
+    </Callout>
+  </div>
+
+  <section class="section band" id="classement">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Le classement photo des {phones.length} smartphones pliants</h2>
+        <p>
+          Le tableau suit l’ordre de notre note photo sur 10, qui pèse 20 % de la note globale selon <a href="/methodologie/">notre méthodologie</a>. À note photo égale, le modèle le mieux noté au global passe devant.
+          La colonne « Note » affiche la note globale, pour situer chaque pliant dans le comparatif complet. Les prix sont ceux du lancement en France.
+        </p>
+      </div>
+      <div style="margin-top:1.2rem">
+        <CompareTable
+          id="classement-photo"
+          phones={photoRank}
+          caption="Smartphones pliants classés selon leur note photo"
+          columns={['camera', 'zoom', 'score', 'price']}
+          cta={false}
+        />
+      </div>
+      <p class="small muted" style="margin-top:.8rem;max-width:75ch">
+        Notes photo, dans l’ordre du tableau : {photoRank.map((p) => `${p.name} ${num(p.scores.photo)}`).join(' · ')}.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap prose section">
+    <h2 class="mt-0">Pourquoi les pliants ont si peu de téléobjectifs</h2>
+    <p>
+      Un téléobjectif réclame de la profondeur, et c’est la ressource la plus rare dans un smartphone pliant. Ouvert, le {fold8u.fullName} ne mesure que {mm(fold8u.unfoldedMm)} d’épaisseur, le {v6.fullName} {mm(v6.unfoldedMm)}.
+      Fermés, ils retrouvent à peu près l’épaisseur d’un smartphone ordinaire ({mm(v6.foldedMm)} pour le Honor) : chaque moitié ne dispose donc que d’environ la moitié de la place pour loger capteurs et lentilles.
+    </p>
+    <p>
+      L’obstacle est optique. Plus la focale est longue, plus les lentilles doivent s’éloigner du capteur. Les téléobjectifs dits périscopiques contournent le problème avec un prisme qui renvoie la lumière à angle droit, pour coucher le bloc optique dans la longueur du téléphone.
+      Le capteur et les lentilles gardent toutefois une hauteur incompressible, d’où ces bosses photo qui dépassent nettement du dos.
+    </p>
+    <p>
+      Chaque constructeur arbitre à sa façon. Samsung conserve un téléobjectif x3 de 10 Mpx sur le Galaxy Z Fold8 Ultra, mais n’en met pas sur le Galaxy Z Fold8.
+      Google loge un x5 dans le {pixel11.fullName}, au prix d’un appareil plus épais ({mm(pixel11.foldedMm)} plié) et plus lourd ({pixel11.weight} g) que le Fold8 Ultra ({mm(fold8u.foldedMm)}, {fold8u.weight} g).
+      Honor glisse un périscope de 64 Mpx dans les {mm(v6.foldedMm)} du Magic V6, Huawei un périscope x3,5 de 50 Mpx dans les {mm(matex7.foldedMm)} du Mate X7.
+      Pour son premier format livre, Motorola installe dans le {razrFold.fullName} ({mm(razrFold.foldedMm)} plié) un téléobjectif x3 stabilisé de 50 Mpx.
+    </p>
+    <p>
+      Sur les clapets, la place manque encore davantage : le {flip8.fullName} ne fait que {mm(flip8.unfoldedMm)} ouvert. Aucun clapet de 2026 n’embarque de téléobjectif.
+      Le seul à en avoir un reste le {mixFlip.fullName}, sorti en 2024, avec un x2 optique.
+    </p>
+
+    <h2>Zoom optique x2, x3, x5 : ce que ça change</h2>
+    <p>
+      Le coefficient de zoom indique combien de fois la focale du téléobjectif dépasse celle de l’objectif principal. En partant d’un objectif principal d’environ 24 mm (en équivalent 24 × 36), un x3 correspond à peu près à 72 mm et un x5 à 120 mm.
+      Voici ce que ces chiffres donnent sur le terrain, et quels pliants les proposent.
+    </p>
+    <div class="table-scroll">
+      <table>
+        <caption class="sr-only">Niveaux de zoom des smartphones pliants et usages correspondants</caption>
+        <thead>
+          <tr>
+            <th scope="col">Zoom</th>
+            <th scope="col">Focale équivalente</th>
+            <th scope="col">Pour quoi faire</th>
+            <th scope="col">Pliants concernés</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            zoomRows.map((r) => (
+              <tr>
+                <th scope="row">{r.zoom}</th>
+                <td class="num">{r.focal}</td>
+                <td>{r.use}</td>
+                <td class="small">{r.models}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1.2rem">
+      Méfiez-vous de la mention « x2 qualité optique » qui figure dans les fiches du Galaxy Z Flip8, des Razr Ultra ou de l’iPhone Duo. Il ne s’agit pas d’un objectif dédié mais d’un recadrage au centre du capteur principal, rendu possible par ses 48 à 50 Mpx.
+      Au-delà de x2, sans téléobjectif, le zoom devient purement numérique et les détails s’effacent rapidement. Le capteur de 200 Mpx du Fold8 Ultra laisse, lui, davantage de marge au recadrage.
+    </p>
+    <p>
+      Faut-il absolument un x5 ? Pour la plupart des photos, un x3 suffit : portraits, monuments, détails d’une façade. Le x5 devient précieux au stade, en concert ou face à un animal qu’on ne peut pas approcher.
+      C’est la spécialité des Pixel Fold, et la raison pour laquelle le {pixel11.name} obtient {num(pixel11.scores.photo)}/10 en photo malgré un capteur principal de 48 Mpx.
+    </p>
+
+    <h2>Le selfie avec la caméra principale, l’atout propre au format pliant</h2>
+    <p>
+      Un smartphone pliant permet une astuce hors de portée d’un smartphone classique : réaliser ses selfies avec les capteurs arrière, en se servant de l’écran externe comme viseur.
+      Sur un clapet, il suffit de garder le téléphone fermé, puisque les caméras et le petit écran occupent la même face. Sur un modèle au format livre, on déplie l’appareil et on le retourne : l’écran externe se retrouve du même côté que le module photo.
+    </p>
+    <p>
+      Sur le papier, le gain est net. Le Honor Magic V6 passe d’une caméra selfie de 20 Mpx à un capteur principal de 50 Mpx, l’iPhone Duo d’une caméra Center Stage de 12 Mpx à un capteur de 48 Mpx, le Razr 70 Plus d’un 32 Mpx à un 50 Mpx.
+      Vous profitez aussi de l’ultra grand-angle arrière pour les photos de groupe, et d’une vidéo filmée avec le meilleur module de l’appareil.
+    </p>
+    <p>
+      Le format apporte deux bonus. Posé à moitié plié sur une table, un pliant fait office de trépied pour une photo avec retardateur ou une pose longue de nuit. Et quand vous photographiez quelqu’un, l’écran externe peut souvent afficher l’aperçu pour que la personne se voie.
+      Seule limite : le viseur est plus petit sur les clapets d’entrée de gamme, avec {pouces(razr70.outerScreen)} sur le Motorola Razr 70 contre {pouces(razrUltra.outerScreen)} sur le Razr 70 Ultra.
+    </p>
+  </div>
+
+  <section class="section band" id="top-5">
+    <div class="wrap">
+      <div class="prose">
+        <h2 class="mt-0">Notre top 5 des pliants pour la photo</h2>
+        <p>
+          Ces cinq modèles réunissent les meilleures notes photo du comparatif.
+          {top5Zoom === top5.length ? ' Tous disposent d’un vrai zoom optique, de x3 à x5.' : ` ${top5Zoom} d’entre eux disposent d’un vrai zoom optique.`}
+          {top5Clapets === 0 && ' Aucun clapet n’y figure : le format livre garde une longueur d’avance en photo.'}
+        </p>
+      </div>
+      <div class="stack" style="margin-top:1.5rem">
+        {top5.map((p, i) => <PhoneCard phone={p} rank={i + 1} badge={`Photo ${num(p.scores.photo)}/10`} ctaLabel={cta[i]} />)}
+      </div>
+      <div class="prose" style="margin-top:1.5rem">
+        {
+          top5NoGoogle.length > 0 && (
+            <p>
+              Une réserve de taille pour le {joinFr(top5NoGoogle.map((p) => p.fullName))} : pas de services Google, donc ni Play Store ni Google Photos. Son module photo mérite sa place, mais l’appareil s’adresse à des utilisateurs avertis.
+            </p>
+          )
+        }
+        <p>
+          Et l’iPhone Duo ? Avec {num(duo.scores.photo)}/10 en photo, il se classe {ordinal(rankOf(duo.id))}. Ses deux capteurs de 48 Mpx et sa vidéo 4K à 120 images par seconde le rendent polyvalent, mais l’absence de téléobjectif le tient loin du podium.
+          En vidéo, le Samsung Galaxy Z Fold8 Ultra et le Motorola Razr Fold vont plus loin, avec l’enregistrement en 8K.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap prose section">
+    <Faq items={faq} heading="Photo sur smartphone pliant : vos questions" />
+  </div>
+
+  <div class="wrap">
+    <Siblings
+      path={path}
+      variant="cards"
+      heading="Choisir un pliant selon un autre usage"
+      intro="La photo n’est pas votre priorité ? Nos autres classements reprennent les mêmes modèles avec d’autres critères."
+    />
+  </div>
+</BaseLayout>

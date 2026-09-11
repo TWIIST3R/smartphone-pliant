@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Avatar illustré de Théo Marceau">
+  <defs>
+    <clipPath id="c"><circle cx="128" cy="128" r="128"/></clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect width="256" height="256" fill="#fcebe4"/>
+    <circle cx="206" cy="52" r="46" fill="#f6d3c4"/>
+    <!-- buste -->
+    <path d="M36 256c4-52 40-78 92-78s88 26 92 78z" fill="#0f6d63"/>
+    <path d="M104 182c6 16 42 16 48 0l-4-10h-40z" fill="#e9b48f"/>
+    <path d="M100 186l28 26 28-26" fill="none" stroke="#0b4f48" stroke-width="5" stroke-linejoin="round"/>
+    <!-- cou -->
+    <rect x="110" y="146" width="36" height="36" rx="12" fill="#e2a57f"/>
+    <!-- oreilles -->
+    <ellipse cx="78" cy="118" rx="10" ry="14" fill="#e2a57f"/>
+    <ellipse cx="178" cy="118" rx="10" ry="14" fill="#e2a57f"/>
+    <!-- visage -->
+    <rect x="80" y="62" width="96" height="104" rx="46" fill="#edb894"/>
+    <!-- cheveux -->
+    <path d="M78 104c-4-40 22-60 54-60 30 0 52 16 50 46-10-14-30-20-52-16-20 3-36 12-52 30z" fill="#3b2a22"/>
+    <path d="M112 50c14-12 44-12 58 4-18-4-38-2-58-4z" fill="#4a352b"/>
+    <!-- barbe légère -->
+    <path d="M88 124c4 30 22 42 40 42s36-12 40-42c-8 14-22 20-40 20s-32-6-40-20z" fill="#b98a6c" opacity=".45"/>
+    <!-- lunettes -->
+    <rect x="90" y="104" width="32" height="24" rx="9" fill="#fff" fill-opacity=".35" stroke="#15171c" stroke-width="4"/>
+    <rect x="134" y="104" width="32" height="24" rx="9" fill="#fff" fill-opacity=".35" stroke="#15171c" stroke-width="4"/>
+    <path d="M122 114h12" stroke="#15171c" stroke-width="4"/>
+    <!-- yeux -->
+    <circle cx="106" cy="116" r="3.6" fill="#15171c"/>
+    <circle cx="150" cy="116" r="3.6" fill="#15171c"/>
+    <!-- sourcils -->
+    <path d="M94 98c8-5 18-5 26-1M136 97c8-4 18-4 26 1" fill="none" stroke="#3b2a22" stroke-width="4" stroke-linecap="round"/>
+    <!-- nez et sourire -->
+    <path d="M128 118c-2 8-4 14 2 16" fill="none" stroke="#c98d68" stroke-width="3" stroke-linecap="round"/>
+    <path d="M112 146c10 8 22 8 32 0" fill="none" stroke="#8c4a36" stroke-width="4" stroke-linecap="round"/>
+    <!-- pliant tenu en main -->
+    <g transform="rotate(-12 196 206)">
+      <rect x="170" y="176" width="26" height="54" rx="5" fill="#15171c"/>
+      <rect x="198" y="176" width="26" height="54" rx="5" fill="#e2471b"/>
+      <path d="M197 172v62" stroke="#fcebe4" stroke-width="2" stroke-dasharray="3 3"/>
+    </g>
+    <ellipse cx="188" cy="238" rx="20" ry="13" fill="#e2a57f"/>
+  </g>
+</svg>

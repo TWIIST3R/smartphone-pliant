@@ -1,0 +1,296 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import { byId, overall } from '../../data/phones';
+import { article, itemList } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const path = '/smartphone-pliant-google-pixel/';
+const title = 'Pixel Fold de Google : les 4 générations et lequel acheter';
+const description =
+  'Smartphone pliant Google : Pixel 11 Pro Fold (1 999 €, Tensor G6, 239 g) ou Pixel 10 Pro Fold (1 899 €, 5 015 mAh) ? Les 4 générations comparées.';
+
+const p11 = byId('pixel-11-pro-fold');
+const p10 = byId('pixel-10-pro-fold');
+
+const gens = [
+  {
+    year: '2023',
+    name: 'Pixel Fold',
+    href: null,
+    price: 'Non vendu en France',
+    chip: 'Tensor G2',
+    screens: '7,6" / 5,8"',
+    battery: '4 821 mAh',
+    weight: '283 g',
+    folded: '12,1 mm',
+    ip: 'IPX8',
+    note: 'Premier pliant de Google, format fermé court et large',
+  },
+  {
+    year: '2024',
+    name: 'Pixel 9 Pro Fold',
+    href: null,
+    price: '1 899 €',
+    chip: 'Tensor G4',
+    screens: '8" / 6,3"',
+    battery: '4 650 mAh',
+    weight: '257 g',
+    folded: '10,5 mm',
+    ip: 'IPX8',
+    note: 'Écran de 8 pouces, 16 Go de RAM, première sortie en France',
+  },
+  {
+    year: '2025',
+    name: 'Pixel 10 Pro Fold',
+    href: p10.path,
+    price: euro(p10.launchPrice),
+    chip: 'Tensor G5',
+    screens: '8" / 6,4"',
+    battery: '5 015 mAh',
+    weight: '258 g',
+    folded: '10,8 mm',
+    ip: 'IP68',
+    note: 'Charnière sans engrenage, premier pliant certifié IP68, Qi2',
+  },
+  {
+    year: '2026',
+    name: 'Pixel 11 Pro Fold',
+    href: p11.path,
+    price: euro(p11.launchPrice),
+    chip: 'Tensor G6',
+    screens: '8" / 6,5"',
+    battery: '4 806 mAh',
+    weight: '239 g',
+    folded: '10,1 mm',
+    ip: 'IP68',
+    note: '19 g de moins, verre intérieur plus épais, sans fil 25 W',
+  },
+];
+
+const faq = [
+  {
+    q: 'Le Google Pixel Fold est-il vendu en France ?',
+    a: 'Oui, depuis le Pixel 9 Pro Fold en septembre 2024. Le premier Pixel Fold, sorti en 2023, n’a jamais été commercialisé officiellement en France. En septembre 2026, Google propose chez nous le Pixel 11 Pro Fold, en vente depuis le 20 août 2026 à partir de 1 999 €, et le Pixel 10 Pro Fold, lancé le 9 octobre 2025 à 1 899 €.',
+  },
+  {
+    q: 'Quel est le prix du Pixel 11 Pro Fold en France ?',
+    a: 'Le Google Pixel 11 Pro Fold coûte 1 999 € en 256 Go, 2 129 € en 512 Go et 2 389 € en 1 To, avec 16 Go de mémoire vive dans les trois versions. C’est 100 € de plus que le prix de lancement du Pixel 10 Pro Fold en 256 Go, qui était de 1 899 €.',
+  },
+  {
+    q: 'Les Pixel Fold sont-ils étanches ?',
+    a: 'Les deux derniers le sont. Le Pixel 10 Pro Fold et le Pixel 11 Pro Fold sont certifiés IP68 : étanches à la poussière et résistants à l’immersion. Le Pixel Fold de 2023 et le Pixel 9 Pro Fold de 2024 n’étaient certifiés qu’IPX8, sans protection garantie contre la poussière, un point sensible pour la charnière d’un pliant.',
+  },
+  {
+    q: 'Combien d’années de mises à jour sur un Pixel Fold ?',
+    a: 'Google promet sept ans de mises à jour Android et de sécurité à ses Pixel depuis la série Pixel 8. Les Pixel 9 Pro Fold, Pixel 10 Pro Fold et Pixel 11 Pro Fold sont concernés, à compter de leur sortie. Un Pixel 11 Pro Fold sorti en août 2026 doit donc rester suivi jusqu’en 2033.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Google Pixel Fold', 'Pixel 11 Pro Fold', 'Pixel 10 Pro Fold', 'Smartphone pliant'] }),
+  itemList('Smartphones pliants Google Pixel vendus en France', [
+    { name: p11.fullName, url: p11.path },
+    { name: p10.fullName, url: p10.path },
+  ]),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Google · quatre générations de pliants</span>
+        <h1>Google Pixel Fold : de 2023 à 2026, ce qui a vraiment changé</h1>
+        <p class="lede">
+          Google vend aujourd’hui deux smartphones pliants en France : le Pixel 11 Pro Fold, sorti le 20 août 2026 à {euro(p11.launchPrice)}, et le Pixel 10 Pro Fold, lancé à {euro(p10.launchPrice)} en octobre 2025.
+          Tous deux combinent un zoom optique x5 et une certification IP68, un duo rare dans notre <a href="/">comparatif complet des smartphones pliants</a>.
+          Trois ans après un premier Pixel Fold jamais vendu officiellement chez nous, voici comment la gamme a évolué, et laquelle des deux générations acheter.
+        </p>
+        <Byline minutes={8} />
+      </div>
+    </header>
+
+    <section class="section-tight">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Quatre Pixel Fold en quatre ans : le tableau des générations</h2>
+          <p>
+            Le Pixel Fold a changé de format, de puce et de niveau de protection à chaque génération. Les données des modèles 2023 et 2024 proviennent des fiches publiées par Google et relevées par GSMArena ; celles des modèles 2025 et 2026 sont celles de notre base.
+          </p>
+        </div>
+        <div class="table-scroll" style="margin-top:1rem">
+          <table>
+            <caption class="sr-only">Évolution des générations de Google Pixel Fold de 2023 à 2026</caption>
+            <thead>
+              <tr>
+                <th scope="col">Année</th>
+                <th scope="col">Modèle</th>
+                <th scope="col">Prix de lancement en France</th>
+                <th scope="col">Puce</th>
+                <th scope="col">Écrans (int. / ext.)</th>
+                <th scope="col">Batterie</th>
+                <th scope="col">Poids</th>
+                <th scope="col">Épaisseur pliée</th>
+                <th scope="col">Protection</th>
+                <th scope="col">Évolution notable</th>
+              </tr>
+            </thead>
+            <tbody>
+              {gens.map((g) => (
+                <tr>
+                  <td class="num">{g.year}</td>
+                  <td><strong>{g.href ? <a href={g.href}>{g.name}</a> : g.name}</strong></td>
+                  <td class="num">{g.price}</td>
+                  <td>{g.chip}</td>
+                  <td class="num">{g.screens}</td>
+                  <td class="num">{g.battery}</td>
+                  <td class="num">{g.weight}</td>
+                  <td class="num">{g.folded}</td>
+                  <td>{g.ip}</td>
+                  <td class="small">{g.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="prose" style="margin-top:1.8rem">
+          <h3>2023 : un pliant trapu, réservé à quelques pays</h3>
+          <p>
+            Le premier Google Pixel Fold, présenté le 10 mai 2023 à la conférence Google I/O, voulait ressembler à un smartphone ordinaire une fois fermé : écran externe de 5,8 pouces, écran intérieur de 7,6 pouces plus large que haut.
+            Il pesait 283 g pour 12,1 mm d’épaisseur plié, avec la puce Tensor G2 des Pixel 7. Google ne l’a pas commercialisé en France. Il inaugurait pourtant un choix que la gamme n’a jamais abandonné : un téléobjectif x5.
+          </p>
+
+          <h3>2024 : le Pixel 9 Pro Fold change de silhouette et arrive en France</h3>
+          <p>
+            Sorti le 4 septembre 2024 à 1 899 € en 256 Go, le Pixel 9 Pro Fold abandonne le format court au profit d’un écran intérieur de 8 pouces et d’un écran externe de 6,3 pouces aux proportions classiques.
+            Le poids tombe à 257 g, l’épaisseur pliée à 10,5 mm, la mémoire vive grimpe à 16 Go. La recharge restait lente (21 W en filaire selon GSMArena) et la certification IPX8 ne couvrait que l’eau.
+          </p>
+
+          <h3>2025 : le Pixel 10 Pro Fold, premier pliant IP68</h3>
+          <p>
+            Le Pixel 10 Pro Fold, en vente en France depuis le 9 octobre 2025 au même prix de 1 899 €, adopte une charnière sans engrenage. Selon Google, c’est elle qui a permis d’obtenir la première certification IP68 de l’histoire des smartphones pliants.
+            Il reçoit aussi une batterie de 5 015 mAh, la charge filaire 30 W et la recharge Qi2 à 15 W. Le prix à payer : 258 g et 10,8 mm plié, un gabarit de poids lourd.
+          </p>
+
+          <h3>2026 : le Pixel 11 Pro Fold s’allège enfin</h3>
+          <p>
+            Annoncé le 12 août 2026, le Pixel 11 Pro Fold perd 19 g (239 g) et 0,7 mm (10,1 mm plié) par rapport au modèle 2025. Google l’équipe du Tensor G6, d’un écran externe de 6,5 pouces, d’un verre intérieur plus épais pour atténuer le pli et d’un dos en composite de fibre de verre.
+            La charge sans fil magnétique passe à 25 W. Seul recul sur le papier : la batterie redescend à 4 806 mAh.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap prose">
+        <h2 class="mt-0">Ce que Google fait différemment</h2>
+        <p>
+          Sur la fiche technique brute, les Pixel Fold ne gagnent pas : le Honor Magic V6 charge beaucoup plus vite, les Galaxy Z Fold8 sont plus fins. Google joue sur d’autres terrains.
+        </p>
+
+        <h3>Gemini fait partie du système</h3>
+        <p>
+          Google développe à la fois Android et Gemini, son assistant d’intelligence artificielle. Sur le Pixel 11 Pro Fold, Gemini est l’assistant par défaut, et les puces Tensor sont conçues pour exécuter une partie des modèles d’IA directement sur le téléphone.
+          Les autres marques Android proposent aussi Gemini, mais les nouvelles fonctions arrivent en général d’abord sur les Pixel.
+        </p>
+
+        <h3>La photo calculée plutôt que les capteurs géants</h3>
+        <p>
+          Le Pixel 11 Pro Fold se contente d’un capteur principal de 48 Mpx quand le Galaxy Z Fold8 Ultra monte à 200 Mpx. Google compense par le logiciel, qui fusionne plusieurs images à chaque cliché.
+          Le téléobjectif 10,8 Mpx x5 reste le zoom optique le plus long des pliants au format livre de notre comparatif.
+        </p>
+
+        <h3>IP68 : Google a ouvert la voie</h3>
+        <p>
+          Le Pixel 10 Pro Fold a été le premier pliant certifié IP68, c’est-à-dire étanche à la poussière et résistant à l’immersion. Le Pixel 11 Pro Fold garde cette certification.
+          Les Galaxy Z Fold8 de Samsung restent IP48 : le chiffre 4 ne protège que des particules de plus de 1 mm, pas du sable fin qui menace une charnière.
+        </p>
+
+        <h3>Sept ans de mises à jour</h3>
+        <p>
+          Depuis la série Pixel 8, Google garantit sept ans de mises à jour Android et de sécurité à partir de la sortie. Le Pixel 10 Pro Fold reste ainsi suivi jusqu’en 2032, le Pixel 11 Pro Fold jusqu’en 2033.
+          Samsung et Honor (en Europe) promettent désormais la même durée, mais les nouvelles versions d’Android arrivent d’abord sur les Pixel, sans délai d’adaptation d’une surcouche.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Les deux Pixel Fold en vente, fiche contre fiche</h2>
+          <p>
+            Sur la note globale, les deux modèles se tiennent en un dixième de point ({num(overall(p11))} contre {num(overall(p10))}). Le Pixel 11 Pro Fold prend l’avantage sur les écrans, la photo, la puissance et la portabilité ; le Pixel 10 Pro Fold garde une meilleure note d’autonomie et de rapport qualité/prix.
+          </p>
+        </div>
+        <div style="margin-top:1.2rem">
+          <CompareTable
+            phones={[p11, p10]}
+            caption="Comparatif du Pixel 11 Pro Fold et du Pixel 10 Pro Fold"
+            columns={['score', 'price', 'screens', 'chip', 'battery', 'charge', 'zoom', 'weight', 'thickness', 'ip']}
+            linkNames
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">11 Pro Fold ou 10 Pro Fold ?</h2>
+          <p>
+            Le choix se résume à 100 € d’écart au lancement, 19 g et une génération de puce. Pour le reste, les deux Google Pixel partagent l’essentiel : écran intérieur de 8 pouces, trio photo 48 + 10,5 + 10,8 Mpx avec zoom x5, charge filaire 30 W, 16 Go de mémoire vive et IP68.
+          </p>
+        </div>
+        <div class="grid" style="--min:300px;margin-top:1.2rem">
+          <div class="card">
+            <h3>Le Pixel 11 Pro Fold, si le poids vous a freiné</h3>
+            <p class="small">
+              À 239 g, le <a href={p11.path}>Google Pixel 11 Pro Fold</a> corrige le principal reproche fait au modèle précédent. Il ajoute le Tensor G6, plus récent pour un appareil que l’on garde sept ans, une charge sans fil magnétique à 25 W au lieu de 15 W et un verre intérieur épaissi contre le pli.
+              C’est le choix par défaut pour qui achète un Pixel pliant neuf en 2026.
+            </p>
+            <AmazonButton phone={p11} size="sm" label="Consulter l’offre" />
+          </div>
+          <div class="card">
+            <h3>Le Pixel 10 Pro Fold, si l’autonomie et le prix priment</h3>
+            <p class="small">
+              Le <a href={p10.path}>Google Pixel 10 Pro Fold</a> embarque la plus grosse batterie jamais montée dans un Pixel Fold (5 015 mAh) et se trouve souvent nettement moins cher depuis l’arrivée de son successeur.
+              Son Tensor G5 suffit pour la photo, la navigation et le multitâche, moins pour les jeux exigeants. Il faut accepter 258 g en poche.
+            </p>
+            <AmazonButton phone={p10} size="sm" variant="ghost" label="Voir les offres Amazon" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap prose section">
+      <Callout variant="tip" title="Et le Pixel 9 Pro Fold ?">
+        <p>
+          Si vous croisez le Pixel 9 Pro Fold de 2024 en promotion, gardez en tête ses limites : certification IPX8 sans protection contre la poussière, recharge sans fil à 7,5 W selon GSMArena et batterie de 4 650 mAh.
+          Il reste suivi jusqu’en 2031, mais à prix proche, le Pixel 10 Pro Fold est un bien meilleur achat.
+        </p>
+      </Callout>
+
+      <Faq items={faq} heading="Pixel Fold : quatre questions avant d’acheter" />
+
+      <p class="small muted" style="margin-top:2rem">
+        Notes attribuées selon <a href="/methodologie/">notre méthodologie</a>, à partir des données de Google et des tests publiés. Nous n’avons pas manipulé ces appareils.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="Les pliants des autres constructeurs"
+        intro="Google n’est pas seul sur le format livre : chaque marque a ses priorités."
+      />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,122 @@
+# Smartphone-Pliant.fr
+
+Site d'affiliation Amazon consacré aux smartphones pliants, construit avec [Astro](https://astro.build) en site 100 % statique (HTML pur, quasiment sans JavaScript).
+
+## Démarrer
+
+```bash
+npm install
+npm run dev          # aperçu local sur http://localhost:4321
+npm run build        # génère le site dans dist/
+npm run check-links  # vérifie le maillage du cocon sur dist/
+```
+
+Node.js 22.12 ou plus récent est requis.
+
+## Organisation
+
+| Dossier / fichier | Rôle |
+|---|---|
+| `src/data/phones.ts` | **Base produits** : fiches, prix de lancement, notes, points forts/faibles, requête ou ASIN Amazon |
+| `src/data/cocoon.ts` | **Arborescence du cocon sémantique** (mère, groupe, libellés des pages) |
+| `src/data/site.ts` | Nom, URL, tag Amazon, date de mise à jour, couleurs des marques |
+| `src/pages/` | Une page = un fichier `.astro` (contenu rédigé à la main) |
+| `src/components/` | Blocs réutilisables (tableaux, cartes, FAQ, boutons Amazon…) |
+| `src/pages/llms.txt.ts` | Génère `/llms.txt` pour les moteurs de réponse IA |
+| `public/` | `robots.txt`, `.htaccess` (OVH), favicon |
+| `scripts/check-links.mjs` | Contrôle automatique des règles du cocon |
+| `docs/guide-redactionnel.md` | Règles de rédaction, SEO/GEO et faits vérifiés |
+
+## Le cocon sémantique
+
+```
+Accueil (comparatif global) ─┬─ Formats   : clapet · format livre · tri-pliant
+                             ├─ Marques   : Apple · Samsung · Google · Motorola · Honor · Huawei · Xiaomi
+                             │              └─ Fiches produits (+ duel iPhone Duo vs Fold8)
+                             ├─ Budgets   : < 1 000 € · < 1 500 € · < 2 000 € · > 2 000 €
+                             └─ Usages    : photo · travail · autonomie · gaming · résistance
+```
+
+Règles appliquées (et vérifiées par `npm run check-links`) :
+
+1. la page mère lie toutes ses filles dans le contenu ;
+2. chaque fille lie sa mère en premier lien du contenu ;
+3. chaque page liste ses sœurs (même mère, même groupe) en bas de contenu ;
+4. aucun lien transversal entre silos (seules `/methodologie/` et `/a-propos/` sont autorisées partout).
+
+**Liens obfusqués** : pour que les visiteurs puissent ouvrir un test depuis l'accueil ou n'importe quel guide sans casser le cocon, les noms, vignettes et boutons « Lire le test complet » du tableau comparatif et des cartes produits sont des liens obfusqués (composant `ObfLink`) : cliquables pour l'humain (clic, Ctrl+clic, clic molette, touche Entrée), mais pas des liens `<a href>` pour les robots. Seules les pages marques pointent vers les tests avec de vrais liens.
+
+### Ajouter une page
+
+1. Déclarer la page dans `src/data/cocoon.ts` (chemin, `parent`, `group`, libellés).
+2. Si c'est un produit, l'ajouter dans `src/data/phones.ts`.
+3. Créer le fichier dans `src/pages/` en suivant `docs/guide-redactionnel.md`.
+4. Ajouter le lien vers la nouvelle fille dans le contenu de sa page mère.
+5. `npm run build && npm run check-links`.
+
+## Images des téléphones
+
+Chaque modèle a son dossier dans `src/assets/phones/` (le nom du dossier est l'`id` du modèle dans `phones.ts`).
+
+1. Déposez les photos dans le dossier du modèle en les nommant **`1.jpg`** (image principale : vignette du comparatif, cartes, en-tête du test) puis **`2.jpg`** (vue affichée dans le texte du test), `3.jpg`… Formats acceptés : jpg, png, webp, avif.
+2. Lancez `npm run build` : les photos sont détectées automatiquement, converties en WebP à plusieurs tailles et affichées partout, sur fond blanc et sans recadrage (idéal pour les visuels produits).
+3. Dès qu'un modèle a au moins 2 photos, une galerie apparaît dans la section design de son test : ajoutez `2.jpg`, `3.jpg`, `4.jpg` (dos, profil, fermé, coloris…) pour l'enrichir.
+
+Sans photo, le site affiche la silhouette du format. Pour un texte alternatif précis ou un crédit photo, les images peuvent aussi être déclarées dans `src/data/images.ts` (les images créditées apparaissent sur `/credits-images/`).
+
+> Rappel : le contrat du Programme Partenaires n'autorise l'affichage des images Amazon que via la Creators API (images servies depuis les serveurs d'Amazon, rafraîchies toutes les 24 h). Le choix des images utilisées relève de l'éditeur du site.
+
+## Tests et auteur
+
+- Les fiches produits sont des **tests sous forme de synthèses sourcées**. Les mesures et verdicts repris de la presse sont attribués et liés (composants `Measures` et `TestSources`), sans jamais prétendre à une prise en main.
+- Les pages sont signées **Théo Marceau**, nom de plume de la rédaction, avec un avatar illustré (`public/images/theo-marceau.svg`) et une page `/auteur/theo-marceau/`. Pour signer de votre vrai nom, modifiez `SITE.author` dans `src/data/site.ts`.
+
+## Blog « Actualités »
+
+- Articles en Markdown dans `src/content/actualites/<slug>.md` (schéma dans `src/content.config.ts`), publiés sur `/actualites/` (liste paginée), `/actualites/<slug>/` et `/actualites/rss.xml`.
+- **Publication programmée** : un article n'apparaît qu'une fois son `pubDate` passé. Le workflow GitHub `.github/workflows/deploy.yml` reconstruit et envoie le site sur OVH toutes les heures.
+- **Maillage hermétique** : les articles lient librement les pages du cocon ; seules les pages de dernier niveau (tests) affichent un lien vers les articles, via le bloc « Pour aller plus loin » alimenté par le champ `relatedTests`. L'accueil et les pages de niveau 1 n'ont que des liens obfusqués vers le blog (en-tête, pied de page). `npm run check-links` vérifie ces règles.
+- **Outils** :
+  - `node scripts/blog-status.mjs` : derniers articles, formats disponibles, sujets déjà traités ;
+  - `node scripts/blog-status.mjs --check <slug>` : contrôle complet d'un article ;
+  - `node scripts/pick-publish-time.mjs` : heure de publication aléatoire dans les créneaux parisiens.
+- **Routine quotidienne** : cahier des charges dans `docs/routine-blog.md` ; 15 formats d'article dans `src/data/blog-formats.json`.
+
+## Liens Amazon
+
+- Tag de suivi : `smartphone-pliant-21` (dans `src/data/site.ts`).
+- Par défaut, les boutons pointent vers une **recherche Amazon** du modèle. Pour un lien direct vers la fiche produit, renseignez le champ `asin` du modèle dans `phones.ts` (ex. `asin: 'B0XXXXXXX'`) : tous les boutons du site sont mis à jour.
+- Tous les liens portent `rel="sponsored nofollow noopener"`.
+- Le site n'affiche **jamais de prix Amazon** (interdit sans l'API Product Advertising) : uniquement les prix publics de lancement.
+
+## Mettre en ligne chez OVH
+
+### Option A — Hébergement web OVH (mutualisé)
+
+Le nom de domaine seul ne suffit pas : il faut un hébergement (l'offre Perso suffit largement).
+
+1. `npm run build`
+2. Connectez-vous en FTP/SFTP (identifiants dans l'espace client OVH › Hébergements › FTP-SSH), par exemple avec FileZilla.
+3. Envoyez **le contenu** du dossier `dist/` dans le dossier `www/` (y compris le fichier caché `.htaccess`).
+4. Dans l'espace client : Hébergements › Multisite, vérifiez que `smartphone-pliant.fr` et `www.smartphone-pliant.fr` pointent vers `www/`, puis activez le certificat SSL (Let's Encrypt gratuit).
+
+Le `.htaccess` force HTTPS, redirige `www` vers le domaine nu et gère la page 404 et le cache.
+
+### Option B — Hébergement statique gratuit (Cloudflare Pages, Netlify)
+
+Connectez le dépôt Git, commande de build `npm run build`, dossier de sortie `dist`. Ajoutez ensuite le domaine dans le service choisi et modifiez les enregistrements DNS dans la zone DNS OVH. Le `.htaccess` est ignoré : configurez la redirection `www` et HTTPS dans le service.
+
+## Avant le lancement
+
+- [ ] Compléter `src/pages/mentions-legales.astro` (éditeur, directeur de publication) — **obligatoire (LCEN)**.
+- [ ] Créer l'adresse `contact@smartphone-pliant.fr` (incluse avec l'hébergement OVH) ou remplacer l'adresse dans les pages.
+- [ ] Présenter l'auteur réel dans `src/pages/a-propos.astro` et, idéalement, remplacer « La rédaction » dans `src/data/site.ts` par un nom (signal E-E-A-T).
+- [ ] Renseigner les ASIN Amazon des modèles dans `phones.ts` dès qu'ils sont disponibles (iPhone Duo : après le 16 octobre 2026).
+- [ ] Déclarer le site dans Google Search Console et Bing Webmaster Tools (Bing alimente ChatGPT Search et Copilot), puis soumettre `https://smartphone-pliant.fr/sitemap-index.xml`.
+- [ ] Ajouter l'URL du site dans votre compte Partenaires Amazon (Gestion du compte › Sites web).
+
+## Maintenir le site
+
+- Après chaque lancement : mettre à jour `phones.ts`, la date `updated` dans `site.ts`, puis les pages concernées.
+- Le comparatif, les classements, `llms.txt`, le sitemap et les données structurées se recalculent automatiquement au build.
+- Pour ajouter une mesure d'audience, préférez une solution exemptée de consentement CNIL (Matomo configuré en mode exempté, par exemple) et mettez à jour `src/pages/confidentialite.astro`.

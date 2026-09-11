@@ -1,0 +1,43 @@
+---
+import { type Phone, type Scores, SCORE_LABELS, overall } from '../data/phones';
+import { num } from '../lib/format';
+import Score from './Score.astro';
+
+interface Props {
+  phone: Phone;
+  showOverall?: boolean;
+}
+
+const { phone, showOverall = true } = Astro.props;
+const keys = Object.keys(SCORE_LABELS) as (keyof Scores)[];
+---
+
+<div class="card">
+  {
+    showOverall && (
+      <div class="flex" style="margin-bottom:1rem">
+        <Score value={overall(phone)} size="lg" />
+        <div>
+          <strong>Note globale</strong>
+          <div class="small muted">
+            {phone.provisional ? 'Note provisoire, sur fiche technique' : 'Note éditoriale sur 10'} ·{' '}
+            <a href="/methodologie/">méthode</a>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  <dl class="bars">
+    {
+      keys.map((k) => (
+        <div class="bar">
+          <dt>{SCORE_LABELS[k]}</dt>
+          <dd class="bar-track" style="margin:0">
+            <div class="bar-fill" style={`width:${phone.scores[k] * 10}%`} />
+          </dd>
+          <dd class="num" style="margin:0;font-weight:750">{num(phone.scores[k])}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>

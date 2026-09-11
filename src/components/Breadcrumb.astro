@@ -1,0 +1,21 @@
+---
+import { ancestors, node } from '../data/cocoon';
+import { breadcrumb } from '../lib/schema';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const chain = ancestors(path);
+const current = node(path);
+const ld = { '@context': 'https://schema.org', ...breadcrumb(path) };
+---
+
+<nav class="crumbs wrap" aria-label="Fil d’Ariane">
+  <ol>
+    {chain.map((n) => <li><a href={n.path}>{n.label}</a></li>)}
+    <li aria-current="page">{current.label}</li>
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

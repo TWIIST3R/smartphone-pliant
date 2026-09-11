@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhoneCard from '../components/PhoneCard.astro';
+import CompareTable from '../components/CompareTable.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import { article, itemList } from '../lib/schema';
+import { euro, num, inches, mah, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-format-livre/';
+const livres = ranked(phones.filter((p) => p.format === 'livre'));
+const clapetCount = phones.filter((p) => p.format === 'clapet').length;
+const count = livres.length;
+const top5 = livres.slice(0, 5);
+const others = livres.slice(5);
+
+const fold8 = byId('galaxy-z-fold8');
+const fold8u = byId('galaxy-z-fold8-ultra');
+const duo = byId('iphone-duo');
+const v5 = byId('honor-magic-v5');
+const razrFold = byId('razr-fold');
+
+const list = (items: string[]) =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`;
+const pct = (p: Phone) => Math.round((p.outerScreen / p.innerScreen) * 100);
+const rankOf = (p: Phone) => livres.findIndex((x) => x.id === p.id) + 1;
+const ordinal = (n: number) => (n === 1 ? '1re' : `${n}e`);
+
+const notes: Record<string, string> = {
+  'galaxy-z-fold8': 'Écran intérieur au ratio 4:3, dit « large »',
+  'iphone-duo': 'Même ratio sur les deux écrans',
+  'galaxy-z-fold8-ultra': 'Écran externe allongé au ratio 21:9',
+  'razr-fold': 'Plus grand écran intérieur, externe à 165 Hz',
+  'pixel-11-pro-fold': 'Écrans jusqu’à 3 600 cd/m²',
+  'honor-magic-v6': 'Écran externe jusqu’à 6 000 cd/m²',
+};
+
+const screenRows = [...livres].sort((a, b) => pct(a) - pct(b));
+const narrow = livres.filter((p) => p.outerScreen >= 6);
+const narrowPct = narrow.map(pct);
+const inners = livres.map((p) => p.innerScreen);
+const biggestInner = [...livres].sort((a, b) => b.innerScreen - a.innerScreen)[0];
+const biggestOuter = [...livres].sort((a, b) => b.outerScreen - a.outerScreen)[0];
+
+const folded = livres.filter((p) => p.foldedMm !== null).sort((a, b) => (a.foldedMm ?? 0) - (b.foldedMm ?? 0));
+const thinnest = folded[0];
+const under9 = folded.filter((p) => (p.foldedMm ?? 99) < 9);
+const over10 = folded.filter((p) => (p.foldedMm ?? 0) > 10);
+const byWeight = [...livres].sort((a, b) => a.weight - b.weight);
+const lightest = byWeight[0];
+const heaviest = byWeight[byWeight.length - 1];
+const over230 = byWeight.filter((p) => p.weight > 230);
+const ip68 = livres.filter((p) => p.ip.includes('IP68'));
+const prices = livres.map((p) => p.launchPrice);
+const cheapest = [...livres].sort((a, b) => a.launchPrice - b.launchPrice)[0];
+const withMm = (p: Phone) => `${p.fullName} (${mm(p.foldedMm)})`;
+
+const title = `Smartphone pliant format livre : comparatif des ${count} modèles`;
+const description = `Galaxy Z Fold8, iPhone Duo, Razr Fold, Magic V6, Pixel 11 Pro Fold : ${count} pliants format livre comparés, écrans 4:3 ou allongés, épaisseur et prix.`;
+
+const schema = [
+  article({ path, title, description, about: ['Smartphone pliant format livre', 'Galaxy Z Fold', 'iPhone Duo'] }),
+  itemList(
+    'Sélection des meilleurs smartphones pliants au format livre',
+    top5.map((p) => ({ name: p.fullName, url: `${path}#${p.id}` })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <header class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Format livre · explications et sélection</span>
+      <h1>Format livre : quel pliant choisir, du Galaxy Z Fold8 à l’iPhone Duo ?</h1>
+      <p class="lede">
+        Fermé, un smartphone ; ouvert, une mini-tablette de {num(Math.min(...inners), 2)} à {num(Math.max(...inners), 2)} pouces. Le format livre est la famille
+        {count > clapetCount ? 'la plus fournie' : 'l’une des plus fournies'} de notre <a href="/">comparatif des smartphones pliants</a>, avec {count} modèles lancés entre {euro(Math.min(...prices))} et {euro(Math.max(...prices))}.
+        Avant de comparer les fiches, il faut comprendre ce qui les sépare vraiment : la forme de leurs écrans.
+      </p>
+      <Byline minutes={9} />
+    </div>
+  </header>
+
+  <div class="wrap cols-2">
+    <article class="prose">
+      <h2 class="mt-0" id="ratio">Format large 4:3 ou format étroit : deux façons de plier un écran</h2>
+      <p>
+        Tous les pliants au format livre ne s’ouvrent pas sur le même rectangle. Le {fold8.fullName} adopte un écran intérieur de {num(fold8.innerScreen)} pouces au ratio 4:3, que Samsung présente comme un format « large » :
+        fermé, l’appareil est plus court et plus trapu ; ouvert, la vidéo et la lecture exploitent mieux la surface.
+      </p>
+      <p>
+        Apple pousse la logique plus loin avec l’iPhone Duo : ses écrans de {num(duo.innerScreen)} et {num(duo.outerScreen)} pouces partagent le même ratio. Une application passe de l’un à l’autre en s’agrandissant, sans réorganiser sa mise en page.
+      </p>
+      <p>
+        En face, {narrow.length} modèles choisissent un grand écran intérieur de {num(Math.min(...narrow.map((p) => p.innerScreen)), 2)} à {num(Math.max(...narrow.map((p) => p.innerScreen)), 2)} pouces
+        et un écran externe allongé de {num(Math.min(...narrow.map((p) => p.outerScreen)), 2)} à {num(Math.max(...narrow.map((p) => p.outerScreen)), 2)} pouces, au ratio 21:9 sur le Galaxy Z Fold8 Ultra.
+        Fermés, ils ressemblent à un smartphone classique un peu plus étroit ; ouverts, ils offrent la plus grande surface. Le {biggestInner.fullName} détient le record avec {num(biggestInner.innerScreen)} pouces.
+      </p>
+
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Taille et forme des écrans des smartphones pliants au format livre</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Intérieur</th>
+              <th scope="col">Externe</th>
+              <th scope="col">Externe / intérieur</th>
+              <th scope="col">Famille</th>
+              <th scope="col">À retenir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              screenRows.map((p) => (
+                <tr>
+                  <td><strong>{p.fullName}</strong></td>
+                  <td class="num">{inches(p.innerScreen)}</td>
+                  <td class="num">{inches(p.outerScreen)}</td>
+                  <td class="num">{pct(p)} %</td>
+                  <td>{p.outerScreen < 6 ? 'Large, fermé court' : 'Étroit, fermé allongé'}</td>
+                  <td class="small">{notes[p.id] ?? '—'}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le rapport entre les deux diagonales résume la différence : {pct(fold8)} % sur le Fold8, {pct(duo)} % sur l’iPhone Duo, de {Math.min(...narrowPct)} à {Math.max(...narrowPct)} % sur les autres modèles.
+        Plus il est élevé, plus l’écran externe se rapproche de celui d’un smartphone ordinaire.
+      </p>
+
+      <h2 id="ecran-externe">L’écran externe, la moitié oubliée du format livre</h2>
+      <p>
+        Un pliant au format livre passe une bonne partie de la journée fermé, dans la poche ou à la main. C’est alors l’écran externe qui sert pour un appel, un paiement ou un message rapide.
+        Trop étroit, il oblige à ouvrir l’appareil pour la moindre saisie, et c’est la charnière qui travaille.
+      </p>
+      <p>
+        Samsung illustre le dilemme avec ses deux Fold 2026. Le Galaxy Z Fold8 Ultra offre un écran externe de {num(fold8u.outerScreen)} pouces utilisable comme celui d’un smartphone classique ;
+        le Galaxy Z Fold8, avec {num(fold8.outerScreen)} pouces, gagne en compacité : son écran externe est plus large mais nettement moins haut. En échange, il pèse {fold8.weight} g, {fold8u.weight - fold8.weight} g de moins que l’Ultra.
+      </p>      <p>
+        Motorola va dans l’autre sens avec le {biggestOuter.fullName} : {num(biggestOuter.outerScreen)} pouces à l’extérieur, à 165 Hz, le plus grand écran externe de la sélection.
+        L’iPhone Duo contourne le problème par le logiciel, avec le même ratio dehors et dedans et une densité de 460 ppi sur son écran de 5,4 pouces.
+        Honor mise sur la luminosité, jusqu’à 6 000 cd/m² sur l’écran externe du Magic V6, et Google annonce jusqu’à 3 600 cd/m² sur le Pixel 11 Pro Fold.
+      </p>
+      <p>
+        Notre conseil : si vous tapez beaucoup téléphone fermé, visez un écran externe de 6,4 pouces ou plus. Si vous ouvrez surtout l’appareil pour lire ou regarder des vidéos, le format large du Fold8 ou de l’iPhone Duo a du sens.
+      </p>
+
+      <h2 id="comparatif">Les {count} pliants format livre face à face</h2>
+      <p>
+        Classement par note globale, calculée selon notre <a href="/methodologie/">méthodologie</a>. Les prix sont ceux du lancement en France, en configuration de base.
+      </p>
+      <CompareTable
+        phones={livres}
+        caption="Comparatif des smartphones pliants au format livre vendus en France"
+        columns={['screens', 'battery', 'weight', 'thickness', 'ip', 'price']}
+        cta={false}
+      />
+      <p style="margin-top:1rem">
+        Trois chiffres ressortent. Le {thinnest.fullName} est le plus fin fermé ({mm(thinnest.foldedMm)}), le {lightest.fullName} le plus léger ({lightest.weight} g),
+        et {ip68.length} modèles seulement sont certifiés IP68 : {list(ip68.map((p) => p.fullName))}. À l’autre bout, le {heaviest.fullName} pèse {heaviest.weight} g et l’iPhone Duo atteint {mm(duo.foldedMm)} fermé.
+      </p>
+
+      <h2 id="selection">Notre top 5 du format livre</h2>
+      <p>Ces cinq modèles cumulent les meilleures notes, chacun avec sa concession : le prix, le poids ou l’étanchéité.</p>
+      <div class="stack">
+        {top5.map((p, i) => <PhoneCard phone={p} rank={i + 1} ctaLabel="Vérifier le prix" />)}
+      </div>
+      <p style="margin-top:1.5rem">
+        Le {top5[0].fullName} domine grâce à sa batterie de {mah(top5[0].battery)} et à sa charge {top5[0].wired}. Classé {ordinal(rankOf(razrFold))}, le {razrFold.fullName}, premier format livre de Motorola,
+        frappe fort : {mah(razrFold.battery)}, charge {razrFold.wired}, trois capteurs 50 Mpx dont un téléobjectif x3 et un stylet fourni, pour {euro(razrFold.launchPrice)} en version unique {razrFold.launchConfig}.
+        {
+          overall(razrFold) === overall(v5)
+            ? `Il partage sa note (${num(overall(razrFold))}) avec le ${v5.fullName}, lancé ${euro(razrFold.launchPrice - v5.launchPrice)} moins cher et dont le prix a nettement baissé depuis l’arrivée du Magic V6.`
+            : `Le ${v5.fullName}, lancé ${euro(razrFold.launchPrice - v5.launchPrice)} moins cher, a vu son prix nettement baisser depuis l’arrivée du Magic V6.`
+        }
+      </p>
+      <p>
+        Hors du top 5 : {list(others.map((p) => p.fullName))}. Ce n’est pas un désaveu. L’iPhone Duo n’a qu’une note provisoire avant sa sortie du 23 octobre 2026, le Galaxy Z Fold8 reste le plus léger de tous,
+        et les deux Pixel gardent le zoom le plus long de la catégorie (x5).
+      </p>
+
+      <h2 id="epaisseur">Quelle épaisseur accepter une fois plié ?</h2>
+      <p>
+        Sous 9 mm, un format livre fermé se glisse dans une poche comme un smartphone un peu épais. C’est le cas du {list(under9.map(withMm))}.
+        Au-delà de 10 mm, l’épaisseur se remarque : {list(over10.map(withMm))}.
+      </p>
+      <p>
+        Curiosité de la gamme Samsung : le Galaxy Z Fold8, plus petit, est plus épais fermé ({mm(fold8.foldedMm)}) que le Fold8 Ultra ({mm(fold8u.foldedMm)}). Le format large ne rime donc pas avec finesse.
+        Le Razr Fold, à {mm(razrFold.foldedMm)}, se place entre les deux groupes.
+      </p>
+      <p>
+        Le poids suit une autre logique : de {lightest.weight} g pour le {lightest.fullName} à {heaviest.weight} g pour le {heaviest.fullName}.
+        Les modèles au-delà de 230 g ({list(over230.map((p) => `${p.name}, ${p.weight} g`))}) se sentent davantage en lecture à une main.
+      </p>
+
+      <h2 id="zoom">Un téléobjectif est-il indispensable à ce prix ?</h2>
+      <p>
+        Pour un appareil lancé autour de 2 000 €, l’absence de zoom optique surprend. Le Galaxy Z Fold8 n’en a pas, et l’iPhone Duo se contente d’un zoom x2 obtenu par recadrage de son capteur de 48 Mpx.
+        Tous les autres modèles embarquent un vrai téléobjectif : x3 sur les Galaxy Z Fold8 Ultra et Fold7 et sur le Razr Fold, périscope x3 chez Honor, x3,5 sur le Huawei Mate X7 et x5 sur les deux Pixel.
+      </p>
+      <p>
+        Si vous photographiez surtout des paysages, des documents ou vos proches, le capteur principal et l’ultra grand-angle suffisent. Pour un concert, un match ou un détail d’architecture, un zoom optique x3 minimum change nettement le résultat.      </p>
+
+      <h2 id="logiciel">iOS ou Android : qui exploite le mieux le grand écran ?</h2>
+      <p>
+        Android garde une longueur d’avance sur le multitâche : les pliants Android affichent plusieurs applications côte à côte depuis les premiers Galaxy Fold, et le Razr Fold est même livré avec le stylet Moto Pen Ultra.
+        iOS 27 permet pour la première fois sur iPhone d’afficher deux applications côte à côte, sur l’iPhone Duo.
+      </p>
+      <p>
+        Le suivi logiciel compte aussi sur un appareil que l’on garde longtemps : Samsung promet 7 ans de mises à jour Android sur ses pliants récents, et Motorola autant sur le Razr Fold.
+        Le Huawei Mate X7, malgré un matériel haut de gamme, fonctionne sans services Google (Play Store, Gmail, Maps) et sans 5G.
+      </p>
+      <p>
+        Le format livre ne vous convainc pas ? Le <a href="/smartphone-pliant-clapet/">smartphone pliant à clapet</a> privilégie la compacité pour un budget moindre, et le
+        <a href="/smartphone-tri-pliant/">smartphone tri-pliant</a> pousse la surface d’affichage jusqu’à 10,2 pouces.
+      </p>
+    </article>
+
+    <aside class="sticky">
+      <div class="card">
+        <strong>Sommaire</strong>
+        <nav class="toc" aria-label="Sommaire">
+          <ol>
+            <li><a href="#ratio">Format large ou étroit</a></li>
+            <li><a href="#ecran-externe">L’écran externe</a></li>
+            <li><a href="#comparatif">Le tableau comparatif</a></li>
+            <li><a href="#selection">Notre top 5</a></li>
+            <li><a href="#epaisseur">Épaisseur et poids</a></li>
+            <li><a href="#zoom">Le téléobjectif</a></li>
+            <li><a href="#logiciel">iOS ou Android</a></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <strong>Repères</strong>
+        <ul class="small" style="padding-left:1.1rem;margin:.6rem 0 0">
+          <li>Le moins cher au lancement : {cheapest.fullName}, {euro(cheapest.launchPrice)}</li>
+          <li>Le plus grand écran : {biggestInner.fullName}, {num(biggestInner.innerScreen)} pouces</li>
+          <li>Le plus fin plié : {thinnest.fullName}, {mm(thinnest.foldedMm)}</li>
+          <li>Le plus léger : {lightest.fullName}, {lightest.weight} g</li>
+          <li>Certifiés IP68 : {ip68.length} sur {count}</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="wrap">
+    <Siblings path={path} variant="cards" heading="Clapet ou tri-pliant : les autres formats" />
+  </div>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import type { Phone } from '../data/phones';
+import { amazonUrl, AFFILIATE_REL } from '../lib/affiliate';
+
+interface Props {
+  phone?: Phone;
+  query?: string;
+  label?: string;
+  variant?: 'primary' | 'ghost' | 'text';
+  size?: 'sm' | 'md';
+}
+
+const { phone, query, label = 'Voir le prix sur Amazon', variant = 'primary', size = 'md' } = Astro.props;
+const href = amazonUrl(phone ?? query ?? '');
+const cls =
+  variant === 'text'
+    ? ''
+    : ['btn', variant === 'primary' ? 'btn-amazon' : 'btn-ghost', size === 'sm' ? 'btn-sm' : ''].join(' ');
+---
+
+<a class={cls} href={href} rel={AFFILIATE_REL} target="_blank" data-affiliate="amazon">
+  {label}
+  {
+    variant !== 'text' && (
+      <svg viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    )
+  }
+</a>

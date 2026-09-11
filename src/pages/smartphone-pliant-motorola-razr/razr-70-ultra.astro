@@ -1,0 +1,403 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('razr-70-ultra');
+const old = byId('razr-60-ultra');
+const plus = byId('razr-70-plus');
+const base = byId('razr-70');
+const fold = byId('razr-fold');
+const flip8 = byId('galaxy-z-flip8');
+const flip7 = byId('galaxy-z-flip7');
+const mix = byId('xiaomi-mix-flip');
+const path = p.path;
+const title = 'Test du Motorola Razr 70 Ultra : mesures et verdict';
+const description =
+  'Test du Motorola Razr 70 Ultra : 16 h 32 d’autonomie, charge en 46 min, Delta E de 1,22, chauffe sous charge. Les mesures publiées, puis le verdict.';
+
+const GSMA = 'https://www.gsmarena.com/motorola_razr_70_ultra-review-2972.php';
+const GSMA_DESIGN = 'https://www.gsmarena.com/motorola_razr_70_ultra-review-2972p2.php';
+const GSMA_LAB = 'https://www.gsmarena.com/motorola_razr_70_ultra-review-2972p3.php';
+const GSMA_PERF = 'https://www.gsmarena.com/motorola_razr_70_ultra-review-2972p4.php';
+const GSMA_SPECS = 'https://www.gsmarena.com/motorola_razr_70_ultra-14641.php';
+const NBC = 'https://www.notebookcheck.net/Premium-foldable-barely-has-innovation-yet-still-impresses-Motorola-Razr-Ultra-2026-Razr-70-Ultra-smartphone-review.1353565.0.html';
+const TA = 'https://www.techadvisor.com/article/3181570/motorola-razr-70-ultra-review.html';
+const TG = 'https://www.tomsguide.com/phones/motorola-phones/motorola-razr-ultra-2026-review';
+const AA = 'https://www.androidauthority.com/motorola-razr-ultra-2026-review-3678181/';
+const TECHRADAR = 'https://global.techradar.com/fr-fr/phones/motorola-phones/test-du-motorola-razr-70-ultra-un-pliable-premium-qui-met-samsung-sous-pression';
+const EPREL = 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2631202_EN.pdf';
+const MOTO_SPECS = 'https://en-emea.support.motorola.com/app/answers/detail/a_id/192853/~/specifications---motorola-razr-70-ultra';
+const LESMOBILES = 'https://www.lesmobiles.com/actualite/motorola-razr-70-une-nouvelle-generation-de-smartphones-pliants-en-trois-versions';
+const MOTO_CARE = 'https://www.motorola.com/fr/fr/motocare';
+
+const measures = [
+  { label: 'Score d’usage actif (autonomie)', value: '16 h 32', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Navigation web continue en 5G (écran à 150 cd/m²)', value: '16 h 20', source: 'Tom’s Guide', url: TG },
+  { label: 'Navigation Wi-Fi, écart avec le Razr 60 Ultra', value: 'environ + 50 min', source: 'Notebookcheck', url: NBC },
+  { label: 'Charge 68 W : 15 min / 30 min', value: '45 % / 73 %', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge : 15 min / 30 min', value: '42 % / 74 %', source: 'Tom’s Guide', url: TG },
+  { label: 'Charge complète (0 à 100 %)', value: '46 min', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Charge en 30 min (chargeur Anker 100 W)', value: '51 %', source: 'Tech Advisor', url: TA },
+  { label: 'Puissance relevée avec un chargeur Motorola 68 W', value: 'moins de 30 W', source: 'Android Authority', url: AA },
+  { label: 'Luminosité max. manuelle (intérieur / externe)', value: '497 / 483 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité en mode auto (intérieur / externe)', value: '1 486 / 1 122 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité minimale, écran externe', value: 'environ 2,8 cd/m²', source: 'GSMArena', url: GSMA_LAB },
+  { label: 'Luminosité maximale, écran intérieur', value: '1 436 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E ColorChecker / niveaux de gris', value: '1,22 / 1,9', source: 'Notebookcheck', url: NBC },
+  { label: 'Scintillement PWM, écran intérieur', value: '142,7 Hz', source: 'Notebookcheck', url: NBC },
+  { label: 'Geekbench 6, mono / multicœur', value: '2 956 / 8 651', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Geekbench 6, mono / multicœur', value: '3 011 / 7 842', source: 'Notebookcheck', url: NBC },
+  { label: 'AnTuTu v11', value: '2 841 165', source: 'GSMArena', url: GSMA_PERF },
+  { label: '3DMark Wild Life Extreme', value: '5 865', source: 'GSMArena', url: GSMA_PERF },
+  { label: '3DMark Wild Life Extreme', value: '6 241', source: 'Notebookcheck', url: NBC },
+  { label: '3DMark Wild Life Unlimited', value: '24 523', source: 'Notebookcheck', url: NBC },
+  { label: 'GFXBench Aztec Ruins Normal / High (à l’écran)', value: '109 / 95 i/s', source: 'Notebookcheck', url: NBC },
+  { label: 'Stress test graphique', value: 'interrompu (surchauffe)', source: 'GSMArena', url: GSMA_PERF },
+  { label: 'Wi-Fi 7, débit émission / réception', value: '1 420 / 1 788 Mbit/s', source: 'Notebookcheck', url: NBC },
+  { label: 'Endurance par cycle, étiquette énergie UE', value: '51 h', source: 'EPREL', url: EPREL },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: GSMA,
+    date: '2026-06-24',
+    note: '4,3/5',
+    verdict:
+      'Un clapet très compétitif grâce à une autonomie en tête de catégorie, la charge la plus rapide du format et un écran externe complet ; chauffe sous charge, haut-parleurs en recul et suivi trop court pour le prix.',
+  },
+  {
+    media: 'Tom’s Guide',
+    url: TG,
+    date: '2026-06-22',
+    note: '3,5/5',
+    verdict:
+      'Le pliant le plus endurant jamais passé par son test de batterie, élégant et pratique pour filmer, mais une puce reconduite sans nouveauté majeure et une hausse de prix qui le rendent difficile à conseiller face au modèle 2025.',
+  },
+  {
+    media: 'Android Authority',
+    url: AA,
+    date: '2026-06-24',
+    verdict:
+      'Toujours le meilleur clapet si le budget ne compte pas, avec une batterie en progrès, un excellent écran externe et des photos flatteuses ; la charge n’atteint pas sa puissance annoncée et le modèle 2025 offre l’essentiel pour moins cher.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: NBC,
+    date: '2026-07-28',
+    note: '85 %',
+    verdict:
+      'Presque rien de neuf face au Razr 60 Ultra, mais une charnière soignée, des écrans lumineux et fidèles et une autonomie en progrès ; prix en hausse, photo et zoom moyens, port USB 2.0 daté.',
+  },
+  {
+    media: 'Tech Advisor',
+    url: TA,
+    date: '2026-07-23',
+    verdict:
+      'L’un des meilleurs clapets du moment pour son design et son endurance, freiné par des progrès photo timides, des applications superflues et une hausse de prix peu justifiée par le matériel.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Motorola Razr 70 Ultra ?',
+    a: 'GSMArena attribue au Motorola Razr 70 Ultra un score d’usage actif de 16 h 32, le meilleur des clapets passés par son protocole, contre 15 h 10 pour le Razr 60 Ultra. Tom’s Guide mesure 16 h 20 en navigation continue, son record pour un pliant, et Notebookcheck environ 50 minutes de plus que le modèle 2025 en navigation Wi-Fi.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Razr 70 Ultra ?',
+    a: 'Avec un chargeur 68 W, GSMArena mesure 45 % en 15 minutes, 73 % en 30 minutes et une charge complète en 46 minutes. Le chargeur n’est pas fourni dans la boîte européenne selon le même site, et Android Authority n’a pas dépassé 30 W avec un bloc Motorola. Le Motorola Razr 70 Ultra accepte aussi la charge sans fil jusqu’à 30 W.',
+  },
+  {
+    q: 'Le Motorola Razr 70 Ultra chauffe-t-il ?',
+    a: 'Sous forte charge, oui. GSMArena relève un bridage important du processeur et une surchauffe qui interrompt son stress test graphique, Tech Advisor n’a pas pu terminer ses benchmarks et Android Authority aucun des stress tests de 3DMark. Notebookcheck mesure au contraire moins de chauffe que sur le Razr 60 Ultra. Les longues sessions de jeu 3D sont l’usage le plus exposé.',
+  },
+  {
+    q: 'Le Motorola Razr 70 Ultra est-il étanche ?',
+    a: 'Le Motorola Razr 70 Ultra est certifié IP48 : il supporte une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, selon sa fiche EPREL et GSMArena. La protection contre la poussière se limite aux particules de plus de 1 mm, si bien que le sable et la poussière fine peuvent atteindre la charnière. Mieux vaut le ranger dans sa coque à la plage.',
+  },
+  {
+    q: 'Combien de temps le Razr 70 Ultra sera-t-il mis à jour ?',
+    a: 'Les chiffres varient selon la source. La fiche d’assistance européenne de Motorola indique jusqu’à trois ans de mises à jour d’Android et des correctifs de sécurité jusqu’en février 2030. GSMArena parle de cinq ans de correctifs pour l’Europe, et la fiche EPREL du Motorola Razr 70 Ultra affiche six ans de disponibilité minimale des mises à jour. Samsung promet sept ans sur ses pliants récents.',
+  },
+  {
+    q: 'Quels coloris pour le Razr 70 Ultra en France ?',
+    a: 'En France, le Motorola Razr 70 Ultra est vendu en 16 Go / 512 Go à 1 499 € dans deux finitions Pantone : Orient Blue, avec un dos en Alcantara, et Cocoa, avec un placage de bois naturel. Les deux versions partagent la même fiche technique ; seul le matériau du dos change, et Tech Advisor place ces finitions parmi les qualités du téléphone.',
+  },
+  {
+    q: 'Razr 70 Ultra ou Razr 60 Ultra : lequel acheter ?',
+    a: 'Les deux Motorola partagent le Snapdragon 8 Elite, la charge 68 W, les écrans 165 Hz et le poids de 199 g. Le Razr 70 Ultra gagne 300 mAh, 1 h 22 au score d’autonomie de GSMArena, un nouveau capteur photo principal et un an de suivi logiciel, pour 200 € de plus au lancement. Un Razr 60 Ultra vendu nettement moins cher reste un choix rationnel.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Motorola Razr 70 Ultra', 'Motorola', 'Smartphone pliant à clapet'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test complet · les chiffres avant l’avis</span>
+        <h1>Test complet du Motorola Razr 70 Ultra : les chiffres d’abord</h1>
+        <ProductSummary phone={p} ctaLabel="Vérifier le prix du Razr 70 Ultra" />
+        <p class="lede">
+          Lancé en mai 2026 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Motorola Razr 70 Ultra est le clapet le plus cher de la <a href="/smartphone-pliant-motorola-razr/">famille des Razr pliants de Motorola</a>. GSMArena, Tom’s Guide, Android Authority, Tech Advisor et Notebookcheck l’ont passé au crible entre juin et juillet 2026 : 16 h 32 d’autonomie, 46 minutes pour faire le plein, mais une puce qui chauffe sous charge. Cette page commence par leurs mesures, déroule chaque critère et garde le verdict pour la fin.
+        </p>
+        <Byline minutes={17} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <KeyFacts
+        items={[
+          { label: 'Autonomie (GSMArena)', value: '16 h 32' },
+          { label: 'Charge complète (GSMArena)', value: '46 min' },
+          { label: 'Delta E (Notebookcheck)', value: '1,22' },
+          { label: 'Écrans', value: '7" / 4" à 165 Hz' },
+          { label: 'Poids', value: `${p.weight} g` },
+          { label: 'Prix de lancement', value: euro(p.launchPrice) },
+        ]}
+      />
+    </div>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Les mesures publiées sur le Razr 70 Ultra</h2>
+      <p>
+        Le tableau réunit les mesures des cinq médias qui ont testé le Motorola Razr 70 Ultra, complétées par la fiche européenne EPREL. Les protocoles diffèrent : score d’usage actif composite chez GSMArena, navigation web en 5G chez Tom’s Guide, navigation Wi-Fi chez Notebookcheck, chargeur tiers de 100 W chez Tech Advisor. Comparez les valeurs d’une même source et fiez-vous aux écarts plus qu’aux chiffres absolus.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Motorola Razr 70 Ultra" />
+      <p><AmazonButton phone={p} label="Vérifier la disponibilité" size="sm" variant="ghost" /></p>
+
+      <h2>16 h 32 et 46 minutes : autonomie et charge</h2>
+      <p>
+        Le Motorola Razr 70 Ultra obtient un score d’usage actif de 16 h 32 chez GSMArena, qui le place en tête des clapets pour l’autonomie et nettement devant le Galaxy Z Flip7. Sa batterie de 5 000 mAh en silicium-carbone gagne 300 mAh sur le <a href={old.path}>Razr 60 Ultra</a>, qui plafonnait à 15 h 10 au même protocole. Notebookcheck confirme le progrès avec environ 50 minutes de plus que le modèle 2025 dans son test de navigation Wi-Fi.
+      </p>
+      <p>
+        Tom’s Guide arrive au même constat avec sa navigation web continue en 5G, écran calibré à 150 cd/m² : 16 h 20, le pliant le plus endurant de son protocole, 38 minutes de mieux que le Razr 60 Ultra, vendu aux États-Unis sous le nom de Razr Ultra 2025, et devant le Razr Fold.
+      </p>
+      <p>
+        Dans la vie réelle, Tech Advisor tient une grosse journée d’utilisation intensive, du matin au soir, et Notebookcheck qualifie l’autonomie de suffisante. Pour un clapet, dont la batterie doit se loger dans deux demi-coques étroites, ce niveau reste peu courant.
+      </p>
+      <p>
+        La charge est le second atout chiffré. Avec le chargeur 68 W, GSMArena mesure 45 % en 15 minutes, 73 % en 30 minutes et une charge complète en 46 minutes, le clapet le plus rapide qu’il ait testé ; Tom’s Guide obtient 42 % et 74 %. Tech Advisor, sur un chargeur Anker de 100 W, n’atteint que 51 % en 30 minutes, et Android Authority n’a jamais dépassé 30 W avec un chargeur Motorola de 68 W : le chargeur utilisé pèse lourd. Aucun bloc n’est fourni dans la boîte européenne selon GSMArena. La charge sans fil de 30 W et la charge inversée de 5 W complètent l’équipement.
+      </p>
+
+      <h2>165 Hz et un Delta E de 1,22 : les écrans</h2>
+      <p>
+        Les deux écrans du Motorola Razr 70 Ultra affichent jusqu’à 165 Hz. La dalle intérieure de 7 pouces, en LTPO et 1 224 × 2 992 pixels, est annoncée à 5 000 cd/m² en pointe HDR ; l’écran externe de 4 pouces, en 1 272 × 1 080 pixels, à 3 000 cd/m², sous un verre Gorilla Glass Ceramic.
+      </p>
+      <p>
+        Les mesures sont plus sages que la fiche. En réglage manuel, GSMArena relève 497 cd/m² à l’intérieur et 483 cd/m² à l’extérieur ; en mode automatique, 1 486 et 1 122 cd/m². Notebookcheck mesure un maximum de 1 436 cd/m² sur l’écran principal. GSMArena range d’ailleurs la luminosité de pointe de l’écran intérieur parmi les défauts, face à une concurrence plus lumineuse.
+      </p>
+      <p>
+        La fidélité des couleurs, elle, ne souffre aucune critique : Notebookcheck obtient un Delta E de 1,22 sur le ColorChecker et de 1,9 sur les niveaux de gris, des écarts imperceptibles à l’œil nu. Le site détecte en revanche un scintillement PWM à 142,7 Hz, plus marqué sur l’écran externe. Si vous êtes sensible au scintillement, essayez le téléphone en magasin avant de l’acheter.
+      </p>
+      <p>
+        L’écran externe reste l’argument maître du Razr. GSMArena le juge pleinement exploitable, avec de vraies applications, des widgets et un viseur photo, et Android Authority le range parmi les points forts. GSMArena y utilise l’affichage de bureau, Google Maps, la musique ou le navigateur, en trouvant certaines manipulations laborieuses sur une si petite surface, et lui reproche une luminosité minimale d’environ 2,8 cd/m², un peu élevée dans le noir. Le Galaxy Z Flip8 propose une diagonale à peine plus grande, avec 4,1 pouces.
+      </p>
+
+      <h2>8 651 points, puis un stress test abandonné : les performances</h2>
+      <p>
+        Le Motorola Razr 70 Ultra conserve le Snapdragon 8 Elite du Razr 60 Ultra, là où le Honor Magic V6 et le Galaxy Z Fold8 Ultra passent au Snapdragon 8 Elite Gen 5. En pointe, la puce reste très rapide : GSMArena mesure 2 956 points en monocœur et 8 651 en multicœur sur Geekbench 6, et 2 841 165 points sur AnTuTu v11. Notebookcheck obtient 3 011 et 7 842 points, 6 241 points sur 3DMark Wild Life Extreme, 24 523 sur Wild Life Unlimited, et 109 puis 95 images par seconde sur GFXBench Aztec Ruins en qualité normale et élevée.
+      </p>
+      <p>
+        Le problème vient de la durée. GSMArena constate un bridage important du processeur et une surchauffe avant la fin du stress test graphique ; Tech Advisor n’a pas pu boucler ses benchmarks et Android Authority n’a terminé aucun stress test 3DMark, tout en décrivant un téléphone resté frais en usage réel. Notebookcheck se montre plus clément et note une chauffe moindre que sur le modèle précédent.
+      </p>
+      <p>
+        Aucun des tests consultés ne détaille de session sur un jeu précis. Pour la navigation, les réseaux sociaux ou la photo, ils ne signalent pas de ralentissement ; pour les longues parties de jeu 3D, un clapet de 7,2 mm d’épaisseur ouvert ne dissipe pas la chaleur comme un smartphone classique.
+      </p>
+
+      <h2>Deux capteurs de 50 Mpx, pas de téléobjectif : la photo</h2>
+      <p>
+        Le Motorola Razr 70 Ultra associe un capteur principal de 50 Mpx stabilisé et un ultra grand-angle de 50 Mpx à 122°, plus une caméra selfie de 50 Mpx dans l’écran intérieur. Le capteur principal est nouveau : GSMArena l’identifie comme un OmniVision OV50T, présenté comme un capteur LOFIC à grande plage dynamique lors des prises en main de TechRadar et du Journal du Geek. D’après la <a href={GSMA_SPECS} target="_blank" rel="noopener">fiche de GSMArena</a>, il mesure 1/1,56 pouce et ouvre à f/1,8.
+      </p>
+      <p>
+        De jour, GSMArena décrit des images contrastées, des couleurs vives, une plage dynamique en progrès et un meilleur détourage en mode portrait que sur le Razr 60 Ultra. De nuit, le site juge le capteur principal exemplaire en focale native ; le zoom x2, obtenu par recadrage, devient plus doux sous l’effet d’un renforcement de netteté appuyé. L’ultra grand-angle gagne en piqué par rapport à la génération précédente, mais laisse des ombres bouchées dans l’obscurité.
+      </p>
+      <p>
+        Deux bémols reviennent. Notebookcheck trouve la netteté et le zoom seulement moyens pour ce prix, et Tech Advisor juge les progrès photo décevants. GSMArena reproche à la stabilisation vidéo du capteur principal des tremblements à la marche et un léger effet de gelée, là où l’ultra grand-angle s’en sort bien. La vidéo monte à 8K à 30 images par seconde et à 4K à 120 images par seconde, avec Dolby Vision.
+      </p>
+      <p>
+        La caméra selfie interne surprend par son niveau de détail selon GSMArena, mais n’a pas d’autofocus : le site, comme Notebookcheck, conseille de se photographier avec le capteur principal en visant sur l’écran externe. Android Authority, qui qualifie les photos de percutantes, apprécie aussi de filmer téléphone entrouvert, tenu comme un caméscope.
+      </p>
+
+      <h2>199 g, Alcantara ou bois : le design</h2>
+      <p>
+        Le Motorola Razr 70 Ultra pèse 199 g et mesure 7,2 mm d’épaisseur ouvert, 15,7 mm fermé, soit les mêmes cotes que le modèle 2025 ; GSMArena indique 171,5 × 74 mm ouvert et 88,1 × 74 mm replié. Le site salue une construction haut de gamme presque sans reproche : charnière renforcée au titane, cadre en aluminium et verre Gorilla Glass Ceramic sur la moitié supérieure du dos.
+      </p>
+      <PhoneGallery id="razr-70-ultra" />
+      <p>
+        La moitié inférieure change selon le coloris : Alcantara pour le Pantone Orient Blue, placage de bois naturel pour le Pantone Cocoa. Tech Advisor place ces finitions en tête des qualités du téléphone, et Tom’s Guide apprécie un dos texturé qui offre une prise plus sûre que la plupart des smartphones. Une touche dédiée à l’assistant IA occupe la tranche gauche ; à droite, le bouton d’alimentation intègre le lecteur d’empreintes.
+      </p>
+      <p>
+        La charnière fait l’unanimité. <a href={NBC} target="_blank" rel="noopener">Notebookcheck</a> la trouve facile à ouvrir d’une main et stable dans de nombreuses positions ; <a href={GSMA_DESIGN} target="_blank" rel="noopener">GSMArena</a> confirme qu’elle tient à presque n’importe quel angle et que les deux moitiés se referment à plat. Le pli reste visible, mais bien maîtrisé selon le même site, et Tom’s Guide ne trouve jamais l’ensemble fragile. Aucun nombre de pliages garanti n’apparaît dans les sources consultées.
+      </p>
+
+      <h2>Wi-Fi 7 et UWB, mais un son en recul : audio, connectivité, biométrie</h2>
+      <p>
+        Le Motorola Razr 70 Ultra conserve deux haut-parleurs stéréo hybrides, l’écouteur d’appel en haut et un haut-parleur en bas, compatibles Dolby Atmos. GSMArena les trouve nettement moins puissants que ceux du Razr 60 Ultra, avec un son plus plat, presque sans basses et des voix en retrait, et juge le Galaxy Z Flip7 meilleur sur ce point. Notebookcheck parle d’un son correct mais pauvre en basses, avec la prise en charge des principaux codecs audio. Il n’y a pas de prise jack.
+      </p>
+      <p>
+        La connectivité est à la hauteur du prix, à une exception près. La <a href={MOTO_SPECS} target="_blank" rel="noopener">fiche d’assistance de Motorola</a> liste le Wi-Fi 7 et l’ultra-large bande (UWB) ; GSMArena et Notebookcheck ajoutent la 5G, le Bluetooth 5.4 et le NFC. En Wi-Fi 7, Notebookcheck mesure 1 420 Mbit/s en émission et 1 788 Mbit/s en réception. Le port USB-C se limite en revanche à l’USB 2.0, un choix daté à ce prix pour Notebookcheck. Selon GSMArena, le tiroir accepte deux nano-SIM en plus de l’eSIM, avec deux lignes actives à la fois.
+      </p>
+      <p>
+        Le lecteur d’empreintes du bouton d’alimentation déverrouille presque instantanément selon Notebookcheck, et GSMArena le juge rapide et fiable. La reconnaissance faciale fonctionne également. Motorola liste aussi des capteurs de proximité et de luminosité sur les deux écrans, un baromètre et un capteur à effet Hall.
+      </p>
+
+      <h2>IP48 et classe C aux chutes : solidité et réparabilité</h2>
+      <p>
+        Le Motorola Razr 70 Ultra est certifié IP48 : il supporte une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, mais seules les particules de plus de 1 mm sont arrêtées, ce qui laisse la poussière fine et le sable menacer la charnière. L’écran externe est protégé par du Gorilla Glass Ceramic, qu’Android Authority et TechRadar identifient comme la troisième génération, conçue selon Corning pour résister à des chutes sur béton jusqu’à deux mètres. L’écran intérieur repose sur un verre ultrafin.
+      </p>
+      <p>
+        La fiche européenne <a href={EPREL} target="_blank" rel="noopener">EPREL</a> du modèle précise ces promesses avec des tests normalisés, qui ne se comparent pas directement aux tests d’autonomie des médias.
+      </p>
+      <Callout variant="info" title="La fiche EPREL du Razr 70 Ultra en un coup d’œil">
+        <ul class="small" style="margin:0;padding-left:1.2rem">
+          <li>Efficacité énergétique : classe A, endurance de 51 heures par cycle de charge.</li>
+          <li>Batterie : 1 200 cycles avant de descendre sous 80 % de la capacité, pour une capacité assignée de 4 800 mAh (5 000 mAh typiques annoncés).</li>
+          <li>Chutes répétées : 95 sans défaut, 25 téléphone déplié, soit la classe C.</li>
+          <li>Rayures : niveau 4 sur l’échelle de Mohs.</li>
+          <li>Réparabilité : classe B, indice de 3,41.</li>
+          <li>Mises à jour : six ans de disponibilité minimale ; garantie commerciale de 24 mois ; coque fournie.</li>
+        </ul>
+      </Callout>
+      <p>
+        Le modèle 2026 fait mieux que le Razr 60 Ultra, classé D aux chutes avec 50 chutes sans défaut ; la classe B de réparabilité ne change pas. Contre la casse, Motorola France propose l’extension <a href={MOTO_CARE} target="_blank" rel="noopener">Moto Care</a>, d’un à trois ans selon la formule, de la simple protection d’écran aux dommages accidentels ; vérifiez l’éligibilité du Razr 70 Ultra à la souscription.
+      </p>
+
+      <h2>Trois versions d’Android : logiciel et suivi</h2>
+      <p>
+        Le Motorola Razr 70 Ultra démarre sous Android 16 avec la surcouche Hello UI, proche d’Android d’origine selon GSMArena, avec des fonctions maison surtout visibles sur l’écran externe. Lors de sa prise en main, <a href={TECHRADAR} target="_blank" rel="noopener">TechRadar</a> relevait de nouvelles tuiles d’information en temps réel et des fonds d’écran vidéo. Tech Advisor pointe au contraire des applications préinstallées en nombre et une offre d’IA confuse, entre Moto AI et les assistants tiers comme Gemini, Perplexity ou Copilot cités par TechRadar ; une fois le ménage fait, le média britannique retrouve une expérience agréable.
+      </p>
+      <p>
+        Le suivi logiciel est le vrai point faible, et ses chiffres varient selon la source. La fiche d’assistance européenne de Motorola annonce jusqu’à trois ans de mises à jour du système et des correctifs de sécurité jusqu’en février 2030. GSMArena évoque quatre ans de correctifs aux États-Unis et cinq en Europe, Android Authority cinq ans, tandis que la fiche EPREL affiche six ans de disponibilité minimale des mises à jour. Notebookcheck relève cet écart et juge la situation incertaine. Samsung promet sept ans sur ses pliants récents, et GSMArena comme Tech Advisor jugent l’engagement de Motorola insuffisant à ce prix.
+      </p>
+
+      <h2>Câble, coque et emballage parfumé : le contenu de la boîte</h2>
+      <p>
+        La boîte européenne du Motorola Razr 70 Ultra contient un câble USB-C et une coque de protection, d’après GSMArena. La fiche d’assistance de Motorola ajoute la documentation, l’outil d’éjection SIM et un emballage parfumé, et Notebookcheck salue un emballage sans film plastique. Le chargeur manque à l’appel, alors que la fiche EPREL indique une puissance requise de 68 W en USB-C ; l’expérience d’Android Authority montre qu’un bloc Motorola de 68 W ne suffit pas toujours à atteindre ce maximum.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Cinq tests, cinq lectures du Razr 70 Ultra"
+        intro="Notes telles que publiées. Tech Advisor et Android Authority n’affichent pas de note dans les versions consultées."
+      />
+
+      <h2>Une configuration, deux finitions : versions et prix de lancement</h2>
+      <p>
+        Annoncé le 29 avril 2026 et disponible en France en mai 2026, le Motorola Razr 70 Ultra se décline en une seule configuration de 16 Go de mémoire et 512 Go de stockage, d’après <a href={LESMOBILES} target="_blank" rel="noopener">Les Mobiles</a>. GSMArena mentionne une variante 12 Go sur d’autres marchés.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Versions et coloris du Motorola Razr 70 Ultra en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Finition</th>
+              <th scope="col">Dos</th>
+              <th scope="col">Configuration</th>
+              <th scope="col">Prix de lancement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Pantone Orient Blue</th><td>Alcantara</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+            <tr><th scope="row">Pantone Cocoa</th><td>Placage de bois naturel</td><td>{p.launchConfig}</td><td class="num">{euro(p.launchPrice)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Les deux finitions partagent la même fiche technique. Le prix de lancement a augmenté de {euro(p.launchPrice - old.launchPrice)} par rapport au Razr 60 Ultra, ce qui impose de regarder aussi le modèle 2025 avant de commander.
+      </p>
+      <p><AmazonButton phone={p} label="Voir les deux finitions" variant="ghost" /></p>
+
+      <h2>1 499 € : prix et alternatives dans la gamme Razr</h2>
+      <p>
+        Le Motorola Razr 70 Ultra a été lancé à {euro(p.launchPrice)} en France, {euro(p.launchPrice - old.launchPrice)} de plus que le Razr 60 Ultra en 2025. TechRadar en faisait déjà la principale critique lors de sa prise en main, et Notebookcheck, Tech Advisor, Tom’s Guide comme Android Authority la reprennent dans leur verdict, faute d’évolution matérielle suffisante pour la justifier.
+      </p>
+      <p>
+        La comparaison la plus directe se fait en interne. GSMArena présente le <a href={old.path}>Razr 60 Ultra</a> comme quasiment le même téléphone, avec un peu moins de batterie et un suivi qui s’arrête un an plus tôt ; lancé à {euro(old.launchPrice)}, il se trouve souvent nettement moins cher depuis l’arrivée de son successeur. Le <a href={plus.path}>Razr 70 Plus</a> ({euro(plus.launchPrice)}) garde l’écran externe de 4 pouces à 165 Hz, avec un Snapdragon 8s Gen 3, 4 500 mAh et 45 W. Le <a href={base.path}>Razr 70</a> ({euro(base.launchPrice)}) descend à un écran externe de 3,63 pouces et une puce Dimensity 7450X.
+      </p>
+      <p>
+        À l’opposé, le <a href={fold.path}>Razr Fold</a> ({euro(fold.launchPrice)}) change de format : écran de 8,1 pouces, 6 000 mAh, téléobjectif x3 et stylet fourni, pour {fold.weight - p.weight} g de plus.
+      </p>
+      <p><AmazonButton phone={p} label="Voir le prix du Razr 70 Ultra sur Amazon" /></p>
+
+      <h2>Face au Galaxy Z Flip8 et aux autres clapets</h2>
+      <p>
+        Le <ObfLink href={flip8.path} class="obf-text">Samsung Galaxy Z Flip8</ObfLink>, sorti le 7 août 2026 à {euro(flip8.launchPrice)} en 256 Go, est l’adversaire naturel : plus léger ({flip8.weight} g), plus fin ({num(flip8.unfoldedMm)} mm déplié) et suivi sept ans par Samsung. Sa batterie de {mah(flip8.battery)} et sa charge de {flip8.wired} restent en revanche loin des {mah(p.battery)} et {p.wired} du Motorola : suivi logiciel et légèreté d’un côté, endurance et vitesse de charge de l’autre.
+      </p>
+      <p>
+        Le Galaxy Z Flip7, lancé en 2025 à {euro(flip7.launchPrice)}, sert de repère à GSMArena, qui le place nettement derrière le Razr 70 Ultra en autonomie, mais devant pour la qualité des haut-parleurs.
+      </p>
+      <p>
+        Le Xiaomi Mix Flip, lancé en septembre 2024 à {euro(mix.launchPrice)}, garde un vrai téléobjectif x2, mais n’a ni certification IP ni charge sans fil, et son suivi logiciel est plus limité : à n’envisager qu’avec une forte remise.
+      </p>
+
+      <h2>Notre note, critère par critère</h2>
+      <ScoreBars phone={p} />
+      <p style="margin-top:1rem">
+        Avec {num(overall(p))}/10, le Razr 70 Ultra devance le Razr 60 Ultra ({num(overall(old))}/10) grâce à son autonomie et à ses écrans, mais recule sur le rapport qualité/prix ({num(p.scores.prix)} contre {num(old.scores.prix)}), lancement à {euro(p.launchPrice)} oblige.
+      </p>
+
+      <h2>Fiche technique du Motorola Razr 70 Ultra</h2>
+      <SpecTable phone={p} caption="Caractéristiques techniques du Motorola Razr 70 Ultra" />
+
+      <h2>Verdict : le clapet le plus endurant, pas le plus neuf</h2>
+      <Callout variant="accent" title="Notre verdict sur le Motorola Razr 70 Ultra">
+        <p>
+          Les mesures dessinent un clapet sans rival sur l’endurance : 16 h 32 chez GSMArena, 16 h 20 chez Tom’s Guide, 46 minutes pour faire le plein et des écrans à 165 Hz d’une grande fidélité. Le Motorola Razr 70 Ultra reste pourtant une évolution prudente du Razr 60 Ultra, avec les mêmes limites : une puce qui chauffe sous charge prolongée, pas de téléobjectif, un port USB 2.0 et un suivi logiciel dont la durée varie selon les sources.
+          Il s’adresse à ceux qui veulent le clapet le plus complet de 2026, se servent beaucoup de l’écran externe et tiennent aux finitions Alcantara ou bois. Il conviendra moins aux joueurs assidus, à ceux qui écoutent souvent de la musique sur haut-parleurs et à ceux qui visent sept ans de mises à jour, mieux servis chez Samsung.
+          À {euro(p.launchPrice)}, il reste difficile à défendre face à un Razr 60 Ultra vendu nettement moins cher, qui offre l’essentiel pour moins.
+        </p>
+      </Callout>
+
+      <ProsCons
+        pros={[
+          'Autonomie en tête des clapets (16 h 32 chez GSMArena, 16 h 20 chez Tom’s Guide)',
+          'Charge complète en 46 minutes',
+          'Écrans 165 Hz très fidèles (Delta E de 1,22)',
+          'Finitions Alcantara ou bois, charnière au titane',
+          'Écran externe de 4 pouces pleinement exploitable',
+          'Wi-Fi 7, UWB et charge sans fil 30 W',
+        ]}
+        cons={[
+          'Chauffe et bridage sous charge prolongée',
+          'Pas de téléobjectif, stabilisation vidéo perfectible',
+          'Suivi logiciel court et annoncé de façon confuse',
+          'Haut-parleurs en recul face au Razr 60 Ultra',
+          'Port USB 2.0 et scintillement PWM',
+          'Prix de lancement en hausse de 200 €',
+        ]}
+        prosTitle="Ce qui convainc"
+        consTitle="Ce qui coince"
+      />
+
+      <p><AmazonButton phone={p} label="Consulter l’offre" variant="ghost" /></p>
+
+      <Faq items={faq} heading="Razr 70 Ultra : questions pratiques" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="list" heading="Les autres tests de la gamme Motorola Razr" />
+    </div>
+  </article>
+</BaseLayout>

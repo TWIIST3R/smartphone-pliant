@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+import { SITE } from '../data/site';
+import { nodes } from '../data/cocoon';
+import { organization, website, person } from '../lib/schema';
+import { frDate } from '../lib/format';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Logo from '../components/Logo.astro';
+import ObfLink from '../components/ObfLink.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Objets schema.org supplémentaires (Article, Product, ItemList…) */
+  schema?: Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  updated?: string;
+}
+
+const { title, description, schema = [], ogType = 'article', noindex = false, updated = SITE.updated } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, SITE.url).href;
+const inCocoon = nodes.some((n) => n.path === path && n.group !== 'legal');
+const showCrumbs = inCocoon && path !== '/';
+const fullTitle = path === '/' ? title : `${title} | ${SITE.name}`;
+const legal = nodes.filter((n) => n.group === 'legal');
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [organization(), website(), person(), ...schema],
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />}
+    <meta name="theme-color" content="#15171c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Actualités – Smartphone-Pliant.fr" href="/actualites/rss.xml" />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {ogType === 'article' && <meta property="article:modified_time" content={updated} />}
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="/" aria-label={`${SITE.name} – accueil`}>
+          <Logo />
+          <span>Smartphone<b>-</b>Pliant<span class="muted">.fr</span></span>
+        </a>
+        <div class="header-meta">
+          <span class="updated">Mis à jour le <time datetime={SITE.updated}>{frDate(SITE.updated)}</time></span>
+          <ObfLink href="/actualites/" class="nav-link">Actualités</ObfLink>
+          {path !== '/' && <a href="/#comparatif">Le comparatif</a>}
+        </div>
+      </div>
+    </header>
+
+    <main id="contenu">
+      {showCrumbs && <Breadcrumb path={path} />}
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <a class="logo" href="/"><Logo /><span>Smartphone<b>-</b>Pliant.fr</span></a>
+            <p class="small" style="margin-top:.8rem">
+              Site indépendant consacré aux smartphones pliants : comparatifs, fiches techniques et guides d’achat, mis à jour à chaque sortie.
+            </p>
+          </div>
+          <div>
+            <p class="small"><strong style="color:#fff">Le site</strong></p>
+            <ul class="footer-links">
+              <li><ObfLink href="/actualites/" class="obf-text">Actualités</ObfLink></li>
+              {legal.map((n) => <li><a href={n.path}>{n.label}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <p class="small"><strong style="color:#fff">Transparence</strong></p>
+            <p class="small">
+              En tant que Partenaire Amazon, Smartphone-Pliant.fr réalise un bénéfice sur les achats remplissant les conditions requises.
+              Les liens marqués « Amazon » sont des liens affiliés : ils ne changent rien au prix que vous payez.
+            </p>
+          </div>
+        </div>
+        <p class="footer-note">
+          © {new Date().getFullYear()} {SITE.name}. Les prix indiqués sont les prix publics conseillés au lancement en France ; le prix réel peut varier chez les marchands.
+          Les marques citées appartiennent à leurs propriétaires respectifs.
+        </p>
+      </div>
+    </footer>
+    <script is:inline>
+      (function () {
+        function target(e) {
+          return e.target && e.target.closest ? e.target.closest('[data-o]') : null;
+        }
+        function go(el, newTab) {
+          var url = atob(el.getAttribute('data-o'));
+          if (newTab) window.open(url, '_blank');
+          else window.location.href = url;
+        }
+        document.addEventListener('click', function (e) {
+          var el = target(e);
+          if (el) go(el, e.ctrlKey || e.metaKey || e.shiftKey);
+        });
+        document.addEventListener('auxclick', function (e) {
+          var el = target(e);
+          if (el && e.button === 1) go(el, true);
+        });
+        document.addEventListener('keydown', function (e) {
+          var el = target(e);
+          if (el && e.key === 'Enter') go(el, false);
+        });
+      })();
+    </script>
+  </body>
+</html>

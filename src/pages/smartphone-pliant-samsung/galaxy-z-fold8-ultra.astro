@@ -1,0 +1,474 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('galaxy-z-fold8-ultra');
+const fold7 = byId('galaxy-z-fold7');
+const fold8 = byId('galaxy-z-fold8');
+const flip8 = byId('galaxy-z-flip8');
+const path = p.path;
+const title = 'Test du Galaxy Z Fold8 Ultra : avis, mesures et prix';
+const description =
+  'Test complet du Galaxy Z Fold8 Ultra : autonomie, charge 45 W, écrans, photo, solidité et étiquette énergie d’après GSMArena, Engadget et Notebookcheck.';
+
+const SRC = {
+  gsm: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra-review-2985.php',
+  gsmDesign: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra-review-2985p2.php',
+  gsmLab: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra-review-2985p3.php',
+  gsmPerf: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra-review-2985p4.php',
+  gsmCam: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra-review-2985p5.php',
+  gsmSpecs: 'https://www.gsmarena.com/samsung_galaxy_z_fold8_ultra_5g-14802.php',
+  gsmEu: 'https://www.gsmarena.com/samsung_galaxy_fold8_series_will_come_with_significant_battery_life_boost_as_eu_ratings_surface-news-73756.php',
+  gsmCycles: 'https://www.gsmarena.com/eu_listings_confirm_shorter_battery_lifespan_for_new_galaxy_foldables-news-73870.php',
+  engadget: 'https://www.engadget.com/2228942/samsung-galaxy-z-fold-8-ultra-review/',
+  nbc: 'https://www.notebookcheck.net/The-thinnest-Samsung-smartphone-ever-takes-on-the-iPhone-Ultra-Galaxy-Z-Fold-8-Ultra-Review.1390192.0.html',
+  techradar:
+    'https://global.techradar.com/fr-fr/phones/samsung-galaxy-phones/test-du-samsung-galaxy-z-fold-8-ultra-le-meilleur-smartphone-pliable-devient-encore-plus-difficile-a-battre',
+  bend: 'https://9to5google.com/2026/08/27/galaxy-z-fold-8-ultra-finally-dies-in-bend-test-unlike-past-models-video/',
+  samsung: 'https://www.samsung.com/fr/smartphones/galaxy-z-fold8-ultra/',
+  samsungDiff: 'https://www.samsung.com/fr/support/mobile-devices/what-is-the-difference-between-the-galaxy-z-fold8-ultra-and-z-fold8/',
+  samsungCare: 'https://www.samsung.com/fr/offer/samsung-care-plus/',
+  samsungPrecautions: 'https://www.samsung.com/fr/support/mobile-devices/precautions-d-usage-pour-les-smartphones-galaxy-fold-et-flip/',
+  caseClear: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-fold8-ultra-clear-case-transparent-ef-qf976ctegww/',
+  caseCarbon: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-fold8-ultra-carbon-standing-case-black-ef-xf976sbegww/',
+  mobigeeks: 'https://www.mobigeeks.fr/galaxy-z-fold-8-et-flip-8-le-prix-dun-ecran-casse/',
+};
+
+const prices = [
+  { cap: '256 Go', ram: '12 Go', eur: 2199 },
+  { cap: '512 Go', ram: '12 Go', eur: 2399 },
+  { cap: '1 To', ram: '16 Go', eur: 2799 },
+];
+
+const colors = [
+  { name: 'Techno Violet', where: 'Samsung.com et revendeurs' },
+  { name: 'Graphite', where: 'Samsung.com et revendeurs' },
+  { name: 'Blanc', where: 'Samsung.com et revendeurs' },
+  { name: 'Techno Vert', where: 'Exclusivité de la boutique en ligne Samsung' },
+];
+
+const measures = [
+  { label: 'Score d’usage actif, appareil plié', value: '15 h 40 (Fold7 : 12 h 55)', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Lecture vidéo en boucle, écran externe', value: '32 h 11 (Fold7 : 26 h 22)', source: 'Engadget', url: SRC.engadget },
+  { label: 'Endurance par cycle, étiquette énergie UE', value: 'environ 51 h (Fold7 : 40 h 28)', source: 'EPREL, relevé par GSMArena', url: SRC.gsmEu },
+  { label: 'Charge filaire 45 W', value: '41 % en 15 min · 71 % en 30 min · 100 % en 1 h', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Luminosité auto, écran intérieur / externe', value: '1 432 / 1 439 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Pic sur 10 % de l’écran, intérieur / externe', value: '2 980 / 3 026 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Pic APL18 / HDR, écran intérieur', value: '2 996 / 3 188 cd/m²', source: 'Notebookcheck', url: SRC.nbc },
+  { label: 'Delta E ColorChecker, intérieur / externe', value: '2,7 / 2,3', source: 'Notebookcheck', url: SRC.nbc },
+  { label: 'Fréquence PWM des deux écrans', value: '240 Hz', source: 'Notebookcheck', url: SRC.nbc },
+  { label: 'Geekbench 6, monocœur / multicœur', value: '3 695 / 11 124', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'AnTuTu 11', value: '2 970 196', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: '3DMark Wild Life Extreme', value: '6 772', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'Puissance sonore des haut-parleurs', value: '−29,3 LUFS (« moyen »)', source: 'GSMArena', url: SRC.gsmLab },
+];
+
+const sources = [
+  {
+    media: 'GSMArena',
+    url: SRC.gsm,
+    note: '4,6/5',
+    verdict:
+      'Progrès nets sur l’écran intérieur, le pli, la charge et l’endurance. Le téléobjectif déçoit, et des pliants concurrents font mieux en photo comme en autonomie.',
+  },
+  {
+    media: 'Engadget',
+    url: SRC.engadget,
+    date: '2026-08-03',
+    note: '8,8/10',
+    verdict:
+      'Puce, luminosité et autonomie progressent, mais le modèle reste trop proche du Fold7 pour mériter pleinement son suffixe Ultra.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: SRC.nbc,
+    date: '2026-09-05',
+    note: '88 %',
+    verdict:
+      'Finesse et qualité de fabrication saluées. Évolution modeste face au Fold7, pas de stylet et un net bridage des performances sous charge prolongée.',
+  },
+  {
+    media: 'TechRadar France',
+    url: SRC.techradar,
+    date: '2026-08-05',
+    note: 'Recommandé',
+    verdict:
+      'Pli presque effacé, puissance de premier plan et photo en progrès en font le pliant premium à battre, malgré le prix et l’absence de S Pen.',
+  },
+];
+
+const pros = [
+  'Autonomie en net progrès : 15 h 40 au test GSMArena, 32 h 11 en vidéo chez Engadget',
+  'Charge 45 W : 71 % en 30 minutes mesurés par GSMArena',
+  'Écrans très lumineux et pli jugé presque invisible',
+  'Capteur 200 Mpx et seul zoom optique x3 des Galaxy Z 2026',
+  '4,1 mm déplié pour 215 g',
+  'Connectivité complète : Wi-Fi 7, Bluetooth 6.0, UWB, eSIM',
+  'Sept mises à jour majeures d’Android promises',
+];
+const cons = [
+  'Performances en forte baisse sous effort prolongé',
+  'Téléobjectif jugé trop accentué par GSMArena',
+  'IP48 : poussière fine mal protégée',
+  'Pas de prise en charge du S Pen',
+  'Batterie certifiée pour 1 200 cycles, contre 2 000 sur le Fold7',
+  'Ni chargeur ni coque dans la boîte',
+  'De 2 199 à 2 799 € au lancement',
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Galaxy Z Fold8 Ultra ?',
+    a: 'Selon GSMArena, le Samsung Galaxy Z Fold8 Ultra obtient 15 h 40 à son score d’usage actif, mesuré appareil plié, contre 12 h 55 pour le Galaxy Z Fold7 dans le même protocole. Engadget a relevé 32 h 11 de lecture vidéo en boucle sur l’écran externe, contre 26 h 22 pour le Fold7. Sa batterie de 5 000 mAh tient donc nettement plus longtemps que celle de son prédécesseur.',
+  },
+  {
+    q: 'Combien de temps pour recharger le Galaxy Z Fold8 Ultra ?',
+    a: 'Avec un chargeur de 45 W, GSMArena a mesuré 41 % en 15 minutes, 71 % en 30 minutes et une charge complète en une heure pour le Samsung Galaxy Z Fold8 Ultra. Samsung annonce de son côté 67 % en 30 minutes. Le Galaxy Z Fold7 plafonnait à 25 W en filaire : la différence se ressent surtout lors des recharges d’appoint.',
+  },
+  {
+    q: 'Le chargeur est-il fourni avec le Galaxy Z Fold8 Ultra ?',
+    a: 'Non. D’après le déballage publié par GSMArena, la boîte du Samsung Galaxy Z Fold8 Ultra contient seulement un câble USB-C vers USB-C et la documentation, sans chargeur ni coque. Pour profiter de la charge de 45 W, qui remplit 71 % de la batterie en 30 minutes selon les mesures du même média, il faut acheter à part un chargeur compatible de 45 W.',
+  },
+  {
+    q: 'Le Galaxy Z Fold8 Ultra est-il compatible avec le S Pen ?',
+    a: 'Non. D’après les tests de Notebookcheck et de TechRadar, et selon la fiche comparative de Samsung France, l’écran intérieur du Samsung Galaxy Z Fold8 Ultra ne prend pas en charge le S Pen. Si l’écriture au stylet fait partie de vos usages, ce modèle n’y répondra pas, malgré son grand écran de 8 pouces.',
+  },
+  {
+    q: 'Le Galaxy Z Fold8 Ultra est-il étanche ?',
+    a: 'Le Samsung Galaxy Z Fold8 Ultra est certifié IP48. Il supporte une immersion en eau douce jusqu’à 1,5 m pendant 30 minutes, mais ne protège que des particules solides de plus de 1 mm : le sable et la poussière fine peuvent atteindre la charnière. Samsung rappelle lui-même que ses pliants ne résistent pas à la poussière. Le Google Pixel 11 Pro Fold et le Honor Magic V6 sont certifiés IP68.',
+  },
+  {
+    q: 'Le Galaxy Z Fold8 Ultra chauffe-t-il ?',
+    a: 'Modérément au toucher, mais ses performances baissent vite sous effort prolongé. GSMArena constate une chute rapide des scores lors de ses tests de stabilité, la chaleur se concentrant près du module photo, et Notebookcheck observe une baisse d’images par seconde dès la deuxième passe de 3DMark. En usage courant, les testeurs ne signalent pas de ralentissement gênant.',
+  },
+  {
+    q: 'Quel est le prix du Galaxy Z Fold8 Ultra en France ?',
+    a: 'À sa sortie le 7 août 2026, le Samsung Galaxy Z Fold8 Ultra était proposé à 2 199 € en 12 Go / 256 Go, 2 399 € en 12 Go / 512 Go et 2 799 € en 16 Go / 1 To. Ce sont les prix publics conseillés par Samsung au lancement ; les tarifs pratiqués par les marchands évoluent au fil des mois.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Samsung Galaxy Z Fold8 Ultra', 'Samsung', 'Smartphone pliant'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap cols-2 section-tight">
+    <article class="prose">
+      <span class="eyebrow">Test complet · Samsung 2026</span>
+      <h1>Test du Samsung Galaxy Z Fold8 Ultra : le Fold qui rattrape enfin son retard d’autonomie</h1>
+
+      <ProductSummary phone={p} ctaLabel="Voir le prix sur Amazon" />
+
+      <p class="lede">
+        Sorti en France le 7 août 2026 à {euro(p.launchPrice)} en 12 Go / 256 Go, le Samsung Galaxy Z Fold8 Ultra prend la tête de la gamme des <a href="/smartphone-pliant-samsung/">smartphones pliants Samsung</a>.
+        Il garde le gabarit du Fold7, mais les tests publiés relèvent une nette progression de l’autonomie, de la charge et de l’écran intérieur. Voici la synthèse de ces mesures.
+      </p>
+      <Byline minutes={20} />
+
+      <Callout variant="accent" title="Verdict">
+        <p>
+          Le Galaxy Z Fold8 Ultra est le Fold le plus complet que Samsung ait vendu, et les mesures publiées le confirment : 15 h 40 au score d’usage actif de GSMArena contre 12 h 55 pour le Fold7, 71 % de batterie récupérés en 30 minutes, des écrans au-delà de 1 400 cd/m² en automatique et un pli que les testeurs jugent presque effacé.
+        </p>
+        <p>
+          Les réserves tiennent en quatre points : un téléobjectif x3 que GSMArena trouve décevant, des performances qui s’effondrent sous effort prolongé, une certification IP48 et un prix de lancement compris entre 2 199 et 2 799 €.
+        </p>
+        <p>
+          Il s’adresse à ceux qui veulent un seul appareil pour lire, travailler en multifenêtre et photographier en voyage, avec un vrai zoom et un écran externe de format classique. Il convient mal aux joueurs qui enchaînent les longues sessions 3D, aux adeptes du stylet et aux acheteurs qui visent le meilleur rapport qualité/prix : le Galaxy Z Fold8 fait presque aussi bien pour 200 € de moins. Notre note : <strong>{num(overall(p))}/10</strong>.
+        </p>
+      </Callout>
+
+      <p class="small muted">
+        Ce test est une synthèse des essais publiés par GSMArena, Engadget, Notebookcheck et TechRadar, complétée par les données de Samsung France et de l’étiquette énergie européenne. Smartphone-Pliant.fr n’a réalisé aucune mesure : chaque chiffre est attribué à son média, lien à l’appui. Le calcul de notre note est détaillé dans <a href="/methodologie/">la méthodologie</a>.
+      </p>
+
+      <h2>Design : 215 g, 4,1 mm ouvert et une charnière plus douce</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra conserve le format étroit et haut des Fold historiques : 158,4 × 72,8 × 8,9 mm fermé, 4,1 mm d’épaisseur ouvert et 215 g, selon la fiche reprise par TechRadar.
+        Ce sont, au dixième de millimètre près, les mensurations du <a href={fold7.path}>Galaxy Z Fold7 sorti en 2025</a>, alors que la batterie gagne 600 mAh. GSMArena souligne que cette épaisseur dépliée égale celle du Honor Magic V6, l’un des pliants les plus fins du marché.
+      </p>
+      <p>
+        Le changement se sent surtout à l’ouverture. D’après <a href={SRC.gsmDesign} target="_blank" rel="noopener">le chapitre design de GSMArena</a>, la charnière a été redessinée en s’inspirant du Galaxy Z TriFold : elle demande moins d’effort et des aimants accompagnent le mouvement. Le cadre reste en aluminium renforcé Armor Aluminum.
+        Le même test juge le pli moins marqué, à l’œil comme sous le doigt, et TechRadar France résume l’impression générale d’une formule : « Le pli est presque invisible ».
+      </p>
+      <p>
+        Déplié, l’appareil mesure 158,4 × 143,2 × 4,1 mm d’après <a href={SRC.samsungDiff} target="_blank" rel="noopener">la fiche comparative de Samsung France</a>. Le dos est protégé par du Gorilla Glass Victus 2 et l’écran externe par du Gorilla Glass Ceramic 3 ; sous l’écran intérieur, Samsung intègre une double couche de titane censée rigidifier la dalle.
+        Comme sur les générations précédentes, la charnière tient à mi-course : entrouvert et posé sur une table, le Fold8 Ultra sert de chevalet pour une visioconférence ou une photo de groupe.
+      </p>
+      <p>
+        <a href={SRC.samsung} target="_blank" rel="noopener">Samsung France</a> le vend en quatre coloris : Techno Violet, Graphite, Blanc et Techno Vert, cette dernière teinte étant réservée à sa boutique en ligne.
+      </p>
+
+      <PhoneGallery id="galaxy-z-fold8-ultra" heading="Le Samsung Galaxy Z Fold8 Ultra sous plusieurs angles" />
+
+      <p>
+        TechRadar reproche au bloc photo sa saillie : posé ouvert sur une table, le Galaxy Z Fold8 Ultra ne repose pas parfaitement à plat. Les autres réserves des testeurs portent sur la protection contre la poussière et la résistance à la torsion, détaillées plus bas dans la partie consacrée à la solidité.
+      </p>
+
+      <h2>Écrans : 8 pouces plus lumineux et moins réfléchissants</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra associe un écran intérieur de 8 pouces (2 504 × 2 256 pixels) et un écran externe de 6,5 pouces au format 21:9 (2 520 × 1 080 pixels), tous deux en OLED LTPO de 1 à 120 Hz et à 422 pixels par pouce selon Samsung France.
+        Fermé, il s’utilise comme un smartphone ordinaire, avec un clavier un peu étroit ; ouvert, il offre la plus grande surface d’affichage de la gamme Samsung.
+      </p>
+      <p>
+        Les relevés de luminosité convergent. <a href={SRC.gsmLab} target="_blank" rel="noopener">GSMArena a mesuré</a> 1 432 cd/m² en mode automatique sur l’écran intérieur et 1 439 cd/m² sur l’écran externe, avec des pics à 2 980 et 3 026 cd/m² sur une petite zone blanche : les 3 000 cd/m² annoncés par Samsung sont bien atteints.
+        Notebookcheck obtient 2 996 cd/m² en pic APL18 et 3 188 cd/m² en HDR sur la grande dalle. En réglage manuel, la luminosité plafonne autour de 720 cd/m² dans les mesures de GSMArena : en plein soleil, mieux vaut laisser le capteur automatique faire son travail.
+      </p>
+      <p>
+        Côté couleurs, Notebookcheck relève un Delta E moyen de 2,7 sur l’écran intérieur et de 2,3 sur l’écran externe au test ColorChecker, une fidélité correcte sans atteindre le niveau des écrans les mieux calibrés.
+        Le même média signale un scintillement PWM à 240 Hz sur les deux dalles, un détail à connaître si vous êtes sensible à ce phénomène. GSMArena salue enfin le nouveau traitement antireflet de l’écran intérieur, l’une des vraies nouveautés de cette génération, et Engadget juge le pli si discret qu’il ne mérite plus qu’on s’en plaigne.
+      </p>
+
+      <h2>Performances : un sprinteur qui s’essouffle vite</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra embarque le Snapdragon 8 Elite Gen 5 for Galaxy, une version surcadencée dont les deux cœurs principaux montent à 4,74 GHz selon GSMArena, avec 12 Go de mémoire vive (16 Go en 1 To).
+        En pointe, les scores sont au sommet : <a href={SRC.gsmPerf} target="_blank" rel="noopener">GSMArena a obtenu</a> 3 695 points en monocœur et 11 124 en multicœur sur Geekbench 6, 2 970 196 points sur AnTuTu 11 et 6 772 points sur 3DMark Wild Life Extreme. Notebookcheck mesure des résultats du même ordre, avec 3 687 et 11 298 points sur Geekbench 6.7.
+      </p>
+      <p>
+        Le revers apparaît dès que l’effort dure. GSMArena constate une chute rapide des performances lors de ses tests de stabilité, sans que l’appareil devienne brûlant : la chaleur se concentre près du module photo et le reste du châssis demeure relativement frais. Notebookcheck observe une baisse nette d’images par seconde dès le deuxième passage de 3DMark.
+        Engadget, qui a enchaîné applications côte à côte et jeux, n’a en revanche rien relevé de gênant au quotidien. Pour la navigation, le multitâche ou la retouche photo, la puissance est largement suffisante ; pour de longues sessions de jeu 3D, un pliant aussi fin ne dissipe pas la chaleur comme un smartphone classique.
+      </p>
+      <p>
+        Un point à garder en tête pour votre choix : le <a href={fold8.path}>Galaxy Z Fold8</a> sorti le même jour utilise exactement la même puce. Payer l’Ultra n’achète aucun gain de vitesse.
+      </p>
+
+      <h2>Photo : un 200 Mpx excellent, un zoom x3 en retrait</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra est le seul pliant Samsung de 2026 à posséder un téléobjectif. D’après <a href={SRC.gsmCam} target="_blank" rel="noopener">l’analyse photo de GSMArena</a>, le module associe un capteur principal ISOCELL HP2 de 200 Mpx (f/1,7), un ultra grand-angle Sony IMX858 de 50 Mpx (f/1,9), qui remplace le 12 Mpx du Fold7, et un téléobjectif ISOCELL 3K1 de 10 Mpx à zoom optique x3 (f/2,4).
+        Deux caméras de 10 Mpx servent aux selfies, une pour chaque écran.
+      </p>
+      <p>
+        Les avis divergent surtout sur le zoom. GSMArena loue le capteur principal de jour, pour sa plage dynamique, son contraste et ses couleurs, ainsi qu’un ultra grand-angle net et bien accordé en colorimétrie. Il juge en revanche le téléobjectif trop accentué, avec des halos visibles et un feuillage d’aspect artificiel.
+        Engadget se montre plus clément et estime que ce zoom x3 dédié produit une image de premier ordre, un avantage net sur le Fold8 et son simple recadrage.
+      </p>
+      <p>
+        La nuit rebat les cartes. En mode automatique, GSMArena trouve les photos du capteur principal douces et bruitées ; le mode Nuit améliore nettement la netteté. L’ultra grand-angle se montre au contraire compétent dans l’obscurité face à la concurrence.
+        En vidéo, le Fold8 Ultra filme en 8K à 30 images par seconde avec le capteur principal et l’ultra grand-angle, et la stabilisation est jugée très bonne en journée sur toutes les focales.
+      </p>
+      <p>
+        Le constat final de GSMArena reste mesuré : plusieurs pliants vendus moins cher font mieux en photo. Samsung garde l’avantage de la polyvalence, pas celui de la qualité pure.
+      </p>
+
+      <h2>Autonomie et charge : le vrai progrès de cette génération</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra passe à une batterie silicium-carbone de 5 000 mAh, contre 4 400 mAh pour le Fold7, et à une charge filaire de 45 W au lieu de 25 W. Les tests publiés traduisent ce saut en heures.
+      </p>
+      <p>
+        Au score d’usage actif de GSMArena, qui combine navigation web, lecture vidéo, réseaux sociaux et jeu, l’appareil plié tient 15 h 40, contre 12 h 55 pour le Fold7 dans le même protocole : environ 21 % de mieux.
+        Engadget obtient 32 h 11 de lecture vidéo en boucle sur l’écran externe, là où le Fold7 s’arrêtait à 26 h 22. L’étiquette énergie européenne va dans le même sens : <a href={SRC.gsmEu} target="_blank" rel="noopener">GSMArena y a relevé</a> une endurance d’environ 51 heures par cycle de charge, contre 40 h 28 pour le Fold7. Trois protocoles très différents, une même tendance.
+      </p>
+      <p>
+        La charge change aussi d’échelle. Samsung annonce 67 % en 30 minutes ; GSMArena a mesuré 41 % au bout d’un quart d’heure, 71 % à la demi-heure et une charge complète en une heure pile. La charge sans fil atteint 20 W, et la recharge inversée de 4,5 W dépanne une montre ou des écouteurs posés au dos.
+        Le média tempère toutefois l’enthousiasme : ces résultats, désormais compétitifs, restent en retrait de concurrents dotés de batteries plus grosses et d’une charge plus rapide. Le Fold8 Ultra n’est plus à la traîne, sans être le champion de l’endurance.
+      </p>
+
+      <Measures items={measures} caption="Mesures publiées sur le Samsung Galaxy Z Fold8 Ultra" />
+      <p class="small muted" style="margin-top:.5rem">Mesures reprises des tests cités, protocoles propres à chaque média : les chiffres ne se comparent qu’au sein d’une même source.</p>
+
+      <h2>Logiciel : One UI 9 et sept ans de mises à jour</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra démarre sous Android 17 avec One UI 9. Samsung promet sept mises à jour majeures d’Android ainsi que les correctifs de sécurité, un engagement que GSMArena rappelle dans son test : acheté en 2026, l’appareil peut rester à jour jusqu’en 2033.
+      </p>
+      <p>
+        Parmi les nouveautés relevées par GSMArena figurent des curseurs intégrés aux réglages rapides, un menu Galaxy AI simplifié, un espace consacré à la garantie et à l’entretien, un résumé contextuel pendant les appels, des cartes personnalisables dans Now Brief, l’éditeur vidéo My FanCam et des automatisations pilotées avec Gemini.
+        Sur le grand écran, l’affichage de deux applications côte à côte reste l’argument central, et Engadget n’y a constaté aucun ralentissement.
+      </p>
+      <p>
+        Une limite revient chez Notebookcheck comme chez TechRadar : l’écran intérieur ne prend pas en charge le S Pen. Si vous comptiez annoter des PDF au stylet, il faudra regarder ailleurs.
+      </p>
+
+      <h2>Audio, connectivité et biométrie : une fiche sans trou, un son moyen</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra coche toutes les cases de la connectivité haut de gamme. <a href={SRC.gsmSpecs} target="_blank" rel="noopener">La fiche technique de GSMArena</a> liste la 5G, le Wi-Fi 7 tribande, le Bluetooth 6.0 compatible aptX HD, le NFC pour le paiement sans contact, l’ultra-large bande (UWB), utile pour localiser des objets connectés, et un port USB-C 3.2.
+        Côté SIM, il accepte une nano-SIM et des eSIM, avec deux lignes actives au maximum. Il n’y a en revanche ni prise jack ni lecteur microSD, Samsung France précisant que le stockage externe n’est pas pris en charge.
+      </p>
+      <p>
+        Le déverrouillage passe par un lecteur d’empreinte intégré au bouton latéral, placé sur la tranche pour rester accessible appareil ouvert comme fermé.
+        Le son, lui, ne suit pas le reste de la fiche : les deux haut-parleurs stéréo obtiennent −29,3 LUFS au test de puissance de GSMArena, un résultat classé « moyen ». Pour regarder un film dans le train, un casque Bluetooth reste préférable. Détail révélateur, le même média classe les haut-parleurs du petit Galaxy Z Flip8 dans la catégorie supérieure.
+      </p>
+
+      <h2>Solidité et réparabilité : ce que disent l’étiquette énergie et les tests de torsion</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra reste certifié IP48, comme le Fold7. GSMArena rappelle ce que recouvre cet indice : immersion possible jusqu’à 1,5 m pendant 30 minutes en eau douce, mais une protection limitée aux particules de plus de 1 mm.
+        <a href={SRC.samsungPrecautions} target="_blank" rel="noopener">Samsung France</a> écrit lui-même, dans ses précautions d’usage, que ses pliants ne sont pas résistants à la poussière. Le sable et la poussière fine restent les ennemis de la charnière.
+      </p>
+      <p>
+        L’écran intérieur est recouvert d’une couche plastique que GSMArena situe au niveau 1 de l’échelle de Mohs, le plus bas : ongles et objets pointus sont à proscrire, ce que Samsung demande d’ailleurs explicitement. Le constructeur interdit aussi de retirer le film posé en usine, et prévoit un remplacement offert de ce film dans un centre agréé pendant la garantie de deux ans.
+      </p>
+      <p>
+        L’étiquette énergie européenne apporte des repères comparables d’un modèle à l’autre. D’après les données EPREL reprises par GSMArena, le Galaxy Z Fold8 Ultra obtient la classe A en efficacité énergétique et la classe A en résistance aux chutes répétées (210 chutes sans défaut), mais seulement la classe C en réparabilité.
+        Revers de la batterie silicium-carbone, <a href={SRC.gsmCycles} target="_blank" rel="noopener">elle est certifiée pour 1 200 cycles</a> avant de descendre à 80 % de sa capacité, contre 2 000 pour le Fold7 : à raison d’une charge par jour, GSMArena estime que ce seuil est atteint en un peu plus de trois ans.
+      </p>
+      <p>
+        La robustesse mécanique pose aussi question. Le 27 août 2026, <a href={SRC.bend} target="_blank" rel="noopener">9to5Google a relayé le test de torsion</a> de la chaîne JerryRigEverything : l’écran intérieur du Fold8 Ultra a cessé de fonctionner, charnière et cadre restant intacts, alors que le Galaxy Z Fold8 a survécu à la même épreuve.
+        Ce type d’essai destructif ne reproduit pas un usage normal, mais il suggère que la finesse extrême a un prix.
+      </p>
+      <p>
+        Et ce prix se chiffre en cas de casse. <a href={SRC.mobigeeks} target="_blank" rel="noopener">Mobigeeks a relevé</a>, à partir des tarifs européens communiqués, environ 499 € pour le remplacement de l’écran intérieur et 176 € pour l’écran externe, des montants indicatifs qui varient selon le pays.
+        L’assurance <a href={SRC.samsungCare} target="_blank" rel="noopener">Samsung Care+</a>, souscrite au mois ou pour deux ans, couvre les dommages accidentels avec des réparations illimitées ; son tarif dépend du modèle et de la formule.
+      </p>
+
+      <TestSources
+        sources={sources}
+        heading="Ce qu’en disent GSMArena, Engadget, Notebookcheck et TechRadar"
+        intro="Quatre tests publiés entre le 3 août et le 5 septembre 2026, dont les notes sont reprises telles quelles."
+      />
+
+      <h2>Dans la boîte : un câble, et c’est tout</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra est livré avec un câble USB-C vers USB-C et une documentation, sans chargeur ni coque, selon <a href={SRC.gsm} target="_blank" rel="noopener">le déballage de GSMArena</a>. Les temps de charge mesurés plus haut supposent donc l’achat séparé d’un chargeur compatible de 45 W, un budget à ajouter au prix du téléphone si vous n’en possédez pas déjà un.
+      </p>
+      <p>
+        Samsung France vend trois coques dédiées : une <a href={SRC.caseClear} target="_blank" rel="noopener">coque transparente</a> accompagnée d’un film anti-reflets, une coque en silicone magnétique, compatible avec les batteries externes, chargeurs, supports voiture et porte-cartes magnétiques, et une <a href={SRC.caseCarbon} target="_blank" rel="noopener">coque en fibre de carbone avec support</a> intégré.
+        Aucun stylet n’est proposé, et pour cause : le Fold8 Ultra ne prend pas en charge le S Pen. Au lancement, Samsung France ajoutait six mois d’abonnement à Google AI Pro.
+      </p>
+      <p><AmazonButton query="coque Samsung Galaxy Z Fold8 Ultra" variant="ghost" size="sm" label="Voir les coques sur Amazon" /></p>
+
+      <h2>Versions, coloris et prix de lancement en France</h2>
+      <p>
+        Le Samsung Galaxy Z Fold8 Ultra a été lancé à 2 199 € en 12 Go / 256 Go, 2 399 € en 512 Go et 2 799 € en 16 Go / 1 To. Face au Fold7 à son lancement, la hausse atteint 100 € en 256 Go (2 199 € contre 2 099 €) et 180 € en 512 Go (2 399 € contre 2 219 €).
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Prix de lancement du Galaxy Z Fold8 Ultra en France par capacité</caption>
+          <thead>
+            <tr><th scope="col">Stockage</th><th scope="col">Mémoire vive</th><th scope="col">Prix de lancement</th><th scope="col">Écart avec 256 Go</th></tr>
+          </thead>
+          <tbody>
+            {
+              prices.map((x) => (
+                <tr>
+                  <td>{x.cap}</td>
+                  <td>{x.ram}</td>
+                  <td class="num"><strong>{euro(x.eur)}</strong></td>
+                  <td class="num">{x.eur === prices[0].eur ? '—' : `+ ${euro(x.eur - prices[0].eur)}`}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="table-scroll" style="margin-top:1rem">
+        <table>
+          <caption class="sr-only">Coloris du Galaxy Z Fold8 Ultra vendus en France</caption>
+          <thead>
+            <tr><th scope="col">Coloris</th><th scope="col">Où le trouver</th></tr>
+          </thead>
+          <tbody>
+            {colors.map((c) => <tr><td>{c.name}</td><td>{c.where}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Sans microSD, la capacité se choisit une fois pour toutes : 256 Go si vos photos partent dans le cloud, 512 Go pour tout garder en local. La version 1 To, seule à offrir 16 Go de mémoire vive, vise ceux qui filment beaucoup : la vidéo 8K remplit vite 256 Go.
+      </p>
+      <p><AmazonButton phone={p} label="Consulter l’offre sur Amazon" /></p>
+
+      <h2>Face à la concurrence : que choisir à la place ?</h2>
+
+      <h3>Galaxy Z Fold8 : 200 € de moins, la même puce</h3>
+      <p>
+        Le Galaxy Z Fold8 partage le processeur, la charge 45 W et l’indice IP48 de l’Ultra, pour 1 999 € au lancement en 256 Go. Il renonce au téléobjectif et au 200 Mpx, et adopte un format « passeport » avec un écran intérieur 4:3 de 7,6 pouces.
+        GSMArena et Notebookcheck attribuent la même note aux deux modèles (4,6/5 et 88 %) : le choix se fait sur le format et le zoom, pas sur la qualité générale.
+      </p>
+
+      <h3>Galaxy Z Fold7 : même gabarit, endurance en retrait</h3>
+      <p>
+        Le Galaxy Z Fold7, lancé le 25 juillet 2025 à 2 099 €, offre les mêmes diagonales, le capteur de 200 Mpx et le zoom x3 dans un boîtier identique. Il perd environ 2 h 45 au score d’usage actif de GSMArena et reste limité à 25 W.
+        Sa batterie classique est en revanche certifiée pour 2 000 cycles sur l’étiquette énergie. Modèle de l’an dernier, il se trouve souvent nettement moins cher : c’est l’option raisonnable si la charge rapide ne compte pas pour vous.
+      </p>
+
+      <h3>Galaxy Z Flip8 : si c’est la poche qui décide</h3>
+      <p>
+        Si la compacité vous importe davantage que le grand écran, le <a href={flip8.path}>Galaxy Z Flip8</a> coûtait 900 € de moins au lancement (1 299 €) et pèse 180 g, au prix d’un écran de 6,9 pouces, d’une batterie de 4 300 mAh et d’une charge plafonnée à 25 W.
+      </p>
+
+      <h3>Honor Magic V6 : la fiche technique plus musclée</h3>
+      <p>
+        Le <ObfLink href="/smartphone-pliant-honor/magic-v6/" class="obf-text">Honor Magic V6</ObfLink>, disponible en France depuis le 2 juillet 2026 à 2 299,90 € en 16 Go / 512 Go, répond point par point : batterie de 6 660 mAh, charge de 80 W en filaire et 66 W sans fil, certifications IP68 et IP69, téléobjectif périscopique de 64 Mpx à zoom x3 et 8,75 mm plié.
+        En 512 Go, il coûtait même un peu moins cher que l’Ultra. Le Samsung garde le capteur de 200 Mpx, quelques grammes de moins et sept ans de mises à jour promises.
+      </p>
+
+      <h3>Google Pixel 11 Pro Fold : IP68 et zoom x5 pour 1 999 €</h3>
+      <p>
+        Le <ObfLink href="/smartphone-pliant-google-pixel/pixel-11-pro-fold/" class="obf-text">Google Pixel 11 Pro Fold</ObfLink>, en vente depuis le 20 août 2026, reprend les mêmes diagonales de 8 et 6,5 pouces pour 200 € de moins en 256 Go. Il ajoute l’IP68, un téléobjectif x5 et la charge sans fil magnétique de 25 W.
+        En échange, il pèse 239 g, mesure 10,1 mm plié, se limite à 30 W en filaire et son Tensor G6 reste moins puissant que le Snapdragon de Samsung.
+      </p>
+      <p>
+        Enfin, le Motorola Razr Fold (2 199 € en 16 Go / 512 Go) livre un stylet dans sa boîte, là où Samsung a renoncé au S Pen.
+      </p>
+
+      <h2>Fiche technique du Galaxy Z Fold8 Ultra</h2>
+      <SpecTable phone={p} />
+
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce que saluent les tests" consTitle="Ce qu’ils reprochent" />
+
+      <h2>À qui s’adresse le Galaxy Z Fold8 Ultra ?</h2>
+      <p>
+        À l’acheteur qui veut remplacer d’un coup son smartphone, sa liseuse et son compact de voyage, et qui accepte d’y consacrer plus de 2 000 €. Le zoom x3, l’écran externe de format classique et une autonomie enfin au niveau en font le Fold le moins contraignant au quotidien.
+      </p>
+      <p>
+        Le possesseur d’un Fold7 hésitera davantage : l’écart se résume à l’endurance, à la charge, à l’ultra grand-angle et à la puce, dans un boîtier identique. Et si le zoom ne vous sert jamais, le Fold8 fait économiser 200 € et 14 g, avec des écrans aussi lumineux selon les mesures de GSMArena.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Vérifier la disponibilité" /></p>
+
+      <Faq items={faq} heading="Galaxy Z Fold8 Ultra : questions fréquentes" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="Les autres Galaxy Z du dossier Samsung" />
+    </article>
+
+    <aside class="sticky">
+      <ScoreBars phone={p} />
+      <div class="card" style="margin-top:1rem">
+        <strong>Prix de lancement en France</strong>
+        <ul class="small price-list">
+          {prices.map((x) => <li><span>{x.cap} · {x.ram}</span><b class="num">{euro(x.eur)}</b></li>)}
+        </ul>
+        <p class="small muted">Disponible depuis le 7 août 2026.</p>
+        <AmazonButton phone={p} label="Voir le prix sur Amazon" />
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <strong>Notes de la presse</strong>
+        <ul class="small price-list">
+          <li><span>GSMArena</span><b class="num">4,6/5</b></li>
+          <li><span>Engadget</span><b class="num">8,8/10</b></li>
+          <li><span>Notebookcheck</span><b class="num">88 %</b></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .price-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.6rem 0;
+  }
+  .price-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+</style>

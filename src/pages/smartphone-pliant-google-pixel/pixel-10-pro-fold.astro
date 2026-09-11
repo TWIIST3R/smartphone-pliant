@@ -1,0 +1,435 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Byline from '../../components/Byline.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Faq from '../../components/Faq.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('pixel-10-pro-fold');
+const next = byId('pixel-11-pro-fold');
+const v5 = byId('honor-magic-v5');
+const fold7 = byId('galaxy-z-fold7');
+const fold8 = byId('galaxy-z-fold8');
+const path = p.path;
+const title = 'Test Google Pixel 10 Pro Fold : vaut-il encore le coup ?';
+const description =
+  'Test du Google Pixel 10 Pro Fold : autonomie, charge et chauffe mesurées par Phonandroid, Clubic et la Fnac. Vaut-il encore le coup face au Pixel 11 Pro Fold ?';
+
+const SRC = {
+  clubic: 'https://www.clubic.com/test-produit-584653-test-google-pixel-10-pro-fold.html',
+  phonandroid: 'https://www.phonandroid.com/test-google-pixel-10-pro-fold-un-smartphone-qui-ne-plait-pas-a-tout-le-monde.html',
+  jdg: 'https://www.journaldugeek.com/test/test-google-pixel-10-pro-fold-le-pliant-tout-terrain/',
+  fnac: 'https://leclaireur.fnac.com/test/651689-test-labo-du-google-pixel-10-pro-fold-un-redoutable-pliant-qui-soublie-un-peu-sur-les-performances/',
+  techradarDurability: 'https://global.techradar.com/fr-fr/phones/google-pixel-phones/le-pixel-10-pro-fold-seffondre-sous-la-pression',
+  gsmSpecs: 'https://www.gsmarena.com/google_pixel_10_pro_fold-14014.php',
+  phonandroidLaunch: 'https://www.phonandroid.com/google-pixel-10-pro-fold-prix-sortie-fiche-technique-tout-savoir.html',
+  techradarColors:
+    'https://global.techradar.com/fr-fr/phones/google-pixel-phones/la-serie-google-pixel-10-se-devoile-avec-des-coloris-et-des-options-de-stockage-mais-certaines-combinaisons-sont-limitees',
+};
+
+const gap = Math.round((overall(next) - overall(p)) * 10) / 10;
+
+const rows = [
+  { k: 'Prix de lancement (256 Go)', a: euro(p.launchPrice), b: euro(next.launchPrice), gap: '100 € de moins pour le 10' },
+  { k: 'Puce', a: 'Tensor G5', b: 'Tensor G6', gap: 'Une génération d’écart' },
+  { k: 'Écran intérieur', a: '8"', b: '8"', gap: 'Identique' },
+  { k: 'Écran extérieur', a: '6,4"', b: '6,5"', gap: '+ 0,1" pour le 11' },
+  { k: 'Luminosité de pointe annoncée', a: '3 000 cd/m²', b: '3 600 cd/m²', gap: '+ 600 cd/m² pour le 11' },
+  { k: 'Batterie', a: mah(p.battery), b: mah(next.battery), gap: '+ 209 mAh pour le 10' },
+  { k: 'Charge filaire', a: p.wired, b: next.wired, gap: 'Identique' },
+  { k: 'Charge sans fil', a: p.wireless, b: next.wireless, gap: '+ 10 W pour le 11' },
+  { k: 'Appareils photo', a: '48 + 10,5 + 10,8 Mpx', b: '48 + 10,5 + 10,8 Mpx', gap: 'Nouveau capteur principal sur le 11' },
+  { k: 'Poids', a: `${p.weight} g`, b: `${next.weight} g`, gap: '19 g de moins pour le 11' },
+  { k: 'Épaisseur pliée', a: '10,8 mm', b: '10,1 mm', gap: '0,7 mm de moins pour le 11' },
+  { k: 'Protection', a: p.ip, b: next.ip, gap: 'Identique' },
+  { k: 'Réparabilité (étiquette UE)', a: 'Classe C', b: 'Classe B', gap: 'Un cran de mieux pour le 11' },
+  { k: 'Note globale', a: `${num(overall(p))}/10`, b: `${num(overall(next))}/10`, gap: `${num(gap)} point pour le 11` },
+];
+
+const measures = [
+  { label: 'Usage continu, écran intérieur seul', value: '14 h', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Usage continu, écran externe seul', value: '18 h', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Autonomie, protocole de laboratoire', value: '12 h 09', source: 'L’Éclaireur Fnac', url: SRC.fnac },
+  { label: 'Autonomie par cycle (étiquette énergie UE)', value: '47 h 55', source: 'Étiquette UE, via GSMArena', url: SRC.gsmSpecs },
+  { label: 'Charge filaire : 30 minutes', value: '37 %', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge complète', value: '108 min', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge complète', value: '90 min', source: 'Clubic', url: SRC.clubic },
+  { label: 'Luminosité manuelle max. (intérieur / externe)', value: '1 229 / 1 362 cd/m²', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Delta E moyen (deux écrans)', value: '1,7', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Volume maximal des haut-parleurs', value: '97 dB', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'AnTuTu', value: '1 504 540', source: 'Clubic', url: SRC.clubic },
+  { label: 'Geekbench 6 (monocœur / multicœur)', value: '2 294 / 6 147', source: 'Clubic', url: SRC.clubic },
+  { label: '3DMark Wild Life Extreme', value: '3 264', source: 'Clubic', url: SRC.clubic },
+  { label: 'Température maximale sous charge', value: '48 °C', source: 'Clubic et Phonandroid', url: SRC.clubic },
+  { label: 'Chutes répétées (étiquette énergie UE)', value: 'Classe A (210 chutes)', source: 'Étiquette UE, via GSMArena', url: SRC.gsmSpecs },
+];
+
+const versions = [
+  { cap: '256 Go', colors: 'Moonstone, Jade', price: euro(p.launchPrice) },
+  { cap: '512 Go', colors: 'Moonstone, Jade', price: 'Non confirmé par nos sources' },
+  { cap: '1 To', colors: 'Moonstone uniquement', price: 'Non confirmé par nos sources' },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: SRC.clubic,
+    date: '2025-11-05',
+    note: '9/10',
+    verdict:
+      'Un pliant mûr et équilibré : excellents écrans, autonomie enfin convaincante, IP68 et sept ans de suivi. Le design reconduit et le Tensor G5 sont les principaux reproches.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: SRC.jdg,
+    date: '2025-10-13',
+    note: '8/10',
+    verdict:
+      'Le pliant le plus polyvalent grâce à l’IP68, endurant et fiable en photo, mais trop proche de son prédécesseur, épais et moins puissant que les modèles à Snapdragon.',
+  },
+  {
+    media: 'Phonandroid',
+    url: SRC.phonandroid,
+    date: '2025-10-08',
+    verdict:
+      'Bien construit, très bien étalonné et nettement plus endurant ; à 1 899 €, les limites du Tensor G5, de la photo de nuit et de la recharge pèsent pourtant lourd.',
+  },
+  {
+    media: 'L’Éclaireur Fnac (labo)',
+    url: SRC.fnac,
+    date: '2026-01-22',
+    note: '3/5',
+    verdict:
+      'Qualité d’écran et de photo de premier plan, bonne autonomie en laboratoire, mais performances graphiques modestes et recharge jugée lente pour 2026.',
+  },
+];
+
+const pros = [
+  'IP68 et classe A en résistance aux chutes (étiquette UE)',
+  'Écrans très fidèles : Delta E de 1,7 selon Phonandroid',
+  'Autonomie de 14 à 18 h en usage continu (Phonandroid)',
+  'Téléobjectif optique x5',
+  'Mises à jour jusqu’en 2032',
+  'Wi-Fi 7, UWB et SOS par satellite',
+];
+const cons = [
+  '258 g et 10,8 mm plié',
+  'Tensor G5 à 6/10 en graphisme (labo Fnac)',
+  'Recharge lente : 37 % en 30 min chez Phonandroid',
+  'Photo et vidéo de nuit en retrait',
+  'Charge sans fil limitée à 15 W',
+  'Réparabilité classée C, ni chargeur ni coque fournis',
+];
+
+const faq = [
+  {
+    q: 'Le Pixel 10 Pro Fold vaut-il encore le coup en 2026 ?',
+    a: 'Oui, s’il est affiché nettement moins cher que le Pixel 11 Pro Fold. Le Google Pixel 10 Pro Fold conserve l’IP68, le zoom x5, l’écran de 8 pouces et une batterie plus grosse (5 015 mAh), avec des mises à jour jusqu’en 2032. Il est en revanche plus lourd (258 g contre 239 g), recharge sans fil moins vite (15 W contre 25 W) et son Tensor G5 reste modeste en jeu.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Google Pixel 10 Pro Fold ?',
+    a: 'Phonandroid a mesuré 14 heures d’usage continu avec l’écran intérieur seul et 18 heures avec l’écran externe, soit un jour et demi à deux jours en usage courant. Le laboratoire de L’Éclaireur Fnac relève 12 h 09 avec son propre protocole. Clubic et le Journal du Geek approchent deux jours en usage léger avec la batterie de 5 015 mAh.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Pixel 10 Pro Fold ?',
+    a: 'Plus longtemps que la plupart des pliants récents. Malgré une charge filaire annoncée à 30 W, Phonandroid obtient 37 % en 30 minutes et une charge complète en 108 minutes. Clubic compte 90 minutes et le laboratoire de la Fnac 1 h 42. La charge sans fil magnétique Qi2 du Google Pixel 10 Pro Fold est limitée à 15 W.',
+  },
+  {
+    q: 'Le Google Pixel 10 Pro Fold est-il étanche ?',
+    a: 'Oui. Le Google Pixel 10 Pro Fold est le premier smartphone pliant certifié IP68 : il est étanche à la poussière et résiste à l’immersion. Les Galaxy Z Fold8 et Z Fold8 Ultra, sortis le 7 août 2026, restent IP48. Cette certification ne protège pas contre les contraintes mécaniques extrêmes, comme une torsion volontaire du châssis.',
+  },
+  {
+    q: 'Le Pixel 10 Pro Fold est-il livré avec un chargeur ?',
+    a: 'Non. D’après le Journal du Geek, la boîte du Google Pixel 10 Pro Fold contient le téléphone, la documentation et un câble USB-C, sans chargeur ni coque. Pour profiter de la charge filaire de 30 W, il faut un bloc compatible acheté à part, comme le rappellent Phonandroid et Clubic. La charge sans fil Qi2, limitée à 15 W, fonctionne avec les chargeurs aimantés du marché.',
+  },
+  {
+    q: 'Quels coloris existent pour le Google Pixel 10 Pro Fold ?',
+    a: 'Le Google Pixel 10 Pro Fold a été commercialisé en deux coloris : Moonstone, un gris clair, et Jade, un vert d’eau. Selon Phonandroid et TechRadar, le Jade est proposé en 256 et 512 Go mais pas en 1 To, capacité réservée au Moonstone. Toutes les versions embarquent 16 Go de mémoire vive.',
+  },
+  {
+    q: 'Le Pixel 10 Pro Fold est-il facile à réparer ?',
+    a: 'Moyennement. Sur l’étiquette énergie européenne relevée par GSMArena, le Google Pixel 10 Pro Fold obtient la classe C en réparabilité, un cran sous le Pixel 11 Pro Fold (B). Il fait mieux sur la solidité, avec la classe A pour les chutes répétées (210 chutes), et sa batterie est déclarée pour 1 000 cycles de charge.',
+  },
+  {
+    q: 'Pixel 10 Pro Fold ou Honor Magic V5 : lequel choisir ?',
+    a: 'Le Honor Magic V5, lancé à 1 999,90 € en 512 Go, est bien plus fin (8,8 mm plié contre 10,8 mm) et plus léger (217 g contre 258 g), avec une charge 66 W. Le Google Pixel 10 Pro Fold, lancé à 1 899 € en 256 Go, répond par l’IP68, un zoom optique x5 et la classe A en chutes répétées, là où le Magic V5 reste IP58 et classé C.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Google Pixel 10 Pro Fold'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article class="wrap section-tight">
+    <div class="prose">
+      <span class="eyebrow">Test · génération 2025 · Google</span>
+      <h1>Test du Google Pixel 10 Pro Fold : vaut-il encore le coup face au Pixel 11 ?</h1>
+      <ProductSummary phone={p} ctaLabel="Consulter l’offre Amazon" />
+      <p class="lede">
+        Lancé en France le 9 octobre 2025 à {euro(p.launchPrice)} en 16 Go / 256 Go, le Google Pixel 10 Pro Fold a été le premier smartphone pliant certifié IP68. Onze mois plus tard, le Pixel 11 Pro Fold l’a remplacé ; notre page consacrée au <a href="/smartphone-pliant-google-pixel/">smartphone pliant Google Pixel</a> suit les deux modèles.
+        Ce test rassemble ce que la presse a mesuré, avec 9/10 chez Clubic et 8/10 au Journal du Geek, et le relit à la lumière de septembre 2026.
+      </p>
+      <Byline minutes={17} />
+      <p class="small muted">
+        Synthèse des tests de Clubic, du Journal du Geek, de Phonandroid et du laboratoire de L’Éclaireur Fnac, complétée par la fiche technique de GSMArena. La rédaction n’a pas eu l’appareil en main ; les mesures sont attribuées à leurs auteurs.
+      </p>
+
+      <Callout variant="answer" title="Notre réponse en septembre 2026">
+        <p>
+          Oui, si son prix est nettement inférieur à celui du Pixel 11 Pro Fold. Les tests publiés lui reconnaissent des écrans très fidèles, une autonomie solide (14 à 18 heures d’usage continu chez Phonandroid) et le même zoom x5 que son successeur, avec l’IP68 et un suivi logiciel jusqu’en 2032.
+          Ses défauts n’ont pas disparu pour autant : 258 g, un Tensor G5 modeste en jeu et une recharge lente, jusqu’à 108 minutes pour un plein selon Phonandroid.
+          Il vise l’acheteur qui garde son téléphone plusieurs années, photographie souvent de loin et veut un pliant qui ne craint ni l’eau ni le sable.
+          Les joueurs, les voyageurs qui rechargent en coup de vent et ceux que le poids rebute ont de meilleures options, à commencer par son successeur.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} label="Voir le prix sur Amazon" /></p>
+
+      <h2>Pixel 10 Pro Fold contre Pixel 11 Pro Fold : ce qui les sépare</h2>
+      <p>
+        Sur le papier, près de la moitié de la fiche technique est identique. Les écarts portent sur le gabarit, la puce, la recharge sans fil, la luminosité annoncée et la réparabilité. Le détail du modèle 2026 figure dans notre <a href={next.path}>test du Google Pixel 11 Pro Fold</a>.
+      </p>
+    </div>
+
+    <div class="table-scroll" style="margin-top:1rem;max-width:860px">
+      <table>
+        <caption class="sr-only">Écarts entre le Google Pixel 10 Pro Fold et le Google Pixel 11 Pro Fold</caption>
+        <thead>
+          <tr>
+            <th scope="col">Caractéristique</th>
+            <th scope="col">Pixel 10 Pro Fold (2025)</th>
+            <th scope="col">Pixel 11 Pro Fold (2026)</th>
+            <th scope="col">Écart</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <th scope="row">{r.k}</th>
+              <td class="num">{r.a}</td>
+              <td class="num">{r.b}</td>
+              <td class="small">{r.gap}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <p>
+        Un détail contre-intuitif mérite d’être relevé : dans les mesures de Clubic, le Pixel 10 Pro Fold obtient un meilleur score AnTuTu que son successeur (1 504 540 points contre 1 193 492) et un multicœur Geekbench 6 plus élevé (6 147 contre 5 757). Le Tensor G6 reprend l’avantage en monocœur et en IA, mais la génération 2025 n’a pas à rougir en puissance brute.
+      </p>
+
+      <h2>Design : 258 g, le défaut qui a le plus vieilli</h2>
+      <p>
+        Le Google Pixel 10 Pro Fold pèse 258 g et mesure 10,8 mm plié, 5,2 mm déplié. À sa sortie, Clubic le plaçait déjà dans la moyenne haute des pliants ; un an plus tard, le Pixel 11 Pro Fold a perdu 19 g et plusieurs concurrents passent sous les 9 mm fermés.
+        Le Journal du Geek lui reproche un design trop proche du Pixel 9 Pro Fold, des bordures épaisses et des coins d’écran très arrondis, qui donnent une impression d’espace perdu.
+      </p>
+      <p>
+        Sa robustesse compense en partie. Premier pliant certifié IP68, il résiste à la poussière et à l’immersion, ce qui lui vaut chez le <a href={SRC.jdg} target="_blank" rel="noopener">Journal du Geek</a> le qualificatif de pliant « tout terrain ». Google annonce une charnière sans engrenage conçue pour dix ans d’usage, et Clubic la décrit plus fluide et plus rassurante que sur les générations précédentes.
+      </p>
+      <p>
+        Cette charnière tient le téléphone ouvert à n’importe quel angle. Clubic y voit un atout pour poser l’appareil en forme de tente pendant une visioconférence ou une vidéo, sans support. Le cadre est en aluminium, et l’écran externe comme le dos sont protégés par du Gorilla Glass Victus 2 d’après GSMArena et Phonandroid.
+      </p>
+      <p>
+        Deux coloris ont été commercialisés en France : Moonstone, un gris clair, et Jade, un vert d’eau plus acidulé. Selon Phonandroid et <a href={SRC.techradarColors} target="_blank" rel="noopener">TechRadar</a>, le Jade n’existe pas en 1 To, capacité réservée au Moonstone.
+      </p>
+      <p>
+        Un bémol a toutefois circulé. Lors d’un test de torsion extrême réalisé par le vidéaste JerryRigEverything et <a href={SRC.techradarDurability} target="_blank" rel="noopener">relayé par TechRadar</a>, l’appareil s’est rompu le long d’une ligne d’antenne et sa batterie a dégagé de la fumée. Il s’agit d’une destruction volontaire, sans rapport avec un usage normal, mais elle rappelle que l’étanchéité ne dit rien de la résistance à la flexion.
+      </p>
+      <PhoneGallery id={p.id} />
+
+      <h2>Écrans : toujours au niveau un an plus tard</h2>
+      <p>
+        L’écran intérieur OLED de 8 pouces et l’écran externe de 6,4 pouces du Google Pixel 10 Pro Fold restent parmi ses meilleurs arguments. Google annonce 3 000 cd/m² en pointe, contre 3 600 cd/m² sur le modèle 2026.
+      </p>
+      <p>
+        <a href={SRC.phonandroid} target="_blank" rel="noopener">Phonandroid</a> a mesuré 1 229 cd/m² en luminosité manuelle maximale sur l’écran intérieur et 1 362 cd/m² sur l’écran externe, avec un Delta E moyen de 1,7 sur les deux dalles. C’est un étalonnage très fidèle, meilleur que celui relevé par le même média sur le Pixel 11 Pro Fold (2,97 et 3,55).
+        Le laboratoire de L’Éclaireur Fnac attribue la note maximale au contraste et à la fidélité des couleurs, mais seulement 6/10 à la densité de pixels. Chez Clubic, la marque du pli reste visible, puis s’oublie au bout de quelques jours.
+      </p>
+
+      <h2>Performances : le Tensor G5 tient la route, pas la cadence</h2>
+      <p>
+        Le Tensor G5 du Google Pixel 10 Pro Fold suffit largement au quotidien, mais reste loin des Snapdragon 8 Elite en jeu. <a href={SRC.clubic} target="_blank" rel="noopener">Clubic</a> relève 1 504 540 points sur AnTuTu, 2 294 et 6 147 points sur Geekbench 6 et 3 264 points sur 3DMark Wild Life Extreme, et note que la température peut grimper jusqu’à 48 °C.
+        Phonandroid mesure le même pic de 48 °C sur l’écran intérieur (46 °C au dos) et salue des performances régulières sous charge.
+      </p>
+      <p>
+        Le laboratoire de la Fnac donne 10/10 aux usages simples comme intensifs, mais 6/10 aux performances graphiques. Le constat est cohérent d’un test à l’autre : navigation, multitâche sur 8 pouces et photo ne posent aucun problème, les jeux 3D exigeants si.
+        Avec 16 Go de mémoire vive, l’appareil garde plusieurs applications ouvertes sans rechargement. Notre note performances est de 7,6/10, la plus basse des pliants au format livre que nous suivons.
+      </p>
+
+      <h2>Photo : le zoom x5 n’a pas pris une ride</h2>
+      <p>
+        Le module photo du Google Pixel 10 Pro Fold reprend les définitions du Pixel 11 Pro Fold : 48 Mpx pour le capteur principal, 10,5 Mpx pour l’ultra grand-angle et 10,8 Mpx pour le téléobjectif x5, complétés par deux caméras selfie de 10 Mpx. Seul le capteur principal a changé en 2026, selon Engadget et Clubic.
+      </p>
+      <p>
+        Clubic compte la qualité photo parmi ses points forts, et le laboratoire de la Fnac accorde 9,2/10 au module arrière et 9,4/10 à la caméra frontale. Les réserves portent sur la basse lumière : 6/10 dans ce critère pour la Fnac, tandis que Phonandroid regrette des photos de nuit moyennes, du bruit en vidéo nocturne, des reflets et un traitement logiciel parfois trop présent.
+        Le Journal du Geek juge l’ensemble fiable en photo comme en vidéo.
+      </p>
+      <p>
+        Clubic détaille les résultats scène par scène. De jour, le piqué est excellent, les couleurs fidèles et la plage dynamique large. La nuit, le mode Vision de nuit produit des images claires, mais le site conseille de ne pas dépasser le zoom x5 dans ces conditions.
+        Le téléobjectif x5 donne satisfaction, et le zoom numérique monte jusqu’à x20 au prix d’une dégradation progressive. Le mode portrait livre un flou d’arrière-plan convaincant, sauf sur les scènes complexes où le détourage hésite.
+      </p>
+      <p>
+        Phonandroid ajoute une nuance utile : le capteur principal de 48 Mpx brille en journée, alors que l’ultra grand-angle et le téléobjectif dépendent davantage du traitement par IA et s’essoufflent en soirée. Le Journal du Geek rappelle que ces deux capteurs sont ceux du Pixel 10 classique, et non ceux du Pixel 10 Pro.
+      </p>
+      <p>
+        Pour les selfies, Clubic juge la qualité standard ; le Journal du Geek relève un autofocus et la vidéo 4K à 60 images par seconde sur les caméras frontales. La vidéo arrière monte elle aussi en 4K à 60 i/s, avec une stabilisation électronique jugée performante et un mode Vision de nuit exploitable par le Journal du Geek. Pour zoomer de loin en plein jour, le Pixel 10 Pro Fold reste l’un des pliants les plus polyvalents ; nous le notons 8,8/10.
+      </p>
+
+      <h2>Autonomie et charge : l’endurance tient, la recharge traîne</h2>
+      <p>
+        Avec 5 015 mAh, le Google Pixel 10 Pro Fold possède la plus grosse batterie de l’histoire des Pixel Fold, 209 mAh de plus que le modèle 2026. Clubic salue une autonomie « enfin » au niveau, et les mesures publiées vont dans ce sens.
+      </p>
+      <p>
+        Phonandroid a mesuré 14 heures d’usage continu avec le seul écran intérieur et 18 heures avec l’écran externe, soit un jour et demi à deux jours en usage courant. Le laboratoire de <a href={SRC.fnac} target="_blank" rel="noopener">L’Éclaireur Fnac</a> relève 12 h 09 avec son propre protocole.
+        En usage réel, Clubic dépasse la journée avec de la marge et approche deux jours en usage léger ; le Journal du Geek fait le même constat. Ces protocoles ne sont pas ceux employés un an plus tard sur le Pixel 11 Pro Fold : évitez de comparer les heures d’un modèle à l’autre.
+        Seule donnée normalisée entre les deux générations, l’étiquette énergie européenne affiche 47 h 55 par cycle de charge pour le Pixel 10 Pro Fold, contre 45 h 05 pour le Pixel 11 Pro Fold.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Google Pixel 10 Pro Fold" />
+      <p style="margin-top:1rem">
+        La recharge, elle, a mal vieilli. Google annonce 30 W en filaire, mais Phonandroid n’obtient que 37 % en 30 minutes, 80 % en 72 minutes et un plein en 108 minutes, en soulignant qu’un chargeur compatible est indispensable pour déclencher la charge rapide.
+        Clubic compte 90 minutes pour une charge complète, la Fnac 1 h 42. La charge sans fil magnétique Qi2 plafonne à 15 W, contre 25 W sur le Pixel 11 Pro Fold.
+      </p>
+
+      <h2>Logiciel : un suivi garanti jusqu’en 2032</h2>
+      <p>
+        Livré sous Android 16, le Google Pixel 10 Pro Fold bénéficie de sept ans de mises à jour du système et de sécurité, soit un suivi jusqu’en 2032 comme le rappelle Clubic. C’est un an de moins que son successeur, mais il reste environ six ans de correctifs pour un exemplaire acheté aujourd’hui.
+      </p>
+      <p>
+        L’interface Pixel, dépourvue d’applications superflues selon Phonandroid, a été largement optimisée pour le grand écran d’après le Journal du Geek. Gemini y est intégré, et la compatibilité Qi2 aimantée (Pixelsnap) permet de fixer chargeurs et accessoires magnétiques au dos.
+      </p>
+      <p>
+        Clubic apprécie un multifenêtre qui permet d’ajuster finement deux applications côte à côte sur l’écran de 8 pouces, ainsi que Gemini Live et la traduction vocale en temps réel. Quelques outils d’IA, dont Pixel Studio et le générateur de musique, ne sont toutefois pas proposés en France selon le site.
+        Le Journal du Geek cite enfin des fonctions propres au format, comme l’aperçu affiché sur les deux écrans et la possibilité de réaliser ses selfies avec les capteurs arrière, téléphone déplié.
+      </p>
+
+      <h2>Son, réseaux et empreinte : rien ne manque à l’appel</h2>
+      <p>
+        Le Google Pixel 10 Pro Fold dispose de deux haut-parleurs stéréo placés sur les tranches supérieure et inférieure. Phonandroid a mesuré un volume maximal de 97 dB, avec des médiums dominants et des basses perceptibles dès 50 Hz, mais relève des grésillements au-delà de la moitié du volume.
+        Le Journal du Geek signale la compatibilité Dolby Atmos et trois microphones, et Phonandroid précise que le micro logé près du module photo aide à atténuer le bruit ambiant en vidéo. Il n’y a pas de prise jack.
+      </p>
+      <p>
+        La connectivité n’a rien à envier au modèle 2026. <a href={SRC.gsmSpecs} target="_blank" rel="noopener">GSMArena</a> liste le Wi-Fi 7 tri-bande, le Bluetooth 6.0 avec aptX HD, le NFC, l’ultra-large bande (UWB) et un port USB-C 3.2. Le téléphone associe une nano-SIM et une eSIM, et le Journal du Geek mentionne la fonction SOS par satellite. Phonandroid remarque que le tiroir SIM a migré sur la tranche supérieure.
+      </p>
+      <p>
+        Le déverrouillage passe par un lecteur d’empreintes logé dans le bouton d’alimentation, que Phonandroid trouve très réactif. Clubic mentionne aussi une reconnaissance faciale 2D, qui dépanne quand les doigts sont mouillés ou gantés.
+      </p>
+
+      <h2>Solidité et réparabilité : l’étiquette européenne rend un avis contrasté</h2>
+      <p>
+        Au-delà de l’IP68, qui autorise selon GSMArena une immersion à 1,5 m pendant 30 minutes, l’étiquette énergie européenne apporte des données comparables d’un modèle à l’autre. D’après la fiche de GSMArena, le Google Pixel 10 Pro Fold est classé B en efficacité énergétique et A en résistance aux chutes répétées, avec 210 chutes sans défaut. Sa batterie est déclarée pour 1 000 cycles de charge.
+      </p>
+      <p>
+        La réparabilité ne dépasse pas la classe C, un cran sous le Pixel 11 Pro Fold (B). Cette note agrège notamment la facilité de démontage, les outils nécessaires, la disponibilité des pièces détachées et la documentation de réparation : pour un appareil que l’on compte garder jusqu’en 2032, c’est un critère à peser, surtout sur un pliant dont l’écran intérieur reste la pièce la plus exposée.
+      </p>
+
+      <h2>Dans la boîte : un câble, et c’est à peu près tout</h2>
+      <p>
+        Le Journal du Geek décrit un contenu minimal : le Google Pixel 10 Pro Fold, sa documentation et un câble USB-C. Ni chargeur ni coque ne sont fournis. Phonandroid et Clubic rappellent que le chargeur rapide est vendu séparément, tout comme la coque assortie proposée par Google.
+      </p>
+      <p>
+        Prévoyez donc un bloc USB-C compatible pour atteindre les 30 W, faute de quoi les temps de charge déjà longs s’allongent encore. La compatibilité Qi2 aimantée permet en revanche de réutiliser les chargeurs, supports de voiture et batteries magnétiques du marché, sans coque spéciale.
+      </p>
+
+      <h2>Versions, coloris et prix : quel écart justifie de choisir le modèle 2025 ?</h2>
+      <p>
+        Le Google Pixel 10 Pro Fold a été lancé à {euro(p.launchPrice)} en 256 Go, 100 € de moins que le Pixel 11 Pro Fold à sa sortie ({euro(next.launchPrice)}). Selon <a href={SRC.phonandroidLaunch} target="_blank" rel="noopener">Phonandroid</a>, Google n’avait communiqué que ce tarif lors de l’annonce française : faute de source officielle retrouvée, nous ne reprenons pas les prix des autres capacités.
+      </p>
+    </div>
+
+    <div class="table-scroll" style="margin-top:1rem;max-width:860px">
+      <table>
+        <caption class="sr-only">Versions et coloris du Google Pixel 10 Pro Fold en France</caption>
+        <thead>
+          <tr>
+            <th scope="col">Stockage</th>
+            <th scope="col">Mémoire vive</th>
+            <th scope="col">Coloris</th>
+            <th scope="col">Prix de lancement en France</th>
+          </tr>
+        </thead>
+        <tbody>
+          {versions.map((v) => (
+            <tr>
+              <th scope="row">{v.cap}</th>
+              <td>16 Go</td>
+              <td>{v.colors}</td>
+              <td class="num">{v.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <p>
+        Depuis l’arrivée du modèle 2026, le 20 août 2026, le Pixel 10 Pro Fold se trouve souvent nettement moins cher.
+        Ce que vous abandonnez en le choisissant tient en cinq points : 19 g, la charge sans fil 25 W, un capteur principal plus net, une classe de réparabilité et une année de suivi logiciel. Ce que vous gagnez : 209 mAh et un étalonnage mesuré plus fidèle.
+      </p>
+
+      <Callout variant="tip" title="Acheter un modèle remplacé sans mauvaise surprise">
+        <p>
+          Vérifiez que l’offre porte sur un appareil neuf et non reconditionné, vendu par Amazon ou par un marchand identifié, avec une garantie valable en France. Sur un pliant, assurez-vous aussi que le film de l’écran intérieur est intact : il fait partie de la dalle et ne doit jamais être retiré.
+          Comparez enfin avec le prix du Pixel 11 Pro Fold le jour de l’achat : si l’écart ne dépasse pas une centaine d’euros, le modèle 2026 vaut le supplément.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} variant="ghost" label="Vérifier la disponibilité" /></p>
+
+      <h2>Les autres pliants à comparer avant de payer</h2>
+      <p>
+        Hors de la gamme Google, trois modèles au format livre croisent la route du Google Pixel 10 Pro Fold, chacun avec un compromis différent.
+      </p>
+      <p>
+        Le <ObfLink href={v5.path} class="obf-text">Honor Magic V5</ObfLink> est son opposé sur le plan du gabarit. Lancé à {euro(v5.launchPrice)} en 16 Go / 512 Go, il mesure 8,8 mm plié pour 217 g, embarque {mah(v5.battery)} et charge en 66 W filaire comme en 50 W sans fil. Il perd en revanche l’IP68 au profit d’un IP58 / IP59 qui protège partiellement de la poussière, et son périscope se limite au zoom optique x3. Sur l’étiquette européenne, il est classé C en chutes répétées, contre A pour le Pixel.
+      </p>
+      <p>
+        Le <ObfLink href={fold7.path} class="obf-text">Samsung Galaxy Z Fold7</ObfLink>, lancé à {euro(fold7.launchPrice)} en 12 Go / 256 Go, mise sur la finesse (8,9 mm, 215 g) et un capteur de 200 Mpx associé à un téléobjectif x3. Sa batterie de {mah(fold7.battery)} et sa charge 25 W sont en retrait, et il reste IP48. Samsung promet sept ans de mises à jour Android, comme Google.
+      </p>
+      <p>
+        Le Samsung Galaxy Z Fold8, sorti le 7 août 2026 à {euro(fold8.launchPrice)}, adopte un écran intérieur au format 4:3, idéal pour la vidéo, pèse 201 g et charge en 45 W. Il n’a pas de téléobjectif et reste IP48 : pour qui zoome souvent, le Pixel 10 Pro Fold garde l’avantage.
+      </p>
+      <p><AmazonButton phone={p} size="sm" variant="ghost" label="Voir les coloris du Pixel 10 Pro Fold" /></p>
+
+      <TestSources sources={sources} heading="Ce qu’en a dit la presse à sa sortie" />
+
+      <h2>Le verdict chiffré</h2>
+    </div>
+
+    <div class="grid" style="--min:300px;margin-top:1rem;max-width:860px">
+      <ScoreBars phone={p} />
+      <div class="card">
+        <strong>Pour qui en 2026 ?</strong>
+        <p class="small">
+          L’acheteur qui veut un pliant étanche avec un vrai zoom, garde volontiers un téléphone plusieurs années et accepte 258 g en échange d’un prix nettement plus doux qu’au lancement.
+        </p>
+        <p class="small muted">Prix de lancement : {euro(p.launchPrice)} (16 Go / 256 Go), sortie le 9 octobre 2025.</p>
+        <AmazonButton phone={p} size="sm" label="Consulter l’offre Amazon" />
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:2rem">
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce qui tient" consTitle="Ce qui a vieilli" />
+
+      <h2>Fiche technique du Pixel 10 Pro Fold</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Pixel 10 Pro Fold : vos questions en 2026" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="L’autre Pixel pliant" />
+    </div>
+  </article>
+</BaseLayout>

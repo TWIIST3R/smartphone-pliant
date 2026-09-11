@@ -1,0 +1,92 @@
+[
+  {
+    "key": "breve",
+    "label": "Brève",
+    "words": [400, 650],
+    "skeleton": "Chapô factuel (qui, quoi, quand) ; 3 à 5 paragraphes courts, sans intertitre ou avec 2 intertitres maximum ; un paragraphe « Ce que ça change pour vous »."
+  },
+  {
+    "key": "analyse",
+    "label": "Analyse",
+    "words": [900, 1400],
+    "skeleton": "Contexte daté ; les faits en un paragraphe ; 3 ou 4 intertitres qui affirment quelque chose ; un tableau si les données s'y prêtent ; « Notre lecture » en fin d'article."
+  },
+  {
+    "key": "guide-pratique",
+    "label": "Guide pratique",
+    "words": [800, 1300],
+    "skeleton": "Problème concret en introduction ; étapes numérotées en intertitres (« 1. … ») ; un avertissement en gras ; récapitulatif en liste courte."
+  },
+  {
+    "key": "questions-reponses",
+    "label": "Questions-réponses",
+    "words": [700, 1100],
+    "skeleton": "Introduction de 2 phrases ; 6 à 9 intertitres rédigés comme de vraies questions de lecteurs ; réponse directe dès la première phrase de chaque bloc."
+  },
+  {
+    "key": "chronologie",
+    "label": "Chronologie",
+    "words": [600, 1000],
+    "skeleton": "Introduction ; liste datée du plus ancien au plus récent (dates en gras) ; paragraphe « Et maintenant ? » sur la prochaine échéance."
+  },
+  {
+    "key": "rumeur-realite",
+    "label": "Rumeur ou réalité",
+    "words": [600, 1000],
+    "skeleton": "Rappel de la rumeur et de sa source ; tableau à 3 colonnes (ce qui circule / ce qui est confirmé / source) ; verdict nuancé point par point."
+  },
+  {
+    "key": "face-a-face",
+    "label": "Face-à-face",
+    "words": [700, 1100],
+    "skeleton": "Deux modèles ou deux options ; tableau comparatif ; 4 manches courtes avec vainqueur explicite ; profil d'acheteur pour chacun."
+  },
+  {
+    "key": "en-chiffres",
+    "label": "En chiffres",
+    "words": [500, 900],
+    "skeleton": "6 à 8 chiffres clés, chacun en intertitre (le chiffre d'abord), suivi d'un paragraphe d'explication sourcé."
+  },
+  {
+    "key": "liste-conseils",
+    "label": "Conseils",
+    "words": [700, 1200],
+    "skeleton": "Nombre non rond (5, 7, 9 ou 11) de conseils ou d'erreurs à éviter, en intertitres numérotés ; chaque point illustré par un exemple concret."
+  },
+  {
+    "key": "decryptage",
+    "label": "Décryptage",
+    "words": [800, 1300],
+    "skeleton": "Une technologie ou une notion (charnière, verre ultrafin, batterie silicium-carbone, indice IP…) : comment ça marche, pourquoi c'est important, quels modèles, quelles limites."
+  },
+  {
+    "key": "mise-a-jour",
+    "label": "Mise à jour logicielle",
+    "words": [500, 900],
+    "skeleton": "Ce qui arrive et quand ; tableau des modèles concernés ; nouveautés en liste ; comment vérifier ou installer ; précautions."
+  },
+  {
+    "key": "acheter-ou-attendre",
+    "label": "Acheter ou attendre ?",
+    "words": [700, 1100],
+    "skeleton": "Situation d'achat précise ; arguments pour acheter maintenant ; arguments pour attendre (calendrier connu et sourcé) ; verdict par profil. Aucun prix actuel."
+  },
+  {
+    "key": "marche",
+    "label": "Marché",
+    "words": [700, 1100],
+    "skeleton": "Chiffres d'un cabinet d'études (Counterpoint, IDC, Canalys…) ; ce qu'ils disent ; lecture pour la France ; ce que cela implique pour les acheteurs."
+  },
+  {
+    "key": "lexique",
+    "label": "Lexique",
+    "words": [600, 1000],
+    "skeleton": "8 à 12 termes d'un même thème en intertitres : définition claire et exemple sur un modèle du catalogue."
+  },
+  {
+    "key": "billet",
+    "label": "Billet",
+    "words": [500, 800],
+    "skeleton": "Opinion argumentée et signée sur un fait d'actualité ; ton plus personnel mais sans prétendre avoir manipulé les appareils ; 2 ou 3 arguments ; ouverture."
+  }
+]

@@ -1,0 +1,52 @@
+---
+// Listing des pages sœurs, en bas de contenu (règle du cocon).
+import { siblingsOf } from '../data/cocoon';
+
+interface Props {
+  path: string;
+  heading: string;
+  intro?: string;
+  variant?: 'list' | 'chips' | 'cards';
+}
+
+const { path, heading, intro, variant = 'list' } = Astro.props;
+const sisters = siblingsOf(path);
+---
+
+{
+  sisters.length > 0 && (
+    <nav class="siblings" aria-label={heading} data-siblings>
+      <h2>{heading}</h2>
+      {intro && <p class="muted">{intro}</p>}
+      {variant === 'list' && (
+        <ul class="sib-list">
+          {sisters.map((s) => (
+            <li>
+              <a href={s.path}>{s.title}</a>
+              <span>{s.teaser}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {variant === 'chips' && (
+        <ul class="sib-chips">
+          {sisters.map((s) => (
+            <li>
+              <a href={s.path}>{s.label}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+      {variant === 'cards' && (
+        <div class="grid" style="--min:220px">
+          {sisters.map((s) => (
+            <a class="card tile-link" href={s.path}>
+              <strong>{s.title}</strong>
+              <p class="small muted mb-0">{s.teaser}</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
+  )
+}

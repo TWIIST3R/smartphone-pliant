@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Byline from '../../components/Byline.astro';
+import Callout from '../../components/Callout.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Faq from '../../components/Faq.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num, mah } from '../../lib/format';
+
+const p = byId('honor-magic-v6');
+const v5 = byId('honor-magic-v5');
+const ultra = byId('galaxy-z-fold8-ultra');
+const pixel = byId('pixel-11-pro-fold');
+const razr = byId('razr-fold');
+const path = p.path;
+const title = 'Test Honor Magic V6 : avis complet, mesures et verdict';
+const description =
+  'Test du Honor Magic V6 : autonomie, charge 80 W, chauffe et benchmarks mesurés par GSMArena, Clubic et Phonandroid. Verdict et prix public de 2 299,90 €.';
+
+const SRC = {
+  gsmDesign: 'https://www.gsmarena.com/honor_magic_v6-review-2968p2.php',
+  gsmLab: 'https://www.gsmarena.com/honor_magic_v6-review-2968p3.php',
+  gsmPerf: 'https://www.gsmarena.com/honor_magic_v6-review-2968p4.php',
+  gsmVerdict: 'https://www.gsmarena.com/honor_magic_v6-review-2968p6.php',
+  gsmSpecs: 'https://www.gsmarena.com/honor_magic_v6_5g-14518.php',
+  clubic: 'https://www.clubic.com/test-produit-618832honor-magic-v6.html',
+  clubicLaunch: 'https://www.clubic.com/actualite-619501-honor-magic-v6-le-pliable-parfait-existe-t-il-enfin.html',
+  phonandroid: 'https://www.phonandroid.com/test-honor-magic-v6.html',
+  jdg: 'https://www.journaldugeek.com/test/test-honor-magic-v6-fin-resistant-et-puissant-mais-classique/',
+  presseCitron: 'https://www.presse-citron.net/honor-magic-v6-test/',
+  honor: 'https://www.honor.com/fr/phones/honor-magic-v6/',
+};
+
+const measures = [
+  { label: 'Active Use Score, écran intérieur', value: '15 h 21', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Active Use Score, écran externe', value: '18 h 20', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'PCMark, écran externe / écran interne', value: '≈ 19 h / 13 h', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Charge 80 W : 30 minutes (déplié / plié)', value: '70 % / 66 %', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Charge complète (déplié / plié)', value: '56 / 59 min', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Charge complète', value: '58 min', source: 'Clubic', url: SRC.clubic },
+  { label: 'Charge complète', value: '61 min', source: 'Phonandroid', url: SRC.phonandroid },
+  { label: 'Luminosité manuelle max. (intérieur / externe)', value: '637 / 808 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Luminosité automatique max. (intérieur / externe)', value: '1 222 / 1 604 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Luminosité de pointe (intérieur / externe)', value: '1 240 / 2 593 cd/m²', source: 'GSMArena', url: SRC.gsmLab },
+  { label: 'Geekbench 6, mode Performance (mono / multi)', value: '3 594 / 10 111', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'AnTuTu v11, mode Performance, déplié', value: '3 064 177', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: '3DMark Wild Life Extreme, déplié', value: '6 702', source: 'GSMArena', url: SRC.gsmPerf },
+  { label: 'Température interne max., mode Performance', value: '99 °C', source: 'Clubic', url: SRC.clubic },
+  { label: 'Puissance conservée sous charge (déplié / plié)', value: '41 % / 27 %', source: 'Clubic', url: SRC.clubic },
+];
+
+const finishes = [
+  { color: 'Blanc', material: 'Fibre spéciale', weight: '219 g' },
+  { color: 'Noir', material: 'Fibre de verre', weight: '224 g' },
+  { color: 'Doré', material: 'Fibre de verre', weight: '224 g' },
+  { color: 'Rouge', material: 'Cuir écologique', weight: '224 g' },
+];
+
+const rivals = [
+  { ph: p, zoom: 'x3 optique' },
+  { ph: ultra, zoom: 'x3 optique' },
+  { ph: pixel, zoom: 'x5 optique' },
+  { ph: razr, zoom: 'x3 optique' },
+  { ph: v5, zoom: 'x3 optique' },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: SRC.clubic,
+    date: '2026-07-02',
+    note: '9/10',
+    verdict:
+      'Un pliant d’une finesse record et très endurant, avec de beaux écrans et une photo solide ; le prix, la chauffe qui impose un bridage et l’absence de chargeur tempèrent le tableau.',
+  },
+  {
+    media: 'Presse-citron',
+    url: SRC.presseCitron,
+    date: '2026-07-02',
+    note: '8,6/10',
+    verdict:
+      'Le pliant le plus complet du moment à ses yeux : finitions soignées, photo de haut niveau, grosse batterie et IP68 / IP69, face à un prix très élevé, un bloc photo qui déséquilibre la prise en main et des performances bridées.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: SRC.jdg,
+    date: '2026-07-02',
+    note: '8/10',
+    verdict:
+      'Fin, résistant et puissant, mais une évolution plus qu’une révolution : face à une concurrence mieux armée, le Magic V6 marque moins les esprits que ses prédécesseurs.',
+  },
+  {
+    media: 'GSMArena',
+    url: SRC.gsmVerdict,
+    verdict:
+      'Un excellent équilibre entre design, écrans, autonomie et photo, terni par un processeur bridé de moitié en mode Équilibré et par un pli toujours présent.',
+  },
+  {
+    media: 'Phonandroid',
+    url: SRC.phonandroid,
+    date: '2026-07-02',
+    verdict:
+      'Superbe design et écrans remarquablement calibrés, mais une autonomie jugée ordinaire pour 6 660 mAh et des performances en retrait ; intéressant surtout en promotion.',
+  },
+];
+
+const pros = [
+  'Autonomie : 15 h 21 à 18 h 20 à l’Active Use Score de GSMArena',
+  'Charge 80 W : plein en 56 à 61 minutes selon les tests',
+  'IP68 et IP69 dans 8,75 mm',
+  'Écrans lumineux et très bien calibrés',
+  'Sept versions d’Android promises selon GSMArena et Clubic',
+  'Coque avec pied fournie, stylet compatible sur les deux écrans',
+];
+const cons = [
+  'Bridage thermique marqué : 41 % de puissance conservée chez Clubic',
+  'Prix public de 2 299,90 €, configuration unique',
+  'Chargeur non fourni, stylet vendu à part',
+  'Téléobjectif et vidéo en retrait de nuit',
+  'Pli toujours visible',
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Honor Magic V6 ?',
+    a: 'GSMArena mesure un Active Use Score de 15 h 21 sur l’écran intérieur et de 18 h 20 sur l’écran externe. Phonandroid obtient près de 19 heures sous PCMark sur l’écran externe et 13 heures sur l’écran interne. En usage réel, Clubic tient une journée et demie à deux jours grâce à la batterie silicium-carbone de 6 660 mAh du Honor Magic V6.',
+  },
+  {
+    q: 'Le Honor Magic V6 chauffe-t-il ?',
+    a: 'En mode Performance, oui. Clubic a relevé 99 °C en interne et une puissance réduite à 41 % déplié sous charge prolongée, et GSMArena n’a pas pu terminer son test de stress graphique. En mode Équilibré, réglé par défaut, la puce est bridée et la chauffe reste contenue : Phonandroid mesure 51 °C au point le plus chaud de l’écran intérieur.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Honor Magic V6 ?',
+    a: 'Avec un chargeur 80 W compatible, vendu séparément, le Honor Magic V6 passe de 0 à 100 % en 56 minutes selon GSMArena, 58 minutes selon Clubic et 61 minutes selon Phonandroid. GSMArena mesure 70 % au bout de 30 minutes. La charge sans fil monte jusqu’à 66 W, plus que la charge filaire de nombreux pliants concurrents.',
+  },
+  {
+    q: 'Le Honor Magic V6 est-il étanche ?',
+    a: 'Oui. Le Honor Magic V6 est certifié IP68 et IP69 : étanche à la poussière, il résiste à l’immersion et aux jets d’eau à haute pression. GSMArena y voit une première pour un pliant. Le Magic V5 n’était certifié qu’IP58 et IP59, avec une protection partielle contre la poussière, et les Galaxy Z Fold8 restent IP48.',
+  },
+  {
+    q: 'Existe-t-il un Honor Magic V6 en 256 Go ?',
+    a: 'Non. En France, le Honor Magic V6 est vendu dans une configuration unique de 16 Go de mémoire vive et 512 Go de stockage, au prix public de 2 299,90 €. Honor l’a proposé à 1 699,90 € pendant son offre de lancement, terminée le 31 juillet 2026. Il n’existe ni version 256 Go moins chère, ni version 1 To.',
+  },
+  {
+    q: 'Le Honor Magic V6 est-il livré avec un chargeur ?',
+    a: 'Non. Selon le Journal du Geek et Clubic, la boîte française du Honor Magic V6 contient le téléphone, la documentation, un câble USB-C et une coque de protection avec pied intégré, mais pas de chargeur. Pour atteindre la charge filaire de 80 W mesurée par les tests, il faut acheter à part un bloc Honor compatible.',
+  },
+  {
+    q: 'Le Honor Magic V6 est-il compatible avec un stylet ?',
+    a: 'Oui. Selon Honor et Clubic, l’écran intérieur comme l’écran externe du Honor Magic V6 acceptent le stylet Honor Magic-Pen, pour annoter ou dessiner. Le stylet n’est pas fourni : Presse-citron et le Journal du Geek rappellent qu’il est vendu séparément. Le Motorola Razr Fold, à l’inverse, est livré avec son stylet.',
+  },
+  {
+    q: 'Quels coloris pour le Honor Magic V6 en France ?',
+    a: 'Le Honor Magic V6 est vendu en quatre coloris en France : noir, blanc, doré et rouge, selon Honor et Phonandroid. Le poids varie avec la finition d’après GSMArena : 219 g pour le blanc en fibre spéciale, 224 g pour le noir et le doré en fibre de verre comme pour le rouge en cuir écologique. Le prix reste identique.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Honor Magic V6'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <div class="wrap cols-2 section-tight">
+    <article class="prose">
+      <span class="eyebrow">Test complet · Honor</span>
+      <h1>Honor Magic V6 : test complet du pliant à 6 660 mAh</h1>
+      <ProductSummary phone={p} ctaLabel="Vérifier le prix sur Amazon" />
+      <p class="lede">
+        Disponible en France depuis le 2 juillet 2026 au prix public de {euro(p.launchPrice)} (16 Go / 512 Go), le Honor Magic V6 réunit la plus grosse batterie de pliant vendue en Europe selon Honor, la charge 80 W et une double certification IP68 / IP69 dans 8,75 mm.
+        Clubic lui attribue 9/10, Presse-citron 8,6/10, le Journal du Geek 8/10, et notre note éditoriale atteint {num(overall(p))}/10. Il est le plus récent des deux modèles de notre sélection de <a href="/smartphone-pliant-honor/">smartphones pliants Honor</a>.
+      </p>
+      <Byline minutes={18} />
+      <p class="small muted">
+        Test rédigé à partir des mesures et verdicts publiés par GSMArena, Clubic, Phonandroid, Presse-citron et le Journal du Geek, ainsi que des informations d’Honor. La rédaction n’a pas manipulé l’appareil.
+      </p>
+
+      <Callout variant="accent" title="Verdict">
+        <p>
+          Le Honor Magic V6 est le pliant au format livre le plus complet de 2026 sur le papier, et les tests publiés le confirment en grande partie : finesse, écrans lumineux, autonomie solide et recharge complète en moins d’une heure.
+          Deux réserves reviennent pourtant d’un test à l’autre : une gestion thermique qui bride fortement le Snapdragon 8 Elite Gen 5, et un prix public de 2 299,90 € sans version moins chère. Si vous jouez peu et gardez vos téléphones longtemps, c’est le choix le plus abouti de la gamme Honor.
+          Il s’adresse à ceux qui veulent un seul appareil pour lire, travailler en multifenêtre et photographier, sans craindre l’eau ni la poussière.
+          Il convient moins aux joueurs assidus, que le bridage pénalise, et aux amateurs de zoom longue portée : son périscope s’arrête à x3 en optique.
+        </p>
+      </Callout>
+      <p><AmazonButton phone={p} label="Voir le prix sur Amazon" /></p>
+
+      <nav class="toc" aria-label="Sommaire du test">
+        <strong>Au sommaire</strong>
+        <ol>
+          <li><a href="#design">Design et prise en main</a></li>
+          <li><a href="#ecrans">Écrans</a></li>
+          <li><a href="#performances">Performances et chauffe</a></li>
+          <li><a href="#photo">Photo et vidéo</a></li>
+          <li><a href="#autonomie">Autonomie et charge</a></li>
+          <li><a href="#logiciel">Logiciel et suivi</a></li>
+          <li><a href="#connectivite">Audio, connectivité, biométrie</a></li>
+          <li><a href="#solidite">Solidité et réparabilité</a></li>
+          <li><a href="#boite">Boîte et stylet</a></li>
+          <li><a href="#prix">Versions et prix</a></li>
+          <li><a href="#concurrence">Face à la concurrence</a></li>
+          <li><a href="#faq">Questions fréquentes</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="design">Design : 8,75 mm plié et une double certification IP68 / IP69</h2>
+      <p>
+        Le Honor Magic V6 mesure 8,75 mm plié et 4 mm déplié, pour une surface de 156,7 × 145,6 mm une fois ouvert selon GSMArena. Clubic parle d’une finesse record, et <a href={SRC.gsmDesign} target="_blank" rel="noopener">GSMArena</a> vante une prise en main excellente ainsi qu’une construction parmi les plus rassurantes des pliants actuels, avec un cadre en aluminium et une charnière en acier.
+      </p>
+      <p>
+        La vraie nouveauté touche à la résistance : le Magic V6 est certifié IP68 et IP69, une première sur un pliant selon <a href={SRC.gsmVerdict} target="_blank" rel="noopener">GSMArena</a>. Il est donc étanche à la poussière, résiste à l’immersion et supporte les jets d’eau à haute pression.
+        Le Magic V5 n’était qu’IP58 / IP59, avec une protection partielle contre la poussière, principale ennemie des charnières. Celle du Magic V6 est taillée dans un acier haute résistance baptisé Super Steel, annoncé pour plus de 500 000 pliages par Honor.
+      </p>
+      <p>
+        Cette charnière tient l’écran ouvert entre 5 et 180 degrés d’après GSMArena, ce qui permet de poser le téléphone à demi ouvert pour une visioconférence ou une photo de groupe. Le site trouve en revanche l’ouverture laborieuse, tant les aimants maintiennent fermement les deux moitiés ; le Journal du Geek parvient tout de même à l’ouvrir d’une seule main.
+      </p>
+      <p>
+        Le poids dépend de la finition : GSMArena annonce 219 g pour le blanc en fibre spéciale et 224 g pour les trois autres coloris. Quatre teintes sont vendues en France, noir, blanc, doré et rouge, d’après la <a href={SRC.honor} target="_blank" rel="noopener">page d’Honor</a> ; Phonandroid précise que le rouge, en cuir écologique, arrive pour la première fois dans l’Hexagone.
+      </p>
+      <p>
+        Le Journal du Geek nuance l’enthousiasme : le format reste classique au moment où des pliants plus larges arrivent, et le bloc photo proéminent gâche un peu la finesse. Presse-citron va plus loin et estime que ce module déséquilibre la prise en main. Phonandroid, lui, juge le design exquis, en particulier dans la finition rouge.
+      </p>
+      <PhoneGallery id={p.id} />
+
+      <h2 id="ecrans">Écrans : très lumineux et bien calibrés, pli compris</h2>
+      <p>
+        L’écran intérieur de 7,95 pouces et l’écran externe de 6,52 pouces du Honor Magic V6 sont deux dalles OLED LTPO à 120 Hz, compatibles stylet. Honor annonce jusqu’à 5 000 cd/m² en pointe HDR à l’intérieur et 6 000 cd/m² à l’extérieur ; ces pics ne disent pas tout de la luminosité utile.
+      </p>
+      <p>
+        Les relevés de GSMArena sont plus parlants : 637 cd/m² en réglage manuel, 1 222 cd/m² en automatique et 1 240 cd/m² en pointe sur l’écran intérieur ; 808, 1 604 et 2 593 cd/m² sur l’écran externe. La petite dalle est nettement la plus lumineuse, ce qui tombe bien : c’est elle que l’on consulte dehors, téléphone fermé.
+        Phonandroid qualifie l’étalonnage d’exceptionnel sur les deux écrans, et Clubic place les dalles en tête des qualités de l’appareil.
+      </p>
+      <p>
+        Le pli n’a pas disparu. Honor revendique une marque 44 % moins visible qu’au Magic V5, et Phonandroid relève un traitement antireflet ajouté sur l’écran intérieur.
+        Le <a href={SRC.jdg} target="_blank" rel="noopener">Journal du Geek</a> le trouve moins marqué que chez la concurrence, mais toujours discernable ; GSMArena regrette que Honor n’ait pas encore adopté d’écran sans pli visible, contrairement à certains rivaux chinois non commercialisés en France.
+      </p>
+
+      <h2 id="performances">Performances : un Snapdragon 8 Elite Gen 5 tenu en laisse</h2>
+      <p>
+        Le Honor Magic V6 embarque la puce Android la plus puissante du moment selon GSMArena, mais Honor la bride volontairement pour protéger un châssis aussi fin. En mode Équilibré, le réglage par défaut, GSMArena constate que les scores processeur et AnTuTu sont divisés par deux, un écart que le site dit n’avoir jamais observé ailleurs.
+        L’usage courant n’en souffre pourtant pas : les testeurs ne perçoivent la différence qu’en lançant les benchmarks.
+      </p>
+      <p>
+        En mode Performance, les chiffres grimpent. <a href={SRC.gsmPerf} target="_blank" rel="noopener">GSMArena</a> relève 3 594 points en monocœur et 10 111 en multicœur sur Geekbench 6, 3 064 177 points sur AnTuTu v11 écran déplié et 6 702 points sur 3DMark Wild Life Extreme. Clubic obtient un peu moins sur Geekbench (3 045 et 9 411 points) et 2 604 506 points sur AnTuTu.
+      </p>
+      <p>
+        Le prix à payer est thermique. <a href={SRC.clubic} target="_blank" rel="noopener">Clubic</a> a vu la température interne grimper jusqu’à 99 °C en mode Performance, et l’appareil ne conserve que 41 % de sa puissance de pointe déplié, 27 % replié, sous une charge prolongée.
+        GSMArena n’a pas pu terminer son test de stress graphique dans ce mode à cause de la surchauffe ; en mode Équilibré, le Magic V6 maintient environ 70 % de sa puissance processeur et 55 % de sa puissance graphique. Phonandroid, qui mesure une stabilité autour de 60 % et 51 °C au point le plus chaud de l’écran intérieur, juge les scores décevants au regard de la puce.
+      </p>
+      <p>
+        Faut-il s’en inquiéter ? Pour la navigation, le multitâche sur deux écrans et la photo, non. Pour les longues sessions de jeu 3D, davantage : le Honor Magic V6 n’y exploite pas tout le potentiel promis par sa fiche technique. Notre note performances (9,5/10) salue la réactivité au quotidien ; les joueurs assidus doivent garder cette limite en tête.
+      </p>
+
+      <h2 id="photo">Photo : un trio polyvalent, plus fragile quand la lumière baisse</h2>
+      <p>
+        Le Honor Magic V6 reprend les définitions du Magic V5 : capteur principal de 50 Mpx, ultra grand-angle de 50 Mpx et téléobjectif périscopique de 64 Mpx au zoom optique x3, plus deux caméras selfie de 20 Mpx. GSMArena décrit une qualité photo et vidéo de premier ordre avec les modules arrière, et Clubic range la photo parmi les points forts.
+      </p>
+      <p>
+        Clubic précise le rôle de chaque optique : le capteur principal ouvre à f/1,6 et profite d’une stabilisation optique, le périscope ouvre à f/2,5, et l’ultra grand-angle, à f/2,2, sert aussi à la macro. Le site juge la qualité excellente de jour, le mode nuit acceptable jusqu’au zoom x15, et trouve les portraits comme la macro convaincants.
+        Presse-citron rattache ces résultats à ceux du Magic8 Pro, le haut de gamme non pliant d’Honor.
+      </p>
+      <p>
+        Les critiques portent sur la basse lumière et le traitement. Phonandroid juge le téléobjectif décevant dès que la lumière baisse et la vidéo de soirée en dessous des attentes, tout en saluant une réduction du bruit ambiant efficace à l’enregistrement.
+        Le même site trouve le zoom excellent jusqu’à x20 et le détourage précis en portrait, mais les selfies moins contrastés, avec une netteté qui chute la nuit. Presse-citron juge lui aussi le mode nuit perfectible.
+      </p>
+      <p>
+        Le Journal du Geek trouve le traitement « trop poussé », au point de rendre certaines photos artificielles, et relève un lissage prononcé au téléobjectif dans l’obscurité. Il pousse le zoom hybride jusqu’à x100 avec l’aide de l’IA, note que les caméras selfie reprennent les capteurs du Magic V5 et salue une stabilisation vidéo en progrès.
+        Face au zoom x5 des Pixel Fold ou au capteur de 200 Mpx du Galaxy Z Fold8 Ultra, le Magic V6 mise sur l’équilibre plutôt que sur un module spectaculaire. Nous le notons 9,0/10.
+      </p>
+
+      <h2 id="autonomie">Autonomie et charge : l’endurance est au rendez-vous, avec des nuances</h2>
+      <p>
+        Avec 6 660 mAh, le Honor Magic V6 a la plus grosse batterie d’un pliant vendu en Europe selon Honor, 840 mAh de plus que le <a href={v5.path}>Honor Magic V5</a>. Sur le terrain, Clubic tient une journée et demie à deux jours en usage normal, et une grosse journée de 9 h à 20 h en usage intensif ; le Journal du Geek boucle une journée entière et chargée sans difficulté.
+      </p>
+      <p>
+        Les mesures de laboratoire confirment une très bonne endurance. <a href={SRC.gsmLab} target="_blank" rel="noopener">GSMArena</a> obtient un Active Use Score de 15 h 21 en utilisant l’écran intérieur et de 18 h 20 avec l’écran externe.
+        Phonandroid se montre plus réservé : PCMark donne près de 19 heures sur l’écran externe et 13 heures sur l’écran interne, une performance que le site juge simplement correcte au regard de la capacité.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Honor Magic V6" />
+      <p style="margin-top:1rem">
+        La recharge est l’autre point fort. En 80 W filaire, GSMArena mesure 37 % en 15 minutes, 70 % en 30 minutes et un plein en 56 minutes téléphone déplié, 59 minutes plié ; Clubic compte 31 minutes pour 70 % et 58 minutes pour 100 %, <a href={SRC.phonandroid} target="_blank" rel="noopener">Phonandroid</a> 61 minutes.
+        Clubic rappelle que le chargeur n’est pas fourni : ces temps supposent un bloc compatible acheté à part. La charge sans fil monte à 66 W, davantage que la charge filaire des Galaxy Z Fold8 (45 W) ou du Pixel 11 Pro Fold (30 W).
+      </p>
+
+      <h2 id="logiciel">MagicOS 10 et suivi : sept versions d’Android promises</h2>
+      <p>
+        Le Honor Magic V6 est livré sous Android 16 avec MagicOS 10 et les services Google. Honor s’engage sur sept ans de mises à jour, avec sept versions majeures d’Android selon GSMArena et Clubic : de quoi garder l’appareil à jour jusqu’en 2033.
+        Phonandroid évoque de son côté six ans de mises à jour d’Android et sept ans de correctifs de sécurité ; en cas de doute, la page d’assistance d’Honor fait foi.
+      </p>
+      <p>
+        L’interface convainc davantage qu’aux générations précédentes. GSMArena la trouve excellente et très personnalisable, Phonandroid apprécie l’absence d’applications préinstallées superflues et Clubic l’intégration des fonctions d’IA.
+        Clubic et Phonandroid relèvent aussi un atout rare sous Android : des passerelles avec l’écosystème Apple. L’appareil est enfin compatible avec un stylet, un plus pour annoter sur le grand écran.
+      </p>
+      <p>
+        Dans le détail, Clubic décrit un multitâche soigné, avec des fenêtres flottantes avancées, et Magic AI, qui propose des actions contextuelles. Côté Apple, le site cite le partage des notifications avec un iPhone, l’extension d’écran vers un Mac et la prise en charge des AirPods et de l’Apple Watch. Phonandroid mentionne encore Magic Portal et une fonction de souvenirs générés par IA.
+      </p>
+
+      <h2 id="connectivite">Audio, réseaux et empreinte : une fiche sans trou</h2>
+      <p>
+        Le Honor Magic V6 embarque deux haut-parleurs stéréo. GSMArena leur attribue une bonne puissance et apprécie un son riche et assez profond. Phonandroid décrit une scène sonore large, des graves perceptibles dès 50 Hz et des aigus au-delà de 10 kHz, bien adaptée aux films et séries.
+        Le Journal du Geek, qui mentionne la certification IMAX Enhanced avec DTS:X et trois microphones, les réserve plutôt aux contenus courts. Il n’y a pas de prise jack.
+      </p>
+      <p>
+        D’après la fiche de <a href={SRC.gsmSpecs} target="_blank" rel="noopener">GSMArena</a> et le Journal du Geek, le téléphone gère la 5G, le Wi-Fi 7, le Bluetooth 6.0, le NFC, un émetteur infrarouge pour piloter téléviseurs et climatiseurs, et un port USB-C 3.1 capable de sortie vidéo DisplayPort. Il accepte une nano-SIM et l’eSIM ; Clubic précise que deux profils eSIM sont pris en charge.
+        Phonandroid détaille la partie sans fil : Bluetooth LE Audio et Auracast, codecs AAC, LC3, aptX HD, LDAC et LHDC, et compatibilité avec les aides auditives ASHA.
+      </p>
+      <p>
+        Le lecteur d’empreintes est intégré au bouton d’alimentation. GSMArena le trouve toujours actif et infaillible, et Presse-citron le juge efficace et bien intégré. Clubic signale en complément une reconnaissance faciale 2D, que le Journal du Geek ne mentionne pas.
+      </p>
+
+      <h2 id="solidite">Solidité et réparabilité : IP69, verres renforcés et charnière certifiée</h2>
+      <p>
+        Le Honor Magic V6 est le premier pliant certifié à la fois IP68 et IP69 selon Honor. GSMArena précise que la certification couvre une immersion à 1,5 m pendant 30 minutes et les jets d’eau sous haute pression. Sur le papier, une averse ou un passage sous le robinet ne lui posent donc aucun problème, là où les pliants IP48 ne sont protégés que contre les projections et une immersion limitée, sans vraie protection contre la poussière fine.
+      </p>
+      <p>
+        L’écran externe est protégé par le verre NanoCrystal Shield d’Honor, à base de nitrure de silicium. L’écran intérieur reçoit un verre ultrafin (UTG) de nouvelle génération dont la résistance aux chocs progresse de 33 % par rapport au Magic V5 selon la marque, chiffre relayé par <a href={SRC.clubicLaunch} target="_blank" rel="noopener">Clubic</a>. Honor ajoute un système d’amortissement interne censé disperser l’énergie d’une chute ou d’un choc.
+      </p>
+      <p>
+        La charnière Super Steel affiche une résistance à la traction de 2 800 MPa et une certification SGS pour 500 000 cycles d’ouverture et de fermeture, d’après Honor. Aucun test publié ne permet de vérifier ce chiffre en conditions réelles, mais il place le Magic V6 au niveau des annonces les plus ambitieuses du marché.
+      </p>
+      <p>
+        Les données de l’étiquette énergie européenne du Magic V6 (résistance aux chutes, classe de réparabilité, cycles de batterie) ne figuraient pas dans les sources que nous avons pu consulter au moment de la rédaction. Pour mémoire, le Magic V5 était classé B en réparabilité et C en résistance aux chutes répétées.
+        Au lancement, Clubic indiquait par ailleurs que deux ans de protection d’écran étaient inclus à l’achat ; vérifiez que cette offre s’applique encore chez le marchand choisi.
+      </p>
+
+      <h2 id="boite">Dans la boîte : une coque, pas de chargeur ni de stylet</h2>
+      <p>
+        Le Journal du Geek décrit une boîte noire contenant le Honor Magic V6, sa documentation, un câble USB-C et une coque qui couvre le dos et la charnière sans épaissir l’ensemble. Clubic et Phonandroid précisent que cette coque intègre un pied, pratique pour poser l’appareil face à soi.
+        Aucun chargeur n’est fourni en France : il faut un bloc Honor compatible, vendu séparément, pour profiter des 80 W.
+      </p>
+      <p>
+        Les deux écrans sont compatibles avec le stylet Honor Magic-Pen, selon Honor et Clubic. Il n’est pas inclus : Presse-citron et le Journal du Geek rappellent qu’il s’achète à part. C’est une différence notable avec le Motorola Razr Fold, livré avec son stylet. GSMArena signale enfin une coque premium en fibre d’aramide, proposée séparément.
+      </p>
+
+      <h2 id="prix">Prix : 2 299,90 €, une seule version et quatre coloris</h2>
+      <p>
+        Le Honor Magic V6 est vendu au prix public de {euro(p.launchPrice)} en 16 Go / 512 Go, seule configuration disponible en France. Honor l’a proposé à 1 699,90 € pendant son offre de lancement, terminée le 31 juillet 2026.
+        Phonandroid estimait que le téléphone devenait surtout une très bonne affaire à ce type de tarif promotionnel, et Clubic juge le prix public presque rédhibitoire.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Versions et coloris du Honor Magic V6 en France</caption>
+          <thead>
+            <tr>
+              <th scope="col">Coloris</th>
+              <th scope="col">Finition du dos</th>
+              <th scope="col">Poids (GSMArena)</th>
+              <th scope="col">Configuration</th>
+              <th scope="col">Prix public</th>
+            </tr>
+          </thead>
+          <tbody>
+            {finishes.map((f) => (
+              <tr>
+                <th scope="row">{f.color}</th>
+                <td>{f.material}</td>
+                <td class="num">{f.weight}</td>
+                <td>16 Go / 512 Go</td>
+                <td class="num">{euro(p.launchPrice)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        GSMArena liste d’autres configurations, de 12 Go / 256 Go à 16 Go / 1 To, commercialisées sur d’autres marchés : en France, seule la version 512 Go est officiellement distribuée. Méfiez-vous des offres d’importation, dont la garantie et le suivi logiciel peuvent différer.
+      </p>
+      <p>
+        Au sein de la gamme Honor, l’alternative reste le Magic V5, lancé à {euro(v5.launchPrice)} le 28 août 2025. Il partage le même trio photo sur le papier, une épaisseur quasi identique (8,8 mm plié) et la charge sans fil, et GSMArena le cite comme un moyen d’obtenir une expérience comparable pour moins cher.
+        Le Magic V6 ajoute 840 mAh, la charge 80 W au lieu de 66 W, l’IP68 / IP69 et une puce plus récente : ce sont ces quatre points qui doivent justifier l’écart de prix au moment de l’achat.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Consulter l’offre" /></p>
+
+      <h2 id="concurrence">Face à la concurrence : trois rivaux sérieux hors Honor</h2>
+      <p>
+        À plus de 2 000 €, le Honor Magic V6 croise trois pliants au format livre vendus officiellement en France. Aucun ne réunit sa batterie, sa charge et son IP69, mais chacun a un argument que le Magic V6 n’a pas.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Le Honor Magic V6 face à ses concurrents</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modèle</th>
+              <th scope="col">Prix de lancement</th>
+              <th scope="col">Batterie</th>
+              <th scope="col">Charge filaire / sans fil</th>
+              <th scope="col">Zoom</th>
+              <th scope="col">Épaisseur pliée</th>
+              <th scope="col">Protection</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rivals.map((r) => (
+              <tr>
+                <th scope="row">{r.ph.fullName}</th>
+                <td class="num">{euro(r.ph.launchPrice)}</td>
+                <td class="num">{mah(r.ph.battery)}</td>
+                <td class="num">{r.ph.wired} / {r.ph.wireless}</td>
+                <td>{r.zoom}</td>
+                <td class="num">{String(r.ph.foldedMm).replace('.', ',')} mm</td>
+                <td>{r.ph.ip}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Le <ObfLink href={ultra.path} class="obf-text">Samsung Galaxy Z Fold8 Ultra</ObfLink>, lancé à {euro(ultra.launchPrice)} en 256 Go, partage la même famille de puce et une finesse comparable (8,9 mm plié, 215 g). Il prend l’avantage en photo avec son capteur de 200 Mpx et offre un écran externe au format 21:9 pensé comme celui d’un smartphone classique.
+        Sa batterie de 5 000 mAh, sa charge 45 W et son indice IP48 le placent en revanche nettement derrière le Magic V6 sur l’endurance et la protection.
+      </p>
+      <p>
+        Le <ObfLink href={pixel.path} class="obf-text">Google Pixel 11 Pro Fold</ObfLink>, lancé à {euro(pixel.launchPrice)} en 256 Go, coûte 300,90 € de moins et reste le seul à proposer un zoom optique x5 avec l’IP68, ainsi qu’Android sans surcouche et sept ans de suivi. Il est plus épais (10,1 mm plié), plus lourd (239 g), moins endurant et recharge en 30 W seulement, avec un Tensor G6 lui aussi bridé sous l’effort.
+      </p>
+      <p>
+        Le Motorola Razr Fold, lancé à {euro(razr.launchPrice)} en 16 Go / 512 Go, est le seul à fournir un stylet dans la boîte. Il combine 6 000 mAh, une charge 80 W filaire et 50 W sans fil, et un téléobjectif x3 de 50 Mpx. Il pèse cependant 243 g, mesure 10,1 mm plié et se contente d’un IP48 / IP49.
+      </p>
+      <p><AmazonButton phone={p} size="sm" label="Voir les coloris du Magic V6" /></p>
+
+      <TestSources sources={sources} heading="Le Honor Magic V6 vu par la presse tech" intro="Cinq tests complets publiés depuis juillet 2026, dont trois notés." />
+
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce qui convainc" consTitle="Ce qui coince" />
+
+      <h2>Caractéristiques techniques du Magic V6</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Honor Magic V6 : les questions qui reviennent" />
+
+      <RelatedArticles />
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="L’autre pliant Honor"
+        intro="Même trio photo sur le papier, 300 € de moins au lancement."
+      />
+    </article>
+
+    <aside class="sticky">
+      <ScoreBars phone={p} />
+      <div class="card" style="margin-top:1rem">
+        <p class="small mb-0"><strong>Prix public :</strong> {euro(p.launchPrice)} (16 Go / 512 Go)</p>
+        <p class="small mb-0"><strong>Disponible depuis :</strong> 2 juillet 2026</p>
+        <p class="small mb-0"><strong>Presse :</strong> 9/10 (Clubic), 8,6/10 (Presse-citron), 8/10 (Journal du Geek)</p>
+        <p class="small mb-0"><strong>Coloris :</strong> noir, blanc, doré, rouge</p>
+        <p class="small muted">Offre de lancement à 1 699,90 €, terminée le 31 juillet 2026.</p>
+        <AmazonButton phone={p} label="Vérifier la disponibilité" />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../data/site';
+import { PERSON_ID } from '../../lib/schema';
+
+const title = 'Théo Marceau, auteur de Smartphone-Pliant.fr';
+const description =
+  'Théo Marceau signe les comparatifs et tests de Smartphone-Pliant.fr : sa méthode, ses sources, ce qu’il regarde en priorité sur un smartphone pliant.';
+
+const schema = [
+  {
+    '@type': 'ProfilePage',
+    '@id': `${SITE.url}${SITE.author.url}#page`,
+    name: title,
+    description,
+    inLanguage: 'fr-FR',
+    mainEntity: { '@id': PERSON_ID },
+  },
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema} ogType="website">
+  <section class="section">
+    <div class="wrap prose">
+      <div class="author-hero">
+        <img src={SITE.author.avatar} alt="Avatar illustré de Théo Marceau" width="128" height="128" />
+        <div>
+          <span class="eyebrow">{SITE.author.jobTitle}</span>
+          <h1 class="mb-0">Théo Marceau</h1>
+        </div>
+      </div>
+
+      <p class="lede" style="margin-top:1.5rem">
+        Théo Marceau signe les comparatifs, les guides et les tests de Smartphone-Pliant.fr. Son sujet unique : les smartphones qui se plient, du clapet de poche au tri-pliant de 10 pouces.
+      </p>
+
+      <p>
+        Ce qui l’intéresse dans le pliant, c’est la façon dont un écran souple change l’usage d’un téléphone : lire sur un écran presque carré, répondre à un message sans ouvrir un clapet, glisser une tablette dans une poche.
+        Il suit chaque lancement, épluche les fiches des constructeurs et croise les mesures publiées par la presse spécialisée pour écrire des avis argumentés et comparables d’un modèle à l’autre.
+      </p>
+
+      <h2>Sa méthode</h2>
+      <ul>
+        <li><strong>Les sources d’abord.</strong> Les caractéristiques viennent des fiches officielles ; une donnée non publiée est notée « n.c. ».</li>
+        <li><strong>Des mesures attribuées.</strong> Autonomie, luminosité, temps de charge ou benchmarks : chaque chiffre issu d’un test publié cite le média qui l’a mesuré, avec un lien vers son article.</li>
+        <li><strong>Pas de faux banc d’essai.</strong> Nos tests sont des synthèses : ils rassemblent et comparent les résultats publiés par plusieurs rédactions, sans prétendre à une prise en main que nous n’avons pas eue.</li>
+        <li><strong>Une grille identique pour tous.</strong> Les notes suivent la même pondération, détaillée dans la <a href="/methodologie/">méthodologie</a>.</li>
+      </ul>
+
+      <h2>Ce qu’il regarde en premier</h2>
+      <p>
+        La charnière et la visibilité du pli, l’autonomie réelle plutôt que les milliampères-heures, la résistance à la poussière (le point faible de nombreux pliants IP48) et la durée du suivi logiciel, décisive sur un appareil qui dépasse souvent 2 000 €.
+      </p>
+
+      <h2>Transparence</h2>
+      <p>
+        Théo Marceau est un nom de plume. Il ne reçoit aucune rémunération des constructeurs ; le site est financé par l’affiliation Amazon, comme expliqué dans la page <a href="/a-propos/">à propos</a>.
+        Une erreur, une précision ? <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

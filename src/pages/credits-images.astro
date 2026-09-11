@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { allImages } from '../data/images';
+import { byId } from '../data/phones';
+
+const title = 'Crédits photos';
+const description =
+  'Crédits et licences des photos de smartphones pliants utilisées sur Smartphone-Pliant.fr : auteurs, licences libres (Creative Commons, Unsplash, Pexels) et sources.';
+const images = allImages();
+---
+
+<BaseLayout title={title} description={description} noindex ogType="website">
+  <section class="section">
+    <div class="wrap prose">
+      <h1>Crédits photos</h1>
+      <p class="lede">Chaque photo utilisée sur le site est listée ici avec son auteur, sa licence et sa source.</p>
+      <p>
+        Les photos proviennent de Wikimedia Commons, d’Unsplash et de Pexels, sous des licences qui autorisent leur réutilisation. Elles ont été redimensionnées et converties au format WebP pour le site, sans autre modification.
+        Aucune de ces photos n’implique un partenariat ou une approbation de la part des marques représentées ou de leurs auteurs.
+      </p>
+
+      {
+        images.length === 0 ? (
+          <p>Le site n’utilise pour l’instant aucune photo tierce.</p>
+        ) : (
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">Crédits et licences des images</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Page</th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Auteur</th>
+                  <th scope="col">Licence</th>
+                  <th scope="col">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {images.map(({ id, image }) => (
+                  <tr>
+                    <td>{id ? byId(id).fullName : 'Illustration générale'}</td>
+                    <td>{image.alt}</td>
+                    <td>{image.credit}</td>
+                    <td>
+                      {image.licenseUrl ? (
+                        <a href={image.licenseUrl} target="_blank" rel="noopener">
+                          {image.license}
+                        </a>
+                      ) : (
+                        image.license
+                      )}
+                    </td>
+                    <td>
+                      <a href={image.sourceUrl} target="_blank" rel="noopener">
+                        Voir la source
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      }
+
+      <p class="small muted" style="margin-top:1.5rem">
+        Les silhouettes des modèles sans photo et l’avatar de l’auteur sont des illustrations réalisées pour Smartphone-Pliant.fr. Les marques citées appartiennent à leurs propriétaires respectifs.
+        Vous êtes l’auteur d’une photo et souhaitez une modification du crédit ? Écrivez à <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

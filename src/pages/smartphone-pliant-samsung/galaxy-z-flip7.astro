@@ -1,0 +1,544 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('galaxy-z-flip7');
+const flip8 = byId('galaxy-z-flip8');
+const fe = byId('galaxy-z-flip7-fe');
+const r60 = byId('razr-60-ultra');
+const r70 = byId('razr-70');
+const path = p.path;
+const title = 'Test Galaxy Z Flip7 : pour qui est-il le bon clapet ?';
+const description =
+  'Test du Galaxy Z Flip7 : 14 h 40 d’autonomie chez Fnac, écran externe 4,1" à 120 Hz, charge 25 W lente. À qui le conseiller en 2026 et quand viser le Flip8.';
+
+const src = {
+  gsmarena: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-review-2857.php',
+  gsmarenaDesign: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-review-2857p2.php',
+  gsmarenaLab: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-review-2857p3.php',
+  gsmarenaPerf: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-review-2857p4.php',
+  gsmarenaPhoto: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-review-2857p5.php',
+  gsmarenaSpecs: 'https://www.gsmarena.com/samsung_galaxy_z_flip7-13712.php',
+  gsmarenaEu2026: 'https://www.gsmarena.com/eu_listings_confirm_shorter_battery_lifespan_for_new_galaxy_foldables-news-73870.php',
+  fnac: 'https://leclaireur.fnac.com/test/634463-test-labo-du-samsung-galaxy-z-flip7-une-formule-tres-aboutie/',
+  clubic: 'https://www.clubic.com/test-produit-573981-test-samsung-galaxy-z-flip-7.html',
+  jdg: 'https://www.journaldugeek.com/test/test-samsung-galaxy-z-flip7-le-smartphone-a-clapet-de-reference/',
+  notebookcheck: 'https://www.notebookcheck.net/Compact-Flip-phone-loses-ground-Samsung-Galaxy-Z-Flip7-review.1102761.0.html',
+  techradar: 'https://global.techradar.com/fr-fr/phones/samsung-galaxy-phones/test-du-samsung-galaxy-z-flip-7-lavenir-du-telephone-pliable-est-la',
+  dxomark: 'https://www.dxomark.com/samsung-galaxy-z-flip7-display-test/',
+  dxomarkPhone: 'https://www.dxomark.com/smartphones/Samsung/Galaxy-Z-Flip7',
+  sammobileEu: 'https://www.sammobile.com/news/galaxy-z-flip-7-flip-7-fe-battery-durability-details-revealed/',
+  samsungNews: 'https://news.samsung.com/fr/galaxy-z-flip7-et-galaxy-z-flip7-fe',
+  samsungFlipsuit: 'https://www.samsung.com/fr/mobile-accessories/galaxy-z-flip7-flipsuit-case-transparent-ef-zf766ctegww/',
+  samsungCare: 'https://www.samsung.com/fr/offer/samsung-care-plus/',
+};
+
+const measures = [
+  { label: 'Autonomie, protocole du Labo Fnac', value: '14 h 40', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Autonomie, test Wi-Fi', value: 'près de 19 h', source: 'Notebookcheck', url: src.notebookcheck },
+  { label: 'Active Use Score', value: '11 h 52', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Charge 25 W : batterie après 15 min / 30 min', value: '26 % / 46 %', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète (0 à 100 %)', value: '1 h 31', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Recharge complète, protocole du Labo Fnac', value: '1 h 24', source: 'L’Éclaireur Fnac', url: src.fnac },
+  { label: 'Luminosité APL18, écran intérieur', value: '2 636 cd/m²', source: 'Notebookcheck', url: src.notebookcheck },
+  { label: 'Pic de luminosité, écran intérieur / externe', value: '2 582 / 2 400 cd/m²', source: 'DXOMARK', url: src.dxomark },
+  { label: 'Luminosité automatique, écran intérieur / externe', value: '≈ 1 500 / 1 400 cd/m²', source: 'GSMArena', url: src.gsmarenaLab },
+  { label: 'Delta E ColorChecker / niveaux de gris', value: '2,2 / 1,6', source: 'Notebookcheck', url: src.notebookcheck },
+  { label: 'AnTuTu 10', value: '1 513 134', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Geekbench 6, monocœur / multicœur', value: '2 099 / 7 433', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: '3DMark Wild Life Extreme / stabilité au stress test', value: '5 636 / 54 %', source: 'GSMArena', url: src.gsmarenaPerf },
+  { label: 'Score photo DXOMARK', value: '137', source: 'DXOMARK', url: src.dxomarkPhone },
+  { label: 'Volume des haut-parleurs', value: '−26,1 LUFS', source: 'GSMArena', url: src.gsmarenaSpecs },
+  { label: 'Note de qualité audio, Labo Fnac', value: '6,9/10', source: 'L’Éclaireur Fnac', url: src.fnac },
+];
+
+const sources = [
+  {
+    media: 'Clubic',
+    url: src.clubic,
+    note: '9/10',
+    verdict:
+      'Une évolution mesurée mais aboutie : écran externe agrandi, bonnes photos en bonne lumière, logiciel riche avec DeX. Charge lente, chargeur absent et prix élevé tempèrent l’enthousiasme.',
+  },
+  {
+    media: 'L’Éclaireur Fnac',
+    url: src.fnac,
+    note: '4/5',
+    verdict: 'Le laboratoire y voit l’aboutissement de la formule Flip, avec une endurance excellente et un pli presque invisible écran allumé. Partie graphique et recharge restent perfectibles.',
+  },
+  {
+    media: 'Journal du Geek',
+    url: src.jdg,
+    note: '8/10',
+    verdict: 'Peut-être la forme la plus achevée du clapet, grâce à un design soigné et un écran externe bord à bord. L’Exynos 2500 et un module photo inchangé le privent d’une meilleure note.',
+  },
+  {
+    media: 'Notebookcheck',
+    url: src.notebookcheck,
+    note: '86 %',
+    verdict: 'Autonomie et performances progressent, le grand écran externe convainc. Mais le Flip a perdu l’avance qu’il avait sur ses concurrents, et le throttling reste marqué.',
+  },
+  {
+    media: 'TechRadar France',
+    url: src.techradar,
+    verdict: 'Enthousiaste sur l’écran et les outils d’IA, le test se montre sévère sur la surcouche, sur l’usure précoce de l’exemplaire et sur une autonomie jugée courte.',
+  },
+];
+
+const table: { k: string; v: [string, string, string] }[] = [
+  { k: 'Prix de lancement', v: [euro(p.launchPrice), euro(flip8.launchPrice), euro(fe.launchPrice)] },
+  { k: 'Stockage de base', v: ['256 Go', '256 Go', '128 Go'] },
+  { k: 'Écran intérieur', v: ['6,9"', '6,9"', '6,7"'] },
+  { k: 'Écran externe', v: ['4,1" à 120 Hz', '4,1"', '3,4" à 60 Hz'] },
+  { k: 'Processeur', v: ['Exynos 2500', 'Exynos 2600 (2 nm)', 'Exynos 2400'] },
+  { k: 'Mémoire vive', v: [p.ram, flip8.ram, fe.ram] },
+  { k: 'Batterie', v: ['4 300 mAh', '4 300 mAh', '4 000 mAh'] },
+  { k: 'Cycles de charge (étiquette UE)', v: ['2 000', '1 200', '1 700'] },
+  { k: 'Charge filaire', v: ['25 W', '25 W', '25 W'] },
+  { k: 'Poids', v: [`${p.weight} g`, `${flip8.weight} g`, `${fe.weight} g`] },
+  { k: 'Épaisseur fermé / ouvert', v: ['13,7 / 6,5 mm', '13,1 / 6,1 mm', '14,9 / 6,9 mm'] },
+  { k: 'Système au lancement', v: [p.os, flip8.os, fe.os] },
+  { k: 'Note Smartphone-Pliant.fr', v: [`${num(overall(p))}/10`, `${num(overall(flip8))}/10`, `${num(overall(fe))}/10`] },
+];
+
+const faq = [
+  {
+    q: 'Le Galaxy Z Flip7 vaut-il encore le coup en 2026 ?',
+    a: 'Oui, pour qui veut un grand écran externe sans payer le prix d’un modèle 2026. Le Samsung Galaxy Z Flip7 partage avec le Galaxy Z Flip8 son écran externe de 4,1 pouces, sa batterie de 4 300 mAh et sa charge de 25 W. Le Flip8 gagne surtout en finesse (180 g, 6,1 mm ouvert) et en puce, avec l’Exynos 2600.',
+  },
+  {
+    q: 'Quelle est l’autonomie du Galaxy Z Flip7 ?',
+    a: 'Le Labo Fnac a mesuré 14 h 40 sur son protocole, Notebookcheck près de 19 heures en navigation Wi-Fi et GSMArena un Active Use Score de 11 h 52. En usage réel, Clubic dépasse une journée et demie en usage classique, tandis que TechRadar France estime que le Flip7 peine à tenir une journée complète.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Galaxy Z Flip7 ?',
+    a: 'Avec un chargeur 25 W, GSMArena a mesuré 26 % en 15 minutes, 46 % en 30 minutes et une charge complète en 91 minutes. Le Labo Fnac relève 84 minutes et Clubic compte 30 minutes pour atteindre 50 %. Aucun chargeur n’est fourni dans la boîte du Samsung Galaxy Z Flip7.',
+  },
+  {
+    q: 'Le Galaxy Z Flip7 chauffe-t-il ?',
+    a: 'Le Samsung Galaxy Z Flip7 limite sa puissance quand il chauffe. Dans les tests d’endurance de GSMArena, l’Exynos 2500 ne conserve que 46 % de ses performances processeur et 54 % sur 3DMark Wild Life Extreme. Le site juge ce comportement un peu meilleur que celui du Flip6, et acceptable vu la finesse du boîtier.',
+  },
+  {
+    q: 'Le Galaxy Z Flip7 est-il étanche ?',
+    a: 'Le Samsung Galaxy Z Flip7 est certifié IP48 : il résiste à 30 minutes d’immersion sous 1,5 mètre d’eau douce, mais ne filtre que les particules de plus d’un millimètre, d’après GSMArena. Une chute dans une piscine ne pose donc pas de problème, contrairement au sable et à la poussière fine. Le Galaxy Z Flip8 conserve le même indice.',
+  },
+  {
+    q: 'Peut-on utiliser toutes les applications sur l’écran externe du Galaxy Z Flip7 ?',
+    a: 'Pas nativement. L’écran externe de 4,1 pouces du Samsung Galaxy Z Flip7 affiche widgets, notifications, Now Bar et Gemini Live, mais le Journal du Geek rappelle qu’on ne peut pas y lancer n’importe quelle application sans contournement. Clubic recommande le module MultiStar de Good Lock, qui ouvre l’écran externe aux autres applications, avec de bons résultats sur les formats carrés.',
+  },
+  {
+    q: 'Quels accessoires prévoir avec le Galaxy Z Flip7 ?',
+    a: 'La boîte du Samsung Galaxy Z Flip7 ne contient qu’un câble USB-C et l’outil SIM : il faut un chargeur USB Power Delivery de 25 W pour la charge rapide. Samsung vend une coque en silicone avec anneau et une coque personnalisable Flipsuit à cartes NFC. Ces coques Flipsuit ne sont compatibles ni avec le Galaxy Z Flip7 FE ni avec le Flip6.',
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7', 'Samsung', 'Smartphone pliant à clapet'] }), product(p), review(p)];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test · à qui le conseiller ?</span>
+        <h1>Test du Samsung Galaxy Z Flip7 : à qui le conseiller en 2026, à qui le déconseiller</h1>
+      </div>
+      <ProductSummary phone={p} ctaLabel="Consulter l’offre Amazon" />
+      <div class="prose">
+        <p class="lede">
+          Lancé le 25 juillet 2025 à {euro(p.launchPrice)}, le Samsung Galaxy Z Flip7 a inauguré l’écran externe de 4,1 pouces que reprend le Flip8.
+          Dans la gamme de <a href="/smartphone-pliant-samsung/">smartphones pliants de Samsung</a>, c’est encore un achat cohérent en 2026. Les tests publiés dessinent pourtant un appareil très typé : il convient parfaitement à certains profils et déçoit franchement les autres.
+        </p>
+        <Byline minutes={19} />
+      </div>
+    </header>
+
+    <div class="wrap prose">
+      <ProsCons
+        prosTitle="Ce qui plaide pour lui"
+        consTitle="Ce qui peut coincer"
+        pros={[
+          'Écran externe 4,1" bord à bord, à 120 Hz',
+          'Fin : 6,5 mm ouvert, 13,7 mm fermé, 188 g',
+          '14 h 40 d’autonomie au protocole du Labo Fnac',
+          'Pli presque invisible écran allumé selon Fnac',
+          'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
+          'Sept mises à jour Android promises',
+        ]}
+        cons={[
+          'Charge 25 W : 46 % en 30 min chez GSMArena',
+          'Exynos 2500 bridé sous forte charge',
+          'Ultra grand-angle sans autofocus, pas de téléobjectif',
+          'IP48 : poussière et sable mal filtrés',
+          'Ni chargeur ni coque dans la boîte',
+        ]}
+      />
+    </div>
+
+    <div class="wrap section-tight">
+      <KeyFacts
+        items={[
+          { label: 'Autonomie Labo Fnac', value: '14 h 40' },
+          { label: 'Test Wi-Fi Notebookcheck', value: '≈ 19 h' },
+          { label: 'Recharge 0-100 % (GSMArena)', value: '1 h 31' },
+          { label: 'AnTuTu 10 (GSMArena)', value: '1 513 134' },
+          { label: 'Pic écran intérieur (DXOMARK)', value: '2 582 cd/m²' },
+        ]}
+      />
+    </div>
+
+    <div class="wrap prose">
+      <section class="card summary">
+        <h2 class="mt-0">Le verdict en une minute</h2>
+        <p>
+          Le Samsung Galaxy Z Flip7 est le clapet de Samsung le plus abouti de 2025, et les tests publiés le confirment presque tous : 9/10 chez Clubic, 4/5 au Labo Fnac, qui le qualifie de meilleur Z Flip à sa sortie.
+          Son écran externe de 4,1 pouces change l’usage fermé, et son autonomie progresse nettement face au Flip6.
+          Ses limites sont tout aussi documentées : une recharge parmi les plus lentes du marché, un Exynos 2500 qui chauffe et se bride, un module photo inchangé.
+          Le reste de la fiche ne prête guère à débat, entre Wi-Fi 7, haut-parleurs plus amples que ceux du Flip6 selon GSMArena et classe A aux chutes sur l’étiquette européenne.
+          <strong>À conseiller</strong> à qui veut un pliant compact et bien suivi sans payer le prix du Flip8, <strong>à déconseiller</strong> aux gros joueurs et aux journées sans prise.
+        </p>
+      </section>
+
+      <h2>Trois profils, trois réponses</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 n’est ni le plus fin, ni le moins cher des clapets de Samsung. Il occupe le milieu de la gamme, et c’est votre usage qui décide s’il est le bon.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="grid profiles" style="--min:260px">
+        <div class="card">
+          <h3>Pour vous si…</h3>
+          <ul class="small">
+            <li>vous voulez lire un message, suivre un itinéraire ou cadrer un selfie sans ouvrir le téléphone ;</li>
+            <li>vous cherchez un clapet Samsung complet sans payer le prix d’un modèle 2026 ;</li>
+            <li>vous rechargez chaque soir : les mesures publiées donnent une journée pleine, rarement plus ;</li>
+            <li>vous comptez le garder longtemps, sept versions d’Android à l’appui.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Passez votre chemin si…</h3>
+          <ul class="small">
+            <li>vous zoomez souvent : le x2 n’est qu’un recadrage du capteur principal ;</li>
+            <li>vous jouez beaucoup : GSMArena mesure une stabilité de 54 % seulement en charge prolongée ;</li>
+            <li>vous rechargez à la volée : 46 % en 30 minutes chez GSMArena ;</li>
+            <li>vous fréquentez la plage ou les chantiers : l’IP48 protège de l’eau, pas du sable fin.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Hésitez avec…</h3>
+          <p class="small">
+            Le <a href="/smartphone-pliant-samsung/galaxy-z-flip8/">Galaxy Z Flip8</a>, si la finesse vous importe : 180 g, 6,1 mm ouvert et Exynos 2600, pour 100 € de plus au lancement. Écran externe, batterie et charge ne changent pas.
+          </p>
+          <p class="small mb-0">
+            Le <a href="/smartphone-pliant-samsung/galaxy-z-flip7-fe/">Galaxy Z Flip7 FE</a>, si le budget prime : 999 € au lancement, mais un écran externe de 3,4 pouces à 60 Hz, 8 Go de mémoire vive et 2 h 17 d’autonomie en moins au protocole Fnac.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Design : 188 g, et un capot enfin entièrement occupé</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 corrige la silhouette des générations précédentes sans prendre de poids. GSMArena mesure 6,5 mm ouvert contre 6,9 mm pour le Flip6, et 13,7 mm fermé contre 14,9 mm. Notebookcheck souligne qu’il ne pèse qu’un gramme de plus que son prédécesseur malgré des écrans agrandis.
+      </p>
+      <p>
+        Les cotes complètes relevées par <a href={src.gsmarenaSpecs} target="_blank" rel="noopener">GSMArena</a> donnent 166,7 × 75,2 mm ouvert et 85,5 × 75,2 mm fermé. Le cadre est en Armor Aluminum satiné, les deux faces en Gorilla Glass Victus 2, dépoli sur la moitié sans écran.
+        En France, le Flip7 se décline en Bleu Nuit, Noir Absolu et Corail, plus un Vert d’Eau vendu uniquement sur samsung.com, précise <a href={src.samsungNews} target="_blank" rel="noopener">Samsung Newsroom France</a>.
+      </p>
+      <PhoneGallery id={p.id} />
+      <p>
+        Le Journal du Geek salue un design plus anguleux et une finition irréprochable. La charnière reste le point sensible du format : TechRadar France rapporte que son exemplaire de test montrait déjà des signes d’usure, une réserve isolée mais à garder en tête pour un appareil que l’on ouvre des dizaines de fois par jour.
+      </p>
+      <p>
+        Le pli divise davantage qu’on ne le croit. Le Labo Fnac le décrit comme quasiment invisible écran allumé et Clubic comme presque imperceptible au toucher ; <a href={src.gsmarenaDesign} target="_blank" rel="noopener">GSMArena</a> sent une légère ondulation sous le doigt, sans gêne à l’usage, et Notebookcheck le trouve plus marqué que chez la concurrence.
+        La charnière tient l’écran entrouvert à différents angles, ce qui permet de poser le téléphone pour filmer en mode FlexCam. GSMArena prévient en revanche que l’ouverture demande un peu d’adresse, faute de prise entre les deux moitiés.
+      </p>
+      <p>
+        <strong>Pour quel profil ?</strong> Celui qui veut un téléphone qui disparaît dans une poche. À 188 g, le Flip7 reste l’un des pliants les plus légers du marché, seulement battu dans la gamme Samsung par le Flip8 et ses 180 g.
+      </p>
+
+      <h2>Écrans : le 4,1 pouces externe change la donne</h2>
+      <p>
+        L’écran externe du Samsung Galaxy Z Flip7 est la meilleure raison de le choisir. Il couvre désormais toute la moitié supérieure de la face avant : 4,1 pouces, 948 × 1 048 pixels et 120 Hz, contre 3,4 pouces à 60 Hz sur le Flip6 selon GSMArena. Les capteurs photo sont posés directement sur la dalle.
+      </p>
+      <p>
+        À l’intérieur, la dalle de 6,9 pouces adopte un ratio un peu moins allongé, pour environ 10 % de surface en plus d’après GSMArena. Samsung annonce 2 600 cd/m² en pic sur les deux écrans.
+        Notebookcheck mesure 2 636 cd/m² sur l’écran intérieur en APL18, et GSMArena un peu moins de 1 500 cd/m² en luminosité automatique, contre environ 1 400 cd/m² sur l’écran externe.
+      </p>
+      <p>
+        Le calibrage est bon : Notebookcheck relève un Delta E de 2,2 sur sa mire de couleurs et de 1,6 sur les niveaux de gris, et le Labo Fnac attribue la note maximale à la fidélité des couleurs.
+        <a href={src.dxomark} target="_blank" rel="noopener">DXOMARK</a> lui accorde 155 points, 13e score de son classement écran en septembre 2026, avec des pics de 2 582 cd/m² à l’intérieur et 2 400 cd/m² à l’extérieur ; le laboratoire salue la lecture HDR10 mais relève une dalle très réfléchissante et des touches involontaires fréquentes.
+        Deux autres bémols : l’écran externe tombe à 447 cd/m² en réglage manuel chez GSMArena, et Notebookcheck détecte un scintillement PWM à 240 Hz.
+      </p>
+      <p>
+        Côté logiciel, GSMArena regrette que l’écran externe n’exploite pas encore tout son potentiel. Il affiche nativement widgets, notifications, la Now Bar et Gemini Live ; pour y lancer n’importe quelle application, le Journal du Geek rappelle qu’il faut ruser, et Clubic conseille le module MultiStar de Good Lock, efficace sur les applications au format carré.
+      </p>
+      <p>
+        <strong>Pour quel profil ?</strong> Celui qui consulte son téléphone souvent mais brièvement : notifications lisibles en entier, réponses courtes, carte et lecteur musical sans ouvrir l’appareil.
+      </p>
+
+      <h2>Autonomie : bonne en laboratoire, plus discutée à l’usage</h2>
+      <p>
+        L’autonomie du Samsung Galaxy Z Flip7 progresse nettement face au Flip6, grâce à 300 mAh supplémentaires (4 300 mAh au total). Les laboratoires sont unanimes sur ce progrès, les avis d’usage beaucoup moins.
+      </p>
+      <p>
+        Le Labo Fnac mesure 14 h 40 sur son protocole et parle d’endurance excellente. Notebookcheck obtient près de 19 heures en navigation Wi-Fi, un très bon résultat pour un clapet.
+        GSMArena calcule un Active Use Score de 11 h 52, avec environ trois heures de plus que le Flip6 en navigation web et en lecture vidéo, mais un léger recul en jeu.
+      </p>
+      <p>
+        Sur le terrain, Clubic dépasse une journée et demie en usage classique et un peu plus d’une journée en usage intensif. Le Journal du Geek boucle sa journée sans difficulté. TechRadar France est plus sévère : selon son test, le Flip7 peine à tenir toute une journée.
+        Cet écart tient sans doute à l’usage de l’écran intérieur, bien plus gourmand que l’externe.
+      </p>
+      <p>
+        La recharge est le point faible commun à tous les tests. Avec son chargeur 25 W, GSMArena obtient 26 % en 15 minutes, 46 % en 30 minutes et 100 % en 91 minutes. Le Labo Fnac compte 84 minutes, un temps qu’il trouve à rallonge en 2025, et Clubic 30 minutes pour atteindre 50 %.
+        La charge sans fil est bien présente, mais sa puissance réelle reste floue : GSMArena relève que la certification Qi du Flip7 ne mentionne plus que le profil de base, alors que Samsung continue d’afficher sa charge sans fil rapide.
+      </p>
+      <p>
+        <strong>Pour quel profil ?</strong> Celui qui recharge chaque soir. Si vous comptez sur un appoint de dix minutes avant de partir, le Flip7 vous frustrera.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Voir les coloris sur Amazon" /></p>
+
+      <h2>Performances : l’Exynos 2500 suffit, mais chauffe</h2>
+      <p>
+        Pour le Samsung Galaxy Z Flip7, Samsung a choisi sa propre puce Exynos 2500 dans toutes les régions, avec 12 Go de mémoire vive. Au quotidien, les tests ne relèvent aucun ralentissement : le Labo Fnac donne la note maximale aux quatre scénarios d’usage, de la navigation simple aux tâches les plus lourdes.
+      </p>
+      <p>
+        Les benchmarks placent pourtant le Flip7 un cran sous les téléphones équipés du Snapdragon 8 Elite. GSMArena mesure 1 513 134 points sur AnTuTu 10, 2 099 et 7 433 points sur Geekbench 6 et 5 636 points sur 3DMark Wild Life Extreme.
+        Notebookcheck estime l’écart à environ 10 % face aux variantes Snapdragon. Clubic relève de son côté 1 722 555 points sur AnTuTu et 4 993 points sur 3DMark Wild Life Extreme.
+      </p>
+      <p>
+        Le problème vient de la durée. En charge prolongée, GSMArena voit l’Exynos 2500 conserver 46 % de ses performances processeur et 54 % sur le stress test de 3DMark : un peu mieux que le Flip6, loin d’un smartphone classique. Notebookcheck parle lui aussi d’un throttling marqué, et le Labo Fnac limite la partie graphique à 8/10.
+        Le Journal du Geek range ce choix de puce parmi les points faibles du modèle.
+      </p>
+      <p>
+        <strong>Pour quel profil ?</strong> Réseaux sociaux, photo, navigation, messagerie : aucune inquiétude. Les longues sessions de jeu 3D, elles, trouvent leurs limites au bout de quelques minutes. Regard 2026 : l’Exynos 2600 du Flip8, gravé en 2 nm, est la principale évolution matérielle de son successeur.
+      </p>
+
+      <h2>Photo : un 50 Mpx fiable de jour, pas de zoom</h2>
+      <p>
+        Le module photo du Samsung Galaxy Z Flip7 associe un capteur principal de 50 Mpx et un ultra grand-angle de 12 Mpx ; une caméra de 10 Mpx se loge dans l’écran intérieur. C’est le même matériel que sur le Flip6, ce que regrette le Journal du Geek.
+      </p>
+      <p>
+        De jour, GSMArena obtient des images très détaillées au rendu naturel, et juge le zoom x2 par recadrage tout à fait exploitable. Clubic fait le même constat en bonne lumière. En portrait, le Flip7 cadre par défaut en x2, une perspective plus flatteuse avec des teintes de peau naturelles selon GSMArena.
+        La nuit, le mode standard produit des images granuleuses que le mode Nuit nettoie en ajoutant de l’accentuation. Le Labo Fnac attribue 9,7/10 à la qualité optique du capteur principal, mais seulement 4,7/10 à sa sensibilité.
+      </p>
+      <p>
+        L’ultra grand-angle, dépourvu d’autofocus, ne fait pas de macro et perd en netteté dans les coins. Le grand écran externe rend en revanche les selfies avec le capteur principal bien plus pratiques qu’avant, et <a href={src.gsmarenaPhoto} target="_blank" rel="noopener">GSMArena</a> les préfère nettement à ceux de la caméra intérieure, que le Labo Fnac note 7,5/10.
+        En vidéo, le Flip7 filme en 4K à 60 images par seconde, avec HDR10+ et profil Log ; la stabilisation laisse passer quelques secousses en marchant, n’est plus disponible en 4K à 60 images par seconde, et les séquences de nuit restent bruitées.
+      </p>
+      <p>
+        <a href={src.dxomarkPhone} target="_blank" rel="noopener">DXOMARK</a> attribue 137 points au module photo, 4e score des pliants de son classement en septembre 2026. <strong>Pour quel profil ?</strong> Photos du quotidien et selfies soignés, oui. Portraits au téléobjectif et paysages lointains, non : aucun clapet Samsung ne propose de zoom optique, Flip8 compris.
+      </p>
+
+      <h2>Logiciel et suivi : sept ans promis, DeX en prime</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 est sorti sous Android 16 et One UI 8, parmi les premiers appareils livrés avec cette version. Samsung promet sept mises à jour majeures d’Android et sept ans de correctifs de sécurité, rappelle GSMArena.
+      </p>
+      <p>
+        Clubic salue One UI 8, les outils Galaxy AI et l’arrivée du mode bureau DeX sur un clapet, et le Journal du Geek range l’interface et les sept ans de suivi parmi les points forts. TechRadar France se montre à l’inverse très critique envers la surcouche de Samsung, qu’il juge en recul à chaque génération.
+      </p>
+      <p>
+        Regard 2026 : le Flip8 arrive sous Android 17 et One UI 9. Un Flip7 acheté en septembre 2026 garde environ six ans de suivi, jusqu’en 2032 selon l’engagement de Samsung, soit un an de moins que son successeur. Pour la plupart des acheteurs, c’est bien plus que la durée de vie réelle de la charnière.
+      </p>
+
+      <h2>Son, réseaux et empreinte : un sans-faute discret</h2>
+      <p>
+        Les haut-parleurs du Samsung Galaxy Z Flip7 progressent. Le haut-parleur du bas et l’écouteur du haut forment un duo stéréo qui s’adapte à l’orientation ; <a href={src.gsmarenaLab} target="_blank" rel="noopener">GSMArena</a> juge le volume bon (−26,1 LUFS), trouve la scène sonore plus large que sur le Flip6 et le préfère même au Razr 60 Ultra de Motorola.
+        Le Journal du Geek trouve le son correct mais un peu creux, suffisant pour des vidéos courtes, et le Labo Fnac note la qualité audio 6,9/10. Pas de prise jack.
+      </p>
+      <p>
+        Côté réseaux, la fiche de GSMArena et le test de Clubic s’accordent : 5G, Wi-Fi 7, Bluetooth 5.4, NFC pour le paiement sans contact et USB-C 3.2. Le Flip7 accepte une nano-SIM et une eSIM, ou deux eSIM, avec deux lignes actives au maximum. Notebookcheck a mesuré entre 800 et 870 Mbit/s environ en Wi-Fi.
+      </p>
+      <p>
+        Le capteur d’empreinte loge dans le bouton d’alimentation, sur la tranche. GSMArena le trouve fiable, sans rien de remarquable, et l’enregistrement se fait désormais en faisant glisser le doigt plutôt qu’en le posant plusieurs fois.
+      </p>
+      <p>
+        <strong>Pour quel profil ?</strong> Presque tout le monde. Seuls les amateurs de musique sans casque trouveront le rendu un peu léger.
+      </p>
+
+      <h2>Solidité : IP48, classe A aux chutes et 2 000 cycles</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 est certifié IP48 : 30 minutes sous 1,5 mètre d’eau douce, mais une protection limitée aux particules de plus d’un millimètre, précise GSMArena. Poussière fine et sable ne sont pas couverts.
+        Samsung met en avant une charnière plus fine que celle du Flip6, un cadre en Armor Aluminum et du Gorilla Glass Victus 2 sur les deux faces ; l’écran intérieur reste couvert d’un film plastique, classé au niveau 1 de l’échelle de dureté de Mohs par GSMArena.
+      </p>
+      <p>
+        L’étiquette énergie européenne du Flip7, détaillée par <a href={src.sammobileEu} target="_blank" rel="noopener">SamMobile</a>, affiche la classe B en efficacité énergétique, la classe A en résistance aux chutes et la classe C en réparabilité, avec 42 h 04 d’autonomie par cycle et 80 % de capacité conservés après 2 000 cycles.
+        Regard 2026 : le Flip8 n’annonce que 1 200 cycles sur la sienne, selon <a href={src.gsmarenaEu2026} target="_blank" rel="noopener">GSMArena</a>. Pour qui garde son téléphone quatre ou cinq ans, c’est un argument inattendu en faveur du modèle 2025.
+      </p>
+      <p>
+        Samsung propose en France <a href={src.samsungCare} target="_blank" rel="noopener">Samsung Care+</a>, à souscrire dans les 60 jours suivant l’achat : l’assurance couvre les dommages accidentels avec franchise et remplace la batterie sous 80 % de capacité dans sa formule mensuelle.
+        <strong>Pour quel profil ?</strong> Le Flip7 encaisse les chutes du quotidien ; la plage et les poches pleines de sable restent déconseillées.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <h2>Mesures publiées : le Flip7 en chiffres</h2>
+      <Measures items={measures} caption="Mesures publiées par la presse sur le Samsung Galaxy Z Flip7" />
+      <p class="small muted" style="margin-top:.5rem">Protocoles différents d’un média à l’autre : comparez les résultats au sein d’une même source.</p>
+    </div>
+
+    <div class="wrap prose section">
+      <TestSources
+        sources={sources}
+        heading="Ce qu’en pense la presse tech"
+        intro="Cinq tests publiés entre juillet et novembre 2025, avec leurs notes d’origine."
+      />
+
+      <h2>Versions, boîte et prix de lancement en France</h2>
+      <p>
+        Le Samsung Galaxy Z Flip7 a été lancé en deux capacités, toutes deux avec 12 Go de mémoire vive et sans lecteur de carte mémoire. Un an plus tard, il se trouve souvent nettement moins cher, ce qui change son positionnement face aux deux autres clapets de la gamme.
+      </p>
+    </div>
+
+    <div class="wrap">
+      <div class="grid versions" style="--min:220px">
+        <div class="card">
+          <span class="eyebrow">256 Go · 12 Go</span>
+          <p class="price">{euro(p.launchPrice)}</p>
+          <p class="small muted mb-0">Prix de lancement, 25 juillet 2025</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">512 Go · 12 Go</span>
+          <p class="price">{euro(1319)}</p>
+          <p class="small muted mb-0">Prix de lancement, 25 juillet 2025</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Coloris en France</span>
+          <p class="small mb-0">Bleu Nuit, Noir Absolu, Corail ; Vert d’Eau en exclusivité sur samsung.com</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap prose section">
+      <p class="mt-0">
+        Dans la boîte, GSMArena ne trouve qu’un câble USB-C et l’outil d’éjection SIM : ni chargeur, ni coque. Samsung vend une coque en silicone avec anneau et une <a href={src.samsungFlipsuit} target="_blank" rel="noopener">coque personnalisable Flipsuit</a>, dont les cartes NFC changent l’habillage de l’écran externe ; ces Flipsuit ne vont ni sur le Flip7 FE ni sur le Flip6.
+        Côté capacité, 256 Go suffisent à la plupart des usages. Visez 512 Go si vous filmez beaucoup en 4K, faute de carte mémoire.
+      </p>
+      <p><AmazonButton phone={p} variant="ghost" label="Comparer les versions sur Amazon" /></p>
+
+      <h2>Alternatives : Flip8, Flip7 FE ou Razr ?</h2>
+    </div>
+
+    <div class="wrap">
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Galaxy Z Flip7, Z Flip8 et Z Flip7 FE : caractéristiques qui les départagent</caption>
+          <thead>
+            <tr>
+              <th scope="col">Critère</th>
+              <th scope="col">Galaxy Z Flip7</th>
+              <th scope="col">Galaxy Z Flip8</th>
+              <th scope="col">Galaxy Z Flip7 FE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              table.map((r) => (
+                <tr>
+                  <th scope="row">{r.k}</th>
+                  <td class="is-main">{r.v[0]}</td>
+                  <td>{r.v[1]}</td>
+                  <td>{r.v[2]}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wrap prose section">
+      <p class="mt-0">
+        <strong>Face au Galaxy Z Flip8</strong> ({euro(flip8.launchPrice)} au lancement), le Flip7 ne perd ni l’écran externe, ni la batterie, ni la charge. Il pèse 8 g de plus, mesure 0,4 mm de plus ouvert et embarque une puce d’une génération antérieure.
+        Si l’écart de prix constaté reste proche des 100 € d’origine, le Flip8 mérite la dépense pour son Exynos 2600 et son année de suivi supplémentaire. S’il se creuse, le Flip7 devient le meilleur rapport qualité/prix des clapets Samsung.
+      </p>
+      <p>
+        <strong>Face au Galaxy Z Flip7 FE</strong> ({euro(fe.launchPrice)} au lancement, arrêté en juillet 2026), l’écart est bien plus net. Le FE garde le châssis du Flip6, son écran externe de 3,4 pouces à 60 Hz et 4 000 mAh ; le Labo Fnac lui mesure 12 h 23 d’autonomie, contre 14 h 40 au Flip7.
+        Sauf budget très serré, le Flip7 reste le choix le plus sûr.
+      </p>
+      <p>
+        <strong>Face au Motorola Razr 60 Ultra</strong> ({euro(r60.launchPrice)} au lancement en 16 Go / 512 Go), le Flip7 perd la bataille de la fiche technique : Snapdragon 8 Elite, 4 700 mAh, charge 68 W filaire et 30 W sans fil, écrans à 165 Hz.
+        Le Razr pèse en revanche 199 g et atteint 15,7 mm fermé. Pour le jeu et la recharge express, <ObfLink href={r60.path} class="obf-text">le Razr 60 Ultra</ObfLink> convainc davantage ; pour la finesse, le son et le suivi logiciel, le Flip7 garde l’avantage.
+      </p>
+      <p>
+        <strong>Face au Motorola Razr 70</strong> ({euro(r70.launchPrice)} au lancement en 8 Go / 256 Go), sorti en mai 2026, l’argument est l’endurance : 4 800 mAh, charge 30 W et 15 W sans fil, pour 188 g, le même poids que le Flip7.
+        Son écran externe de 3,63 pouces à 90 Hz et sa puce Dimensity 7450X sont nettement en dessous, et Motorola promet trois versions d’Android contre sept chez Samsung. <ObfLink href={r70.path} class="obf-text">Le Razr 70</ObfLink> vise d’abord les petits budgets.
+      </p>
+      <Callout variant="info" title="Acheter un Flip de l’an dernier">
+        <p>
+          Un Galaxy Z Flip7 neuf bénéficie de la garantie légale de conformité de deux ans, à compter de l’achat. Chez un vendeur tiers, vérifiez qu’il s’agit d’une version européenne avec facture.
+        </p>
+      </Callout>
+    </div>
+
+    <section class="section band">
+      <div class="wrap">
+        <div class="grid" style="--min:300px;align-items:start">
+          <ScoreBars phone={p} />
+          <div class="prose">
+            <h2 class="mt-0">{num(overall(p))}/10 : un clapet complet, freiné par sa batterie</h2>
+            <p>
+              Le Samsung Galaxy Z Flip7 obtient {num(overall(p))}/10, juste derrière le Flip8 ({num(overall(flip8))}/10). Il se distingue en portabilité ({num(p.scores.portabilite)}/10) et en écrans ({num(p.scores.ecran)}/10), et recule en autonomie ({num(p.scores.autonomie)}/10), critère plombé par la lenteur de la recharge.
+            </p>
+            <p>
+              Cette note est une synthèse éditoriale fondée sur la fiche technique et les tests publiés. Le calcul est expliqué dans <a href="/methodologie/">notre méthodologie</a>.
+            </p>
+            <AmazonButton phone={p} label="Voir le prix sur Amazon" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap prose section">
+      <h2 class="mt-0">Fiche technique du Galaxy Z Flip7</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Galaxy Z Flip7 : vos questions" />
+
+      <RelatedArticles />
+      <Siblings path={path} variant="chips" heading="Les autres Galaxy Z pliants" />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .profiles ul {
+    padding-left: 1.1rem;
+    margin: 0;
+  }
+  .profiles li {
+    margin-bottom: 0.4rem;
+  }
+  td.is-main {
+    font-weight: 700;
+  }
+  tbody th {
+    font-weight: 650;
+  }
+  .summary {
+    margin-top: 1.5rem;
+    border-left: 4px solid var(--accent);
+  }
+  .versions .price {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin: 0.3rem 0;
+  }
+</style>

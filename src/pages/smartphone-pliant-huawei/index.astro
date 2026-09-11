@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CompareTable from '../../components/CompareTable.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Callout from '../../components/Callout.astro';
+import Faq from '../../components/Faq.astro';
+import Byline from '../../components/Byline.astro';
+import Siblings from '../../components/Siblings.astro';
+import FoldIcon from '../../components/FoldIcon.astro';
+import { byId, overall } from '../../data/phones';
+import { brands } from '../../data/site';
+import { article, itemList } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const path = '/smartphone-pliant-huawei/';
+const title = 'Smartphone pliant Huawei : Mate X7, Mate XT, sans Google';
+const description =
+  'Mate X7 (2 099 €) et tri-pliant Mate XT (3 499 €) : ce que l’absence de Google et de 5G change, et pour qui un pliant Huawei a du sens en 2026.';
+
+const x7 = byId('huawei-mate-x7');
+const xt = byId('huawei-mate-xt');
+const red = brands.huawei.color;
+
+const faq = [
+  {
+    q: 'Peut-on installer le Play Store sur un Huawei Mate X7 ?',
+    a: 'Pas officiellement. Le Huawei Mate X7 vendu en Europe est privé des services Google, conséquence des sanctions américaines en vigueur depuis 2019. Des solutions tierces comme GBox font tourner le Play Store dans un environnement virtuel, et le site GSMArena les juge fonctionnelles, mais elles ne bénéficient d’aucun soutien de Google et certaines applications peuvent mal fonctionner.',
+  },
+  {
+    q: 'Les smartphones pliants Huawei ont-ils la 5G en France ?',
+    a: 'Non. Les versions européennes du Huawei Mate X7 et du Mate XT Ultimate Design se limitent à la 4G, d’après les fiches techniques publiées par Huawei. La version chinoise du Mate X7 est compatible 5G, mais elle n’est pas destinée au marché français. Pour la navigation, la vidéo et les réseaux sociaux, la 4G reste suffisante dans les zones bien couvertes.',
+  },
+  {
+    q: 'Pourquoi Huawei n’a-t-il plus les applications Google ?',
+    a: 'Huawei a été inscrit le 16 mai 2019 sur l’Entity List du département du Commerce des États-Unis. Cette liste interdit aux entreprises américaines, dont Google, de travailler avec Huawei sans licence. Depuis les Mate 30 présentés en septembre 2019, les smartphones Huawei vendus hors de Chine sont livrés sans Play Store, Gmail, Google Maps ni YouTube.',
+  },
+  {
+    q: 'Quel est le meilleur smartphone pliant Huawei ?',
+    a: `Le Huawei Mate X7 est le plus équilibré, avec une note de ${num(overall(x7))}/10 : périscope 50 Mpx au zoom x3,5, certification IP58/IP59, batterie de 5 300 mAh et charge sans fil 50 W, pour 2 099 € au lancement. Le Mate XT Ultimate Design (${num(overall(xt))}/10) impressionne avec son écran de 10,2 pouces, mais il coûte 3 499 € et pèse 298 g.`,
+  },
+  {
+    q: 'Un pliant Huawei vaut-il le coup sans Google ?',
+    a: 'Oui, si vos applications essentielles fonctionnent sans les services Google. Le matériel des pliants Huawei rivalise avec les meilleurs modèles de 2026, surtout en photo et en étanchéité. Avant d’acheter, dressez la liste de vos applications indispensables (banque, messagerie, transports, travail) et vérifiez leur présence dans l’AppGallery ou leur fonctionnement sans services Google.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Huawei', 'Smartphone pliant', 'Huawei Mate X7', 'Huawei Mate XT'] }),
+  itemList(
+    'Smartphones pliants Huawei vendus en Europe',
+    [x7, xt].map((p) => ({ name: p.fullName, url: p.path })),
+  ),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Huawei · le dossier Google</span>
+        <h1>Pliants Huawei en 2026 : un matériel de premier plan, mais sans Google</h1>
+        <p class="lede">
+          Deux pliants Huawei sont proposés en Europe : le Mate X7 au format livre, lancé à {euro(x7.launchPrice)}, et le tri-pliant Mate XT Ultimate Design, à {euro(xt.launchPrice)}.
+          Sur la fiche technique, ils tiennent tête aux meilleurs modèles de notre <a href="/">classement des smartphones pliants</a>. Au quotidien, ils vivent sans Play Store, sans applications Google et sans 5G. Voici ce que cela change concrètement.
+        </p>
+        <Byline minutes={8} />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <Callout variant="answer" title="Pour qui un pliant Huawei a-t-il du sens en 2026 ?">
+        <p>
+          Pour une minorité d’acheteurs bien identifiés : ceux qui se servent peu des services Google, savent installer une application hors Play Store et veulent un module photo et une étanchéité de très haut niveau.
+          Le <strong>Huawei Mate X7</strong> ({num(overall(x7))}/10) coche ces cases pour {euro(x7.launchPrice)}. Le <strong>Mate XT</strong>, à {euro(xt.launchPrice)}, reste un objet de démonstration.
+          Si Gmail, Google Maps ou Google Wallet rythment vos journées, passez votre chemin.
+        </p>
+      </Callout>
+    </div>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2 class="mt-0">Pourquoi les pliants Huawei n’ont pas les services Google</h2>
+        <p>
+          Les pliants Huawei sont privés des services Google à cause des sanctions américaines, et non d’un choix technique de la marque. Le 16 mai 2019, le département du Commerce des États-Unis a inscrit Huawei et 68 de ses filiales sur son « Entity List », une liste noire qui interdit aux entreprises américaines de travailler avec elles sans licence. Google est une entreprise américaine : la licence du Play Store et des applications maison a donc sauté.
+        </p>
+        <p>
+          L’effet a été visible dès l’automne suivant. Les Mate 30, présentés en septembre 2019, ont été les premiers haut de gamme Huawei livrés sans Gmail, Google Maps ni YouTube. Sept ans plus tard, rien n’a bougé pour les modèles vendus hors de Chine : en Europe, le Mate X7 et le Mate XT tournent sous EMUI, la surcouche Android de Huawei, débarrassée de tout ce qui porte la marque Google.
+        </p>
+
+        <h2>Trois conséquences très concrètes</h2>
+        <h3>Pas de Play Store</h3>
+        <p>
+          Le Play Store n’existe pas sur un Huawei Mate X7 ou un Mate XT. La boutique par défaut est l’AppGallery de Huawei, qui couvre une partie des applications grand public. Le reste s’installe sous forme de fichiers APK, depuis des magasins tiers comme APKPure. La manœuvre est à la portée de tous, mais la provenance de chaque fichier demande de la vigilance.
+        </p>
+        <h3>Pas d’applications Google</h3>
+        <p>
+          Gmail, Google Maps, YouTube, Drive, Google Wallet et Gemini ne sont ni préinstallés ni installables officiellement. Huawei propose ses propres alternatives, comme Petal Maps pour la navigation et le moteur de recherche Petal Search.
+          Certains utilisateurs passent par GBox, une application tierce qui crée un environnement virtuel capable de faire tourner le Play Store. GSMArena la juge fonctionnelle sur le Mate X7, mais il s’agit d’un contournement sans aucun soutien de Google. Le même test note que les applications Gemini et ChatGPT ne fonctionnent pas sur la version internationale du Mate X7.
+        </p>
+        <h3>Pas de 5G en Europe</h3>
+        <p>
+          Le Huawei Mate X7 vendu en Europe se limite à la 4G, d’après sa fiche technique française, alors que la version chinoise gère la 5G. Le Mate XT Ultimate Design est lui aussi annoncé en 4G. Sur un appareil à plus de 2 000 €, la lacune se remarque surtout en partage de connexion ou pour les gros téléchargements en mobilité. Pour le reste, un bon réseau 4G fait l’affaire.
+        </p>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap prose">
+        <h2 class="mt-0">Ce qui fonctionne, ce qui ne fonctionne pas</h2>
+        <p>
+          Ce tableau résume la situation décrite par Huawei et par les tests publiés. Le comportement d’une application donnée peut évoluer au fil des mises à jour : vérifiez celles dont vous ne pouvez pas vous passer avant d’acheter.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Usages possibles et impossibles sur les pliants Huawei vendus en Europe</caption>
+            <thead>
+              <tr><th scope="col">Usage</th><th scope="col">Statut</th><th scope="col">Ce qu’il faut savoir</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Boutique d’applications</td>
+                <td><span class="badge badge-teal">Fonctionne</span></td>
+                <td>AppGallery de Huawei préinstallée ; fichiers APK et magasins tiers acceptés</td>
+              </tr>
+              <tr>
+                <td>Play Store</td>
+                <td><span class="badge badge-accent">Absent</span></td>
+                <td>Uniquement via des contournements tiers (GBox), sans garantie</td>
+              </tr>
+              <tr>
+                <td>Gmail, Google Maps, YouTube, Drive</td>
+                <td><span class="badge badge-accent">Absent</span></td>
+                <td>Pas d’application officielle ; versions web accessibles depuis le navigateur</td>
+              </tr>
+              <tr>
+                <td>Navigation GPS</td>
+                <td><span class="badge badge-teal">Fonctionne</span></td>
+                <td>Petal Maps, l’application cartographique de Huawei</td>
+              </tr>
+              <tr>
+                <td>Paiement avec Google Wallet</td>
+                <td><span class="badge badge-accent">Absent</span></td>
+                <td>Renseignez-vous sur les solutions de paiement proposées par votre banque</td>
+              </tr>
+              <tr>
+                <td>Banque, messageries, réseaux sociaux</td>
+                <td><span class="badge badge-gold">À vérifier</span></td>
+                <td>Certaines applications s’appuient sur les services Google pour les notifications ou la sécurité : à tester au cas par cas</td>
+              </tr>
+              <tr>
+                <td>Applications Gemini et ChatGPT</td>
+                <td><span class="badge badge-gold">Partiel</span></td>
+                <td>Non fonctionnelles sur le Mate X7 international selon GSMArena ; versions web utilisables</td>
+              </tr>
+              <tr>
+                <td>Réseau mobile</td>
+                <td><span class="badge badge-gold">Partiel</span></td>
+                <td>4G uniquement sur les versions européennes</td>
+              </tr>
+              <tr>
+                <td>Photo, écrans, charge sans fil</td>
+                <td><span class="badge badge-teal">Fonctionne</span></td>
+                <td>Le matériel n’est pas concerné par l’absence des services Google</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Mate X7 ou Mate XT : deux pliants, deux publics</h2>
+          <p>Les deux modèles partagent la même contrainte logicielle, mais pas grand-chose d’autre. L’un est un format livre à la fiche très complète, l’autre une vitrine technologique.</p>
+        </div>
+        <div class="grid" style="--min:300px;margin-top:1.2rem">
+          <div class="card">
+            <div style="width:64px;margin-bottom:.6rem"><FoldIcon format="livre" color={red} /></div>
+            <h3>Huawei Mate X7, le format livre raisonnable</h3>
+            <p class="small">
+              En vente en France depuis le 21 janvier 2026 à {euro(x7.launchPrice)} (16 Go / 512 Go), le Huawei Mate X7 est le pliant Huawei que nous conseillons à ceux qui acceptent la contrainte Google.
+              Écrans de 8 et 6,49 pouces, périscope 50 Mpx au zoom x3,5, batterie de 5 300 mAh chargée à 66 W par câble et 50 W sans fil, double certification IP58 et IP59 : la fiche est celle d’un très haut de gamme.
+              Avec 236 g, il pèse 21 g de plus qu’un Galaxy Z Fold8 Ultra. Photo, étanchéité et limites logicielles sont détaillées dans notre <a href="/smartphone-pliant-huawei/mate-x7/">fiche complète du Huawei Mate X7</a>.
+            </p>
+            <AmazonButton phone={x7} size="sm" label="Voir le Mate X7 sur Amazon" />
+          </div>
+          <div class="card">
+            <div style="width:84px;margin-bottom:.6rem"><FoldIcon format="tri-pliant" color={red} /></div>
+            <h3>Huawei Mate XT Ultimate Design, le tri-pliant vitrine</h3>
+            <p class="small">
+              Lancé à l’international le 18 février 2025 à {euro(xt.launchPrice)} (16 Go / 1 To), le Mate XT se déplie deux fois : 6,4 pouces fermé, 7,9 pouces à moitié ouvert, 10,2 pouces grand ouvert.
+              Il ne mesure alors que 3,6 mm d’épaisseur, mais pèse 298 g et n’affiche aucune certification d’étanchéité. Son Kirin 9010 est plus ancien que le Kirin 9030 Pro du Mate X7.
+              Pour comprendre comment on se sert de ses trois modes, lisez notre <a href="/smartphone-pliant-huawei/mate-xt/">analyse du tri-pliant Huawei Mate XT</a>.
+            </p>
+            <AmazonButton phone={xt} size="sm" variant="ghost" label="Vérifier la disponibilité" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section band">
+      <div class="wrap">
+        <div class="prose">
+          <h2 class="mt-0">Les deux pliants Huawei, chiffre par chiffre</h2>
+        </div>
+        <div style="margin-top:1rem">
+          <CompareTable
+            phones={[x7, xt]}
+            linkNames
+            caption="Comparatif des smartphones pliants Huawei Mate X7 et Mate XT"
+            columns={['format', 'score', 'price', 'screens', 'chip', 'battery', 'charge', 'zoom', 'weight', 'thickness', 'ip']}
+          />
+        </div>
+        <div class="prose" style="margin-top:1.4rem">
+          <p>
+            Le Mate XT a pour lui une batterie plus grosse sur le papier (5 600 mAh) et un zoom x5,5. Dans notre notation, le Mate X7 le devance pourtant sur les six critères, écrans compris : 1 400 € d’écart paient une surface de tablette, pas une meilleure photo ni une meilleure endurance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap prose">
+        <h2 class="mt-0">Et si vous ne pouvez pas vous passer de Google ?</h2>
+        <p>
+          Dans ce cas, aucun pliant Huawei ne vous conviendra. Regardez plutôt du côté des <a href="/smartphone-pliant-honor/">smartphones pliants Honor</a> : la marque, séparée de Huawei fin 2020, vend ses Magic V avec les services Google, une grosse batterie et un périscope.
+          Les <a href="/smartphone-pliant-samsung/">Galaxy Z pliants de Samsung</a> restent de leur côté la valeur sûre pour le suivi logiciel, avec sept ans de mises à jour promis.
+        </p>
+
+        <Faq items={faq} heading="Pliants Huawei : les questions qui reviennent" />
+      </div>
+    </section>
+
+    <div class="wrap">
+      <Siblings path={path} variant="chips" heading="Comparer avec les autres marques" />
+    </div>
+  </article>
+</BaseLayout>

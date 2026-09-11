@@ -1,0 +1,33 @@
+---
+// « Pour aller plus loin » : articles du blog qui approfondissent CE test.
+// À placer uniquement sur les pages de dernier niveau du cocon (tests produits).
+// Alimenté par le champ `relatedTests` des articles : aucune modification manuelle des tests n'est nécessaire.
+import { publishedArticles, articlePath, frDay, CATEGORY_LABELS } from '../lib/blog';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit = 4 } = Astro.props;
+const path = Astro.url.pathname;
+const list = (await publishedArticles()).filter((a) => a.data.relatedTests.includes(path)).slice(0, limit);
+---
+
+{
+  list.length > 0 && (
+    <section class="related-articles" aria-label="Pour aller plus loin">
+      <h2>Pour aller plus loin</h2>
+      <ul>
+        {list.map((a) => (
+          <li>
+            <span class="small muted">
+              {CATEGORY_LABELS[a.data.category]} · {frDay(a.data.pubDate)}
+            </span>
+            <a href={articlePath(a)}>{a.data.title}</a>
+            <span class="small">{a.data.description}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

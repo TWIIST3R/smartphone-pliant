@@ -1,0 +1,83 @@
+---
+// Photo d'un smartphone (optimisée en WebP au build), avec repli sur la silhouette du format.
+import { Image } from 'astro:assets';
+import { imagesFor, mainImage } from '../data/images';
+import { byId } from '../data/phones';
+import { brands } from '../data/site';
+import FoldIcon from './FoldIcon.astro';
+
+interface Props {
+  id: string;
+  /** thumb = tableau, card = carte produit, hero = en-tête de test, figure = image dans le texte */
+  variant?: 'thumb' | 'card' | 'hero' | 'figure';
+  /** Index dans la galerie du modèle (sinon image principale) */
+  index?: number;
+  caption?: string;
+  eager?: boolean;
+}
+
+const { id, variant = 'card', index, caption, eager = false } = Astro.props;
+const p = byId(id);
+const img = index !== undefined ? (imagesFor(id)[index] ?? null) : mainImage(id);
+
+const config = {
+  thumb: { widths: [56, 112], sizes: '56px' },
+  card: { widths: [180, 360], sizes: '180px' },
+  hero: { widths: [480, 760, 1140], sizes: '(max-width: 800px) 100vw, 760px' },
+  figure: { widths: [480, 760, 1140], sizes: '(max-width: 800px) 100vw, 740px' },
+}[variant];
+
+const withCaption = variant === 'figure' || (variant === 'hero' && Boolean(caption || img?.credit));
+---
+
+{
+  img ? (
+    <figure class:list={['phone-img', `phone-img-${variant}`]}>
+      <Image
+        src={img.src}
+        alt={img.alt}
+        widths={config.widths}
+        sizes={config.sizes}
+        format="webp"
+        quality={80}
+        loading={eager ? 'eager' : 'lazy'}
+      />
+      {withCaption && (
+        <figcaption>
+          {caption ?? img.alt}
+          {img.credit && (
+            <span class="credit">
+              {' '}
+              · {img.kind === 'illustration' ? 'Illustration' : 'Photo'} :{' '}
+              {img.sourceUrl ? (
+                <a href={img.sourceUrl} target="_blank" rel="noopener">
+                  {img.credit}
+                </a>
+              ) : (
+                img.credit
+              )}
+              {img.license && (
+                <>
+                  {' – '}
+                  {img.licenseUrl ? (
+                    <a href={img.licenseUrl} target="_blank" rel="noopener">
+                      {img.license}
+                    </a>
+                  ) : (
+                    img.license
+                  )}
+                </>
+              )}
+            </span>
+          )}
+        </figcaption>
+      )}
+    </figure>
+  ) : (
+    variant !== 'figure' && (
+      <div class:list={['phone-img', `phone-img-${variant}`, 'is-fallback']}>
+        <FoldIcon format={p.format} color={brands[p.brand].color} />
+      </div>
+    )
+  )
+}

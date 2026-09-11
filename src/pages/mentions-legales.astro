@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Mentions légales';
+const description = 'Mentions légales de Smartphone-Pliant.fr : éditeur, directeur de la publication, hébergeur OVH, propriété intellectuelle et Programme Partenaires Amazon.';
+---
+
+<BaseLayout title={title} description={description} noindex ogType="website">
+  <section class="section">
+    <div class="wrap prose">
+      <h1>Mentions légales</h1>
+      <p class="muted">
+        Conformément à l’article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l’économie numérique (LCEN).
+      </p>
+
+      <!-- À COMPLÉTER AVANT LA MISE EN LIGNE : remplacez les éléments entre crochets. -->
+
+      <h2>Éditeur du site</h2>
+      <p>
+        Le site smartphone-pliant.fr est édité par [Nom et prénom, ou raison sociale et forme juridique],<br />
+        [Adresse postale],<br />
+        [Numéro SIRET ou RCS, le cas échéant],<br />
+        Contact : <a href="mailto:contact@smartphone-pliant.fr">contact@smartphone-pliant.fr</a>
+      </p>
+      <p>Directeur de la publication : [Nom et prénom].</p>
+
+      <h2>Hébergement</h2>
+      <p>
+        OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.<br />
+        Site web : ovhcloud.com
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        Les textes, tableaux, illustrations et la structure du site sont protégés par le droit d’auteur. Toute reproduction substantielle sans autorisation écrite est interdite.
+        Les marques et noms de produits cités appartiennent à leurs propriétaires respectifs et ne sont utilisés qu’à des fins d’information.
+      </p>
+
+      <h2>Liens d’affiliation</h2>
+      <p>
+        Smartphone-Pliant.fr participe au Programme Partenaires d’Amazon EU, un programme d’affiliation conçu pour permettre à des sites de percevoir une rémunération grâce à la création de liens vers Amazon.fr.
+        En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises. Les liens concernés portent la mention rel="sponsored".
+      </p>
+
+      <h2>Responsabilité</h2>
+      <p>
+        Les informations publiées sont vérifiées avec soin mais peuvent évoluer (prix, disponibilité, caractéristiques). Elles sont fournies à titre indicatif et ne constituent pas une offre commerciale.
+        Le prix et la disponibilité d’un produit sont ceux affichés par le marchand au moment de l’achat.
+      </p>
+
+      <h2>Données personnelles</h2>
+      <p>Le traitement des données est décrit dans notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

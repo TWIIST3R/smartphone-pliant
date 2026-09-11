@@ -1,0 +1,445 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Byline from '../../components/Byline.astro';
+import ProductSummary from '../../components/ProductSummary.astro';
+import PhoneGallery from '../../components/PhoneGallery.astro';
+import ObfLink from '../../components/ObfLink.astro';
+import Callout from '../../components/Callout.astro';
+import KeyFacts from '../../components/KeyFacts.astro';
+import Measures from '../../components/Measures.astro';
+import TestSources from '../../components/TestSources.astro';
+import ScoreBars from '../../components/ScoreBars.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import Faq from '../../components/Faq.astro';
+import Siblings from '../../components/Siblings.astro';
+import RelatedArticles from '../../components/RelatedArticles.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import { byId, overall } from '../../data/phones';
+import { article, product, review } from '../../lib/schema';
+import { euro, num } from '../../lib/format';
+
+const p = byId('razr-70-plus');
+const base = byId('razr-70');
+const ultra = byId('razr-70-ultra');
+const r60 = byId('razr-60-ultra');
+const fold = byId('razr-fold');
+const flip7 = byId('galaxy-z-flip7');
+const path = p.path;
+
+const title = 'Test du Motorola Razr 70 Plus : le Razr du juste milieu';
+const description =
+  'Test du Motorola Razr 70 Plus lancé à 1 199 € : écrans 165 Hz, Snapdragon 8s Gen 3, autonomie et charge mesurées par la presse, face aux Razr 70 et 70 Ultra.';
+
+// Tests publiés (Razr 70 Plus, vendu aux États-Unis sous le nom Razr Plus 2026)
+const NBC =
+  'https://www.notebookcheck.net/All-new-foldable-is-faster-sharper-and-more-stylish-Motorola-Razr-Plus-2026-Razr-70-Plus-Smartphone-Review.1367425.0.html';
+const TG =
+  'https://www.tomsguide.com/phones/motorola-phones/i-tested-the-entire-motorola-razr-2026-lineup-for-a-week-heres-the-one-id-recommend';
+const TG_BATTERY =
+  'https://www.tomsguide.com/phones/motorola-phones/motorola-razr-ultra-2026-battery-tested-and-its-the-longest-lasting-foldable-ever';
+const CNET = 'https://tech.yahoo.com/phones/articles/motorola-razr-plus-2026-review-132800560.html';
+const BGR = 'https://www.bgr.com/2191021/motorola-razr-plus-2026-review/';
+const XATAKA = 'https://www.xataka.com/analisis/motorola-razr-70-plus-analisis-caracteristicas-precio-especificaciones';
+// Données constructeur et étiquette énergie UE
+const MOTO_FR = 'https://www.motorola.com/fr/fr/p/phones/razr/razr-70-plus/pmipmjq45m3';
+const EPREL = 'https://eprel.ec.europa.eu/fiches/smartphonestablets20231669/Fiche_2627933_FR.pdf';
+const EU_SHEET_R70 =
+  'https://imagepool.drillisch-online.de/v2/global/hardware/dokumente/Motorola/Razr-70/Produktdatenblatt.pdf';
+
+const facts = [
+  { label: 'Prix de lancement', value: `${euro(p.launchPrice)} (12/512 Go)` },
+  { label: 'Autonomie (Tom’s Guide)', value: '14 h 13 min' },
+  { label: 'Charge en 30 min (Tom’s Guide)', value: '72 %' },
+  { label: 'Geekbench 6 multicœur (Notebookcheck)', value: '4 833' },
+  { label: 'Note éditoriale', value: `${num(overall(p))}/10` },
+];
+
+const measures = [
+  { label: 'Autonomie, navigation web en 5G à 150 cd/m²', value: '14 h 13 min', source: 'Tom’s Guide', url: TG_BATTERY },
+  { label: 'Autonomie, test de navigation Wi-Fi', value: 'Un peu moins de 14 h', source: 'Notebookcheck', url: NBC },
+  { label: 'Streaming YouTube pendant 3 heures', value: '100 % → 82 %', source: 'CNET', url: CNET },
+  { label: 'Charge filaire 45 W : 15 min / 30 min', value: '36 % / 72 %', source: 'Tom’s Guide', url: TG },
+  { label: 'Charge filaire 45 W : 30 min', value: '58 %', source: 'CNET', url: CNET },
+  { label: 'Charge filaire 45 W : 10 min / 15 min / charge complète', value: '31 % / 44 % / environ 55 min', source: 'Xataka', url: XATAKA },
+  { label: 'Luminosité de crête, écran intérieur', value: '2 630 cd/m²', source: 'Tom’s Guide', url: TG },
+  { label: 'Luminosité écran intérieur : maximale / pic APL18', value: '1 346 / 2 765 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Luminosité maximale, écran externe', value: '979 cd/m²', source: 'Notebookcheck', url: NBC },
+  { label: 'Delta E ColorChecker : intérieur / externe', value: '1,27 / 0,63', source: 'Notebookcheck', url: NBC },
+  { label: 'Fréquence de scintillement (PWM), écran intérieur', value: '180 Hz', source: 'Notebookcheck', url: NBC },
+  { label: 'Geekbench 6 : monocœur / multicœur', value: '1 921 / 4 833', source: 'Notebookcheck', url: NBC },
+  { label: '3DMark Wild Life Unlimited', value: '73,08 i/s', source: 'Tom’s Guide', url: TG },
+  { label: '3DMark Wild Life Extreme', value: '3 006 points', source: 'Notebookcheck', url: NBC },
+  { label: 'Perte de performances sous charge prolongée', value: 'Environ 50 %', source: 'Notebookcheck', url: NBC },
+];
+
+const sources = [
+  {
+    media: 'Notebookcheck',
+    url: NBC,
+    date: '2026-08-13',
+    note: '80 %',
+    verdict:
+      'Plus rapide et plus soigné que ses prédécesseurs, avec des écrans très justes, mais une autonomie sous la moyenne, un fort bridage sous charge prolongée et un port limité à l’USB 2.0.',
+  },
+  {
+    media: 'Tom’s Guide',
+    url: TG,
+    date: '2026-05-21',
+    verdict:
+      'Après avoir mis les trois Razr 2026 côte à côte, le média recommande le modèle de base : les progrès du Plus ne justifient pas, selon lui, l’écart de prix.',
+  },
+  {
+    media: 'CNET',
+    url: CNET,
+    date: '2026-05-21',
+    note: '7/10',
+    verdict:
+      'Recharge et autonomie correctes, mais une puce ancienne, trop peu de nouveautés face aux Razr Plus précédents et un écran externe dont le gain de surface paraît minime.',
+  },
+  {
+    media: 'BGR',
+    url: BGR,
+    date: '2026-06-09',
+    verdict:
+      'Recommandé pour sa charge rapide et la qualité de ses écrans, mais freiné par l’absence de téléobjectif, une puce d’ancienne génération et une place inconfortable entre le Razr et l’Ultra.',
+  },
+  {
+    media: 'Xataka',
+    url: XATAKA,
+    date: '2026-07-19',
+    note: '8,2/10',
+    verdict:
+      'Le média espagnol salue l’écran externe de 4 pouces, la finition du dos et la charge de 45 W, mais regrette l’absence de téléobjectif, un suivi limité à trois versions d’Android et une autonomie trop juste pour les journées chargées.',
+  },
+];
+
+const pros = [
+  'Écran externe 4" à 165 Hz, très fidèle selon Notebookcheck (Delta E 0,63)',
+  'Environ trois fois les scores graphiques du Razr 70',
+  '512 Go de stockage dans l’unique configuration française',
+  'Charge rapide : 72 % en 30 minutes chez Tom’s Guide',
+  'Pli à peine perceptible d’après Notebookcheck et Xataka',
+  'Wi-Fi 7, NFC, eSIM et haut-parleurs stéréo Dolby Atmos',
+];
+
+const cons = [
+  'Autonomie inférieure à celle du Razr 70 chez Tom’s Guide et Notebookcheck',
+  'Perte de performances d’environ 50 % sous charge prolongée (Notebookcheck)',
+  'Snapdragon 8s Gen 3 présenté en 2024',
+  'Port USB 2.0 et pas de téléobjectif',
+  'Suivi logiciel court face à Samsung',
+  'Chargeur absent de la boîte, résistance aux chutes en classe B (A sur le Razr 70)',
+];
+
+const faq = [
+  {
+    q: 'Quelle est l’autonomie du Motorola Razr 70 Plus ?',
+    a: 'Le Motorola Razr 70 Plus tient 14 h 13 min dans le test de navigation web en 5G de Tom’s Guide, soit 30 minutes de moins que le Razr 70 et un peu plus de deux heures de moins que le Razr 70 Ultra. Notebookcheck mesure un peu moins de 14 heures en Wi-Fi, un résultat qu’il classe sous la moyenne. Une journée d’usage normal reste à sa portée.',
+  },
+  {
+    q: 'Le Razr 70 Plus chauffe-t-il ?',
+    a: 'Oui, sous forte charge. Notebookcheck observe une perte de performances d’environ 50 % lors d’un test prolongé et des avertissements de surchauffe occasionnels, sans blocage du téléphone. BGR note aussi qu’il chauffe pendant les tâches lourdes, tout en le jugeant à l’aise au quotidien. Le Razr 70, moins puissant, ne montre aucun bridage dans le test de Notebookcheck.',
+  },
+  {
+    q: 'Combien de temps faut-il pour recharger le Razr 70 Plus ?',
+    a: 'Avec sa charge filaire de 45 W, le Motorola Razr 70 Plus atteint 36 % en 15 minutes et 72 % en 30 minutes selon Tom’s Guide, 58 % en 30 minutes selon CNET. BGR évoque une recharge complète en une cinquantaine de minutes. Le Razr 70 et ses 30 W font presque jeu égal à 30 minutes. La charge sans fil plafonne à 15 W.',
+  },
+  {
+    q: 'Razr 70 Plus ou Razr 70 : lequel choisir ?',
+    a: 'Choisissez le Motorola Razr 70 Plus si vous jouez, si 256 Go ne vous suffisent pas ou si vous utilisez beaucoup l’écran externe, plus grand, plus fluide et plus fidèle. Choisissez le Razr 70, lancé 200 € moins cher, si l’autonomie prime : il tient 30 minutes de plus chez Tom’s Guide et se recharge presque aussi vite.',
+  },
+  {
+    q: 'Le Motorola Razr 70 Plus est-il fourni avec un chargeur ?',
+    a: 'Non. D’après Motorola France, la boîte du Razr 70 Plus contient un câble USB-C, un étui de protection, la documentation et l’outil d’éjection de la carte SIM, mais aucun chargeur. Pour profiter de la charge filaire de 45 W, il faut un bloc compatible USB Power Delivery. Dans ces conditions, Xataka mesure 44 % en 15 minutes et une charge complète en 55 minutes environ.',
+  },
+  {
+    q: 'Combien de temps le Razr 70 Plus sera-t-il mis à jour ?',
+    a: 'Motorola France annonce jusqu’à trois ans de mises à niveau d’Android et jusqu’à cinq ans de correctifs de sécurité pour le Razr 70 Plus. Sa fiche EPREL mentionne six ans de mises à jour du système, tandis que BGR évoque quatre ans de sécurité. Dans tous les cas, c’est moins que les sept ans promis par Samsung sur ses pliants récents.',
+  },
+  {
+    q: 'Le Razr 70 Plus et le Razr+ 2026 sont-ils le même téléphone ?',
+    a: 'Oui. Le Motorola Razr 70 Plus est vendu aux États-Unis sous le nom Razr+ 2026, en 12 Go / 256 Go. La France ne reçoit que la version 12 Go / 512 Go, lancée à 1 199 € dans le seul coloris Pantone Mountain View. Plusieurs tests cités sur cette page portent sur la version américaine.',
+  },
+];
+
+const schema = [
+  article({ path, title, description, about: ['Motorola Razr 70 Plus', 'Motorola', 'Test de smartphone pliant'] }),
+  product(p),
+  review(p),
+];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <article>
+    <header class="wrap section-tight">
+      <div class="prose">
+        <span class="eyebrow">Test · le Razr du milieu</span>
+        <h1>Test du Motorola Razr 70 Plus : le modèle coincé entre deux frères</h1>
+        <ProductSummary phone={p} ctaLabel="Consulter le prix sur Amazon" />
+        <p class="lede">
+          Lancé en mai 2026 à {euro(p.launchPrice)} en 12 Go / 512 Go, le Motorola Razr 70 Plus occupe la case centrale de la <a href="/smartphone-pliant-motorola-razr/">gamme de smartphones pliants Motorola Razr</a>, à 200 € du Razr 70 et à 300 € du Razr 70 Ultra. D’après les tests de Notebookcheck, Tom’s Guide, CNET et BGR, il domine nettement le modèle d’entrée en puissance et en qualité d’écran externe, mais ne tient pas plus longtemps que lui sur une charge.
+        </p>
+        <Byline minutes={17} />
+      </div>
+    </header>
+
+    <div class="wrap prose">
+      <Callout variant="answer" title="Verdict : un bon clapet, un milieu de gamme mal calé">
+        <p>
+          Le Motorola Razr 70 Plus obtient {num(overall(p))}/10. C’est un clapet rapide, doté d’un écran externe de 4 pouces à 165 Hz d’une grande justesse, mais son positionnement bute sur l’endurance. Dans le protocole de Tom’s Guide, il tient 30 minutes de moins que le Razr 70, pourtant 200 € moins cher, et ses 45 W ne lui donnent quasiment aucune avance au bout de 30 minutes de charge.
+        </p>
+        <p>
+          Il se justifie pour qui joue, a besoin de 512 Go ou vit téléphone fermé, les yeux sur l’écran externe. Il convient mal à ceux qui cherchent d’abord l’endurance, un zoom optique ou un suivi logiciel long : le Razr 70 fait le même travail au quotidien pour 200 € de moins, et le Razr 70 Ultra corrige presque tous ses défauts pour 300 € de plus.
+        </p>
+      </Callout>
+
+      <KeyFacts items={facts} />
+
+      <h2>Razr 70, 70 Plus, 70 Ultra : l’écart en chiffres</h2>
+      <p>
+        Le Motorola Razr 70 Plus partage avec ses deux frères le format à clapet, la certification IP48 et un double capteur arrière de 50 Mpx. Le tableau ci-dessous isole ce qui change réellement, en mêlant fiche technique et résultats publiés par Tom’s Guide, qui a passé les trois modèles dans le même protocole.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Écarts de fiche technique et de mesures entre Razr 70, Razr 70 Plus et Razr 70 Ultra</caption>
+          <thead>
+            <tr>
+              <th scope="col">Ce qui change</th>
+              <th scope="col"><a href={base.path}>Razr 70</a></th>
+              <th scope="col">Razr 70 Plus</th>
+              <th scope="col"><a href={ultra.path}>Razr 70 Ultra</a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Prix de lancement</th><td class="num">{euro(base.launchPrice)}</td><td class="num"><strong>{euro(p.launchPrice)}</strong></td><td class="num">{euro(ultra.launchPrice)}</td></tr>
+            <tr><th scope="row">Mémoire / stockage</th><td>8 / 256 Go</td><td><strong>12 / 512 Go</strong></td><td>16 / 512 Go</td></tr>
+            <tr><th scope="row">Processeur</th><td>Dimensity 7450X</td><td><strong>Snapdragon 8s Gen 3</strong></td><td>Snapdragon 8 Elite</td></tr>
+            <tr><th scope="row">Écran externe</th><td>3,63" · 90 Hz</td><td><strong>4" · 165 Hz</strong></td><td>4" · 165 Hz</td></tr>
+            <tr><th scope="row">Batterie</th><td class="num">4 800 mAh</td><td class="num"><strong>4 500 mAh</strong></td><td class="num">5 000 mAh</td></tr>
+            <tr><th scope="row">Charge filaire / sans fil</th><td>30 W / 15 W</td><td><strong>45 W / 15 W</strong></td><td>68 W / 30 W</td></tr>
+            <tr><th scope="row">Autonomie (Tom’s Guide)</th><td class="num">14 h 43 min</td><td class="num"><strong>14 h 13 min</strong></td><td class="num">16 h 20 min</td></tr>
+            <tr><th scope="row">Geekbench 6 multicœur (Tom’s Guide)</th><td class="num">3 382</td><td class="num"><strong>4 884</strong></td><td class="num">8 982</td></tr>
+            <tr><th scope="row">3DMark Wild Life Unlimited (Tom’s Guide)</th><td class="num">23,43 i/s</td><td class="num"><strong>73,08 i/s</strong></td><td class="num">146,33 i/s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Deux lectures s’imposent. Les 200 € qui séparent le Razr 70 du Razr 70 Plus achètent de la puissance brute (un score graphique multiplié par trois), un écran externe plus grand et plus fluide, et le double de stockage. Ils n’achètent ni autonomie ni recharge sensiblement plus rapide. Les 300 € supplémentaires du Razr 70 Ultra apportent, eux, les deux : un peu plus de deux heures d’autonomie en plus chez Tom’s Guide et une puissance graphique encore doublée.
+      </p>
+      <p><AmazonButton phone={p} label="Vérifier la disponibilité du Razr 70 Plus" variant="ghost" size="sm" /></p>
+    </div>
+
+    <div class="wrap cols-2 section">
+      <div class="prose">
+        <h2 class="mt-0">Design : un Razr 70 un peu plus fin, avec un port USB d’un autre temps</h2>
+        <p>
+          Le Motorola Razr 70 Plus pèse 189 g et mesure, selon <a href={MOTO_FR} target="_blank" rel="noopener">la fiche de Motorola France</a>, 171,4 × 74 mm ouvert pour 7,1 mm d’épaisseur, et 88,1 × 74 mm plié pour 15,3 mm. Face au Razr 70 (15,9 mm, 188 g), l’écart relève du détail ; face au Razr 70 Ultra (15,7 mm, 199 g), il gagne une dizaine de grammes.
+        </p>
+        <p>
+          La mécanique inspire confiance d’après Notebookcheck : après deux semaines d’utilisation, le média juge le pli de l’écran intérieur à peine perceptible. Il relève en revanche une économie difficile à défendre à ce tarif : le port USB-C se limite à la norme USB 2.0, ce qui ralentit la copie de photos et de vidéos vers un ordinateur.
+        </p>
+        <PhoneGallery id="razr-70-plus" />
+        <p>
+          Le dos du seul coloris vendu en France, Pantone Mountain View, adopte une finition tissée que Motorola dit inspirée du jacquard, et le cadre en aluminium mat, aux bords légèrement arrondis, se montre agréable en main selon Xataka. Le média espagnol rejoint aussi Notebookcheck sur le pli, à peine visible.
+        </p>
+
+        <h2>Écrans : le principal argument du Plus, surtout téléphone fermé</h2>
+        <p>
+          L’écran externe de 4 pouces à 165 Hz est la différence la plus visible entre le Motorola Razr 70 Plus et le Razr 70, dont la dalle extérieure mesure 3,63 pouces et plafonne à 90 Hz. Il reprend la diagonale et la fréquence du Razr 70 Ultra. À l’intérieur, la dalle de 6,9 pouces monte elle aussi à 165 Hz, contre 120 Hz sur le modèle d’entrée.
+        </p>
+        <p>
+          Les mesures de Notebookcheck donnent un net avantage au Plus sur la fidélité des couleurs : Delta E ColorChecker de 0,63 sur l’écran externe et de 1,27 sur l’écran intérieur, là où l’écran externe du Razr 70 affiche 2,99 dans le même protocole. Sur la luminosité, les deux modèles se tiennent de près : 2 765 cd/m² en pic APL18 pour l’écran intérieur du Plus contre 2 777 cd/m² pour le Razr 70 chez Notebookcheck, et 2 630 cd/m² contre 2 761 cd/m² en crête chez Tom’s Guide. L’écran externe du Plus plafonne même un peu plus bas, à 979 cd/m² en luminosité maximale, contre 1 154 cd/m² sur le Razr 70.
+        </p>
+        <p>
+          Autre écart en faveur du Plus : Notebookcheck mesure un scintillement PWM à 180 Hz, une fréquence encore basse mais bien moins gênante que les 67 Hz relevés sur le Razr 70. Les personnes sujettes à la fatigue visuelle sur les écrans OLED tiennent là un argument concret.
+        </p>
+        <p>
+          CNET relativise toutefois l’intérêt de la diagonale. Son testeur dit ne presque pas percevoir le gain de surface par rapport à l’écran de 3,6 pouces du Razr de base, d’autant que beaucoup d’applications s’affichent uniquement dans la zone située au-dessus des capteurs. La fluidité à 165 Hz et la justesse des couleurs restent, elles, des avantages mesurables.
+        </p>
+
+        <h2>Performances : trois fois le Razr 70 en 3D, avec une chauffe marquée</h2>
+        <p>
+          Le Motorola Razr 70 Plus embarque un Snapdragon 8s Gen 3 et 12 Go de mémoire vive. Présentée par Qualcomm en 2024, cette puce équipait déjà les Razr Plus de 2024 et de 2025, ce que CNET ne manque pas de reprocher à Motorola. Elle reste pourtant très au-dessus du Dimensity 7450X du Razr 70.
+        </p>
+        <p>
+          Les chiffres publiés convergent. Notebookcheck relève 1 921 points en monocœur et 4 833 en multicœur sur Geekbench 6, Tom’s Guide 1 925 et 4 884. Sur ce même banc, Tom’s Guide mesure le Razr 70 à 1 122 et 3 382 points : le Plus est environ 70 % plus rapide sur un cœur et 44 % sur l’ensemble. En graphisme, l’écart se creuse : 73,08 images par seconde sur 3DMark Wild Life Unlimited contre 23,43 pour le Razr 70 chez Tom’s Guide, 3 006 points contre 961 sur Wild Life Extreme chez Notebookcheck. Le Razr 70 Ultra, à 146,33 images par seconde, double à son tour le Plus.
+        </p>
+        <p>
+          Cette puissance a un revers. Pendant son test de charge prolongée, Notebookcheck observe une perte de performances d’environ 50 %, et le téléphone affiche parfois un avertissement de surchauffe, sans que cela l’empêche de fonctionner ensuite. BGR constate lui aussi qu’il chauffe dès que la charge devient lourde. Le Razr 70, moins puissant, ne montre aucun bridage dans le test de Notebookcheck : la hiérarchie se resserre donc sur les longues sessions.
+        </p>
+        <p>
+          En jeu, CNET fait tourner Fortnite en réglages moyens sans difficulté, mais voit le Razr 70 Plus peiner dès que les préréglages montent. Pour jouer longtemps en haute qualité, le Razr 70 Ultra et son Snapdragon 8 Elite restent le choix logique dans la famille.
+        </p>
+
+        <h2>Photo : deux capteurs de 50 Mpx, un téléobjectif en moins</h2>
+        <p>
+          La partie photo du Motorola Razr 70 Plus reprend, sur le papier, la combinaison de capteurs du Razr 70. D’après Motorola, le capteur principal de 50 Mpx (f/1,8, format 1/1,95 pouce, stabilisation optique), un Samsung ISOCELL GN8 selon Notebookcheck, assure l’essentiel des photos. L’ultra grand-angle de 50 Mpx (f/2,0, 122°, sans stabilisation) couvre les paysages et fait office de macro, tandis que la caméra frontale de 32 Mpx (f/2,4) sert aux appels vidéo téléphone ouvert. Aux États-Unis, le Razr Plus de 2025 disposait d’un téléobjectif ; son successeur l’abandonne au profit de l’ultra grand-angle, un recul que Notebookcheck et BGR rangent parmi les défauts.
+        </p>
+        <p>
+          Les verdicts sont cohérents entre eux. Notebookcheck juge le capteur principal convaincant, y compris en basse lumière, mais regrette une polyvalence limitée sans zoom optique. CNET apprécie les clichés de jour des deux modules arrière et le niveau de détail de la caméra frontale de 32 Mpx, tout en relevant un flou marqué sur les bords des photos de nuit. Xataka confirme la bonne tenue du capteur principal la nuit, mais note une tendance à surexposer les sources lumineuses intenses.
+        </p>
+        <p>
+          Faute de téléobjectif, le zoom reste le point faible. Xataka déconseille de dépasser x3, seuil au-delà duquel l’image se brouille, et BGR juge le zoom numérique x10 médiocre dès que la lumière baisse.
+        </p>
+        <p>
+          Téléphone fermé, les autoportraits profitent du capteur principal, avec l’écran externe comme viseur : Xataka estime que cette méthode rend la caméra frontale presque superflue. En vidéo, Motorola annonce la 4K jusqu’à 60 images par seconde, l’enregistrement Dolby Vision et des ralentis en Full HD à 240 images par seconde, un cran au-dessus du Razr 70, limité à 30 images par seconde en 4K selon GSMArena. Xataka juge la vidéo de bon niveau, sans rivaliser avec les meilleurs photophones, et apprécie l’ergonomie du mode caméscope à mi-pliage. Face au Razr 70 Ultra et à son selfie de 50 Mpx, le Razr 70 Plus reste un photophone correct, sans plus.
+        </p>
+
+        <h2>Autonomie et charge : les 4 500 mAh se lisent dans les mesures</h2>
+        <p>
+          Le Motorola Razr 70 Plus a la plus petite batterie des trois Razr 70, avec 4 500 mAh contre 4 800 mAh pour le Razr 70 et 5 000 mAh pour le Razr 70 Ultra. Les tests publiés confirment ce classement. Dans le protocole de Tom’s Guide (navigation web en continu sur réseau 5G, écran réglé à 150 cd/m²), il tient 14 h 13 min, contre 14 h 43 min pour le Razr 70 et 16 h 20 min pour le Razr 70 Ultra.
+        </p>
+        <p>
+          Notebookcheck arrive à la même conclusion par un autre chemin : un peu moins de 14 heures dans son test de navigation Wi-Fi, un résultat que le média classe sous la moyenne, quand le Razr 70 y atteint 14 h 19 min. CNET voit la batterie passer de 100 % à 82 % après trois heures de streaming YouTube et termine ses journées avec environ 30 % de réserve pour trois heures d’écran allumé. La journée complète est donc acquise en usage normal ; la journée et demie, beaucoup moins.
+        </p>
+        <p>
+          Sur la recharge, les 45 W ne font pas de miracle. Tom’s Guide relève 36 % en 15 minutes et 72 % en 30 minutes, quand le Razr 70 et ses 30 W atteignent 42 % puis 71 % dans le même test. CNET mesure 58 % en 30 minutes, et BGR évoque une charge complète en une cinquantaine de minutes. Xataka, avec un chargeur USB Power Delivery, compte 31 % en 10 minutes, 44 % en 15 minutes et le plein en 55 minutes environ. La charge sans fil plafonne à 15 W, comme sur le modèle d’entrée, avec une charge inversée de 5 W pour dépanner des écouteurs.
+        </p>
+        <p><AmazonButton phone={p} label="Voir le prix du Razr 70 Plus" /></p>
+      </div>
+
+      <aside class="sticky">
+        <ScoreBars phone={p} />
+        <div class="card" style="margin-top:1rem">
+          <p class="small">
+            <strong>{num(overall(p))}/10</strong> pour le Razr 70 Plus, contre {num(overall(base))} pour le Razr 70 et {num(overall(ultra))} pour le Razr 70 Ultra. Sa note d’autonomie ({num(p.scores.autonomie)}) est la plus basse des trois.
+          </p>
+          <AmazonButton phone={p} label="Consulter l’offre" size="sm" variant="ghost" />
+        </div>
+      </aside>
+    </div>
+
+    <div class="wrap prose">
+      <h2>Logiciel et suivi : Android 16, et un horizon court</h2>
+      <p>
+        Le Motorola Razr 70 Plus est livré sous Android 16 avec l’interface Hello UI de Motorola et les fonctions Moto AI. Xataka juge cette surcouche légère, malgré quelques petits à-coups, et apprécie les gestes maison. Côté IA, Motorola France liste notamment Débriefe-moi, qui résume les notifications manquées, Prends des notes, Mémorise, Image Studio pour générer des images et Playlist Studio ; l’assistant vocal reste Google Gemini.
+      </p>
+      <p>
+        L’écran externe de 4 pouces fait tourner des applications complètes et sert d’aperçu pour les photos prises avec les capteurs arrière ; à mi-pliage, le mode caméscope zoome quand on incline l’appareil, selon Motorola. Xataka relève que la poussière s’accumule autour des objectifs et que la découpe des caméras gêne un peu l’interface tactile.
+      </p>
+      <p>
+        Le point faible est la durée du suivi. Motorola France annonce jusqu’à trois ans de mises à niveau d’Android et jusqu’à cinq ans de correctifs de sécurité. Notebookcheck indique des correctifs jusqu’en 2030, soit quatre ans après le lancement, en s’étonnant de cet horizon au regard des exigences européennes ; la fiche EPREL du téléphone mentionne, elle, six ans de mises à jour du système. Samsung, à titre de comparaison, annonce sept ans de mises à jour sur ses pliants récents. Pour un téléphone lancé à {euro(p.launchPrice)}, l’écart pèse sur la valeur à long terme.
+      </p>
+
+      <h2>Son, réseaux, empreinte : un équipement de haut de gamme</h2>
+      <p>
+        Le Motorola Razr 70 Plus embarque deux haut-parleurs stéréo compatibles Dolby Atmos, sans prise jack. Notebookcheck trouve le volume maximal limité et le son trop porté sur les aigus quand on pousse le volume ; Xataka décrit un rendu équilibré avec des basses acceptables, mais une distorsion audible au-delà de 70 à 75 % du volume.
+      </p>
+      <p>
+        La connectivité est celle d’un modèle haut de gamme : 5G, Wi-Fi 7, Bluetooth 5.4 et NFC. Notebookcheck a confirmé le Wi-Fi 7 dans ses mesures de débit, jusqu’à 1 601 Mbit/s, et GSMArena liste une nano-SIM complétée par une eSIM. Le port USB-C reste, lui, à la norme USB 2.0.
+      </p>
+      <p>
+        Le lecteur d’empreintes est intégré au bouton latéral et fonctionne donc téléphone fermé. Notebookcheck et Xataka le jugent rapide et fiable. Le déverrouillage facial, en 2D, dépanne mais peine dans la pénombre d’après Xataka.
+      </p>
+
+      <h2>Solidité : le Razr 70 Plus face au Razr 70 sur l’étiquette européenne</h2>
+      <p>
+        Le Motorola Razr 70 Plus est certifié IP48, avec une immersion possible à 1,5 m pendant 30 minutes. L’écran externe est protégé par un Corning Gorilla Glass Victus, l’écran intérieur par un verre ultra-fin dont la fiche EPREL indique une dureté de 4 sur l’échelle de Mohs, et la charnière est renforcée en titane selon Motorola. Nous n’avons trouvé aucun nombre de pliages garanti par le constructeur.
+      </p>
+      <p>
+        La <a href={EPREL} target="_blank" rel="noopener">fiche EPREL du Razr 70 Plus</a> (référence XT2659-3) se compare directement à la <a href={EU_SHEET_R70} target="_blank" rel="noopener">fiche d’information produit du Razr 70</a>. La comparaison ne tourne pas en faveur du modèle le plus cher.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Étiquette énergie européenne : Razr 70 Plus et Razr 70 comparés</caption>
+          <thead>
+            <tr><th scope="col">Critère réglementaire</th><th scope="col">Razr 70 Plus</th><th scope="col">Razr 70</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Classe d’efficacité énergétique</th><td>A</td><td>A</td></tr>
+            <tr><th scope="row">Autonomie par cycle (protocole européen)</th><td class="num"><strong>Plus de 48 h</strong></td><td class="num">59 h 37 min</td></tr>
+            <tr><th scope="row">Résistance aux chutes répétées</th><td><strong>Classe B</strong></td><td>Classe A</td></tr>
+            <tr><th scope="row">Endurance de la batterie</th><td class="num"><strong>1 200 cycles</strong></td><td class="num">1 200 cycles</td></tr>
+            <tr><th scope="row">Capacité nominale (capacité annoncée)</th><td class="num"><strong>4 360 mAh (4 500)</strong></td><td class="num">4 610 mAh (4 800)</td></tr>
+            <tr><th scope="row">Réparabilité</th><td><strong>Classe B, indice 3,46</strong></td><td>Classe B, indice 3,46</td></tr>
+            <tr><th scope="row">Mises à jour du système</th><td><strong>6 ans</strong></td><td>6 ans</td></tr>
+            <tr><th scope="row">Protection</th><td><strong>IP48</strong></td><td>IP48</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Plus cher, le Razr 70 Plus fait moins bien que le Razr 70 sur deux lignes : la résistance aux chutes (B contre A) et l’autonomie par cycle, plus courte d’une dizaine d’heures, en cohérence avec sa batterie plus petite. Le reste de l’étiquette est identique.
+      </p>
+
+      <h2>Dans la boîte du Razr 70 Plus</h2>
+      <p>
+        Motorola France liste un câble USB-C, un étui de protection, la documentation, l’outil d’éjection de la carte SIM et un emballage parfumé propre à la marque, que Xataka mentionne aussi. Il n’y a pas de chargeur. Pour atteindre les 45 W, prévoyez un bloc USB Power Delivery de cette puissance. Xataka trouve l’étui fourni parfaitement ajusté.
+      </p>
+
+      <h2>Une version, un coloris : l’offre française</h2>
+      <p>
+        L’offre française du Motorola Razr 70 Plus tient en une ligne : 12 Go / 512 Go, lancé à {euro(p.launchPrice)} en mai 2026, dans le seul coloris Pantone Mountain View. Xataka décrit son dos tissé comme agréable et peu sensible aux traces de doigts. Aux États-Unis, le même modèle est vendu sous le nom Razr+ 2026, en 12 Go / 256 Go.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Versions, coloris et prix de lancement des Razr 70 en France</caption>
+          <thead>
+            <tr><th scope="col">Modèle</th><th scope="col">Configuration unique</th><th scope="col">Coloris en France</th><th scope="col">Prix de lancement</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Razr 70</th><td>{base.launchConfig}</td><td>Hematite, Sporting Green, Bright White</td><td class="num">{euro(base.launchPrice)}</td></tr>
+            <tr><th scope="row">Razr 70 Plus</th><td><strong>{p.launchConfig}</strong></td><td><strong>Mountain View</strong></td><td class="num"><strong>{euro(p.launchPrice)}</strong></td></tr>
+            <tr><th scope="row">Razr 70 Ultra</th><td>{ultra.launchConfig}</td><td>Orient Blue (Alcantara), Cocoa (bois)</td><td class="num">{euro(ultra.launchPrice)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:1rem">
+        Notre conseil : si l’écart avec le Razr 70 Ultra se réduit à une centaine d’euros chez les revendeurs, la charge de 68 W et l’autonomie de l’Ultra valent la différence.
+      </p>
+      <p><AmazonButton phone={p} label="Voir le coloris Mountain View" variant="ghost" size="sm" /></p>
+
+      <h2>Les mesures publiées sur le Razr 70 Plus</h2>
+      <p>
+        Chaque résultat provient d’un test publié. Les protocoles diffèrent : comparez les chiffres d’une même source entre eux. Notre usage de ces données est décrit dans la <a href="/methodologie/">méthodologie</a>.
+      </p>
+      <Measures items={measures} caption="Mesures publiées sur le Motorola Razr 70 Plus" />
+
+      <TestSources
+        sources={sources}
+        heading="Le Razr 70 Plus vu par la presse tech"
+        intro="Cinq tests publiés entre mai et août 2026, sur la version européenne (Notebookcheck, Xataka) ou sur la version américaine, vendue sous le nom Razr+ 2026. Nous n’avons pas trouvé de test complet publié en français."
+      />
+
+      <h2>Prix et alternatives chez Motorola : pour qui le Plus a-t-il du sens ?</h2>
+      <p>
+        Au lancement, le Motorola Razr 70 Plus coûtait {euro(p.launchPrice)} en France, dans une seule configuration 12 Go / 512 Go. À ce tarif, ses premiers concurrents sont ses propres frères.
+      </p>
+      <h3>Le Razr 70, pour l’endurance et le budget</h3>
+      <p>
+        Lancé à {euro(base.launchPrice)} en 8 Go / 256 Go, le <a href={base.path}>Motorola Razr 70</a> tient plus longtemps dans les tests de Tom’s Guide et de Notebookcheck et se recharge presque aussi vite. Il perd l’écran externe de 4 pouces, environ deux tiers de la puissance graphique et la moitié du stockage. Pour la messagerie, les réseaux sociaux, la vidéo et la photo, c’est le calcul le plus rationnel.
+      </p>
+      <h3>Le Razr 70 Ultra, pour ne rien sacrifier</h3>
+      <p>
+        À {euro(ultra.launchPrice)}, le <a href={ultra.path}>Razr 70 Ultra</a> corrige précisément les faiblesses du Plus : 16 h 20 min dans le test de Tom’s Guide, charge filaire de 68 W, charge sans fil de 30 W, Snapdragon 8 Elite deux fois plus rapide en 3D et caméra frontale de 50 Mpx. Si le budget suit, ces 300 € d’écart se défendent mieux que les 200 € qui séparent le Razr 70 du Plus.
+      </p>
+      <h3>Le Razr 60 Ultra, l’alternative de l’an dernier</h3>
+      <p>
+        Lancé à {euro(r60.launchPrice)} en 2025, le <a href={r60.path}>Razr 60 Ultra</a> offre déjà le Snapdragon 8 Elite, la charge de 68 W et la charge sans fil de 30 W, avec une batterie de 4 700 mAh. Il se trouve souvent nettement moins cher que son prix de lancement, ce qui en fait un rival direct du Plus pour qui cherche avant tout la puissance.
+      </p>
+      <h3>Hors Motorola : le Galaxy Z Flip7, même prix, autre philosophie</h3>
+      <p>
+        Lancé à {euro(flip7.launchPrice)} en 12 Go / 256 Go en juillet 2025, le <ObfLink href={flip7.path} class="obf-text">Samsung Galaxy Z Flip7</ObfLink> affichait exactement le tarif du Razr 70 Plus. Il offre un écran externe de 4,1 pouces et sept ans de mises à jour Android, un argument que Motorola ne peut pas opposer. Le Razr 70 Plus répond par la recharge (45 W contre 25 W), le stockage (512 Go contre 256 Go) et une batterie un peu plus grosse (4 500 contre 4 300 mAh).
+      </p>
+      <p>
+        Enfin, le <a href={fold.path}>Razr Fold</a>, lancé à {euro(fold.launchPrice)} au format livre, joue dans une autre catégorie.
+      </p>
+      <p><AmazonButton phone={p} label="Voir les offres Razr 70 Plus" variant="ghost" /></p>
+
+      <ProsCons pros={pros} cons={cons} prosTitle="Ce qui plaide pour le Plus" consTitle="Ce qui plaide contre" />
+
+      <h2>Fiche technique du Motorola Razr 70 Plus</h2>
+      <SpecTable phone={p} />
+
+      <Faq items={faq} heading="Razr 70 Plus : les questions qui reviennent" />
+
+      <RelatedArticles />
+      <Siblings
+        path={path}
+        variant="cards"
+        heading="Les autres Razr passés en revue"
+        intro="Moins cher et plus endurant, plus puissant, de l’an dernier ou au format livre : comparez avec le reste de la famille."
+      />
+    </div>
+  </article>
+</BaseLayout>
