@@ -146,10 +146,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Autonomie en tête des clapets (16 h 32 chez GSMArena, 16 h 20 chez Tom’s Guide)',
+    'Charge complète en 46 minutes',
+    'Écrans 165 Hz très fidèles (Delta E de 1,22)',
+    'Finitions Alcantara ou bois, charnière au titane',
+    'Écran externe de 4 pouces pleinement exploitable',
+    'Wi-Fi 7, UWB et charge sans fil 30 W',
+  ];
+const consList = [
+    'Chauffe et bridage sous charge prolongée',
+    'Pas de téléobjectif, stabilisation vidéo perfectible',
+    'Suivi logiciel court et annoncé de façon confuse',
+    'Haut-parleurs en recul face au Razr 60 Ultra',
+    'Port USB 2.0 et scintillement PWM',
+    'Prix de lancement en hausse de 200 €',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Motorola Razr 70 Ultra', 'Motorola', 'Smartphone pliant à clapet'] }),
+  article({ path, title, description, about: ['Motorola Razr 70 Ultra', 'Motorola', 'Smartphone pliant à clapet'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -372,22 +389,8 @@ const schema = [
       </Callout>
 
       <ProsCons
-        pros={[
-          'Autonomie en tête des clapets (16 h 32 chez GSMArena, 16 h 20 chez Tom’s Guide)',
-          'Charge complète en 46 minutes',
-          'Écrans 165 Hz très fidèles (Delta E de 1,22)',
-          'Finitions Alcantara ou bois, charnière au titane',
-          'Écran externe de 4 pouces pleinement exploitable',
-          'Wi-Fi 7, UWB et charge sans fil 30 W',
-        ]}
-        cons={[
-          'Chauffe et bridage sous charge prolongée',
-          'Pas de téléobjectif, stabilisation vidéo perfectible',
-          'Suivi logiciel court et annoncé de façon confuse',
-          'Haut-parleurs en recul face au Razr 60 Ultra',
-          'Port USB 2.0 et scintillement PWM',
-          'Prix de lancement en hausse de 200 €',
-        ]}
+        pros={prosList}
+        cons={consList}
         prosTitle="Ce qui convainc"
         consTitle="Ce qui coince"
       />

@@ -154,7 +154,7 @@ const faq = [
   },
 ];
 
-const schema = [article({ path, title, description, about: ['Honor Magic V5'] }), product(p), review(p)];
+const schema = [article({ path, title, description, about: ['Honor Magic V5'], sources: sources }), product(p), review(p, undefined, { pros: pros, cons: cons })];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>

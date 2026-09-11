@@ -56,7 +56,7 @@ const faq = [
   },
 ];
 
-const schema = [article({ path, title, description, about: ['iPhone Duo', 'Samsung Galaxy Z Fold8'] })];
+const schema = [article({ path, title, description, about: ['iPhone Duo', 'Samsung Galaxy Z Fold8'], phones: [duo, fold] })];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>

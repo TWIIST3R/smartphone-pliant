@@ -153,7 +153,25 @@ const faq = [
   },
 ];
 
-const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fold7', 'Samsung', 'Smartphone pliant'] }), product(p), review(p)];
+const prosList = [
+    'Gabarit de smartphone classique : 215 g et 8,9 mm plié',
+    'Écran externe de 6,5" au format 21:9, confortable fermé',
+    'Écran intérieur de 8" lumineux et bien calibré',
+    'Capteur principal de 200 Mpx au niveau des Galaxy S25 de jour',
+    'Wi-Fi 7, UWB et double SIM ou double eSIM',
+    'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
+    'Sept mises à jour Android promises',
+  ];
+const consList = [
+    'Charge 25 W : 53 % en 30 min chez GSMArena, sans chargeur fourni',
+    'Téléobjectif x3 faible en basse lumière',
+    'Throttling rapide sous forte charge',
+    'Haut-parleurs plus plats que ceux du Fold6',
+    'Plus de compatibilité S Pen',
+    'IP48 : poussière fine mal filtrée',
+  ];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fold7', 'Samsung', 'Smartphone pliant'], sources: sources }), product(p), review(p, undefined, { pros: prosList, cons: consList })];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
@@ -407,23 +425,8 @@ const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fo
       <ProsCons
         prosTitle="Ce que les tests saluent"
         consTitle="Ce qu’ils reprochent"
-        pros={[
-          'Gabarit de smartphone classique : 215 g et 8,9 mm plié',
-          'Écran externe de 6,5" au format 21:9, confortable fermé',
-          'Écran intérieur de 8" lumineux et bien calibré',
-          'Capteur principal de 200 Mpx au niveau des Galaxy S25 de jour',
-          'Wi-Fi 7, UWB et double SIM ou double eSIM',
-          'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
-          'Sept mises à jour Android promises',
-        ]}
-        cons={[
-          'Charge 25 W : 53 % en 30 min chez GSMArena, sans chargeur fourni',
-          'Téléobjectif x3 faible en basse lumière',
-          'Throttling rapide sous forte charge',
-          'Haut-parleurs plus plats que ceux du Fold6',
-          'Plus de compatibilité S Pen',
-          'IP48 : poussière fine mal filtrée',
-        ]}
+        pros={prosList}
+        cons={consList}
       />
 
       <TestSources

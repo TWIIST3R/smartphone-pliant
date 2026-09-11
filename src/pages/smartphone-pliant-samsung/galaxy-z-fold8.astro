@@ -172,9 +172,9 @@ const faq = [
 ];
 
 const schema = [
-  article({ path, title, description, about: ['Samsung Galaxy Z Fold8', 'Samsung Galaxy Z Fold8 Ultra', 'Smartphone pliant'] }),
+  article({ path, title, description, about: ['Samsung Galaxy Z Fold8', 'Samsung Galaxy Z Fold8 Ultra', 'Smartphone pliant'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: pros, cons: cons }),
 ];
 ---
 

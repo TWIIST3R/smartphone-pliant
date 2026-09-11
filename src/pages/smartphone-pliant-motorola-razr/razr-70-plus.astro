@@ -164,9 +164,9 @@ const faq = [
 ];
 
 const schema = [
-  article({ path, title, description, about: ['Motorola Razr 70 Plus', 'Motorola', 'Test de smartphone pliant'] }),
+  article({ path, title, description, about: ['Motorola Razr 70 Plus', 'Motorola', 'Test de smartphone pliant'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: pros, cons: cons }),
 ];
 ---
 

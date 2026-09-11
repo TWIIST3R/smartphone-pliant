@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { SITE } from '../data/site';
 import { nodes } from '../data/cocoon';
-import { organization, website, person } from '../lib/schema';
+import { organization, website, person, webPage, phoneAt, phoneImageUrl } from '../lib/schema';
 import { frDate } from '../lib/format';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import Logo from '../components/Logo.astro';
@@ -16,9 +16,11 @@ interface Props {
   ogType?: 'website' | 'article';
   noindex?: boolean;
   updated?: string;
+  /** URL absolue de l'image de partage (par défaut : photo du modèle testé, sinon le logo) */
+  image?: string;
 }
 
-const { title, description, schema = [], ogType = 'article', noindex = false, updated = SITE.updated } = Astro.props;
+const { title, description, schema = [], ogType = 'article', noindex = false, updated = SITE.updated, image } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = new URL(path, SITE.url).href;
 const inCocoon = nodes.some((n) => n.path === path && n.group !== 'legal');
@@ -26,9 +28,21 @@ const showCrumbs = inCocoon && path !== '/';
 const fullTitle = path === '/' ? title : `${title} | ${SITE.name}`;
 const legal = nodes.filter((n) => n.group === 'legal');
 
+const pagePhone = phoneAt(path);
+const pageImage = image ?? (pagePhone ? phoneImageUrl(pagePhone) : undefined);
+const typeOf = (s: Record<string, unknown>) => String(s['@type'] ?? '');
+const hasOwnPageType = schema.some((s) => /Page$/.test(typeOf(s)));
+const hasBreadcrumb = showCrumbs || schema.some((s) => typeOf(s) === 'BreadcrumbList');
+
 const graph = {
   '@context': 'https://schema.org',
-  '@graph': [organization(), website(), person(), ...schema],
+  '@graph': [
+    organization(),
+    website(),
+    person(),
+    ...(hasOwnPageType ? [] : [webPage({ path, name: fullTitle, description, updated, breadcrumb: hasBreadcrumb, image: pageImage })]),
+    ...schema,
+  ],
 };
 ---
 
@@ -36,6 +50,13 @@ const graph = {
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-56FHZD5J');</script>
+    <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -52,12 +73,17 @@ const graph = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={pageImage ?? new URL('/logo.png', SITE.url).href} />
+    <meta name="twitter:card" content={pageImage ? 'summary_large_image' : 'summary'} />
     {ogType === 'article' && <meta property="article:modified_time" content={updated} />}
     <script type="application/ld+json" set:html={JSON.stringify(graph)} />
     <slot name="head" />
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-56FHZD5J"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <a class="skip" href="#contenu">Aller au contenu</a>
     <header class="site-header">
       <div class="wrap">

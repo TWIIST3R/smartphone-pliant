@@ -119,4 +119,5 @@ Connectez le dépôt Git, commande de build `npm run build`, dossier de sortie `
 
 - Après chaque lancement : mettre à jour `phones.ts`, la date `updated` dans `site.ts`, puis les pages concernées.
 - Le comparatif, les classements, `llms.txt`, le sitemap et les données structurées se recalculent automatiquement au build.
-- Pour ajouter une mesure d'audience, préférez une solution exemptée de consentement CNIL (Matomo configuré en mode exempté, par exemple) et mettez à jour `src/pages/confidentialite.astro`.
+- **Google Tag Manager** (`GTM-56FHZD5J`) est chargé sur toutes les pages depuis `src/layouts/BaseLayout.astro`. Toute balise qui dépose des cookies non indispensables (Google Analytics, pixels publicitaires…) doit attendre le consentement du visiteur (bandeau conforme CNIL + Consent Mode), et `src/pages/confidentialite.astro` doit lister les outils activés.
+- **Données structurées** (`src/lib/schema.ts`) : Organization (logo PNG, principes éditoriaux), WebSite, Person, WebPage, BreadcrumbList, Article (image, sources citées, modèles cités), Product (fiche technique complète), Review (note, points forts et faibles affichés sur la page), FAQPage, ItemList, NewsArticle/BlogPosting. Contrôle rapide : `npm run build` puis le [test des résultats enrichis](https://search.google.com/test/rich-results) de Google sur une URL en ligne.

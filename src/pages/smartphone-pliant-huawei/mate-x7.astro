@@ -143,10 +143,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Autonomie parmi les meilleures mesurées sur un format livre',
+    'Charge complète en 44 à 52 minutes selon les tests',
+    'Écrans très bien calibrés (Delta E de 0,9 à 1,4)',
+    'Périscope 50 Mpx x3,5 salué par tous les tests',
+    'IP58 / IP59 et fabrication haut de gamme',
+    'Wi-Fi 7, Bluetooth 6.0 et haut-parleurs jugés très bons',
+  ];
+const consList = [
+    'Ni services Google ni 5G',
+    'Kirin 9030 Pro qui perd la moitié de sa puissance sous charge',
+    'Pli encore visible selon Notebookcheck',
+    'Balance des blancs inconstante, grain en vidéo',
+    '2 099 € au lancement',
+    'Pas de chargeur dans la boîte',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Huawei Mate X7', 'Test de smartphone pliant'] }),
+  article({ path, title, description, about: ['Huawei Mate X7', 'Test de smartphone pliant'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -465,22 +482,8 @@ const schema = [
         </p>
 
         <ProsCons
-          pros={[
-            'Autonomie parmi les meilleures mesurées sur un format livre',
-            'Charge complète en 44 à 52 minutes selon les tests',
-            'Écrans très bien calibrés (Delta E de 0,9 à 1,4)',
-            'Périscope 50 Mpx x3,5 salué par tous les tests',
-            'IP58 / IP59 et fabrication haut de gamme',
-            'Wi-Fi 7, Bluetooth 6.0 et haut-parleurs jugés très bons',
-          ]}
-          cons={[
-            'Ni services Google ni 5G',
-            'Kirin 9030 Pro qui perd la moitié de sa puissance sous charge',
-            'Pli encore visible selon Notebookcheck',
-            'Balance des blancs inconstante, grain en vidéo',
-            '2 099 € au lancement',
-            'Pas de chargeur dans la boîte',
-          ]}
+          pros={prosList}
+          cons={consList}
           prosTitle="Ce que les tests saluent"
           consTitle="Ce qui fâche"
         />

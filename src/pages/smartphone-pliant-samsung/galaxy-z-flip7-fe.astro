@@ -133,7 +133,24 @@ const faq = [
   },
 ];
 
-const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7 FE', 'Samsung', 'Smartphone pliant à clapet'] }), product(p), review(p)];
+const prosList = [
+    'Le Galaxy Z le moins cher au lancement (999 €)',
+    'Écran intérieur 120 Hz très bien calibré (Delta E 1,53 chez Expert Reviews)',
+    'Même module photo que le Flip7, vidéo 4K60 HDR10+',
+    '25 h 49 en lecture vidéo chez Expert Reviews',
+    'Accessoires du Flip6 compatibles, classe A aux chutes (étiquette UE)',
+    'Sept mises à jour Android promises malgré la fin de série',
+  ];
+const consList = [
+    'Châssis, écrans et batterie du Flip6 de 2024',
+    'Écran externe 3,4" à 60 Hz, peu exploitable',
+    'Exynos 2400 et 8 Go : performances graphiques notées 6/10 par Fnac',
+    '12 h 23 au Labo Fnac, 2 h 17 de moins que le Flip7',
+    'Wi-Fi 6E seulement et 1 700 cycles de batterie',
+    'Fin de série : stocks limités, coloris et capacités aléatoires',
+  ];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7 FE', 'Samsung', 'Smartphone pliant à clapet'], sources: sources }), product(p), review(p, undefined, { pros: prosList, cons: consList })];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
@@ -402,22 +419,8 @@ const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fl
       <ProsCons
         prosTitle="Les atouts relevés par les tests"
         consTitle="Les limites"
-        pros={[
-          'Le Galaxy Z le moins cher au lancement (999 €)',
-          'Écran intérieur 120 Hz très bien calibré (Delta E 1,53 chez Expert Reviews)',
-          'Même module photo que le Flip7, vidéo 4K60 HDR10+',
-          '25 h 49 en lecture vidéo chez Expert Reviews',
-          'Accessoires du Flip6 compatibles, classe A aux chutes (étiquette UE)',
-          'Sept mises à jour Android promises malgré la fin de série',
-        ]}
-        cons={[
-          'Châssis, écrans et batterie du Flip6 de 2024',
-          'Écran externe 3,4" à 60 Hz, peu exploitable',
-          'Exynos 2400 et 8 Go : performances graphiques notées 6/10 par Fnac',
-          '12 h 23 au Labo Fnac, 2 h 17 de moins que le Flip7',
-          'Wi-Fi 6E seulement et 1 700 cycles de batterie',
-          'Fin de série : stocks limités, coloris et capacités aléatoires',
-        ]}
+        pros={prosList}
+        cons={consList}
       />
 
       <h2>Fiche technique du Galaxy Z Flip7 FE</h2>

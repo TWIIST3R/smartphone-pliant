@@ -7,7 +7,7 @@ import { publishedArticles, articlePath, CATEGORY_LABELS, FORMAT_LABELS, frDateT
 import { phones } from '../../data/phones';
 import { mainImage } from '../../data/images';
 import { SITE } from '../../data/site';
-import { PERSON_ID, ORG_ID } from '../../lib/schema';
+import { PERSON_ID, ORG_ID, pageId, citations } from '../../lib/schema';
 
 export async function getStaticPaths() {
   const posts = await publishedArticles();
@@ -45,14 +45,20 @@ const schema = [
     datePublished: d.pubDate.toISOString(),
     dateModified: modified.toISOString(),
     inLanguage: 'fr-FR',
-    mainEntityOfPage: abs(path),
+    mainEntityOfPage: { '@id': pageId(path) },
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
+    publishingPrinciples: abs('/methodologie/'),
+    articleSection: CATEGORY_LABELS[d.category],
+    isAccessibleForFree: true,
     ...(hero ? { image: abs(hero.src.src) } : {}),
     ...(d.tags.length ? { keywords: d.tags.join(', ') } : {}),
+    ...(cited.length ? { mentions: cited.map((p) => ({ '@type': 'Thing', name: p.fullName, url: abs(p.path) })) } : {}),
+    ...(d.sources.length ? { citation: citations(d.sources) } : {}),
   },
   {
     '@type': 'BreadcrumbList',
+    '@id': `${abs(path)}#breadcrumb`,
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: abs('/') },
       { '@type': 'ListItem', position: 2, name: 'Actualités', item: abs('/actualites/') },

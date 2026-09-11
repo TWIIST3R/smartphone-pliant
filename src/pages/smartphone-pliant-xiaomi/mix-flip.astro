@@ -140,10 +140,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Écran externe de 4,01 pouces vraiment exploitable',
+    'Écrans lumineux et bien calibrés, pli quasi invisible',
+    'Vrai téléobjectif x2, rare sur un clapet',
+    'Charge 67 W complète en 52 minutes (GSMArena)',
+    'Souvent vendu très en dessous de son prix de lancement',
+    'Chargeur 67 W et coque fournis dans la boîte',
+  ];
+const consList = [
+    'Aucune certification d’étanchéité',
+    'Charnière jugée lâche par Phonandroid et Presse-citron',
+    'Forte chauffe et puissance bridée sous charge',
+    'HyperOS chargé, publicités',
+    'Pas de charge sans fil ni d’ultra grand-angle',
+    'Pas d’eSIM, port USB 2.0 et haut-parleurs sans basses',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Xiaomi Mix Flip', 'Smartphone pliant à clapet'] }),
+  article({ path, title, description, about: ['Xiaomi Mix Flip', 'Smartphone pliant à clapet'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -396,22 +413,8 @@ const schema = [
       <p><AmazonButton phone={p} variant="ghost" label="Consulter les vendeurs" /></p>
 
       <ProsCons
-        pros={[
-          'Écran externe de 4,01 pouces vraiment exploitable',
-          'Écrans lumineux et bien calibrés, pli quasi invisible',
-          'Vrai téléobjectif x2, rare sur un clapet',
-          'Charge 67 W complète en 52 minutes (GSMArena)',
-          'Souvent vendu très en dessous de son prix de lancement',
-          'Chargeur 67 W et coque fournis dans la boîte',
-        ]}
-        cons={[
-          'Aucune certification d’étanchéité',
-          'Charnière jugée lâche par Phonandroid et Presse-citron',
-          'Forte chauffe et puissance bridée sous charge',
-          'HyperOS chargé, publicités',
-          'Pas de charge sans fil ni d’ultra grand-angle',
-          'Pas d’eSIM, port USB 2.0 et haut-parleurs sans basses',
-        ]}
+        pros={prosList}
+        cons={consList}
         prosTitle="Pourquoi il tient encore"
         consTitle="Ce qui a pris un coup de vieux"
       />

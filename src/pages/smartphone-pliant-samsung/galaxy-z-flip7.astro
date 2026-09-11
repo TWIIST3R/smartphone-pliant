@@ -149,7 +149,23 @@ const faq = [
   },
 ];
 
-const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7', 'Samsung', 'Smartphone pliant à clapet'] }), product(p), review(p)];
+const prosList = [
+    'Écran externe 4,1" bord à bord, à 120 Hz',
+    'Fin : 6,5 mm ouvert, 13,7 mm fermé, 188 g',
+    '14 h 40 d’autonomie au protocole du Labo Fnac',
+    'Pli presque invisible écran allumé selon Fnac',
+    'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
+    'Sept mises à jour Android promises',
+  ];
+const consList = [
+    'Charge 25 W : 46 % en 30 min chez GSMArena',
+    'Exynos 2500 bridé sous forte charge',
+    'Ultra grand-angle sans autofocus, pas de téléobjectif',
+    'IP48 : poussière et sable mal filtrés',
+    'Ni chargeur ni coque dans la boîte',
+  ];
+
+const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Flip7', 'Samsung', 'Smartphone pliant à clapet'], sources: sources }), product(p), review(p, undefined, { pros: prosList, cons: consList })];
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
@@ -173,21 +189,8 @@ const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fl
       <ProsCons
         prosTitle="Ce qui plaide pour lui"
         consTitle="Ce qui peut coincer"
-        pros={[
-          'Écran externe 4,1" bord à bord, à 120 Hz',
-          'Fin : 6,5 mm ouvert, 13,7 mm fermé, 188 g',
-          '14 h 40 d’autonomie au protocole du Labo Fnac',
-          'Pli presque invisible écran allumé selon Fnac',
-          'Classe A aux chutes et 2 000 cycles de batterie (étiquette UE)',
-          'Sept mises à jour Android promises',
-        ]}
-        cons={[
-          'Charge 25 W : 46 % en 30 min chez GSMArena',
-          'Exynos 2500 bridé sous forte charge',
-          'Ultra grand-angle sans autofocus, pas de téléobjectif',
-          'IP48 : poussière et sable mal filtrés',
-          'Ni chargeur ni coque dans la boîte',
-        ]}
+        pros={prosList}
+        cons={consList}
       />
     </div>
 

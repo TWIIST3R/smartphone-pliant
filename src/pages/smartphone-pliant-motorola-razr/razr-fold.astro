@@ -145,10 +145,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Autonomie de référence (16 h 03 chez GSMArena, 14 h 44 chez Tom’s Guide)',
+    'Charge complète en une heure, sans fil jusqu’à 50 W',
+    'Téléobjectif x3 et module photo en tête des pliants chez DXOMARK',
+    'Stylet Moto Pen Ultra fourni',
+    'Wi-Fi 7, UWB et USB 3.2 avec sortie vidéo',
+    'Écran externe 6,6" au format d’un smartphone classique',
+  ];
+const consList = [
+    '243 g en poche',
+    'IP48 / IP49 : poussière fine mal protégée',
+    'Haut-parleurs moyens',
+    'Photo de nuit et selfies en retrait',
+    'Chargeur absent de la boîte',
+    'Suivi de sécurité affiché à quatre ans sur la fiche européenne de Motorola',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Motorola Razr Fold', 'Motorola', 'Smartphone pliant format livre'] }),
+  article({ path, title, description, about: ['Motorola Razr Fold', 'Motorola', 'Smartphone pliant format livre'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -394,22 +411,8 @@ const schema = [
 
         <h2>Points forts et points faibles selon les tests</h2>
         <ProsCons
-          pros={[
-            'Autonomie de référence (16 h 03 chez GSMArena, 14 h 44 chez Tom’s Guide)',
-            'Charge complète en une heure, sans fil jusqu’à 50 W',
-            'Téléobjectif x3 et module photo en tête des pliants chez DXOMARK',
-            'Stylet Moto Pen Ultra fourni',
-            'Wi-Fi 7, UWB et USB 3.2 avec sortie vidéo',
-            'Écran externe 6,6" au format d’un smartphone classique',
-          ]}
-          cons={[
-            '243 g en poche',
-            'IP48 / IP49 : poussière fine mal protégée',
-            'Haut-parleurs moyens',
-            'Photo de nuit et selfies en retrait',
-            'Chargeur absent de la boîte',
-            'Suivi de sécurité affiché à quatre ans sur la fiche européenne de Motorola',
-          ]}
+          pros={prosList}
+          cons={consList}
           prosTitle="Ce que saluent les tests"
           consTitle="Ce qu’ils reprochent"
         />

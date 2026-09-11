@@ -149,10 +149,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Snapdragon 8 Elite, même puce que le Razr 70 Ultra',
+    'Charge complète en 45 minutes chez GSMArena',
+    'Écrans 165 Hz très fidèles (Delta E de 1,05)',
+    'Autonomie solide (15 h 10 chez GSMArena, 15 h 42 chez Tom’s Guide)',
+    'Finitions bois ou Alcantara, écran presque sans pli',
+    'Haut-parleurs jugés très bons par GSMArena',
+  ];
+const consList = [
+    'Chauffe marquée sous charge prolongée',
+    'Pas de téléobjectif',
+    'Trois versions d’Android, correctifs jusqu’en 2029 environ',
+    'Chargeur absent de la boîte',
+    'Classe D de résistance aux chutes (fiche EPREL)',
+    'Remplacé par le Razr 70 Ultra',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Motorola Razr 60 Ultra', 'Motorola', 'Smartphone pliant à clapet'] }),
+  article({ path, title, description, about: ['Motorola Razr 60 Ultra', 'Motorola', 'Smartphone pliant à clapet'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -404,22 +421,8 @@ const schema = [
       </p>
 
       <ProsCons
-        pros={[
-          'Snapdragon 8 Elite, même puce que le Razr 70 Ultra',
-          'Charge complète en 45 minutes chez GSMArena',
-          'Écrans 165 Hz très fidèles (Delta E de 1,05)',
-          'Autonomie solide (15 h 10 chez GSMArena, 15 h 42 chez Tom’s Guide)',
-          'Finitions bois ou Alcantara, écran presque sans pli',
-          'Haut-parleurs jugés très bons par GSMArena',
-        ]}
-        cons={[
-          'Chauffe marquée sous charge prolongée',
-          'Pas de téléobjectif',
-          'Trois versions d’Android, correctifs jusqu’en 2029 environ',
-          'Chargeur absent de la boîte',
-          'Classe D de résistance aux chutes (fiche EPREL)',
-          'Remplacé par le Razr 70 Ultra',
-        ]}
+        pros={prosList}
+        cons={consList}
         prosTitle="Toujours valable"
         consTitle="Moins convaincant"
       />

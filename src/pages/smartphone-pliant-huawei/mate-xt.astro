@@ -145,10 +145,27 @@ const faq = [
   },
 ];
 
+const prosList = [
+    'Écran de 10,2 pouces, 3,6 mm déplié',
+    'Trois formats d’usage et multitâche en tiers',
+    'Charge 66 W complète en une heure environ',
+    'Capteur principal excellent de jour',
+    'Fabrication soignée, étui avec béquille fourni',
+    'Selfies réussis, capteurs arrière utilisables en autoportrait',
+  ];
+const consList = [
+    '3 499 € au lancement',
+    'Seulement 7 h 48 d’autonomie déplié (GSMArena)',
+    'Kirin 9010 à la traîne, pas de 5G',
+    'Écran exposé fermé, étanchéité non confirmée',
+    'Pas de services Google, vidéo décevante',
+    'Haut-parleurs peu puissants, ni eSIM ni Wi-Fi 7',
+  ];
+
 const schema = [
-  article({ path, title, description, about: ['Huawei Mate XT Ultimate Design', 'Smartphone tri-pliant'] }),
+  article({ path, title, description, about: ['Huawei Mate XT Ultimate Design', 'Smartphone tri-pliant'], sources: sources }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -440,22 +457,8 @@ const schema = [
       </div>
 
       <ProsCons
-        pros={[
-          'Écran de 10,2 pouces, 3,6 mm déplié',
-          'Trois formats d’usage et multitâche en tiers',
-          'Charge 66 W complète en une heure environ',
-          'Capteur principal excellent de jour',
-          'Fabrication soignée, étui avec béquille fourni',
-          'Selfies réussis, capteurs arrière utilisables en autoportrait',
-        ]}
-        cons={[
-          '3 499 € au lancement',
-          'Seulement 7 h 48 d’autonomie déplié (GSMArena)',
-          'Kirin 9010 à la traîne, pas de 5G',
-          'Écran exposé fermé, étanchéité non confirmée',
-          'Pas de services Google, vidéo décevante',
-          'Haut-parleurs peu puissants, ni eSIM ni Wi-Fi 7',
-        ]}
+        pros={prosList}
+        cons={consList}
         prosTitle="Ce qui impressionne"
         consTitle="Ce qui coince"
       />

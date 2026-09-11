@@ -121,10 +121,17 @@ const faq = [
   },
 ];
 
+const prosList = [
+    ...p.pros,
+    'Pli jugé très discret lors des premières prises en main',
+    'Wi-Fi 7, Bluetooth 6 et USB-C à 10 Gbit/s',
+  ];
+const consList = [...p.cons, 'Touch ID à la place de Face ID', 'eSIM uniquement, pas d’adaptateur secteur fourni'];
+
 const schema = [
-  article({ path, title, description, about: ['iPhone Duo', 'Smartphone pliant'] }),
+  article({ path, title, description, about: ['iPhone Duo', 'Smartphone pliant'], sources: impressions }),
   product(p),
-  review(p),
+  review(p, undefined, { pros: prosList, cons: consList }),
 ];
 ---
 
@@ -393,12 +400,8 @@ const schema = [
       <SpecTable phone={p} />
 
       <ProsCons
-        pros={[
-          ...p.pros,
-          'Pli jugé très discret lors des premières prises en main',
-          'Wi-Fi 7, Bluetooth 6 et USB-C à 10 Gbit/s',
-        ]}
-        cons={[...p.cons, 'Touch ID à la place de Face ID', 'eSIM uniquement, pas d’adaptateur secteur fourni']}
+        pros={prosList}
+        cons={consList}
         prosTitle="Ce qu’on aime sur le papier"
         consTitle="Ce qui freine"
       />
