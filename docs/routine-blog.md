@@ -87,6 +87,11 @@ sources:
 ## Qualité et honnêteté
 
 - Tout fait vérifiable est sourcé. **Aucune information inventée**, aucune date ni aucun chiffre non vérifié.
+- **Relecture factuelle obligatoire avant les contrôles** : pour chaque phrase qui affirme un fait, retrouver sa source (une URL du champ `sources`, ou un passage précis du dépôt : `phones.ts`, page de test). Supprimer ou reformuler toute phrase sans source, en particulier :
+  - les « premier », « seul », « a introduit », « plus gros », « la plupart des marques », « l'immense majorité » ;
+  - les comparaisons avec d'anciennes générations ou d'autres marques qui ne figurent pas dans une source ;
+  - les généralisations tirées de quelques modèles (« toutes les marques », « l'autonomie a progressé partout »).
+- Recompter ce qui est dénombré (marques, modèles, pourcentages) avant de l'écrire.
 - Les rumeurs sont présentées comme telles, avec leur source et leur degré de fiabilité.
 - **Aucune prétention de prise en main** (« nous avons testé », « lors de notre test »…). La rédaction s'appuie sur les sources et les tests publiés.
 - **Prix** : uniquement des prix officiels annoncés ou de lancement, jamais de prix Amazon ou de « prix actuel ».
