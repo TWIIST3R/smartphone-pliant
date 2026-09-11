@@ -44,6 +44,8 @@ jobs:
   deploy:
     needs: check
     if: needs.check.outputs.due == 'true'
+    # Les secrets FTP sont rangés dans l'environnement GitHub « FTP » (Settings › Environments)
+    environment: FTP
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
