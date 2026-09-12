@@ -1373,6 +1373,35 @@ hr {
   text-decoration: underline;
 }
 
+/* Photo des 4 encarts « meilleurs pliants » de l'accueil */
+.podium-photo {
+  display: block;
+  cursor: pointer;
+  margin: 0.15rem 0 0.35rem;
+}
+
+.podium-photo .phone-img img {
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #fff;
+  padding: 0.6rem;
+  transition: transform 0.2s ease;
+}
+
+.podium-photo:hover .phone-img img {
+  transform: scale(1.02);
+}
+
+.podium-photo .phone-img.is-fallback {
+  aspect-ratio: 4 / 3;
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+}
+
+.podium-photo .phone-img.is-fallback svg {
+  width: 72px;
+}
+
 /* ——— Blog ——— */
 .header-meta .nav-link {
   font-weight: 650;

@@ -9,7 +9,7 @@ import FoldIcon from './FoldIcon.astro';
 interface Props {
   id: string;
   /** thumb = tableau, card = carte produit, hero = en-tête de test, figure = image dans le texte */
-  variant?: 'thumb' | 'card' | 'hero' | 'figure';
+  variant?: 'thumb' | 'card' | 'podium' | 'hero' | 'figure';
   /** Index dans la galerie du modèle (sinon image principale) */
   index?: number;
   caption?: string;
@@ -23,6 +23,7 @@ const img = index !== undefined ? (imagesFor(id)[index] ?? null) : mainImage(id)
 const config = {
   thumb: { widths: [56, 112], sizes: '56px' },
   card: { widths: [180, 360], sizes: '180px' },
+  podium: { widths: [300, 600], sizes: '(max-width: 560px) 90vw, 300px' },
   hero: { widths: [480, 760, 1140], sizes: '(max-width: 800px) 100vw, 760px' },
   figure: { widths: [480, 760, 1140], sizes: '(max-width: 800px) 100vw, 740px' },
 }[variant];

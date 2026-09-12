@@ -6,15 +6,17 @@ interface Props {
   class?: string;
   /** false pour un doublon décoratif (image) : retiré de la navigation clavier */
   focusable?: boolean;
+  /** Balise englobante : div pour envelopper un bloc (photo), span par défaut */
+  tag?: 'span' | 'div';
 }
 
-const { href, class: cls = '', focusable = true } = Astro.props;
+const { href, class: cls = '', focusable = true, tag: Tag = 'span' } = Astro.props;
 const encoded = Buffer.from(href, 'utf8').toString('base64');
 ---
 
-<span
+<Tag
   class:list={['obf', cls]}
   data-o={encoded}
   role={focusable ? 'link' : undefined}
   tabindex={focusable ? 0 : -1}
-  aria-hidden={focusable ? undefined : 'true'}><slot /></span>
+  aria-hidden={focusable ? undefined : 'true'}><slot /></Tag>

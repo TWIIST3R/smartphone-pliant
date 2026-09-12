@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CompareTable from '../components/CompareTable.astro';
 import PhoneCard from '../components/PhoneCard.astro';
-import FoldIcon from '../components/FoldIcon.astro';import Score from '../components/Score.astro';
+import FoldIcon from '../components/FoldIcon.astro';
+import Score from '../components/Score.astro';
+import PhoneImage from '../components/PhoneImage.astro';
 import AmazonButton from '../components/AmazonButton.astro';
 import ObfLink from '../components/ObfLink.astro';
 import Callout from '../components/Callout.astro';
@@ -107,6 +109,7 @@ const schema = [
     <div class="podium">
       <div class="card">
         <span class="label">Meilleur pliant 2026</span>
+        <ObfLink href={v6.path} class="podium-photo" focusable={false} tag="div"><PhoneImage id={v6.id} variant="podium" eager /></ObfLink>
         <div class="flex"><Score value={overall(v6)} /><strong><ObfLink href={v6.path} class="obf-text">{v6.fullName}</ObfLink></strong></div>
         <p class="small muted mb-0">6 660 mAh, charge 80 W, IP69 : la fiche technique la plus complète.</p>
         <ObfLink href={v6.path} class="small podium-test">Lire le test complet →</ObfLink>
@@ -114,6 +117,7 @@ const schema = [
       </div>
       <div class="card">
         <span class="label">Meilleur clapet</span>
+        <ObfLink href={razrUltra.path} class="podium-photo" focusable={false} tag="div"><PhoneImage id={razrUltra.id} variant="podium" eager /></ObfLink>
         <div class="flex"><Score value={overall(razrUltra)} /><strong><ObfLink href={razrUltra.path} class="obf-text">{razrUltra.fullName}</ObfLink></strong></div>
         <p class="small muted mb-0">Snapdragon 8 Elite, écrans 165 Hz et 5 000 mAh dans un format de poche.</p>
         <ObfLink href={razrUltra.path} class="small podium-test">Lire le test complet →</ObfLink>
@@ -121,6 +125,7 @@ const schema = [
       </div>
       <div class="card">
         <span class="label">Le plus polyvalent</span>
+        <ObfLink href={fold8u.path} class="podium-photo" focusable={false} tag="div"><PhoneImage id={fold8u.id} variant="podium" eager /></ObfLink>
         <div class="flex"><Score value={overall(fold8u)} /><strong><ObfLink href={fold8u.path} class="obf-text">{fold8u.fullName}</ObfLink></strong></div>
         <p class="small muted mb-0">200 Mpx, grand écran externe et sept ans de mises à jour Samsung.</p>
         <ObfLink href={fold8u.path} class="small podium-test">Lire le test complet →</ObfLink>
@@ -128,6 +133,7 @@ const schema = [
       </div>
       <div class="card">
         <span class="label">Pour les utilisateurs d’iPhone</span>
+        <ObfLink href={duo.path} class="podium-photo" focusable={false} tag="div"><PhoneImage id={duo.id} variant="podium" eager /></ObfLink>
         <div class="flex"><Score value={overall(duo)} /><strong><ObfLink href={duo.path} class="obf-text">{duo.fullName}</ObfLink></strong></div>
         <p class="small muted mb-0">Seul pliant sous iOS, IP68 et titane. Note provisoire avant sortie.</p>
         <ObfLink href={duo.path} class="small podium-test">Voir la fiche complète →</ObfLink>
