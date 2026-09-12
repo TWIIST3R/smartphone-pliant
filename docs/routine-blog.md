@@ -92,6 +92,9 @@ sources:
   - les comparaisons avec d'anciennes générations ou d'autres marques qui ne figurent pas dans une source ;
   - les généralisations tirées de quelques modèles (« toutes les marques », « l'autonomie a progressé partout »).
 - Recompter ce qui est dénombré (marques, modèles, pourcentages) avant de l'écrire.
+- Ne jamais attribuer à un modèle une caractéristique lue dans l'article consacré à un autre modèle (écran, puce, fréquence…). Garder des notes séparées par modèle.
+- Quand deux sources divergent (définition, gain de performance, date de vente), écrire les deux valeurs en les attribuant (« 3,2K selon Clubic, 3K selon Engadget ») plutôt que d'en choisir une.
+- Ne pas déduire une caractéristique qu'aucune source n'écrit (« écran extérieur distinct », « caméra sous l'écran ») : si ce n'est pas écrit, ne pas l'affirmer.
 - Les rumeurs sont présentées comme telles, avec leur source et leur degré de fiabilité.
 - **Aucune prétention de prise en main** (« nous avons testé », « lors de notre test »…). La rédaction s'appuie sur les sources et les tests publiés.
 - **Prix** : uniquement des prix officiels annoncés ou de lancement, jamais de prix Amazon ou de « prix actuel ».
