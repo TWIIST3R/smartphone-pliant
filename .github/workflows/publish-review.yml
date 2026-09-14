@@ -1,0 +1,76 @@
+# Intègre dans main les corrections de la routine de relecture (docs/relecture-blog.md).
+# La routine pousse claude/relecture-<slug>. Garde-fous (scripts/review-guard.mjs) :
+# seulement la modification d'articles déjà intégrés et pas encore publiés, sans changer
+# pubDate, format, catégorie, périmètre, sujet ni l'image. Puis contrôle, build, maillage et intégration.
+name: Intégrer une relecture
+
+on:
+  push:
+    branches: ['claude/relecture-**']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-article
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Relecture limitée aux articles programmés ?
+        id: diff
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          BASE=$(git merge-base origin/main HEAD)
+          node scripts/review-guard.mjs "$BASE" HEAD
+          { echo 'files<<EOF'; git diff --name-only "$BASE" HEAD; echo 'EOF'; } >> "$GITHUB_OUTPUT"
+
+      - run: npm ci
+
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.astro
+          key: astro-assets-${{ hashFiles('src/assets/**') }}
+          restore-keys: astro-assets-
+
+      - name: Contrôle éditorial
+        run: |
+          set -euo pipefail
+          while read -r f; do
+            node scripts/blog-status.mjs --check "$(basename "$f" .md)"
+          done <<< "${{ steps.diff.outputs.files }}"
+
+      - name: Build (articles programmés inclus) et maillage
+        env:
+          BLOG_INCLUDE_FUTURE: '1'
+        run: |
+          npm run build
+          npm run check-links
+
+      - name: Ajout à main et suppression de la branche
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          SHA=$(git rev-parse HEAD)
+          git log -1 --format=%B "$SHA" > "$RUNNER_TEMP/message.txt"
+          AUTHOR=$(git log -1 --format='%an <%ae>' "$SHA")
+          mapfile -t FILES <<< "${{ steps.diff.outputs.files }}"
+          git checkout -B main origin/main
+          git checkout "$SHA" -- "${FILES[@]}"
+          git commit -F "$RUNNER_TEMP/message.txt" --author="$AUTHOR"
+          git push origin main
+          git push origin --delete "$GITHUB_REF_NAME"
