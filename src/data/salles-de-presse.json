@@ -1,9 +1,76 @@
 [
-  { "brand": "samsung", "name": "Samsung", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Samsung (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "apple", "name": "Apple", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Apple (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "google", "name": "Google", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Google (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "motorola", "name": "Motorola", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Motorola (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "honor", "name": "Honor", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Honor (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "huawei", "name": "Huawei", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Huawei (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
-  { "brand": "xiaomi", "name": "Xiaomi", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Xiaomi (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" }
+  {
+    "brand": "google",
+    "name": "Google",
+    "autorise": true,
+    "raison": "Photothèque presse : « Images on this page may be used for publication with credit: \"Source: Google.\" » (vérifié le 14/09/2026). Uniquement les images de la photothèque, sans crédit de photographe externe.",
+    "credit": "Source: Google",
+    "conditions": "https://blog.google/image-library/",
+    "pageDomains": ["blog.google"],
+    "pagePrefixes": ["https://blog.google/image-library/"],
+    "imageDomains": ["storage.googleapis.com"],
+    "imagePrefixes": ["https://storage.googleapis.com/gweb-uniblog-publish-prod/"]
+  },
+  {
+    "brand": "huawei",
+    "name": "Huawei",
+    "autorise": true,
+    "raison": "Photothèque du site institutionnel : « Photos may be used for editorial purposes only. […] All images used must be credited as \"Huawei\". » (vérifié le 14/09/2026). Le site grand public consumer.huawei.com n'est PAS autorisé.",
+    "credit": "Photo : Huawei",
+    "conditions": "https://www.huawei.com/en/media-center/multimedia/photos",
+    "pageDomains": ["www.huawei.com"],
+    "pagePrefixes": ["https://www.huawei.com/en/media-center/multimedia/photos"],
+    "imageDomains": ["www-file.huawei.com"],
+    "imagePrefixes": ["https://www-file.huawei.com/"]
+  },
+  {
+    "brand": "samsung",
+    "name": "Samsung",
+    "autorise": false,
+    "raison": "conditions limitées à un usage personnel et non commercial ; autorisation écrite à demander à rpfrance@samsung.com",
+    "credit": "Samsung",
+    "conditions": "https://news.samsung.com/global/terms",
+    "pageDomains": [],
+    "imageDomains": []
+  },
+  {
+    "brand": "apple",
+    "name": "Apple",
+    "autorise": false,
+    "raison": "autorisation écrite exigée pour toute photographie Apple ; demande à media.help@apple.com",
+    "credit": "Apple",
+    "conditions": "https://www.apple.com/legal/intellectual-property/guidelinesfor3rdparties.html",
+    "pageDomains": [],
+    "imageDomains": []
+  },
+  {
+    "brand": "motorola",
+    "name": "Motorola",
+    "autorise": false,
+    "raison": "aucune condition d'usage publiée pour les images presse",
+    "credit": "Motorola",
+    "conditions": "https://motorolanews.com/pressbox-download/",
+    "pageDomains": [],
+    "imageDomains": []
+  },
+  {
+    "brand": "honor",
+    "name": "Honor",
+    "autorise": false,
+    "raison": "conditions limitées à un usage personnel et non commercial, compte requis",
+    "credit": "Honor",
+    "conditions": "https://www.honor.com/global/terms-of-use/",
+    "pageDomains": [],
+    "imageDomains": []
+  },
+  {
+    "brand": "xiaomi",
+    "name": "Xiaomi",
+    "autorise": false,
+    "raison": "aucune condition d'usage presse publiée, usage commercial du contenu interdit ; demande à global-pr@xiaomi.com",
+    "credit": "Xiaomi",
+    "conditions": "https://www.mi.com/global/about/agreement/",
+    "pageDomains": [],
+    "imageDomains": []
+  }
 ]

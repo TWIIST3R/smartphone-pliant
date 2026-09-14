@@ -102,20 +102,16 @@ const schema = [
           <figure class="article-cover">
             <Image src={cover.src} alt={cover.alt} widths={[480, 760, 1140]} sizes="(max-width: 800px) 100vw, 760px" format="webp" quality={80} loading="eager" />
             <figcaption>
-              {cover.kind === 'illustration-ia' ? (
-                cover.credit
-              ) : (
-                <>
-                  Photo :{' '}
-                  {cover.sourceUrl ? (
-                    <a href={cover.sourceUrl} target="_blank" rel="noopener">
-                      {cover.credit}
-                    </a>
-                  ) : (
-                    cover.credit
-                  )}
-                </>
-              )}
+              {cover.kind === 'illustration-ia' && cover.credit}
+              {cover.kind === 'photo-presse' &&
+                (cover.sourceUrl ? (
+                  <a href={cover.sourceUrl} target="_blank" rel="noopener">
+                    {cover.credit}
+                  </a>
+                ) : (
+                  cover.credit
+                ))}
+              {cover.kind === 'photo' && <>Photo : {cover.credit}</>}
             </figcaption>
           </figure>
         ) : (

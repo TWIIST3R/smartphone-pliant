@@ -103,10 +103,13 @@ faq:
 
 Objectif : **environ un article sur deux** avec une image d'en-tête (`cover`), jamais deux images pour le même article. Une seule image par article, dans `src/content/actualites/images/<slug>.webp`, produite **uniquement** par l'un des deux scripts ci-dessous. `cover` et `phone` ne se cumulent pas : `cover` l'emporte.
 
-1. **Actualité sur un produit précis** → **photo officielle de presse** :
-   - trouver le communiqué ou le dossier de presse du produit sur la salle de presse officielle de la marque ;
-   - la marque doit être autorisée dans `src/data/salles-de-presse.json` (`autorise: true`) ;
+1. **Actualité sur un produit précis** → **photo officielle de presse**, uniquement si la marque l'autorise par écrit :
+   - aujourd'hui, seules deux sources sont autorisées dans `src/data/salles-de-presse.json` :
+     - **Google** : la photothèque https://blog.google/image-library/ (crédit « Source: Google »). Refuser toute image portant le crédit d'un photographe externe ;
+     - **Huawei** : la photothèque institutionnelle https://www.huawei.com/en/media-center/multimedia/photos (crédit « Photo : Huawei »). Jamais le site grand public consumer.huawei.com ;
+   - Samsung, Apple, Honor, Motorola et Xiaomi ne sont **pas** autorisés : pour eux, illustration IA ou photo du catalogue (`phone`) ;
    - la photo doit montrer le produit dont parle l'article ;
+   - photo de presse réservée aux articles `category: actualite`, sans recadrage ni retouche ;
    - lancer `node scripts/fetch-press-image.mjs --slug <slug> --brand <clé> --page <URL du communiqué> --image <URL du fichier image>` ;
    - reprendre la ligne `cover` affichée (crédit et `sourceUrl` compris) et écrire le texte alternatif `alt` en français.
 

@@ -246,9 +246,11 @@ if (d.cover) {
           return false;
         }
       };
+      if (d.category !== 'actualite') errors.push('cover : une photo de presse n\'illustre qu\'un article d\'actualité (sinon, illustration générée par IA)');
       if (!/^https:\/\//.test(c.sourceUrl || '')) errors.push('cover : sourceUrl (page de la salle de presse) obligatoire pour une photo de presse');
       if (!room) errors.push(`cover : crédit « ${c.credit} » ne correspond à aucune salle de presse autorisée (src/data/salles-de-presse.json) ; utiliser scripts/fetch-press-image.mjs`);
-      else if (c.sourceUrl && !onDomains(c.sourceUrl, room.pageDomains)) errors.push(`cover : sourceUrl hors des salles de presse officielles ${room.name}`);
+      else if (c.sourceUrl && (!onDomains(c.sourceUrl, room.pageDomains) || (room.pagePrefixes?.length && !room.pagePrefixes.some((p) => c.sourceUrl.startsWith(p)))))
+        errors.push(`cover : sourceUrl hors de l'espace presse autorisé ${room.name}`);
     }
   }
 }

@@ -40,12 +40,13 @@ const hostOk = (url, domains) => {
   }
   return domains.some((d) => host === d || host.endsWith(`.${d}`));
 };
-if (!hostOk(page, room.pageDomains)) {
-  console.error(`Refusé : la page ${page} n'est pas sur une salle de presse officielle ${room.name} (${room.pageDomains.join(', ')}).`);
+const prefixOk = (url, prefixes) => !prefixes?.length || prefixes.some((p) => url.startsWith(p));
+if (!hostOk(page, room.pageDomains) || !prefixOk(page, room.pagePrefixes)) {
+  console.error(`Refusé : la page ${page} n'est pas dans l'espace presse autorisé ${room.name} (${(room.pagePrefixes ?? room.pageDomains).join(', ')}).`);
   process.exit(1);
 }
-if (!hostOk(imageUrl, room.imageDomains)) {
-  console.error(`Refusé : l'image ${imageUrl} n'est pas servie par un domaine officiel ${room.name} (${room.imageDomains.join(', ')}).`);
+if (!hostOk(imageUrl, room.imageDomains) || !prefixOk(imageUrl, room.imagePrefixes)) {
+  console.error(`Refusé : l'image ${imageUrl} n'est pas servie par l'espace presse autorisé ${room.name} (${(room.imagePrefixes ?? room.imageDomains).join(', ')}).`);
   process.exit(1);
 }
 
