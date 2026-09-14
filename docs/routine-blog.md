@@ -146,6 +146,9 @@ Ne jamais télécharger une image autrement qu'avec `scripts/fetch-press-image.m
   - les comparaisons avec d'anciennes générations ou d'autres marques qui ne figurent pas dans une source ;
   - les généralisations tirées de quelques modèles (« toutes les marques », « l'autonomie a progressé partout »).
 - Recompter ce qui est dénombré (marques, modèles, pourcentages) avant de l'écrire.
+- Pour toute liste ou tout décompte tiré du catalogue (« trois modèles IP68 », « aucun clapet au-dessus de l'IP48 »), extraire les valeurs de `src/data/phones.ts` avec une commande (par exemple `grep -E "^\s{4}(id|format|ip): " src/data/phones.ts`) et vérifier que la liste est complète : ne jamais compter de mémoire.
+- Ne pas écrire de détail technique (nom de charnière, nombre de pièces, matériau, effet d'une finition) qui ne figure ni dans une source consultée ni dans le dépôt.
+- Ne pas affirmer une absence (« aucun test n'a été publié », « la marque ne communique aucun chiffre ») sans l'avoir vérifiée ; préférer une formulation datée et prudente.
 - Ne jamais attribuer à un modèle une caractéristique lue dans l'article consacré à un autre modèle (écran, puce, fréquence…). Garder des notes séparées par modèle.
 - Quand deux sources divergent (définition, gain de performance, date de vente), écrire les deux valeurs en les attribuant (« 3,2K selon Clubic, 3K selon Engadget ») plutôt que d'en choisir une.
 - Ne pas déduire une caractéristique qu'aucune source n'écrit (« écran extérieur distinct », « caméra sous l'écran ») : si ce n'est pas écrit, ne pas l'affirmer.
