@@ -1,0 +1,461 @@
+[
+  {
+    "id": "smartphone-pliant-fragile",
+    "question": "Un smartphone pliant est-il fragile ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-format-livre/", "/smartphone-pliant-clapet/"],
+    "tests": ["/smartphone-pliant-honor/magic-v6/", "/iphone-pliable/iphone-duo/", "/smartphone-pliant-google-pixel/pixel-11-pro-fold/"],
+    "angle": "Distinguer charnière, écran intérieur, écran extérieur et poussière. Indices IP des modèles du catalogue (phones.ts), durabilité annoncée par les constructeurs et tests d'endurance publiés par la presse. Réponse nuancée, ni alarmiste ni promotionnelle."
+  },
+  {
+    "id": "interet-telephone-pliable",
+    "question": "Quel est l'intérêt d'un téléphone pliable ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/", "/smartphone-pliant-travail/", "/smartphone-pliant-format-livre/", "/smartphone-pliant-clapet/"],
+    "tests": [],
+    "angle": "Usages concrets selon le format : grand écran déplié (lecture, multitâche, vidéo) pour le format livre, compacité pour le clapet, usages appareil fermé. Pour qui c'est utile, pour qui ça ne l'est pas."
+  },
+  {
+    "id": "inconvenients-telephone-pliable",
+    "question": "Quels sont les inconvénients d'un téléphone pliable ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/", "/smartphone-pliant-resistant/", "/smartphone-pliant-pas-cher/", "/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Prix, poids et épaisseur, pli visible, résistance à la poussière, coût de réparation, photo parfois en retrait, autonomie selon les modèles. Chaque inconvénient illustré par des chiffres du catalogue ou des tests publiés, avec les modèles qui l'atténuent."
+  },
+  {
+    "id": "iphone-pliable-existe",
+    "question": "L'iPhone pliable existe-t-il vraiment ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/iphone-pliable/", "/"],
+    "tests": ["/iphone-pliable/iphone-duo/"],
+    "angle": "iPhone Duo : annonce, dates françaises, prix et différences avec les pliants Android, uniquement d'après Apple et la presse ; ce qui reste inconnu avant les tests."
+  },
+  {
+    "id": "pliant-ou-smartphone-classique",
+    "question": "Smartphone pliant ou smartphone classique : lequel choisir ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/", "/smartphone-pliant-format-livre/", "/smartphone-pliant-clapet/", "/smartphone-pliant-photo/"],
+    "tests": [],
+    "angle": "Comparer à usage égal : prix de lancement, poids, autonomie, photo, résistance, durabilité. Profils pour qui le pliant vaut le coup ou non. Aucun prix actuel."
+  },
+  {
+    "id": "pli-ecran-visible",
+    "question": "Le pli de l'écran se voit-il sur un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/smartphone-pliant-format-livre/", "/smartphone-pliant-clapet/"],
+    "tests": ["/iphone-pliable/iphone-duo/", "/smartphone-pliant-samsung/galaxy-z-fold8-ultra/"],
+    "angle": "Ce que disent les tests publiés sur la visibilité du pli selon les modèles récents ; différence entre vue de face, lumière rasante et toucher ; évolution des charnières."
+  },
+  {
+    "id": "duree-de-vie-smartphone-pliant",
+    "question": "Combien de temps dure un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 1,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-samsung/", "/"],
+    "tests": ["/smartphone-pliant-samsung/galaxy-z-fold8/", "/smartphone-pliant-samsung/galaxy-z-flip8/"],
+    "angle": "Trois limites à croiser : cycles de pliage annoncés, cycles de batterie de l'étiquette énergie européenne, durée du suivi logiciel promise par chaque marque. Sources officielles uniquement."
+  },
+  {
+    "id": "clapet-ou-format-livre",
+    "question": "Clapet ou format livre : quel smartphone pliant choisir ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-clapet/", "/smartphone-pliant-format-livre/", "/"],
+    "tests": [],
+    "angle": "Formats, écrans, prix de départ au lancement, poids, usages types ; renvoyer vers les guides de chaque format."
+  },
+  {
+    "id": "reparation-ecran-pliant-prix",
+    "question": "Combien coûte la réparation de l'écran d'un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-haut-de-gamme/"],
+    "tests": [],
+    "angle": "Tarifs officiels de remplacement publiés par les constructeurs ou relevés par la presse (en citant la date) ; écran intérieur ou extérieur ; garanties et offres de protection des marques. Jamais de tarif sans source."
+  },
+  {
+    "id": "smartphone-pliant-eau",
+    "question": "Peut-on mouiller un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": ["/smartphone-pliant-honor/magic-v6/", "/smartphone-pliant-google-pixel/pixel-11-pro-fold/"],
+    "angle": "IP48, IP68 et IP69 avec les modèles du catalogue ; conditions des certifications (eau douce, profondeur, durée) ; ce que couvre ou non la garantie."
+  },
+  {
+    "id": "poussiere-sable-pliant",
+    "question": "Un smartphone pliant résiste-t-il à la poussière et au sable ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-clapet/"],
+    "tests": [],
+    "angle": "Le premier chiffre de l'indice IP ; modèles IP4x et IP6x du catalogue ; conseils plage et poche en s'appuyant sur les recommandations des constructeurs."
+  },
+  {
+    "id": "protection-ecran-interieur-pliant",
+    "question": "Faut-il une protection sur l'écran intérieur d'un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/"],
+    "tests": [],
+    "angle": "Film pré-installé d'usine, consignes officielles des constructeurs sur son retrait et son remplacement, compatibilité des protections tierces."
+  },
+  {
+    "id": "pourquoi-smartphones-pliants-chers",
+    "question": "Pourquoi les smartphones pliants sont-ils si chers ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-haut-de-gamme/", "/smartphone-pliant-pas-cher/"],
+    "tests": [],
+    "angle": "Écrans souples, charnières, volumes de production ; écarts de prix de lancement dans le catalogue. Chiffres de coût seulement s'ils sont publiés par un cabinet d'études ou la presse spécialisée."
+  },
+  {
+    "id": "autonomie-smartphone-pliant",
+    "question": "Les smartphones pliants ont-ils une moins bonne autonomie ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-autonomie/"],
+    "tests": ["/smartphone-pliant-motorola-razr/razr-fold/", "/smartphone-pliant-motorola-razr/razr-70-ultra/"],
+    "angle": "Mesures publiées déjà citées dans les tests du site, comparées aux références publiées pour des smartphones classiques ; effet des deux écrans et de la batterie répartie."
+  },
+  {
+    "id": "photo-smartphone-pliant",
+    "question": "Les smartphones pliants font-ils de bonnes photos ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-photo/"],
+    "tests": ["/smartphone-pliant-google-pixel/pixel-11-pro-fold/", "/smartphone-pliant-honor/magic-v6/"],
+    "angle": "Téléobjectif souvent absent ou plus modeste, capteurs contraints par la finesse ; exceptions du catalogue ; selfies avec la caméra principale grâce à l'écran externe."
+  },
+  {
+    "id": "acheter-pliant-occasion",
+    "question": "Acheter un smartphone pliant d'occasion : bonne idée ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-pas-cher/", "/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Points de contrôle (écran intérieur, film, charnière, batterie), garanties légales en France pour le reconditionné (sources officielles), modèles récents ou non. Aucun prix de marché sans source."
+  },
+  {
+    "id": "charniere-nombre-de-pliages",
+    "question": "Combien de pliages supporte la charnière d'un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-format-livre/"],
+    "tests": [],
+    "angle": "Chiffres annoncés par les constructeurs et tests d'endurance publiés, en précisant qui a mesuré ; traduire en années d'usage avec une hypothèse explicite."
+  },
+  {
+    "id": "rayures-ecran-pliant",
+    "question": "L'écran d'un smartphone pliant se raye-t-il facilement ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Verre ultrafin et film de l'écran intérieur, verre de l'écran externe ; ce qu'en disent les constructeurs et les tests ; bons gestes."
+  },
+  {
+    "id": "pliant-remplace-tablette",
+    "question": "Un smartphone pliant peut-il remplacer une tablette ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-travail/", "/smartphone-pliant-format-livre/", "/smartphone-tri-pliant/"],
+    "tests": [],
+    "angle": "Surface d'affichage dépliée comparée aux tablettes courantes, multitâche, stylet, lecture et vidéo ; limites de format et de prix."
+  },
+  {
+    "id": "quand-acheter-smartphone-pliant",
+    "question": "Quand acheter un smartphone pliant pour payer moins cher ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-pas-cher/", "/smartphone-pliant-moins-de-1500-euros/"],
+    "tests": [],
+    "angle": "Calendrier habituel des lancements (dates des générations passées, sourcées), baisse de prix après la sortie d'un successeur, périodes promotionnelles. Aucun prix actuel."
+  },
+  {
+    "id": "garantie-ecran-pliant",
+    "question": "La garantie couvre-t-elle l'écran d'un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-samsung/"],
+    "tests": [],
+    "angle": "Garantie légale de conformité en France (sources officielles) ou casse accidentelle ; conditions des constructeurs propres aux écrans pliants ; démarches."
+  },
+  {
+    "id": "coque-smartphone-pliant",
+    "question": "Faut-il une coque pour un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-clapet/"],
+    "tests": [],
+    "angle": "Types de coques (deux parties, protection de charnière, avec stylet) ; poids et épaisseur ajoutés ; accessoires fournis dans la boîte selon les tests publiés."
+  },
+  {
+    "id": "smartphone-pliant-poche-poids",
+    "question": "Un smartphone pliant est-il trop lourd pour la poche ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-clapet/", "/smartphone-pliant-format-livre/"],
+    "tests": [],
+    "angle": "Poids et épaisseurs pliés du catalogue (phones.ts) comparés entre formats ; ressenti rapporté par les tests publiés."
+  },
+  {
+    "id": "assurance-smartphone-pliant",
+    "question": "Faut-il assurer un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-haut-de-gamme/", "/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Offres de protection des constructeurs, exclusions fréquentes, garantie légale ou casse accidentelle. Rester général et sourcé, sans recommander d'assureur."
+  },
+  {
+    "id": "jouer-smartphone-pliant",
+    "question": "Peut-on bien jouer sur un smartphone pliant ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-gaming/"],
+    "tests": ["/smartphone-pliant-samsung/galaxy-z-fold8-ultra/"],
+    "angle": "Format d'écran déplié et jeux, puces du catalogue, chauffe relevée par les tests ; jeux qui gèrent mal le format presque carré."
+  },
+  {
+    "id": "applications-ecran-pliant",
+    "question": "Toutes les applications fonctionnent-elles sur un écran pliant ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-travail/", "/iphone-pliable/"],
+    "tests": [],
+    "angle": "Adaptation des applis Android aux grands écrans, modes d'affichage forcés des surcouches, cas de l'iPhone Duo selon les sources officielles."
+  },
+  {
+    "id": "tri-pliant-utile",
+    "question": "À quoi sert un smartphone tri-pliant ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-tri-pliant/"],
+    "tests": ["/smartphone-pliant-huawei/mate-xt/"],
+    "angle": "Trois modes d'usage, écran d'environ 10 pouces, poids et prix ; disponibilité réelle en France."
+  },
+  {
+    "id": "smartphone-pliant-chauffe",
+    "question": "Un smartphone pliant chauffe-t-il plus qu'un autre ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-gaming/"],
+    "tests": [],
+    "angle": "Mesures de chauffe et de bridage publiées dans les tests ; contraintes de dissipation liées à la finesse ; à nuancer par modèle."
+  },
+  {
+    "id": "nettoyer-ecran-pliant",
+    "question": "Comment nettoyer l'écran d'un smartphone pliant sans l'abîmer ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Consignes d'entretien officielles des constructeurs (liens), gestes à éviter pour le film et la charnière."
+  },
+  {
+    "id": "smartphone-pliant-froid",
+    "question": "Un smartphone pliant craint-il le froid ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Plages de température d'utilisation publiées par les constructeurs ; comportement des batteries au froid ; conseils. Aucun chiffre sans source."
+  },
+  {
+    "id": "smartphone-pliant-perd-valeur",
+    "question": "Un smartphone pliant perd-il vite de sa valeur ?",
+    "scope": "pliant",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-pas-cher/", "/smartphone-pliant-haut-de-gamme/"],
+    "tests": [],
+    "angle": "Uniquement avec des données publiées (études de décote, offres de reprise des constructeurs) ; sinon comparer les prix de lancement successifs. Aucune estimation inventée."
+  },
+  {
+    "id": "indice-ip-smartphone",
+    "question": "IP68, IP48, IP69 : que veut dire l'indice de protection d'un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 1,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": ["/smartphone-pliant-honor/magic-v6/"],
+    "angle": "Lire les deux chiffres, norme de référence, conditions de test annoncées, limites (eau de mer, chaleur, usure) ; exemples du catalogue."
+  },
+  {
+    "id": "limiter-charge-80-pourcent",
+    "question": "Faut-il limiter la charge de son smartphone à 80 % ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-autonomie/", "/"],
+    "tests": [],
+    "angle": "Fonctions de charge optimisée ou limitée d'Android et d'iOS (documentation officielle), effet sur l'usure selon les sources ; lien avec les cycles de l'étiquette énergie."
+  },
+  {
+    "id": "charge-rapide-batterie",
+    "question": "La charge rapide abîme-t-elle la batterie d'un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Ce que disent les constructeurs et les publications techniques citées par la presse ; chaleur, gestion logicielle ; puissances de charge du catalogue."
+  },
+  {
+    "id": "etiquette-energie-smartphone",
+    "question": "Comment lire l'étiquette énergie d'un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-resistant/", "/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Rubriques de l'étiquette européenne (efficacité, autonomie par cycle, chutes, réparabilité, cycles de batterie, IP) et date d'entrée en vigueur d'après les textes officiels ; exemples tirés des tests du site."
+  },
+  {
+    "id": "esim-fonctionnement",
+    "question": "eSIM : comment ça marche et que faut-il savoir ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/iphone-pliable/", "/"],
+    "tests": ["/iphone-pliable/iphone-duo/"],
+    "angle": "Principe, activation auprès des opérateurs français (pages officielles), changement de téléphone, modèles uniquement en eSIM."
+  },
+  {
+    "id": "mises-a-jour-smartphone-annees",
+    "question": "Combien d'années de mises à jour pour un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-samsung/", "/smartphone-pliant-google-pixel/", "/"],
+    "tests": [],
+    "angle": "Engagements officiels par marque (versions, sécurité), obligations européennes si elles sont sourcées ; pourquoi c'est un critère d'achat."
+  },
+  {
+    "id": "mah-autonomie",
+    "question": "Plus de mAh veut-il dire plus d'autonomie ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Capacité et consommation (écran, puce, logiciel) ; exemples chiffrés du catalogue où la capacité ne suffit pas à prédire l'autonomie mesurée."
+  },
+  {
+    "id": "smartphone-sans-google",
+    "question": "Peut-on utiliser un smartphone sans les services Google ?",
+    "scope": "smartphone",
+    "priorite": 2,
+    "pages": ["/smartphone-pliant-huawei/"],
+    "tests": ["/smartphone-pliant-huawei/mate-x7/"],
+    "angle": "Cas Huawei (boutique d'applications, services concernés) d'après la presse ; applications et paiements touchés ; pour qui c'est envisageable."
+  },
+  {
+    "id": "charger-telephone-la-nuit",
+    "question": "Peut-on laisser son téléphone charger toute la nuit ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Protections intégrées, charge optimisée, précautions (chaleur, accessoires certifiés) ; recommandations officielles."
+  },
+  {
+    "id": "reparabilite-smartphone",
+    "question": "Comment savoir si un smartphone est facile à réparer ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-resistant/"],
+    "tests": [],
+    "angle": "Classe de réparabilité de l'étiquette européenne, disponibilité des pièces détachées selon les textes officiels, démontages publiés par la presse."
+  },
+  {
+    "id": "zoom-optique-numerique",
+    "question": "Zoom optique ou numérique : quelle différence sur un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-photo/"],
+    "tests": [],
+    "angle": "Définitions, recadrage capteur dit « qualité optique », téléobjectif périscope ; zooms des modèles du catalogue."
+  },
+  {
+    "id": "ecran-120hz-ltpo",
+    "question": "Écran 120 Hz et LTPO : à quoi ça sert sur un smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-gaming/"],
+    "tests": [],
+    "angle": "Fluidité, fréquence variable et autonomie ; exemples de dalles du catalogue."
+  },
+  {
+    "id": "choisir-puce-smartphone",
+    "question": "Snapdragon, Dimensity, Tensor : comment comparer les puces de smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-gaming/"],
+    "tests": [],
+    "angle": "Ce qui compte (efficacité, chauffe, suivi logiciel) plutôt que les scores bruts ; puces du catalogue ; benchmarks cités avec leur source."
+  },
+  {
+    "id": "combien-ram-smartphone",
+    "question": "Combien de RAM faut-il dans un smartphone en 2026 ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-travail/"],
+    "tests": [],
+    "angle": "Usages, multitâche, fonctions d'IA embarquées selon les constructeurs ; configurations du catalogue."
+  },
+  {
+    "id": "choisir-stockage-smartphone",
+    "question": "256 Go, 512 Go ou 1 To : quel stockage choisir pour son smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-moins-de-2000-euros/"],
+    "tests": [],
+    "angle": "Poids des photos et vidéos selon les réglages (sources), absence de microSD, stockage en ligne ; écarts de prix de lancement entre capacités du catalogue."
+  },
+  {
+    "id": "recharge-sans-fil-qi2",
+    "question": "Recharge sans fil Qi2 : qu'est-ce que ça change ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/smartphone-pliant-autonomie/"],
+    "tests": [],
+    "angle": "Norme du Wireless Power Consortium (source officielle), aimants, puissances ; modèles compatibles du catalogue d'après leurs fiches."
+  },
+  {
+    "id": "telephone-vendu-sans-chargeur",
+    "question": "Pourquoi les smartphones sont-ils vendus sans chargeur ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/"],
+    "tests": [],
+    "angle": "Règles européennes sur le chargeur universel USB-C (textes officiels et dates), arguments des constructeurs, compatibilité des chargeurs existants."
+  },
+  {
+    "id": "transferer-donnees-nouveau-smartphone",
+    "question": "Comment transférer ses données vers un nouveau smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/"],
+    "tests": [],
+    "angle": "Outils officiels (Android, iPhone, applications des constructeurs), passage d'iPhone à Android et inversement ; étapes et limites (messageries)."
+  },
+  {
+    "id": "vol-perte-smartphone",
+    "question": "Que faire en cas de perte ou de vol de son smartphone ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/"],
+    "tests": [],
+    "angle": "Localisation et verrouillage à distance (outils officiels), blocage par l'opérateur et IMEI, dépôt de plainte en France (service-public.fr)."
+  },
+  {
+    "id": "passer-iphone-android",
+    "question": "Passer d'un iPhone à Android : que faut-il savoir ?",
+    "scope": "smartphone",
+    "priorite": 3,
+    "pages": ["/iphone-pliable/", "/smartphone-pliant-samsung/"],
+    "tests": [],
+    "angle": "Transfert, messageries et appels vidéo Apple, applications payantes, écosystème (montre, écouteurs) ; l'iPhone Duo pour rester sous iOS avec un pliant."
+  }
+]

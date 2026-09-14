@@ -84,6 +84,18 @@
     "skeleton": "8 à 12 termes d'un même thème en intertitres : définition claire et exemple sur un modèle du catalogue."
   },
   {
+    "key": "reponse-question",
+    "label": "Réponse à une question",
+    "words": [900, 1500],
+    "skeleton": "Titre = la question telle qu'un internaute la tape, terminée par « ? ». Premier paragraphe : la réponse directe en 25 à 80 mots, compréhensible seule. Puis 4 à 6 intertitres qui détaillent avec des faits sourcés et des exemples de modèles du catalogue ; nuances selon le format ou le budget ; un tableau ou une liste si utile. Dernier intertitre : ce qu'il faut retenir pour choisir. Champ faq : 3 à 6 questions liées à réponse courte."
+  },
+  {
+    "key": "vrai-faux",
+    "label": "Vrai ou faux",
+    "words": [700, 1100],
+    "skeleton": "La question en introduction, avec la réponse courte ; 5 à 7 idées reçues en intertitres commençant par « Vrai : », « Faux : » ou « Plutôt vrai : » ; chaque verdict justifié par un fait sourcé ; synthèse finale en 2 phrases."
+  },
+  {
     "key": "billet",
     "label": "Billet",
     "words": [500, 800],

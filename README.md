@@ -80,7 +80,9 @@ Sans photo, le site affiche la silhouette du format. Pour un texte alternatif pr
   - `node scripts/blog-status.mjs` : derniers articles, formats disponibles, sujets déjà traités ;
   - `node scripts/blog-status.mjs --check <slug>` : contrôle complet d'un article ;
   - `node scripts/pick-publish-time.mjs` : heure de publication aléatoire dans les créneaux parisiens.
-- **Routine quotidienne** : cahier des charges dans `docs/routine-blog.md` ; 15 formats d'article dans `src/data/blog-formats.json`. La routine pousse chaque article sur une branche `claude/article-<slug>` ; le workflow `.github/workflows/publish-article.yml` le contrôle (contrôle éditorial, build avec les articles programmés, maillage), l'ajoute à `main` et supprime la branche. Toute branche qui modifie autre chose qu'un nouvel article est refusée (échec visible dans l'onglet Actions de GitHub).
+- **Ligne éditoriale** : actualités des pliants, questions d'internautes sur les pliants (« Un smartphone pliant est-il fragile ? »), puis questions sur le smartphone en général (au plus 1 article sur 3, après 8 questions pliant). Le backlog des questions est dans `src/data/blog-sujets.json` : ajoutez-y vos idées (id, question, périmètre, priorité, pages et tests suggérés, angle). `node scripts/blog-status.mjs` vérifie les chemins du backlog.
+- **Articles « question »** : réponse directe dans le premier paragraphe, questions liées (`faq`) affichées et balisées en FAQPage, illustration facultative (`cover`, fichier dans `src/content/actualites/images/`, crédit obligatoire, « IA » pour une image générée).
+- **Routine quotidienne** : cahier des charges dans `docs/routine-blog.md` ; 17 formats d'article dans `src/data/blog-formats.json`. La routine pousse chaque article sur une branche `claude/article-<slug>` ; le workflow `.github/workflows/publish-article.yml` le contrôle (contrôle éditorial, build avec les articles programmés, maillage), l'ajoute à `main` et supprime la branche. Toute branche qui modifie autre chose qu'un nouvel article est refusée (échec visible dans l'onglet Actions de GitHub).
 
 ## Liens Amazon
 

@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths, Page } from 'astro';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhoneImage from '../../components/PhoneImage.astro';
 import { publishedArticles, articlePath, CATEGORY_LABELS, FORMAT_LABELS, frDay, type Article } from '../../lib/blog';
@@ -14,8 +15,8 @@ const { page } = Astro.props as { page: Page<Article> };
 const first = page.currentPage === 1;
 const title = first ? 'Actualités des smartphones pliants' : `Actualités des smartphones pliants, page ${page.currentPage}`;
 const description = first
-  ? 'Actualités, analyses et guides sur les smartphones pliants : lancements, mises à jour, rumeurs vérifiées et conseils d’achat, publiés chaque jour par la rédaction.'
-  : `Page ${page.currentPage} des actualités de Smartphone-Pliant.fr : lancements, mises à jour, analyses et guides pratiques sur les smartphones pliants.`;
+  ? 'Actualités, réponses aux questions d’acheteurs et guides sur les smartphones pliants : lancements, mises à jour, rumeurs vérifiées et conseils, chaque jour.'
+  : `Page ${page.currentPage} des actualités de Smartphone-Pliant.fr : lancements, questions d’acheteurs, analyses et guides pratiques sur les smartphones pliants.`;
 const abs = (p: string) => new URL(p, SITE.url).href;
 
 const schema = [
@@ -42,7 +43,7 @@ const schema = [
         {
           first && (
             <p class="lede">
-              Lancements, mises à jour, rumeurs passées au crible et guides pratiques. Pour choisir un modèle, commencez par notre <a href="/">comparatif des smartphones pliants</a>.
+              Lancements, mises à jour, réponses aux questions que l’on se pose avant d’acheter et guides pratiques. Pour choisir un modèle, commencez par notre <a href="/">comparatif des smartphones pliants</a>.
             </p>
           )
         }
@@ -55,10 +56,16 @@ const schema = [
           <ul class="post-list">
             {page.data.map((a) => (
               <li class="card post-item">
-                {a.data.phone && (
+                {a.data.cover ? (
                   <a href={articlePath(a)} class="post-thumb" tabindex="-1" aria-hidden="true">
-                    <PhoneImage id={a.data.phone} variant="card" />
+                    <Image src={a.data.cover.src} alt="" widths={[180, 360]} sizes="180px" format="webp" quality={75} class="post-cover-img" />
                   </a>
+                ) : (
+                  a.data.phone && (
+                    <a href={articlePath(a)} class="post-thumb" tabindex="-1" aria-hidden="true">
+                      <PhoneImage id={a.data.phone} variant="card" />
+                    </a>
+                  )
                 )}
                 <div>
                   <span class="small muted">

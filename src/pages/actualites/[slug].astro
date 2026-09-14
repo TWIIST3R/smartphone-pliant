@@ -1,8 +1,10 @@
 ---
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PhoneCard from '../../components/PhoneCard.astro';
 import PhoneImage from '../../components/PhoneImage.astro';
+import Faq from '../../components/Faq.astro';
 import { publishedArticles, articlePath, CATEGORY_LABELS, FORMAT_LABELS, frDateTime, readingMinutes, type Article } from '../../lib/blog';
 import { phones } from '../../data/phones';
 import { mainImage } from '../../data/images';
@@ -21,7 +23,10 @@ const path = articlePath(post);
 const abs = (p: string) => new URL(p, SITE.url).href;
 
 const cited = d.phones.map((id) => phones.find((p) => p.id === id)).filter((p) => p !== undefined);
+const heroPhone = d.phone ? phones.find((p) => p.id === d.phone) : undefined;
 const hero = d.phone ? mainImage(d.phone) : null;
+const cover = d.cover;
+const shareImage = cover ? abs(cover.src.src) : hero ? abs(hero.src.src) : undefined;
 
 const related = all
   .filter((a) => a.id !== post.id)
@@ -51,7 +56,7 @@ const schema = [
     publishingPrinciples: abs('/methodologie/'),
     articleSection: CATEGORY_LABELS[d.category],
     isAccessibleForFree: true,
-    ...(hero ? { image: abs(hero.src.src) } : {}),
+    ...(shareImage ? { image: shareImage } : {}),
     ...(d.tags.length ? { keywords: d.tags.join(', ') } : {}),
     ...(cited.length ? { mentions: cited.map((p) => ({ '@type': 'Thing', name: p.fullName, url: abs(p.path) })) } : {}),
     ...(d.sources.length ? { citation: citations(d.sources) } : {}),
@@ -68,7 +73,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={d.title} description={d.description} schema={schema} updated={modified.toISOString().slice(0, 10)}>
+<BaseLayout title={d.title} description={d.description} schema={schema} updated={modified.toISOString().slice(0, 10)} image={shareImage}>
   <nav class="crumbs wrap" aria-label="Fil d’Ariane">
     <ol>
       <li><a href="/">Accueil</a></li>
@@ -92,11 +97,37 @@ const schema = [
         <span class="dot">{readingMinutes(post.body)} min de lecture</span>
       </div>
 
-      {hero && d.phone && <PhoneImage id={d.phone} variant="hero" eager />}
+      {
+        cover ? (
+          <figure class="article-cover">
+            <Image src={cover.src} alt={cover.alt} widths={[480, 760, 1140]} sizes="(max-width: 800px) 100vw, 760px" format="webp" quality={80} loading="eager" />
+            <figcaption>
+              {cover.kind === 'illustration-ia' ? (
+                cover.credit
+              ) : (
+                <>
+                  Photo :{' '}
+                  {cover.sourceUrl ? (
+                    <a href={cover.sourceUrl} target="_blank" rel="noopener">
+                      {cover.credit}
+                    </a>
+                  ) : (
+                    cover.credit
+                  )}
+                </>
+              )}
+            </figcaption>
+          </figure>
+        ) : (
+          hero && d.phone && heroPhone && <PhoneImage id={d.phone} variant="hero" caption={heroPhone.fullName} eager />
+        )
+      }
 
       <div class="article-body">
         <Content />
       </div>
+
+      {d.faq.length > 0 && <Faq items={d.faq} heading={d.category === 'question' ? 'Questions liées' : 'Questions fréquentes'} id="questions" />}
 
       {
         d.sources.length > 0 && (

@@ -1402,6 +1402,32 @@ hr {
   width: 72px;
 }
 
+/* Illustration d'en-tête des articles du blog */
+.article-cover {
+  margin: 1.5rem 0;
+}
+
+.article-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.article-cover figcaption {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+.post-cover-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
 /* ——— Blog ——— */
 .header-meta .nav-link {
   font-weight: 650;

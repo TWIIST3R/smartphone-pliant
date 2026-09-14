@@ -2,7 +2,8 @@
 # Les routines Claude ne peuvent pousser que sur des branches claude/… : la routine pousse
 # claude/article-<slug>, ce workflow contrôle l'article puis l'ajoute à main et supprime la branche.
 # Garde-fou : la branche est refusée si elle modifie autre chose que de nouveaux fichiers
-# src/content/actualites/<slug>.md, ou si le contrôle, le build ou le maillage échouent.
+# src/content/actualites/<slug>.md (et leur illustration src/content/actualites/images/<slug>.webp|jpg|png),
+# ou si le contrôle, le build ou le maillage échouent.
 # La mise en ligne se fait ensuite toute seule : deploy.yml publie l'article à son heure (pubDate).
 name: Intégrer un article de la routine
 
@@ -34,12 +35,12 @@ jobs:
           BASE=$(git merge-base origin/main HEAD)
           git diff --name-status "$BASE" HEAD > "$RUNNER_TEMP/changed.txt"
           cat "$RUNNER_TEMP/changed.txt"
-          if [ ! -s "$RUNNER_TEMP/changed.txt" ]; then
-            echo "::error::Aucun article dans la branche."
+          if ! grep -Eq '^A[[:space:]]+src/content/actualites/[a-z0-9-]+\.md$' "$RUNNER_TEMP/changed.txt"; then
+            echo "::error::Aucun nouvel article dans la branche."
             exit 1
           fi
-          if grep -vEq '^A[[:space:]]+src/content/actualites/[a-z0-9-]+\.md$' "$RUNNER_TEMP/changed.txt"; then
-            echo "::error::La branche ne doit ajouter que des articles (src/content/actualites/<slug>.md). Intégration refusée."
+          if grep -vEq '^A[[:space:]]+src/content/actualites/([a-z0-9-]+\.md|images/[a-z0-9-]+\.(webp|jpg|jpeg|png))$' "$RUNNER_TEMP/changed.txt"; then
+            echo "::error::La branche ne doit ajouter que des articles (src/content/actualites/<slug>.md) et leurs illustrations (src/content/actualites/images/). Intégration refusée."
             exit 1
           fi
           { echo 'files<<EOF'; cut -f2 "$RUNNER_TEMP/changed.txt"; echo 'EOF'; } >> "$GITHUB_OUTPUT"
@@ -61,7 +62,9 @@ jobs:
         run: |
           set -euo pipefail
           while read -r f; do
-            node scripts/blog-status.mjs --check "$(basename "$f" .md)"
+            case "$f" in
+              *.md) node scripts/blog-status.mjs --check "$(basename "$f" .md)" ;;
+            esac
           done <<< "${{ steps.diff.outputs.files }}"
 
       - name: Build (articles programmés inclus) et maillage

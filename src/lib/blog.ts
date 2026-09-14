@@ -8,6 +8,7 @@ export const FORMAT_LABELS: Record<string, string> = Object.fromEntries(formats.
 
 export const CATEGORY_LABELS: Record<string, string> = {
   actualite: 'Actualité',
+  question: 'Question',
   guide: 'Guide',
   analyse: 'Analyse',
   comparatif: 'Comparatif',
