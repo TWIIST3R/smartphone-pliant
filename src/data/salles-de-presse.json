@@ -1,0 +1,9 @@
+[
+  { "brand": "samsung", "name": "Samsung", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Samsung (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "apple", "name": "Apple", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Apple (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "google", "name": "Google", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Google (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "motorola", "name": "Motorola", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Motorola (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "honor", "name": "Honor", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Honor (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "huawei", "name": "Huawei", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Huawei (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" },
+  { "brand": "xiaomi", "name": "Xiaomi", "autorise": false, "raison": "conditions d'usage en cours de vérification", "credit": "Xiaomi (dossier de presse)", "pageDomains": [], "imageDomains": [], "conditions": "" }
+]

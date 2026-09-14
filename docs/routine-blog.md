@@ -101,9 +101,27 @@ faq:
 
 ## Illustrations
 
-- **`phone`** : la photo produit d'un modèle du catalogue, uniquement si l'article porte principalement sur ce modèle (le nom du modèle s'affiche en légende). Ne jamais l'utiliser pour illustrer un autre modèle, même le successeur ou le prédécesseur.
-- **`cover`** (image d'en-tête dans `src/content/actualites/images/<slug>.webp`) : **pas encore autorisé** pour la routine. Ne pas le renseigner tant que cette section ne décrit pas comment produire l'image.
-- **Ne jamais télécharger une image depuis un site web** (droits d'auteur).
+Objectif : **environ un article sur deux** avec une image d'en-tête (`cover`), jamais deux images pour le même article. Une seule image par article, dans `src/content/actualites/images/<slug>.webp`, produite **uniquement** par l'un des deux scripts ci-dessous. `cover` et `phone` ne se cumulent pas : `cover` l'emporte.
+
+1. **Actualité sur un produit précis** → **photo officielle de presse** :
+   - trouver le communiqué ou le dossier de presse du produit sur la salle de presse officielle de la marque ;
+   - la marque doit être autorisée dans `src/data/salles-de-presse.json` (`autorise: true`) ;
+   - la photo doit montrer le produit dont parle l'article ;
+   - lancer `node scripts/fetch-press-image.mjs --slug <slug> --brand <clé> --page <URL du communiqué> --image <URL du fichier image>` ;
+   - reprendre la ligne `cover` affichée (crédit et `sourceUrl` compris) et écrire le texte alternatif `alt` en français.
+
+   Aucune photo sans ce script : pas de photo de site de presse, de revendeur, de réseau social ni de banque d'images.
+2. **Question, guide, décryptage, marché** → **illustration générée par IA** :
+   - lancer `node scripts/generate-cover.mjs --slug <slug> --prompt "<scène en anglais>"` ;
+   - la scène est générique et évoque le sujet : un smartphone pliant entrouvert sur un bureau, une main qui plie un téléphone, une batterie stylisée, une loupe sur une charnière… ;
+   - **jamais** de marque, de modèle réel, de logo, de texte ni de personne identifiable (le script refuse les noms de marque) ;
+   - ne jamais présenter l'illustration comme la photo d'un produit réel ;
+   - garder le crédit affiché (« Illustration générée par IA (OpenAI) ») et décrire l'image en français dans `alt`.
+
+   Si le script échoue (clé absente, erreur de l'API), publier l'article sans illustration et le signaler dans le compte rendu.
+3. **Sinon** → `phone` : la photo produit d'un modèle du catalogue, uniquement si l'article porte principalement sur ce modèle (le nom du modèle s'affiche en légende). Ne jamais l'utiliser pour illustrer un autre modèle, même le successeur ou le prédécesseur.
+
+Ne jamais télécharger une image autrement qu'avec `scripts/fetch-press-image.mjs` (droits d'auteur). Penser à ajouter le fichier image au commit (étape 9).
 
 ## Maillage : règles strictes
 

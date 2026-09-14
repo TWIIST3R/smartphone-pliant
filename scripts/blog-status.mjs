@@ -234,7 +234,22 @@ if (d.cover) {
     if (!c.alt || c.alt.length < 10) errors.push('cover : texte alternatif (alt) trop court');
     if (!c.credit) errors.push('cover : crédit manquant');
     if (c.kind === 'illustration-ia' && !/\bIA\b/.test(c.credit || '')) errors.push('cover : le crédit d\'une illustration générée doit mentionner « IA »');
-    if (c.kind === 'photo-presse' && !/^https?:\/\//.test(c.sourceUrl || '')) errors.push('cover : sourceUrl obligatoire pour une photo de presse');
+    if (c.kind === 'photo-presse') {
+      const roomsPath = join(root, 'src', 'data', 'salles-de-presse.json');
+      const rooms = existsSync(roomsPath) ? JSON.parse(readFileSync(roomsPath, 'utf8')) : [];
+      const room = rooms.find((r) => r.autorise && r.credit === c.credit);
+      const onDomains = (url, domains) => {
+        try {
+          const h = new URL(url).hostname;
+          return domains.some((dm) => h === dm || h.endsWith(`.${dm}`));
+        } catch {
+          return false;
+        }
+      };
+      if (!/^https:\/\//.test(c.sourceUrl || '')) errors.push('cover : sourceUrl (page de la salle de presse) obligatoire pour une photo de presse');
+      if (!room) errors.push(`cover : crédit « ${c.credit} » ne correspond à aucune salle de presse autorisée (src/data/salles-de-presse.json) ; utiliser scripts/fetch-press-image.mjs`);
+      else if (c.sourceUrl && !onDomains(c.sourceUrl, room.pageDomains)) errors.push(`cover : sourceUrl hors des salles de presse officielles ${room.name}`);
+    }
   }
 }
 
