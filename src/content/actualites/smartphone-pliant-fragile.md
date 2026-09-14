@@ -22,7 +22,7 @@ faq:
   - { q: "Quel est le smartphone pliant le plus résistant à l'eau et à la poussière ?", a: "Parmi les modèles de notre comparatif, le Honor Magic V6 est le seul certifié à la fois IP68 et IP69 : immersion à 1,5 mètre et jets d'eau à haute pression. Les Google Pixel 11 Pro Fold et Pixel 10 Pro Fold et l'iPhone Duo sont IP68 ; les Galaxy Z Fold8 et Fold8 Ultra restent en IP48." }
   - { q: "Peut-on retirer le film de protection de l'écran intérieur d'un pliant ?", a: "Non. Ce film fait partie de l'écran pliable : le retirer risque de l'endommager et peut annuler la garantie. S'il se décolle, il doit être remplacé en centre agréé plutôt que retiré soi-même." }
   - { q: "Combien de pliages une charnière de smartphone pliant peut-elle supporter ?", a: "Les chiffres certifiés par un organisme extérieur sont rares : 500 000 pliages certifiés par SGS pour la charnière du Honor Magic V6 selon Honor, et 500 000 pliages vérifiés par Bureau Veritas pour l'écran du Galaxy Z Fold7, 2,5 fois plus que son prédécesseur selon Clubic." }
-  - { q: "Un smartphone pliant survit-il à une chute ?", a: "Cela dépend du modèle. Selon la fiche relayée par GSMArena, l'étiquette énergie européenne classe le Google Pixel 11 Pro Fold en catégorie A pour les chutes répétées, avec 210 chutes. Un test de flexion extrême de 9to5Google montre en revanche que son châssis cède sous une torsion forcée." }
+  - { q: "Un smartphone pliant survit-il à une chute ?", a: "Cela dépend du modèle. Selon la fiche relayée par GSMArena, l'étiquette énergie européenne classe le Google Pixel 11 Pro Fold en catégorie A pour les chutes répétées, avec 210 chutes. Un test de flexion extrême de JerryRigEverything, relayé par 9to5Google, montre en revanche que son châssis cède sous une torsion forcée." }
   - { q: "Le sable et la poussière sont-ils dangereux pour un smartphone pliant ?", a: "Ils méritent plus d'attention que l'eau. Le premier chiffre de l'indice IP mesure la protection contre les corps solides : un pliant IP48, comme les Galaxy Z, n'est protégé que contre les éléments de plus d'un millimètre, pas contre le sable fin." }
 ---
 
@@ -32,7 +32,7 @@ Pas au point de le déconseiller, mais un smartphone pliant a trois points faibl
 
 L'écran intérieur d'un pliant n'est pas protégé par une vitre rigide comme sur un smartphone classique. Sa dalle souple est couverte, selon les modèles, d'un verre ultrafin (UTG) ou d'une couche de polymère, puis d'un film de protection posé en usine qui fait partie de l'écran. Le retirer peut l'endommager et annuler la garantie ; s'il se décolle, il doit être remplacé en centre agréé plutôt que retiré soi-même.
 
-Les constructeurs renforcent cette couche d'une génération à l'autre. Selon Google, le [Google Pixel 11 Pro Fold](/smartphone-pliant-google-pixel/pixel-11-pro-fold/) reçoit un verre intérieur plus épais et un dos en composite de fibre de verre « conçu pour être quasiment impossible à fissurer ». Honor annonce, pour le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/), un verre ultrafin de nouvelle génération dont la résistance aux chocs progresse de 33 % par rapport au Magic V5, un chiffre relayé par Clubic. Apple recouvre l'écran intérieur de l'[Apple iPhone Duo](/iphone-pliable/iphone-duo/) d'une couche nano-texturée en polymère sur mesure, « jusqu'à 40 % plus rigide que les autres matériaux utilisés dans l'industrie » selon la marque.
+Les constructeurs renforcent cette couche d'une génération à l'autre. Selon Google, le [Google Pixel 11 Pro Fold](/smartphone-pliant-google-pixel/pixel-11-pro-fold/) reçoit un verre intérieur plus épais et un dos en composite de fibre de verre « conçu pour être quasiment impossible à fissurer ». Honor annonce, pour le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/), un verre ultrafin de nouvelle génération ; selon Clubic, sa résistance aux chocs progresse de 33 % par rapport à son prédécesseur, le Magic V5. Apple recouvre l'écran intérieur de l'[Apple iPhone Duo](/iphone-pliable/iphone-duo/) d'une couche nano-texturée en polymère sur mesure, « jusqu'à 40 % plus rigide que les autres matériaux utilisés dans l'industrie » selon la marque.
 
 ## La poussière compte plus que l'eau : ce que disent les indices IP
 
@@ -51,9 +51,9 @@ Aucun modèle à clapet du catalogue ne dépasse l'IP48 : pour la meilleure prot
 
 ## La charnière : des certifications commandées par les marques
 
-Le nombre de pliages est l'argument de durabilité le plus mis en avant. Honor annonce que la charnière « Super Steel » du Magic V6, en acier d'une résistance à la traction de 2 800 MPa, a passé 500 000 pliages lors d'un test certifié par l'organisme SGS.
+Le nombre de pliages est l'argument de durabilité le plus mis en avant. Honor annonce que la charnière « Super Steel » du Magic V6, en acier ultra-résistant de 2 800 MPa, a passé 500 000 pliages lors d'un test certifié par l'organisme SGS.
 
-Samsung a fait vérifier son Galaxy Z Fold7 par Bureau Veritas : selon Clubic, l'écran pliable de 8 pouces est resté fonctionnel après 500 000 pliages réalisés en 13 jours à environ 25 °C, soit 2,5 fois le chiffre de son prédécesseur, le Galaxy Z Fold6.
+Samsung a fait vérifier son Galaxy Z Fold7 par Bureau Veritas : selon Clubic, son écran pliable est resté fonctionnel après 500 000 pliages réalisés en 13 jours à environ 25 °C, soit 2,5 fois le chiffre de son prédécesseur, le Galaxy Z Fold6.
 
 Ces deux certifications sont délivrées par des organismes extérieurs, mais à la demande des constructeurs et en laboratoire. Elles renseignent sur l'endurance du mécanisme, pas sur sa résistance à la poussière ou aux chocs.
 
@@ -61,7 +61,7 @@ Ces deux certifications sont délivrées par des organismes extérieurs, mais à
 
 L'étiquette énergie européenne, obligatoire depuis juin 2025, donne une autre indication chiffrée : la résistance aux chutes répétées. Selon la fiche relayée par GSMArena, le Google Pixel 11 Pro Fold y obtient la classe A, la meilleure de l'échelle, avec 210 chutes, ainsi qu'une classe B en réparabilité.
 
-Un pliant ne résiste pas pour autant à tout. Dans un test de torsion extrême publié en vidéo par 9to5Google, qui force l'appareil à plier dans le mauvais sens, le Pixel 11 Pro Fold cède toujours au niveau de la ligne d'antenne, comme les modèles précédents, sans l'incident de batterie que le site avait observé lors du même test sur le Pixel 10 Pro Fold. Ce type d'essai relève de la maltraitance volontaire, pas d'une chute accidentelle.
+Un pliant ne résiste pas pour autant à tout. Dans un test de torsion extrême de JerryRigEverything, relayé en vidéo par 9to5Google, qui force l'appareil à plier dans le mauvais sens, le Pixel 11 Pro Fold cède toujours au niveau de la ligne d'antenne, comme les modèles précédents, sans la rupture de batterie survenue lors du même test sur le Pixel 10 Pro Fold. Ce type d'essai relève de la maltraitance volontaire, pas d'une chute accidentelle.
 
 Côté iPhone Duo, l'IP68 annoncé par Apple, avec une immersion jusqu'à 6 mètres pendant 30 minutes, reste une donnée du constructeur tant que les tests complets, attendus après la sortie du 23 octobre, n'ont pas été publiés.
 
