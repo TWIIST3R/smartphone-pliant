@@ -51,7 +51,7 @@ Aucun modèle à clapet du catalogue ne dépasse l'IP48 : pour la meilleure prot
 
 ## La charnière : des certifications commandées par les marques
 
-Le nombre de pliages est l'argument de durabilité le plus mis en avant. Honor annonce que la charnière « Super Steel » du Magic V6, en acier ultra-résistant de 2 800 MPa, a passé 500 000 pliages lors d'un test certifié par l'organisme SGS.
+Le nombre de pliages est un argument de durabilité mis en avant par les constructeurs. Honor annonce que la charnière « Super Steel » du Magic V6, en acier ultra-résistant de 2 800 MPa, a passé 500 000 pliages lors d'un test certifié par l'organisme SGS.
 
 Samsung a fait vérifier son Galaxy Z Fold7 par Bureau Veritas : selon Clubic, son écran pliable est resté fonctionnel après 500 000 pliages réalisés en 13 jours à environ 25 °C, soit 2,5 fois le chiffre de son prédécesseur, le Galaxy Z Fold6.
 
