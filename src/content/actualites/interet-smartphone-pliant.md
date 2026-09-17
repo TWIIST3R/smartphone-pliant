@@ -1,6 +1,6 @@
 ---
 title: "Quel est l'intérêt d'un smartphone pliant ?"
-description: "Écran jusqu'à 8,1 pouces déplié, deux applications à l'écran, mode bureau, compacité une fois fermé : sept usages où un pliant se distingue vraiment."
+description: "Écran jusqu'à 8,1 pouces déplié, deux applications à l'écran, mode bureau, compacité une fois fermé : six usages où un pliant se distingue vraiment, et ses limites."
 pubDate: 2026-09-17T07:26:00+02:00
 format: liste-conseils
 category: question
@@ -13,21 +13,21 @@ sources:
   - { media: "Clubic", url: "https://www.clubic.com/smartphone/best-pick-409299-meilleur-smartphone-pliable-comparatif-2022.html", title: "Quels sont les meilleurs smartphones pliants ?" }
   - { media: "Counterpoint Research", url: "https://counterpointresearch.com/en/insights/Book-Type-Devices-to-Reach-of-Global-Foldable-Smartphone-Shipments-in-2026", title: "Book-Type Devices to Reach 65% of Global Foldable Smartphone Shipments in 2026" }
 faq:
-  - { q: "Un smartphone pliant remplace-t-il une tablette ?", a: "Partiellement. Les écrans intérieurs des pliants au format livre vont de 7,6 à 8,1 pouces dans notre comparatif, contre 10 pouces et plus pour une tablette. Ils dépannent pour lire ou regarder une vidéo, pas pour un usage tablette intensif." }
+  - { q: "Un smartphone pliant remplace-t-il une tablette ?", a: "Partiellement. Les écrans intérieurs des pliants au format livre vont de 7,6 à 8,1 pouces dans notre comparatif, soit moins qu'une tablette courante. Ils dépannent pour lire ou regarder une vidéo, pas pour un usage tablette intensif." }
   - { q: "Le mode bureau d'un smartphone pliant vaut-il un ordinateur portable ?", a: "Non, mais il dépanne. Samsung DeX, sur les Galaxy Z Fold8 et Fold8 Ultra, s'affiche sur un moniteur relié en USB-C ou sans fil via Miracast, avec l'écran du téléphone en pavé tactile. Il reste limité aux applications Android." }
   - { q: "Pourquoi un smartphone pliant à clapet est-il plus compact qu'un modèle au format livre ?", a: "Parce qu'il se replie en deux dans l'autre sens. Le Samsung Galaxy Z Flip8, le plus léger de notre comparatif à 180 g, tient dans une poche de veste, quand les modèles au format livre pèsent de 201 à 258 g." }
   - { q: "Un pliant sert-il vraiment à quelque chose fermé ?", a: "Oui. L'écran externe affiche messages et notifications sans déplier le téléphone, et sert de viseur pour se prendre en photo avec les capteurs arrière, plus nets que ceux dédiés aux selfies." }
 ---
 
-Écran presque deux fois plus grand une fois déplié, deux applications ouvertes en même temps, mode bureau de secours, compacité retrouvée une fois refermé : un smartphone pliant sert avant tout à faire tenir un usage supplémentaire dans un seul appareil, au prix d'un budget plus élevé et de quelques compromis.
+Écran nettement plus grand une fois déplié, deux applications ouvertes en même temps, mode bureau de secours, compacité retrouvée une fois refermé : un smartphone pliant sert avant tout à faire tenir un usage supplémentaire dans un seul appareil, au prix d'un budget plus élevé et de quelques compromis.
 
 ## 1. Un écran jusqu'à 8,1 pouces une fois déplié
 
-Le premier argument d'un pliant au format livre tient dans sa taille d'écran. Une fois ouverts, les dix modèles de notre comparatif affichent entre 7,6 et 8,1 pouces : le Motorola Razr Fold culmine à 8,1 pouces, à égalité de format avec le Google Pixel 11 Pro Fold, le Huawei Mate X7 et le Samsung Galaxy Z Fold8 Ultra, tous à 8 pouces. De quoi lire un long article, un PDF ou regarder une vidéo sans zoomer, comme sur une petite tablette. Selon Counterpoint Research, les pliants au format livre devraient représenter 65 % des ventes mondiales de smartphones pliants en 2026, signe que ce format séduit davantage que le clapet pour cet usage. Clubic salue, dans son comparatif, la qualité d'affichage de ces grands écrans intérieurs, taillés pour la vidéo et la lecture.
+Le premier argument d'un pliant au format livre tient dans sa taille d'écran. Une fois ouverts, les dix modèles de notre comparatif affichent entre 7,6 et 8,1 pouces : le Motorola Razr Fold culmine à 8,1 pouces, devant le Google Pixel 11 Pro Fold, le Huawei Mate X7 et le Samsung Galaxy Z Fold8 Ultra, tous à 8 pouces. De quoi lire un long article, un PDF ou regarder une vidéo sans zoomer, comme sur une petite tablette. Selon Counterpoint Research, les pliants au format livre devraient représenter 65 % des livraisons mondiales de smartphones pliants en 2026, signe que ce format séduit davantage que le clapet. Clubic salue, dans son comparatif, la qualité d'affichage de ces grands écrans intérieurs, taillés pour la vidéo et la lecture.
 
 ## 2. Deux applications à l'écran en même temps
 
-Le multitâche est le deuxième usage mis en avant par les marques. Sur le [format livre](/smartphone-pliant-format-livre/), les Samsung Galaxy Z Fold peuvent répartir leur écran entre trois applications ouvertes simultanément. Apple propose désormais la même idée sur l'iPhone Duo : iOS 27 y apporte Split View, qui ouvre deux applications côte à côte, une première pour un iPhone. Clubic met en avant cet usage : afficher une application par écran, pour consulter un itinéraire tout en gardant sa messagerie ouverte, ou comparer deux documents sans changer de fenêtre.
+Le multitâche est le deuxième atout du format. Sur le [format livre](/smartphone-pliant-format-livre/), le Samsung Galaxy Z Fold8 peut répartir son écran entre trois applications ouvertes simultanément. Apple reprendra la même idée sur l'iPhone Duo, attendu le 23 octobre 2026 : iOS 27 y apporte Split View, qui ouvre deux applications côte à côte, une première pour un iPhone. Clubic met en avant cet usage : afficher une application par écran, pour consulter un itinéraire tout en gardant sa messagerie ouverte, ou comparer deux documents sans changer de fenêtre.
 
 ## 3. Un mode bureau de secours
 
@@ -35,7 +35,7 @@ Sur les Galaxy Z Fold8 et Fold8 Ultra, Samsung DeX transforme le téléphone en 
 
 ## 4. Un format retrouvé une fois refermé
 
-À l'inverse, le [format clapet](/smartphone-pliant-clapet/) mise sur la compacité plutôt que sur la taille d'écran. Le Samsung Galaxy Z Flip8, le plus léger de notre comparatif avec 180 g, se replie à 13,1 mm et tient dans une poche de veste ou un petit sac, quand les modèles au format livre pèsent de 201 à 258 g une fois dépliés. Selon Clubic, un pliant à clapet replié occupe « le même espace dans les poches ou les sacs » qu'un smartphone classique, tout en cachant un écran nettement plus grand une fois ouvert.
+À l'inverse, le [format clapet](/smartphone-pliant-clapet/) mise sur la compacité plutôt que sur la taille d'écran. Le Samsung Galaxy Z Flip8, le plus léger de notre comparatif avec 180 g, se replie à 13,1 mm et tient dans une poche de veste ou un petit sac, quand les modèles au format livre pèsent de 201 à 258 g. Selon Clubic, le clapet « répond parfaitement à notre besoin de pouvoir emporter notre téléphone partout » ; le site nuance toutefois qu'un clapet plié est deux fois moins haut qu'un smartphone classique, mais deux fois plus large. Il cache en échange un écran nettement plus grand une fois ouvert.
 
 ## 5. Des selfies avec les capteurs arrière, sans déplier
 
@@ -43,7 +43,7 @@ Un smartphone pliant permet une astuce hors de portée d'un smartphone classique
 
 ## 6. Un écran extérieur qui évite d'ouvrir le téléphone pour un rien
 
-Le petit écran externe d'un pliant sert à bien plus qu'afficher l'heure. Selon Clubic, il permet de gérer messages, applications et notifications sans avoir à déplier le téléphone : lire un SMS, couper une alarme ou répondre à un appel se fait sans ouvrir l'appareil. C'est un argument qui joue surtout pour le format clapet, dont l'écran externe atteint 4,1 pouces bord à bord sur les Galaxy Z Flip8 et Flip7, contre 5,4 à 6,6 pouces sur un format livre, déjà proche d'un smartphone classique fermé.
+Le petit écran externe d'un pliant sert à bien plus qu'afficher l'heure. Selon Clubic, on y traite messages et notifications, et on y lance même des applications, sans ouvrir l'appareil : lire un SMS, couper une alarme ou répondre à un appel se fait téléphone fermé. C'est un argument qui joue surtout pour le format clapet, dont l'écran externe atteint 4,1 pouces bord à bord sur les Galaxy Z Flip8 et Flip7, contre 5,4 à 6,6 pouces sur un format livre, déjà proche d'un smartphone classique fermé.
 
 ## 7. Les limites à connaître avant d'acheter
 
