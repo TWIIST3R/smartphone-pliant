@@ -1,6 +1,6 @@
 ---
 title: "Combien de temps dure un smartphone pliant ?"
-description: "Cycles de charnière, batterie garantie 800 cycles par l'étiquette énergie européenne, suivi logiciel promis : les repères pour évaluer un pliant."
+description: "Cycles de charnière, minimum de 800 cycles de batterie imposé par la réglementation européenne, suivi logiciel promis : les repères pour évaluer un pliant."
 pubDate: 2026-09-20T13:41:00+02:00
 format: guide-pratique
 category: question
@@ -12,14 +12,15 @@ relatedTests: [/smartphone-pliant-honor/magic-v6/]
 sources:
   - { media: "Clubic", url: "https://www.clubic.com/test-produit-618832honor-magic-v6.html", title: "Test Honor Magic V6 : le pliant ultrafin mise sur l'endurance" }
   - { media: "Clubic", url: "https://www.clubic.com/actualite-573819-plus-fin-le-samsung-galaxy-z-fold-7-est-pourtant-aussi-beaucoup-plus-solide-que-son-predecesseur.html", title: "Plus fin, le Samsung Galaxy Z Fold 7 est pourtant aussi beaucoup plus solide que son prédécesseur" }
+  - { media: "Clubic", url: "https://www.clubic.com/test-produit-569298-motorola-razr-60-ultra.html", title: "Test Motorola Razr 60 Ultra" }
   - { media: "EUR-Lex", url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32023R1670", title: "Règlement (UE) 2023/1670 relatif à l'écoconception des smartphones" }
   - { media: "Android Authority", url: "https://www.androidauthority.com/samsung-android-updates-1148888/", title: "Every Samsung device eligible for 7 major Android updates" }
   - { media: "Android Authority", url: "https://www.androidauthority.com/motorola-razr-fold-software-updates-3645857/", title: "The Razr Fold finally fixes my long-running problem with Motorola phones" }
   - { media: "Service-Public.fr", url: "https://www.service-public.fr/particuliers/vosdroits/F11094", title: "Achat d'un produit : garantie légale de conformité" }
-cover: { src: "./images/duree-de-vie-smartphone-pliant.webp", alt: "Une loupe suspendue au-dessus de la charnière ouverte d'un smartphone pliant générique posé sur un bureau, avec un sablier en arrière-plan évoquant le temps qui passe.", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
+cover: { src: "./images/duree-de-vie-smartphone-pliant.webp", alt: "Une loupe tenue à la main au-dessus de la charnière ouverte d'un smartphone pliant générique posé sur un bureau, avec un sablier en arrière-plan évoquant le temps qui passe.", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
 faq:
   - { q: "500 000 cycles de pliage, ça représente combien d'années ?", a: "Avec une centaine de pliages par jour, un usage quotidien intensif, ce seuil est atteint après un peu plus de treize ans, selon un calcul simple à partir des chiffres publiés par Honor et Samsung." }
-  - { q: "La garantie légale de 2 ans couvre-t-elle une charnière qui casse ?", a: "Oui, si le défaut existe au moment de l'achat ou apparaît dans les deux ans qui suivent, selon la garantie légale de conformité française, qui s'applique indépendamment des cycles annoncés par le fabricant." }
+  - { q: "La garantie légale de 2 ans couvre-t-elle une charnière qui casse ?", a: "Oui, si le défaut existe au moment de la délivrance du bien ou apparaît dans les deux ans qui suivent, selon la garantie légale de conformité française, qui s'applique indépendamment des cycles annoncés par le fabricant." }
   - { q: "Qu'est-ce que l'étiquette énergie européenne des smartphones ?", a: "Obligatoire depuis le 20 juin 2025, elle affiche une classe d'efficacité énergétique, le nombre de cycles de charge garantis pour la batterie et une note de réparabilité, pour comparer les modèles avant l'achat." }
   - { q: "Le suivi logiciel s'arrête-t-il la même année sur tous les Galaxy Z de Samsung ?", a: "Non : les sept ans annoncés par Samsung se comptent à partir de la date de sortie de chaque modèle, pas de son achat. Un Galaxy Z Fold acheté deux ans après sa sortie offre donc deux ans de suivi en moins qu'un modèle tout juste lancé." }
 ---
@@ -30,7 +31,7 @@ Un smartphone pliant vendu en France ne s'use pas forcément plus vite qu'un mod
 
 Le cycle de pliage mesure combien de fois la charnière peut ouvrir et refermer l'écran avant qu'un test de laboratoire ne détecte une défaillance. C'est le chiffre le plus direct pour juger la mécanique d'un pliant, mais peu de marques le publient avec un organisme de certification externe.
 
-Deux exemples vérifiables sur le marché français atteignent le même seuil. Selon le test de Clubic, la charnière du [Honor Magic V6](/smartphone-pliant-honor/magic-v6/) est annoncée pour 500 000 cycles de pliage, certifiés par l'organisme SGS. Samsung avance un chiffre comparable pour l'écran et la charnière du [Samsung Galaxy Z Fold7](/smartphone-pliant-samsung/galaxy-z-fold7/) : 500 000 pliages vérifiés par Bureau Veritas, contre 200 000 pour le Galaxy Z Fold6 qui l'a précédé, toujours selon Clubic. Ce sont les chiffres les plus précis identifiés pour cet article parmi les pliants vendus en France ; d'autres marques communiquent plus largement sur la robustesse sans avancer de chiffre certifié équivalent.
+Plusieurs modèles vendus en France atteignent le même seuil. Selon le test de Clubic, la charnière du [Honor Magic V6](/smartphone-pliant-honor/magic-v6/) est annoncée pour 500 000 cycles de pliage, certifiés par l'organisme SGS. Samsung avance un chiffre comparable pour l'écran et la charnière du [Samsung Galaxy Z Fold7](/smartphone-pliant-samsung/galaxy-z-fold7/) : 500 000 pliages vérifiés par Bureau Veritas, contre 200 000 pour le Galaxy Z Fold6 qui l'a précédé, toujours selon Clubic. Motorola annonce lui aussi une charnière certifiée pour 500 000 cycles d'ouverture et de fermeture sur le Motorola Razr 60 Ultra, sans nommer d'organisme de certification, toujours selon Clubic.
 
 Rapporté à un usage quotidien intensif d'une centaine de pliages par jour, un seuil de 500 000 cycles représente plus de dix ans avant d'être atteint sur le papier. Un test de laboratoire ne reproduit toutefois ni la poussière, ni le sable, ni les chocs du quotidien : ce chiffre mesure l'endurance mécanique pure, pas la durée de vie réelle de l'appareil.
 
@@ -48,7 +49,7 @@ Cette promesse court à partir de la date de sortie de chaque modèle, pas de sa
 
 ## 4. Distinguer ces chiffres de la garantie légale
 
-**La garantie légale de conformité française couvre deux ans à compter de l'achat, quel que soit le nombre de cycles annoncé par le fabricant : un défaut de charnière ou de batterie qui apparaît dans ce délai reste couvert, indépendamment des chiffres marketing du constructeur.** Cette garantie, définie par le Code de la consommation et rappelée par Service-Public.fr, s'applique à tout achat auprès d'un vendeur professionnel en France, quel que soit le smartphone.
+**La garantie légale de conformité française couvre deux ans à compter de la délivrance du bien, quel que soit le nombre de cycles annoncé par le fabricant : un défaut de charnière ou de batterie qui apparaît dans ce délai reste couvert, indépendamment des chiffres marketing du constructeur.** Cette garantie, définie par le Code de la consommation et rappelée par Service-Public.fr, s'applique à tout achat auprès d'un vendeur professionnel en France, quel que soit le smartphone.
 
 Les cycles de pliage, la garantie batterie de l'étiquette énergie et la durée de suivi logiciel sont des données techniques ou réglementaires : elles renseignent sur la robustesse et le vieillissement attendus, mais ne remplacent pas cette garantie légale, qui reste le recours en cas de panne prématurée.
 
