@@ -12,21 +12,21 @@ relatedTests: []
 sources:
   - { media: "Bouygues Telecom", url: "https://www.bouyguestelecom.fr/guide-pratique/smartphones/indice-de-protection", title: "IP68, IP67... Tout savoir sur les indices de protection" }
   - { media: "Orange Pro", url: "https://pro.orange.fr/lemag/protection-de-votre-mobile-difference-entre-ip-65-ip-67-ip-68-et-ip-69-CNT0000027JvNY.html", title: "Protection de votre mobile : différence entre IP 65, IP 67, IP 68 et IP 69" }
-  - { media: "PhoneInfo", url: "https://www.phoneinfo.fr/smartphone-ip68-ce-que-garantit-la-certification", title: "Smartphone IP68 : ce que protège vraiment la norme" }
+  - { media: "PhoneInfo", url: "https://www.phoneinfo.fr/smartphone-ip68-ce-que-garantit-la-certification", title: "Smartphones IP68 : ce que la certification garantit vraiment" }
   - { media: "Wikipédia", url: "https://fr.wikipedia.org/wiki/Indice_de_protection", title: "Indice de protection" }
-cover: { src: "./images/indice-ip-smartphone.webp", alt: "Une main gantée tient une loupe qui grossit des gouttes d'eau et des grains de poussière posés sur la charnière d'un smartphone pliant générique refermé sur une table.", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
+cover: { src: "./images/indice-ip-smartphone.webp", alt: "Une main gantée tient une loupe qui grossit des gouttes d'eau et des grains de poussière posés sur la charnière d'un smartphone pliant générique posé ouvert à plat sur une table.", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
 faq:
   - { q: "IP68 est-il toujours mieux qu'IP48 ?", a: "Pour la poussière, oui : le premier chiffre passe de 4 (corps solides de plus d'1 mm, pas le sable fin) à 6 (étanchéité totale). Pour l'eau, le second chiffre est le même (8) dans les deux cas : c'est ensuite le fabricant qui fixe la profondeur et la durée réellement testées." }
   - { q: "Un smartphone IP68 peut-il aller à la piscine ou à la mer ?", a: "La certification est testée en eau douce. Selon PhoneInfo, le chlore, le sel et les variations de température usent plus vite les joints, sans que cela se voie tout de suite." }
   - { q: "Que veut dire IP69 par rapport à IP68 ?", a: "Selon Orange Pro, IP69 ajoute la résistance à des jets d'eau à haute pression et à des nettoyages à la vapeur, un cran au-dessus de la simple immersion couverte par IP68." }
-  - { q: "Un smartphone non certifié IP est-il forcément fragile face à l'eau ?", a: "Pas nécessairement, mais sans certification, aucune donnée chiffrée ni testée par un organisme n'existe : mieux vaut éviter tout contact avec l'eau par précaution." }
+  - { q: "Un smartphone non certifié IP est-il forcément fragile face à l'eau ?", a: "Pas nécessairement, mais sans certification, aucune résistance chiffrée n'est garantie : mieux vaut éviter tout contact avec l'eau par précaution." }
 ---
 
 L'indice de protection (IP) d'un smartphone s'écrit avec deux chiffres : le premier, de 0 à 6, mesure la résistance à la poussière ; le second, de 0 à 9, mesure la résistance à l'eau. IP68 signifie étanche à la poussière et immergeable selon les données du fabricant, IP69 ajoute les jets d'eau à haute pression, et IP48 protège moins bien contre le sable.
 
 ## Indice de protection (IP) : une norme, deux chiffres
 
-L'indice IP encadre la résistance d'un appareil électronique aux corps solides et aux liquides. Selon Bouygues Telecom, il repose sur une norme internationale de l'IEC, la Commission électrotechnique internationale ; Wikipédia précise qu'il s'agit du texte IEC 60529. Les deux chiffres qui suivent les lettres « IP » ne se lisent jamais séparément : le premier concerne la poussière, le second l'eau.
+L'indice IP encadre la résistance d'un appareil électronique aux corps solides et aux liquides. Selon Bouygues Telecom, il repose sur une norme internationale de l'IEC, la Commission électrotechnique internationale ; Wikipédia précise qu'il s'agit de la norme CEI 60529. Les deux chiffres qui suivent les lettres « IP » ne se lisent jamais séparément : le premier concerne la poussière, le second l'eau.
 
 ## Premier chiffre : la résistance aux solides (0 à 6)
 
@@ -42,7 +42,7 @@ Un appareil IP67 offre, selon Orange Pro, une étanchéité à la poussière et 
 
 ## IP68 : la référence des smartphones haut de gamme actuels
 
-Au-delà d'IP67, c'est le fabricant qui fixe et communique la profondeur et la durée précises, rappelle Bouygues Telecom. Dans le catalogue, l'[Apple iPhone Duo](/iphone-pliable/iphone-duo/) revendique une immersion jusqu'à 6 mètres pendant 30 minutes en IP68, tandis que les Google Pixel Fold restent aussi certifiés IP68 sans profondeur communiquée dans leur fiche technique.
+Au-delà d'IP67, le niveau 8 désigne, selon Wikipédia, un matériel submersible au-delà d'un mètre « dans les conditions spécifiées par le fabricant » en durée et en pression. Dans le catalogue, l'[Apple iPhone Duo](/iphone-pliable/iphone-duo/) revendique une immersion jusqu'à 6 mètres pendant 30 minutes en IP68, tandis que les Google Pixel 11 Pro Fold et Pixel 10 Pro Fold sont eux aussi certifiés IP68 dans notre comparatif.
 
 ## IP69 : jets d'eau et nettoyage à la vapeur
 
@@ -56,9 +56,9 @@ Selon Wikipédia, le premier chiffre 4 protège seulement contre les corps solid
 
 Avant le niveau 6, le niveau 5 protège contre la poussière sans étanchéité totale, mais suffit à limiter les infiltrations qui gênent l'appareil. C'est le cas du [Huawei Mate X7](/smartphone-pliant-huawei/mate-x7/) et du Honor Magic V5, tous deux certifiés IP58/IP59 dans notre comparatif.
 
-## Non certifié : une absence de test, pas une garantie de fragilité
+## Non certifié : une absence de certification, pas une garantie de fragilité
 
-Certains modèles, comme le Huawei Mate XT Ultimate Design ou le Xiaomi Mix Flip, ne publient aucun indice IP. Cela ne veut pas dire qu'ils n'offrent aucune résistance, mais qu'aucun organisme n'a testé et chiffré leur étanchéité : mieux vaut alors éviter tout contact avec l'eau par précaution.
+Certains modèles, comme le Huawei Mate XT Ultimate Design ou le Xiaomi Mix Flip, ne publient aucun indice IP. Cela ne veut pas dire qu'ils n'offrent aucune résistance, mais qu'aucun niveau d'étanchéité chiffré n'est certifié pour ces modèles : mieux vaut alors éviter tout contact avec l'eau par précaution.
 
 ## Eau douce, chaleur et usure des joints : ce que l'indice ne dit pas
 
