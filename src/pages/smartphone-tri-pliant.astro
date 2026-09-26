@@ -6,6 +6,7 @@ import Callout from '../components/Callout.astro';
 import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import { phones, byId } from '../data/phones';
 import { article } from '../lib/schema';
 import { euro, num, mm, mah } from '../lib/format';
@@ -180,6 +181,7 @@ const schema = [article({ path, title, description, about: ['Smartphone tri-plia
 
       <Faq items={faq} heading="Tri-pliant : questions courantes" />
 
+      <NextSteps path={path} />
       <Siblings path={path} variant="chips" heading="Les autres formats de pliants" />
     </div>
   </article>

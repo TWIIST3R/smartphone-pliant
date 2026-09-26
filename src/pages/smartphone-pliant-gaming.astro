@@ -6,6 +6,7 @@ import Callout from '../components/Callout.astro';
 import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import { phones, ranked, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
 import { euro, num } from '../lib/format';
@@ -242,6 +243,7 @@ const schema = [
   </div>
 
   <div class="wrap">
+    <NextSteps path={path} />
     <Siblings path={path} variant="list" heading="Les autres classements par usage" intro="Performances mises à part, voici comment se classent les mêmes pliants sur d’autres critères." />
   </div>
 </BaseLayout>

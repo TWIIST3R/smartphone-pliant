@@ -6,6 +6,7 @@ import PhoneCard from '../components/PhoneCard.astro';
 import AmazonButton from '../components/AmazonButton.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import { phones, ranked, byId, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
 import { num, mah } from '../lib/format';
@@ -264,6 +265,7 @@ const schema = [
   </section>
 
   <div class="wrap">
-    <Siblings path={path} variant="chips" heading="Choisir selon un autre critère" />
+    <NextSteps path={path} />
+    <Siblings path={path} variant="chips" heading="L’autre question à se poser avant d’acheter" />
   </div>
 </BaseLayout>

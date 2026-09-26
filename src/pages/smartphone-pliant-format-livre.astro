@@ -3,7 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PhoneCard from '../components/PhoneCard.astro';
 import CompareTable from '../components/CompareTable.astro';
 import Byline from '../components/Byline.astro';
-import Siblings from '../components/Siblings.astro';import { phones, ranked, overall, byId, type Phone } from '../data/phones';
+import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';import { phones, ranked, overall, byId, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
 import { euro, num, inches, mah, mm } from '../lib/format';
 
@@ -248,6 +249,7 @@ const schema = [
   </div>
 
   <div class="wrap">
+    <NextSteps path={path} />
     <Siblings path={path} variant="cards" heading="Clapet ou tri-pliant : les autres formats" />
   </div>
 </BaseLayout>

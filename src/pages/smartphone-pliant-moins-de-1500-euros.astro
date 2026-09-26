@@ -5,6 +5,7 @@ import AmazonButton from '../components/AmazonButton.astro';
 import Callout from '../components/Callout.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import Score from '../components/Score.astro';
 import { phones, ranked, overall, byId } from '../data/phones';
 import { article, itemList } from '../lib/schema';
@@ -203,6 +204,7 @@ const schema = [
         </ul>
       </Callout>
 
+      <NextSteps path={path} />
       <Siblings path={path} variant="chips" heading="Changer de budget" />
     </div>
   </section>

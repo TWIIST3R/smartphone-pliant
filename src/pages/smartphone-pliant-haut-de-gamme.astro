@@ -6,6 +6,7 @@ import Callout from '../components/Callout.astro';
 import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import Score from '../components/Score.astro';
 import { phones, ranked, overall, byId, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
@@ -247,6 +248,7 @@ const schema = [
 
       <Faq items={faq} heading="Pliants à plus de 2 000 € : les réponses" />
 
+      <NextSteps path={path} />
       <Siblings path={path} variant="list" heading="Pour un budget plus serré" intro="Les mêmes critères, pour des pliants lancés à un prix inférieur." />
     </div>
   </section>

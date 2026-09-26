@@ -1,0 +1,39 @@
+---
+// « Et ensuite ? » : l'étape suivante du parcours de l'acheteur (glissement sémantique).
+// Liens vers les pages sœurs déclarées dans `next` (src/data/cocoon.ts), placés en fin de contenu.
+import { node, PARCOURS } from '../data/cocoon';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const current = node(path);
+const targets = (current.next ?? []).map(node);
+const here = PARCOURS.findIndex((s) => s.group === current.group);
+const nextStep = targets.length ? PARCOURS.find((s) => s.group === targets[0].group) : undefined;
+---
+
+{
+  targets.length > 0 && nextStep && (
+    <section class="next-steps" aria-labelledby="next-steps-title">
+      <ol class="parcours" aria-label="Votre parcours de choix">
+        {PARCOURS.map((s, i) => (
+          <li class:list={[{ done: i < here, current: i === here }]} aria-current={i === here ? 'step' : undefined}>
+            {s.step}
+          </li>
+        ))}
+      </ol>
+      <h2 id="next-steps-title">Et ensuite ? {nextStep.question}</h2>
+      <div class="grid" style="--min:230px">
+        {targets.map((t) => (
+          <a class="card tile-link" href={t.path}>
+            <strong>{t.title}</strong>
+            <p class="small muted mb-0">{t.teaser}</p>
+            <span class="arrow">Étape suivante →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

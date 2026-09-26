@@ -3,10 +3,12 @@
 //
 // Règles contrôlées pour chaque page du cocon :
 //  1. Premier lien interne du contenu = page mère (sauf accueil).
-//  2. Liens internes du contenu limités à : mère, filles, sœurs, pages légales.
+//  2. Liens internes du contenu limités à : mère, filles, sœurs du même cluster, étapes suivantes
+//     du parcours (`next`, pages de même mère), pages légales.
 //  3. Toutes les filles sont liées dans le contenu.
 //  4. Toutes les sœurs figurent dans le listing de bas de page.
 //  5. Aucun lien interne cassé, aucune page orpheline.
+//  6. Étapes suivantes (`next`) : même mère, cluster différent, toutes liées dans le contenu.
 
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
@@ -86,7 +88,15 @@ for (const [path, html] of pages) {
 
   const children = nodes.filter((c) => c.parent === path).map((c) => c.path);
   const sisters = n.parent ? nodes.filter((s) => s.parent === n.parent && s.group === n.group && s.path !== path).map((s) => s.path) : [];
-  const allowed = new Set([n.parent, ...children, ...sisters].filter(Boolean));
+  const next = n.next ?? [];
+  for (const t of next) {
+    const tn = byPath.get(t);
+    if (!tn) errors.push(`${path} : étape suivante inconnue ${t}`);
+    else if (tn.parent !== n.parent) errors.push(`${path} : l’étape suivante ${t} n’a pas la même mère (glissement hors cocon)`);
+    else if (tn.group === n.group) errors.push(`${path} : l’étape suivante ${t} est dans le même cluster (utiliser le listing des sœurs)`);
+    if (!cocoonLinks.includes(t)) errors.push(`${path} : l’étape suivante ${t} n’est pas liée dans le contenu`);
+  }
+  const allowed = new Set([n.parent, ...children, ...sisters, ...next].filter(Boolean));
   if (n.parent && cocoonLinks[0] !== n.parent) {
     errors.push(`${path} : le premier lien du contenu doit pointer vers la mère ${n.parent} (trouvé : ${cocoonLinks[0] ?? 'aucun'})`);
   }

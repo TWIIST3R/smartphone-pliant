@@ -1402,6 +1402,54 @@ hr {
   width: 72px;
 }
 
+/* Parcours de l'acheteur : « Et ensuite ? » en fin de contenu */
+.next-steps {
+  margin: 2.5rem 0 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: var(--radius);
+}
+
+.next-steps h2 {
+  margin-top: 0.8rem;
+  font-size: 1.25rem;
+}
+
+.parcours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78rem;
+  counter-reset: etape;
+}
+
+.parcours li {
+  counter-increment: etape;
+  color: var(--muted);
+}
+
+.parcours li::before {
+  content: counter(etape) '. ';
+}
+
+.parcours li:not(:last-child)::after {
+  content: ' ›';
+  margin-left: 0.5rem;
+}
+
+.parcours li.done {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.parcours li.current {
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
 /* Illustration d'en-tête des articles du blog */
 .article-cover {
   margin: 1.5rem 0;
@@ -1615,4 +1663,35 @@ hr {
   * {
     transition: none !important;
   }
+}
+
+/* Accueil : le parcours en questions */
+.parcours-home {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  padding: 0;
+  margin: 1.2rem 0 0;
+  list-style: none;
+  counter-reset: q;
+}
+
+.parcours-home li {
+  counter-increment: q;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.12));
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+
+.parcours-home li strong::before {
+  content: counter(q) '. ';
+  color: var(--accent-ink);
+}
+
+.parcours-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
 }

@@ -6,6 +6,7 @@ import Callout from '../components/Callout.astro';
 import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import { phones, ranked, byId, FORMAT_LABELS, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
 import { euro } from '../lib/format';
@@ -287,6 +288,7 @@ const schema = [
   </div>
 
   <div class="wrap">
-    <Siblings path={path} variant="cards" heading="Autres usages, autres classements" />
+    <NextSteps path={path} />
+    <Siblings path={path} variant="cards" heading="L’autre question à se poser avant d’acheter" />
   </div>
 </BaseLayout>

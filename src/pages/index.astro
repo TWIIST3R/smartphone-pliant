@@ -12,6 +12,7 @@ import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import { phones, ranked, overall, byId } from '../data/phones';
 import { SITE } from '../data/site';
+import { PARCOURS, childrenOf } from '../data/cocoon';
 import { article, itemList } from '../lib/schema';
 import { euro, num } from '../lib/format';
 
@@ -30,6 +31,8 @@ const flip8 = byId('galaxy-z-flip8');
 const pixel11 = byId('pixel-11-pro-fold');
 
 const count = phones.length;
+// Parcours de l'acheteur : clusters de niveau 1 dans l'ordre du raisonnement (hors accueil et tests)
+const etapes = PARCOURS.filter((e) => e.group !== 'root' && e.group !== 'produit').map((e) => ({ ...e, pages: childrenOf('/', e.group) }));
 const clapets = phones.filter((p) => p.format === 'clapet').length;
 const livres = phones.filter((p) => p.format === 'livre').length;
 
@@ -141,6 +144,23 @@ const schema = [
       </div>
     </div>
   </div>
+
+  <section class="section" id="parcours">
+    <div class="wrap">
+      <h2 class="mt-0">Choisir son pliant en {etapes.length} questions</h2>
+      <p class="muted" style="max-width:70ch">Le classement ci-dessous donne les meilleurs modèles. Pour trouver le vôtre, suivez les questions que se pose tout acheteur, dans l’ordre.</p>
+      <ol class="parcours-home">
+        {etapes.map((e) => (
+          <li>
+            <strong>{e.question}</strong>
+            <span class="parcours-links">
+              {e.pages.map((pg) => <a href={pg.path}>{pg.label}</a>)}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
   <section class="section band" id="comparatif">
     <div class="wrap">

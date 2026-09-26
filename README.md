@@ -46,6 +46,10 @@ Règles appliquées (et vérifiées par `npm run check-links`) :
 
 **Liens obfusqués** : pour que les visiteurs puissent ouvrir un test depuis l'accueil ou n'importe quel guide sans casser le cocon, les noms, vignettes et boutons « Lire le test complet » du tableau comparatif et des cartes produits sont des liens obfusqués (composant `ObfLink`) : cliquables pour l'humain (clic, Ctrl+clic, clic molette, touche Entrée), mais pas des liens `<a href>` pour les robots. Seules les pages marques pointent vers les tests avec de vrais liens.
 
+### Parcours de l'acheteur (glissement sémantique)
+
+Les pages de niveau 1 sont regroupées en clusters qui suivent le raisonnement d'un acheteur (`PARCOURS` dans `src/data/cocoon.ts`) : les meilleurs pliants (accueil) › se rassurer (résistance, autonomie) › choisir le format › fixer son budget › préciser son usage › choisir la marque › lire le test. Chaque page propose en fin de contenu l'étape suivante (champ `next` : pages de même mère, cluster suivant, bloc « Et ensuite ? »), puis liste ses sœurs du même cluster. L'accueil présente le parcours en questions. `npm run check-links` vérifie ces liens.
+
 ### Ajouter une page
 
 1. Déclarer la page dans `src/data/cocoon.ts` (chemin, `parent`, `group`, libellés).

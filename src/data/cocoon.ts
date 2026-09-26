@@ -1,10 +1,25 @@
 // Structure du cocon sémantique.
 // Chaque page déclare sa mère (`parent`). Les sœurs = pages ayant la même mère
 // ET le même `group` (sous-cocon). Les filles = pages dont `parent` est la page.
-// Ce fichier pilote le fil d'Ariane, le lien vers la mère, les listings de sœurs
-// et le script de vérification du maillage (scripts/check-links.mjs).
+// Ce fichier pilote le fil d'Ariane, le lien vers la mère, les listings de sœurs,
+// le parcours de lecture (`next`) et le script de vérification du maillage (scripts/check-links.mjs).
+//
+// Glissement sémantique : les clusters de niveau 1 suivent le raisonnement d'un acheteur
+// (voir PARCOURS). Chaque page propose en fin de contenu l'étape suivante (`next`) :
+// des pages sœurs (même mère) du cluster suivant du parcours.
 
-export type Group = 'root' | 'format' | 'marque' | 'budget' | 'usage' | 'produit' | 'legal';
+export type Group = 'root' | 'doute' | 'format' | 'marque' | 'budget' | 'usage' | 'produit' | 'legal';
+
+/** Parcours de l'acheteur : ordre des clusters et question qui mène à chacun */
+export const PARCOURS: { group: Group; step: string; question: string }[] = [
+  { group: 'root', step: 'Les meilleurs pliants', question: 'Quels sont les meilleurs smartphones pliants ?' },
+  { group: 'doute', step: 'Se rassurer', question: 'Un pliant est-il assez solide et endurant pour moi ?' },
+  { group: 'format', step: 'Choisir le format', question: 'Clapet, format livre ou tri-pliant : quel format choisir ?' },
+  { group: 'budget', step: 'Fixer son budget', question: 'Combien mettre dans un smartphone pliant ?' },
+  { group: 'usage', step: 'Préciser son usage', question: 'Quel pliant pour la photo, le travail ou le jeu ?' },
+  { group: 'marque', step: 'Choisir la marque', question: 'Quelle marque choisir ?' },
+  { group: 'produit', step: 'Lire le test', question: 'Que vaut ce modèle en détail ?' },
+];
 
 export interface CocoonNode {
   path: string;
@@ -16,17 +31,23 @@ export interface CocoonNode {
   teaser: string;
   parent: string | null;
   group: Group;
+  /** Étape suivante du parcours : 1 à 3 pages sœurs (même mère) du cluster suivant */
+  next?: string[];
 }
 
 export const nodes: CocoonNode[] = [
   { path: '/', label: 'Accueil', title: 'Comparatif smartphones pliants', teaser: '', parent: null, group: 'root' },
 
-  // ——— Sous-cocon : formats ———
-  { path: '/smartphone-pliant-clapet/', label: 'Pliants à clapet', title: 'Smartphone pliant à clapet', teaser: 'Galaxy Z Flip, Razr : le pliant qui tient dans une poche de jean.', parent: '/', group: 'format' },
-  { path: '/smartphone-pliant-format-livre/', label: 'Pliants format livre', title: 'Smartphone pliant format livre', teaser: 'Fold, iPhone Duo, Magic V : une tablette qui se referme.', parent: '/', group: 'format' },
-  { path: '/smartphone-tri-pliant/', label: 'Tri-pliants', title: 'Smartphone tri-pliant', teaser: 'Deux charnières, un écran de 10 pouces : où en est le format ?', parent: '/', group: 'format' },
+  // ——— Cluster « se rassurer » : solidité, autonomie ———
+  { path: '/smartphone-pliant-resistant/', label: 'Résistance', title: 'Smartphone pliant résistant et étanche', teaser: 'IP68, IP48, charnière : quel pliant survit au quotidien ?', parent: '/', group: 'doute', next: ['/smartphone-pliant-clapet/', '/smartphone-pliant-format-livre/'] },
+  { path: '/smartphone-pliant-autonomie/', label: 'Autonomie', title: 'Smartphone pliant avec la meilleure autonomie', teaser: 'mAh, charge rapide, sans-fil : ceux qui tiennent deux jours.', parent: '/', group: 'doute', next: ['/smartphone-pliant-clapet/', '/smartphone-pliant-format-livre/'] },
 
-  // ——— Sous-cocon : marques ———
+  // ——— Cluster « format » ———
+  { path: '/smartphone-pliant-clapet/', label: 'Pliants à clapet', title: 'Smartphone pliant à clapet', teaser: 'Galaxy Z Flip, Razr : le pliant qui tient dans une poche de jean.', parent: '/', group: 'format', next: ['/smartphone-pliant-pas-cher/', '/smartphone-pliant-moins-de-1500-euros/'] },
+  { path: '/smartphone-pliant-format-livre/', label: 'Pliants format livre', title: 'Smartphone pliant format livre', teaser: 'Fold, iPhone Duo, Magic V : une tablette qui se referme.', parent: '/', group: 'format', next: ['/smartphone-pliant-moins-de-2000-euros/', '/smartphone-pliant-haut-de-gamme/'] },
+  { path: '/smartphone-tri-pliant/', label: 'Tri-pliants', title: 'Smartphone tri-pliant', teaser: 'Deux charnières, un écran de 10 pouces : où en est le format ?', parent: '/', group: 'format', next: ['/smartphone-pliant-haut-de-gamme/'] },
+
+  // ——— Cluster « marque » (mères des tests) ———
   { path: '/iphone-pliable/', label: 'iPhone pliable', title: 'iPhone pliable : l’iPhone Duo', teaser: 'Tout sur le premier pliant d’Apple, prix et sortie en France.', parent: '/', group: 'marque' },
   { path: '/smartphone-pliant-samsung/', label: 'Samsung', title: 'Smartphones pliants Samsung', teaser: 'Fold8 Ultra, Fold8, Flip8 : quelle Galaxy Z choisir ?', parent: '/', group: 'marque' },
   { path: '/smartphone-pliant-google-pixel/', label: 'Google Pixel', title: 'Pixel Fold de Google', teaser: 'Pixel 11 Pro Fold ou 10 Pro Fold : le pliant photo et IA.', parent: '/', group: 'marque' },
@@ -35,18 +56,16 @@ export const nodes: CocoonNode[] = [
   { path: '/smartphone-pliant-huawei/', label: 'Huawei', title: 'Smartphones pliants Huawei', teaser: 'Mate X7 et Mate XT : du très haut de gamme sans Google.', parent: '/', group: 'marque' },
   { path: '/smartphone-pliant-xiaomi/', label: 'Xiaomi', title: 'Smartphones pliants Xiaomi', teaser: 'Mix Flip, 18 Fold réservé à la Chine : l’état de la gamme en France.', parent: '/', group: 'marque' },
 
-  // ——— Sous-cocon : budgets ———
-  { path: '/smartphone-pliant-pas-cher/', label: 'Moins de 1 000 €', title: 'Smartphone pliant pas cher', teaser: 'Les pliants à moins de 1 000 € qui valent vraiment le coup.', parent: '/', group: 'budget' },
-  { path: '/smartphone-pliant-moins-de-1500-euros/', label: 'Moins de 1 500 €', title: 'Smartphone pliant à moins de 1 500 €', teaser: 'Le cœur du marché : Razr 70 Ultra, Flip8 et clapets haut de gamme.', parent: '/', group: 'budget' },
-  { path: '/smartphone-pliant-moins-de-2000-euros/', label: 'Moins de 2 000 €', title: 'Smartphone pliant à moins de 2 000 €', teaser: 'Format livre haut de gamme sans dépasser 2 000 €.', parent: '/', group: 'budget' },
-  { path: '/smartphone-pliant-haut-de-gamme/', label: 'Plus de 2 000 €', title: 'Smartphone pliant haut de gamme', teaser: 'iPhone Duo, Fold8 Ultra, Magic V6 : le meilleur, sans limite.', parent: '/', group: 'budget' },
+  // ——— Cluster « budget » ———
+  { path: '/smartphone-pliant-pas-cher/', label: 'Moins de 1 000 €', title: 'Smartphone pliant pas cher', teaser: 'Les pliants à moins de 1 000 € qui valent vraiment le coup.', parent: '/', group: 'budget', next: ['/smartphone-pliant-photo/', '/smartphone-pliant-travail/', '/smartphone-pliant-gaming/'] },
+  { path: '/smartphone-pliant-moins-de-1500-euros/', label: 'Moins de 1 500 €', title: 'Smartphone pliant à moins de 1 500 €', teaser: 'Le cœur du marché : Razr 70 Ultra, Flip8 et clapets haut de gamme.', parent: '/', group: 'budget', next: ['/smartphone-pliant-photo/', '/smartphone-pliant-travail/', '/smartphone-pliant-gaming/'] },
+  { path: '/smartphone-pliant-moins-de-2000-euros/', label: 'Moins de 2 000 €', title: 'Smartphone pliant à moins de 2 000 €', teaser: 'Format livre haut de gamme sans dépasser 2 000 €.', parent: '/', group: 'budget', next: ['/smartphone-pliant-photo/', '/smartphone-pliant-travail/', '/smartphone-pliant-gaming/'] },
+  { path: '/smartphone-pliant-haut-de-gamme/', label: 'Plus de 2 000 €', title: 'Smartphone pliant haut de gamme', teaser: 'iPhone Duo, Fold8 Ultra, Magic V6 : le meilleur, sans limite.', parent: '/', group: 'budget', next: ['/smartphone-pliant-photo/', '/smartphone-pliant-travail/', '/smartphone-pliant-gaming/'] },
 
-  // ——— Sous-cocon : usages ———
-  { path: '/smartphone-pliant-photo/', label: 'Photo', title: 'Meilleur smartphone pliant pour la photo', teaser: 'Zoom, capteurs, mode selfie arrière : le classement photo.', parent: '/', group: 'usage' },
-  { path: '/smartphone-pliant-travail/', label: 'Travail et multitâche', title: 'Smartphone pliant pour travailler', teaser: 'Multi-fenêtres, clavier, DeX : les pliants de la productivité.', parent: '/', group: 'usage' },
-  { path: '/smartphone-pliant-autonomie/', label: 'Autonomie', title: 'Smartphone pliant avec la meilleure autonomie', teaser: 'mAh, charge rapide, sans-fil : ceux qui tiennent deux jours.', parent: '/', group: 'usage' },
-  { path: '/smartphone-pliant-gaming/', label: 'Jeu vidéo', title: 'Smartphone pliant pour le gaming', teaser: 'Puces, grand écran, refroidissement : jouer sur un pliant.', parent: '/', group: 'usage' },
-  { path: '/smartphone-pliant-resistant/', label: 'Résistance', title: 'Smartphone pliant résistant et étanche', teaser: 'IP68, IP48, charnière : quel pliant survit au quotidien ?', parent: '/', group: 'usage' },
+  // ——— Cluster « usage » ———
+  { path: '/smartphone-pliant-photo/', label: 'Photo', title: 'Meilleur smartphone pliant pour la photo', teaser: 'Zoom, capteurs, mode selfie arrière : le classement photo.', parent: '/', group: 'usage', next: ['/smartphone-pliant-samsung/', '/smartphone-pliant-google-pixel/'] },
+  { path: '/smartphone-pliant-travail/', label: 'Travail et multitâche', title: 'Smartphone pliant pour travailler', teaser: 'Multi-fenêtres, clavier, DeX : les pliants de la productivité.', parent: '/', group: 'usage', next: ['/smartphone-pliant-honor/', '/smartphone-pliant-samsung/'] },
+  { path: '/smartphone-pliant-gaming/', label: 'Jeu vidéo', title: 'Smartphone pliant pour le gaming', teaser: 'Puces, grand écran, refroidissement : jouer sur un pliant.', parent: '/', group: 'usage', next: ['/iphone-pliable/', '/smartphone-pliant-honor/'] },
 
   // ——— Petites-filles : fiches produits (mère = page marque) ———
   { path: '/iphone-pliable/iphone-duo/', label: 'iPhone Duo', title: 'Apple iPhone Duo', teaser: 'Fiche complète, prix et avis sur le premier iPhone pliable.', parent: '/iphone-pliable/', group: 'produit' },

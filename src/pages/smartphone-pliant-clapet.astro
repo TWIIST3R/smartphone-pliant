@@ -5,6 +5,7 @@ import FoldIcon from '../components/FoldIcon.astro';import Callout from '../comp
 import Faq from '../components/Faq.astro';
 import Byline from '../components/Byline.astro';
 import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
 import { phones, ranked, overall, byId, type Phone } from '../data/phones';
 import { article, itemList } from '../lib/schema';
 import { euro, num, inches, mah, mm, frDate } from '../lib/format';
@@ -245,6 +246,7 @@ const schema = [
   <section class="section">
     <div class="wrap prose">
       <Faq items={faq} heading="Pliants à clapet : vos questions" />
+      <NextSteps path={path} />
       <Siblings path={path} variant="list" heading="Les autres formats de smartphones pliants" />
     </div>
   </section>
