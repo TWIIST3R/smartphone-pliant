@@ -1,0 +1,218 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import Callout from '../components/Callout.astro';
+import Faq from '../components/Faq.astro';
+import Byline from '../components/Byline.astro';
+import Siblings from '../components/Siblings.astro';
+import NextSteps from '../components/NextSteps.astro';
+import { phones, ranked, byId, type Phone } from '../data/phones';
+import { article } from '../lib/schema';
+import { euro, num, mm } from '../lib/format';
+
+const path = '/smartphone-pliant-avantages-inconvenients/';
+const title = 'Smartphone pliant : avantages et inconvénients avant d’acheter';
+const description = `Grand écran, compacité, multitâche, mais prix, poids, pli et fragilité : le bilan chiffré des ${phones.length} smartphones pliants vendus en France, pour savoir si c’est fait pour vous.`;
+
+const joinFr = (items: string[]) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`);
+const le = (p: Phone) => (/^[AEIOUY]/.test(p.fullName) ? 'l’' : 'le ') + p.fullName;
+const livres = phones.filter((p) => p.format === 'livre');
+const clapets = phones.filter((p) => p.format === 'clapet');
+const tri = phones.filter((p) => p.format === 'tri-pliant');
+
+const minMax = (list: Phone[], f: (p: Phone) => number) => [Math.min(...list.map(f)), Math.max(...list.map(f))];
+const [livreInnerMin, livreInnerMax] = minMax(livres, (p) => p.innerScreen);
+const [clapetOuterMin, clapetOuterMax] = minMax(clapets, (p) => p.outerScreen);
+const [livreOuterMin, livreOuterMax] = minMax(livres, (p) => p.outerScreen);
+const [priceMin, priceMax] = minMax(phones, (p) => p.launchPrice);
+const [livrePriceMin] = minMax(livres, (p) => p.launchPrice);
+const [clapetWeightMin, clapetWeightMax] = minMax(clapets, (p) => p.weight);
+const [livreWeightMin, livreWeightMax] = minMax(livres, (p) => p.weight);
+const [livreThickMin, livreThickMax] = minMax(livres, (p) => p.foldedMm ?? 0);
+const [clapetThickMin, clapetThickMax] = minMax(clapets, (p) => p.foldedMm ?? 0);
+
+const under1000 = ranked(phones.filter((p) => p.launchPrice < 1000));
+const over2000 = phones.filter((p) => p.launchPrice > 2000);
+const ip6 = ranked(phones.filter((p) => /IP6/.test(p.ip)));
+const ip4 = phones.filter((p) => /^IP4/.test(p.ip));
+const notCertified = phones.filter((p) => /Non certifié/.test(p.ip));
+const hasTele = (p: Phone) => /optique/.test(p.zoom) && !/Numérique|qualité optique/.test(p.zoom);
+const clapetsTele = clapets.filter(hasTele);
+const livresNoTele = ranked(livres.filter((p) => !hasTele(p)));
+const noGoogle = ranked(phones.filter((p) => !p.googleServices && p.brand === 'huawei'));
+const bigBattery = ranked(phones.filter((p) => (p.battery ?? 0) >= 6000));
+
+const v6 = byId('honor-magic-v6');
+const flip8 = byId('galaxy-z-flip8');
+const mateXt = byId('huawei-mate-xt');
+
+const facts = [
+  { label: 'Écran déplié (format livre)', value: `${num(livreInnerMin, 1)} à ${num(livreInnerMax, 2)} pouces` },
+  { label: 'Écran externe (clapet)', value: `${num(clapetOuterMin, 2)} à ${num(clapetOuterMax, 1)} pouces` },
+  { label: 'Prix de lancement', value: `${euro(priceMin)} à ${euro(priceMax)}` },
+  { label: 'Poids', value: `${clapetWeightMin} à ${mateXt.weight} g` },
+  { label: 'Étanches à la poussière (IP6x)', value: `${ip6.length} modèles sur ${phones.length}` },
+];
+
+const rows = [
+  { plus: `Un écran de ${num(livreInnerMin, 1)} à ${num(livreInnerMax, 2)} pouces une fois déplié (format livre)`, moins: `Un prix de lancement de ${euro(priceMin)} à ${euro(priceMax)}` },
+  { plus: 'Un clapet qui se replie en carré pour la poche', moins: `Plus épais fermé : ${mm(clapetThickMin)} à ${mm(clapetThickMax)} pour un clapet` },
+  { plus: 'Deux écrans : répondre sans ouvrir, lire en grand en ouvrant', moins: 'Un pli encore visible sous certains angles' },
+  { plus: 'Plusieurs applications côte à côte sur le grand écran', moins: `Une protection IP48 seulement sur ${ip4.length} modèles sur ${phones.length}` },
+  { plus: 'Le téléphone posé à demi ouvert, sans support', moins: 'Un écran intérieur coûteux à remplacer' },
+  { plus: `Des batteries qui dépassent 6 000 mAh sur ${bigBattery.length} modèles`, moins: `Pas de vrai téléobjectif sur la plupart des clapets` },
+];
+
+const faq = [
+  {
+    q: 'Quel est le principal avantage d’un smartphone pliant ?',
+    a: `Il réunit deux formats dans un seul appareil. Un pliant au format livre déplie un écran de ${num(livreInnerMin, 1)} à ${num(livreInnerMax, 2)} pouces, proche d’une petite tablette, tandis qu’un clapet se replie en carré pour tenir dans une petite poche.`,
+  },
+  {
+    q: 'Quel est le principal inconvénient d’un smartphone pliant ?',
+    a: `Le prix. Dans notre comparatif, les prix de lancement vont de ${euro(priceMin)} à ${euro(priceMax)}, et ${over2000.length} modèles sur ${phones.length} dépassent 2 000 €. Viennent ensuite le poids, l’épaisseur une fois fermé et un écran intérieur plus délicat qu’une vitre classique.`,
+  },
+  {
+    q: 'Un smartphone pliant est-il fait pour moi ?',
+    a: 'Oui si vous lisez, travaillez ou regardez des vidéos sur votre téléphone (format livre), ou si vous voulez un appareil plus compact dans la poche (clapet). Non si votre priorité est le prix, la légèreté ou la meilleure photo au zoom pour le budget.',
+  },
+  {
+    q: 'Existe-t-il un smartphone pliant à moins de 1 000 € ?',
+    a: `Au lancement, ${under1000.length === 1 ? 'un seul modèle' : `${under1000.length} modèles`} de notre comparatif passent sous les 1 000 € : ${joinFr(under1000.map((p) => `${le(p)} (${euro(p.launchPrice)})`))}. Ce sont des clapets.`,
+  },
+];
+
+const schema = [article({ path, title, description, about: ['Smartphone pliant', 'Avantages', 'Inconvénients'] })];
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <section class="hero">
+    <div class="wrap">
+      <div class="prose">
+        <span class="eyebrow">Avant d’acheter · faut-il craquer ?</span>
+        <h1>Smartphone pliant : les vrais avantages et les inconvénients</h1>
+        <p class="lede">
+          Avant de comparer les modèles dans notre <a href="/">comparatif des smartphones pliants</a>, une question se pose : un pliant est-il vraiment utile, et à quel prix ?
+          Voici ce que vous gagnez et ce que vous sacrifiez, chiffres des {phones.length} modèles vendus en France à l’appui.
+        </p>
+        <Byline minutes={8} />
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <Callout variant="answer" title="La réponse courte">
+      <p>
+        Un smartphone pliant vaut le coup si vous profitez de ce qu’il ajoute : un grand écran à déplier pour lire, travailler ou regarder des vidéos (format livre), ou un téléphone plus compact dans la poche (clapet).
+        En échange, vous payez plus cher ({euro(priceMin)} au minimum au lancement), vous portez un appareil plus épais une fois fermé et vous prenez soin d’un écran intérieur plus fragile qu’une vitre classique.
+      </p>
+    </Callout>
+    <KeyFacts items={facts} />
+  </div>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2 class="mt-0">Avantages et inconvénients en un coup d’œil</h2>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Avantages et inconvénients des smartphones pliants</caption>
+          <thead>
+            <tr><th scope="col">Ce que vous gagnez</th><th scope="col">Ce que vous sacrifiez</th></tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => <tr><td>{r.plus}</td><td>{r.moins}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Les avantages d’un smartphone pliant</h2>
+
+      <h3>1. Une petite tablette dans la poche</h3>
+      <p>
+        C’est l’argument du format livre. Une fois ouvert, un pliant de ce type affiche un écran de {num(livreInnerMin, 1)} à {num(livreInnerMax, 2)} pouces selon les {livres.length} modèles de notre comparatif, et même {num(mateXt.innerScreen, 1)} pouces sur le tri-pliant {mateXt.fullName}.
+        Lire un document, retoucher une photo, suivre une recette ou regarder une série devient nettement plus confortable que sur un écran de smartphone classique.
+      </p>
+
+      <h3>2. Un vrai multitâche</h3>
+      <p>
+        Sur le grand écran, deux ou trois applications s’affichent côte à côte : une messagerie à côté d’un document, une carte à côté d’un site de réservation. Pour qui travaille depuis son téléphone, c’est le gain le plus concret au quotidien.
+      </p>
+
+      <h3>3. Plus compact, pour le clapet</h3>
+      <p>
+        Le clapet fait l’inverse : il replie un écran de smartphone classique (autour de 6,9 à 7 pouces) en un carré qui tient dans une petite poche.
+        Son écran externe, de {num(clapetOuterMin, 2)} à {num(clapetOuterMax, 1)} pouces selon les modèles, permet de lire une notification ou de répondre sans ouvrir.
+      </p>
+
+      <h3>4. Deux écrans pour deux usages</h3>
+      <p>
+        Fermé, un format livre reste un smartphone utilisable grâce à son écran externe de {num(livreOuterMin, 1)} à {num(livreOuterMax, 2)} pouces. On ouvre seulement quand le contenu le mérite.
+        Posé à demi ouvert, le téléphone tient aussi debout seul, pour un appel vidéo ou une photo de groupe sans trépied.
+      </p>
+
+      <h3>5. Des batteries qui ont rattrapé leur retard</h3>
+      <p>
+        Les premières générations manquaient d’endurance. Aujourd’hui, {bigBattery.length} modèles dépassent 6 000 mAh, dont le {v6.fullName} ({num(v6.battery ?? 0, 0)} mAh). Le détail modèle par modèle se trouve dans notre guide des <a href="/smartphone-pliant-autonomie/">smartphones pliants les plus endurants</a>.
+      </p>
+
+      <h2>Les inconvénients d’un smartphone pliant</h2>
+
+      <h3>1. Le prix, de loin le premier frein</h3>
+      <p>
+        Les prix de lancement vont de {euro(priceMin)} à {euro(priceMax)}. {under1000.length === 1 ? 'Un seul modèle passe' : `${under1000.length} modèles seulement passent`} sous les 1 000 € ({joinFr(under1000.map((p) => p.fullName))}), tous à clapet ; le format livre commence à {euro(livrePriceMin)}, et {over2000.length} modèles sur {phones.length} dépassent 2 000 €.
+        Les prix baissent en revanche nettement quelques mois après la sortie, surtout à l’arrivée du modèle suivant.
+      </p>
+
+      <h3>2. Plus lourd et plus épais une fois fermé</h3>
+      <p>
+        Un format livre pèse de {livreWeightMin} à {livreWeightMax} g et mesure de {mm(livreThickMin)} à {mm(livreThickMax)} d’épaisseur fermé ; le {mateXt.fullName} atteint {mateXt.weight} g.
+        Les clapets sont plus légers ({clapetWeightMin} à {clapetWeightMax} g, {flip8.fullName} en tête), mais épais une fois repliés : {mm(clapetThickMin)} à {mm(clapetThickMax)}.
+      </p>
+
+      <h3>3. Un écran intérieur plus délicat</h3>
+      <p>
+        L’écran pliable est recouvert d’un film posé en usine qu’il ne faut jamais retirer, et reste plus sensible aux pressions et aux rayures qu’une vitre rigide. Le pli, très atténué sur les modèles récents, reste visible sous certains angles.
+        Le remplacer coûte cher : selon des tarifs européens indicatifs publiés par <a href="https://www.mobigeeks.fr/galaxy-z-fold-8-et-flip-8-le-prix-dun-ecran-casse/" target="_blank" rel="noopener">Mobigeeks</a>, environ 279 € pour l’écran pliable d’un Galaxy Z Flip8 et jusqu’à 499 € pour celui d’un Galaxy Z Fold8 Ultra.
+      </p>
+
+      <h3>4. La poussière, surtout sur les clapets</h3>
+      <p>
+        {ip4.length} modèles sur {phones.length} sont certifiés IP48 (ou IP48/IP49) : ils résistent à l’immersion, mais ne sont protégés que contre les corps de plus de 1 mm, pas contre le sable fin. {notCertified.length} ne sont pas certifiés du tout.
+        Seuls {ip6.length} modèles sont étanches à la poussière : {joinFr(ip6.map(le))}. Tout est expliqué dans notre guide des <a href="/smartphone-pliant-resistant/">smartphones pliants résistants</a>.
+      </p>
+
+      <h3>5. Une photo souvent en retrait au zoom</h3>
+      <p>
+        Pour rester fins, beaucoup de pliants renoncent au téléobjectif. {clapetsTele.length === 1 ? `Un seul clapet du comparatif, le ${clapetsTele[0].fullName}, en a un vrai` : `${clapetsTele.length} clapets seulement en ont un vrai`}, et {livresNoTele.length === 1 ? `parmi les formats livre, le ${livresNoTele[0].fullName} n’en a pas` : `${livresNoTele.length} formats livre n’en ont pas`}.
+        À prix égal, un smartphone classique haut de gamme fait souvent mieux sur ce point.
+      </p>
+
+      {noGoogle.length > 0 && (
+        <>
+          <h3>6. Des cas particuliers à connaître</h3>
+          <p>
+            {joinFr(noGoogle.map(le))} {noGoogle.length > 1 ? 'fonctionnent' : 'fonctionne'} sans les services Google (Play Store, Gmail, Maps).
+            Vérifiez que vos applications indispensables sont disponibles avant de choisir un modèle Huawei.
+          </p>
+        </>
+      )}
+
+      <h2>Alors, un smartphone pliant est-il fait pour vous ?</h2>
+      <ul>
+        <li><strong>Oui, format livre</strong>, si vous lisez, travaillez ou regardez beaucoup de vidéos sur votre téléphone et que le budget suit ({euro(livrePriceMin)} au minimum au lancement).</li>
+        <li><strong>Oui, clapet</strong>, si vous voulez un téléphone plus compact, que vous consultez moins longtemps, pour {euro(priceMin)} au minimum au lancement.</li>
+        <li><strong>Plutôt non</strong>, si vous cherchez le meilleur rapport qualité/prix, un téléphone léger, la meilleure photo au zoom ou un appareil que l’on peut malmener sans y penser.</li>
+      </ul>
+      <p>
+        Si les avantages l’emportent, il reste à choisir la forme qui vous convient : c’est l’étape suivante.
+      </p>
+
+      <Faq items={faq} heading="Avantages et inconvénients : vos questions" />
+    </div>
+  </section>
+
+  <div class="wrap">
+    <NextSteps path={path} />
+    <Siblings path={path} variant="cards" heading="Les autres questions à se poser avant d’acheter" />
+  </div>
+</BaseLayout>

@@ -38,7 +38,8 @@ export interface CocoonNode {
 export const nodes: CocoonNode[] = [
   { path: '/', label: 'Accueil', title: 'Comparatif smartphones pliants', teaser: '', parent: null, group: 'root' },
 
-  // ——— Cluster « se rassurer » : solidité, autonomie ———
+  // ——— Cluster « se rassurer » : est-ce utile, solide, endurant ? ———
+  { path: '/smartphone-pliant-avantages-inconvenients/', label: 'Avantages et inconvénients', title: 'Smartphone pliant : avantages et inconvénients', teaser: 'Grand écran, compacité, mais prix, poids et fragilité : est-ce fait pour vous ?', parent: '/', group: 'doute', next: ['/smartphone-pliant-clapet/', '/smartphone-pliant-format-livre/'] },
   { path: '/smartphone-pliant-resistant/', label: 'Résistance', title: 'Smartphone pliant résistant et étanche', teaser: 'IP68, IP48, charnière : quel pliant survit au quotidien ?', parent: '/', group: 'doute', next: ['/smartphone-pliant-clapet/', '/smartphone-pliant-format-livre/'] },
   { path: '/smartphone-pliant-autonomie/', label: 'Autonomie', title: 'Smartphone pliant avec la meilleure autonomie', teaser: 'mAh, charge rapide, sans-fil : ceux qui tiennent deux jours.', parent: '/', group: 'doute', next: ['/smartphone-pliant-clapet/', '/smartphone-pliant-format-livre/'] },
 
