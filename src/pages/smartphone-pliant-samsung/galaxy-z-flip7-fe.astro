@@ -11,6 +11,7 @@ import Byline from '../../components/Byline.astro';
 import Siblings from '../../components/Siblings.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Measures from '../../components/Measures.astro';
@@ -164,6 +165,7 @@ const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fl
         <h1>Test du Samsung Galaxy Z Flip7 FE : le petit Flip mérite-t-il ses derniers stocks ?</h1>
       </div>
       <ProductSummary phone={p} ctaLabel="Vérifier les stocks sur Amazon" />
+      <HandsPhoto id={p.id} />
       <div class="prose">
         <p class="lede">
           Le Samsung Galaxy Z Flip7 FE a été lancé le 25 juillet 2025 à {euro(p.launchPrice)}, le prix plancher de notre

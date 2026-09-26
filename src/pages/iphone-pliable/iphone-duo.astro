@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import SpecTable from '../../components/SpecTable.astro';
 import ScoreBars from '../../components/ScoreBars.astro';
@@ -141,6 +142,7 @@ const schema = [
       <span class="eyebrow">Aperçu complet · avis provisoire</span>
       <h1>Apple iPhone Duo : aperçu complet du premier iPhone pliable avant sa sortie</h1>
       <ProductSummary phone={p} ctaLabel="Vérifier la disponibilité" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Annoncé le 9 septembre 2026, l’iPhone Duo sort en France le 23 octobre à partir de {euro(p.launchPrice)}. Deux écrans au même ratio, un A20 Pro, un châssis en titane certifié IP68 et un pli que la presse juge très discret : voici tout ce que l’on sait, en attendant les premiers tests.
         Pour le contexte, le calendrier et l’historique du projet, consultez notre dossier consacré à l’<a href="/iphone-pliable/">iPhone pliable</a>.

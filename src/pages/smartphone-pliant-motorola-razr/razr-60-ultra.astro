@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import SpecTable from '../../components/SpecTable.astro';
@@ -179,6 +180,7 @@ const schema = [
       <span class="eyebrow">Test · génération 2025, bon plan 2026</span>
       <h1>Test du Razr 60 Ultra : l’Ultra de 2025 tient-il tête au Razr 70 Ultra ?</h1>
       <ProductSummary phone={p} ctaLabel="Consulter l’offre Razr 60 Ultra" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Lancé en 2025 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Motorola Razr 60 Ultra a été remplacé en mai 2026 par le Razr 70 Ultra. Il reste l’un des clapets les plus aboutis de la <a href="/smartphone-pliant-motorola-razr/">gamme pliante Motorola Razr</a>, et les tests publiés montrent que son successeur ne le distance que de peu. Cette synthèse s’appuie sur les mesures de GSMArena, Notebookcheck, Tom’s Guide, Phonandroid et Clubic, et sur la fiche européenne EPREL, pour répondre à une seule question : faut-il encore l’acheter en septembre 2026 ?
       </p>

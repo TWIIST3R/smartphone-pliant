@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Byline from '../../components/Byline.astro';
@@ -175,6 +176,7 @@ const schema = [article({ path, title, description, about: ['Honor Magic V6'], s
       <span class="eyebrow">Test complet · Honor</span>
       <h1>Honor Magic V6 : test complet du pliant à 6 660 mAh</h1>
       <ProductSummary phone={p} ctaLabel="Vérifier le prix sur Amazon" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Disponible en France depuis le 2 juillet 2026 au prix public de {euro(p.launchPrice)} (16 Go / 512 Go), le Honor Magic V6 réunit la plus grosse batterie de pliant vendue en Europe selon Honor, la charge 80 W et une double certification IP68 / IP69 dans 8,75 mm.
         Clubic lui attribue 9/10, Presse-citron 8,6/10, le Journal du Geek 8/10, et notre note éditoriale atteint {num(overall(p))}/10. Il est le plus récent des deux modèles de notre sélection de <a href="/smartphone-pliant-honor/">smartphones pliants Honor</a>.

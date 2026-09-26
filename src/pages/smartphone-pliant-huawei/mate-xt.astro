@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import SpecTable from '../../components/SpecTable.astro';
 import ScoreBars from '../../components/ScoreBars.astro';
@@ -176,6 +177,7 @@ const schema = [
         <span class="eyebrow">Tri-pliant · test complet</span>
         <h1>Test du Huawei Mate XT Ultimate Design : ce que vaut un smartphone plié en trois</h1>
         <ProductSummary phone={p} ctaLabel="Vérifier la disponibilité" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Le Huawei Mate XT Ultimate Design est le premier smartphone tri-pliant vendu hors de Chine : lancé à l’international le 18 février 2025 à {euro(p.launchPrice)} (16 Go / 1 To), il passe de 6,4 à 10,2 pouces grâce à deux charnières.
           Les tests de GSMArena, Tech Advisor et Notebookcheck saluent la prouesse mécanique, mais relèvent une autonomie courte en mode tablette, un Kirin 9010 lent et l’absence de Google. Il complète le Mate X7 au sein de <a href="/smartphone-pliant-huawei/">la gamme de smartphones pliants Huawei</a>.

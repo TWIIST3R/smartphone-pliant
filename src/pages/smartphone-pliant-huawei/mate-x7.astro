@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import SpecTable from '../../components/SpecTable.astro';
 import ScoreBars from '../../components/ScoreBars.astro';
@@ -174,6 +175,7 @@ const schema = [
         <span class="eyebrow">Test complet · format livre sans Google</span>
         <h1>Test du Huawei Mate X7 : superbe pliant photo, à condition de vivre sans Google</h1>
         <ProductSummary phone={p} ctaLabel="Voir le prix du Mate X7" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Le Huawei Mate X7 est vendu en France depuis le 21 janvier 2026 à {euro(p.launchPrice)} en 16 Go / 512 Go. Les tests publiés par GSMArena, Notebookcheck et Phonandroid le placent parmi les formats livre les plus endurants et les mieux armés en photo, mais son Kirin 9030 Pro chauffe et il reste privé des services Google comme de la 5G.
           Il occupe le haut du panier de notre <a href="/smartphone-pliant-huawei/">guide des smartphones pliants Huawei</a> ; reste à savoir s’il correspond à votre profil.

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import SpecTable from '../../components/SpecTable.astro';
@@ -176,6 +177,7 @@ const schema = [
         <span class="eyebrow">Test complet · le premier Razr au format livre</span>
         <h1>Test du Motorola Razr Fold : le premier Razr qui s’ouvre comme un livre</h1>
         <ProductSummary phone={p} ctaLabel="Voir le prix du Razr Fold sur Amazon" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Le Motorola Razr Fold est le premier modèle au format livre de la <a href="/smartphone-pliant-motorola-razr/">gamme de smartphones pliants Motorola Razr</a>. Vendu {euro(p.launchPrice)} en France dans une unique version 16 Go / 512 Go, stylet Moto Pen Ultra compris, il a été testé par GSMArena, le Labo Fnac, le Journal du Geek et Phonandroid entre fin juin et mi-juillet 2026. Leur constat commun : une endurance hors norme pour ce format, un appareil photo très polyvalent et un prix qui fait réfléchir.
         </p>

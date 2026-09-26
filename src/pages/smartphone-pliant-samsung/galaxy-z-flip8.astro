@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import Measures from '../../components/Measures.astro';
 import TestSources from '../../components/TestSources.astro';
@@ -168,6 +169,7 @@ const schema = [
           <span class="eyebrow">Test · clapet Samsung 2026</span>
           <h1>Test du Samsung Galaxy Z Flip8 : les questions à se poser avant de craquer</h1>
           <ProductSummary phone={p} ctaLabel="Voir le prix du Flip8 sur Amazon" />
+          <HandsPhoto id={p.id} />
           <p class="lede">
             Le Samsung Galaxy Z Flip8 est le clapet 2026 de la gamme <a href="/smartphone-pliant-samsung/">smartphone pliant Samsung</a>. Sorti le 7 août 2026 à {euro(p.launchPrice)} en 256 Go, il ne pèse que 180 g et passe à l’Exynos 2600,
             mais garde la batterie de 4 300 mAh et la charge 25 W du Flip7. Les tests de GSMArena, Tech Advisor, Clubic et Presse-citron, complétés par l’étiquette énergie européenne, permettent de répondre aux questions que se posent les acheteurs.

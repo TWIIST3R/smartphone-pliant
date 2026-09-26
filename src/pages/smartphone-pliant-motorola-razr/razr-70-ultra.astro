@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import KeyFacts from '../../components/KeyFacts.astro';
@@ -177,6 +178,7 @@ const schema = [
         <span class="eyebrow">Test complet · les chiffres avant l’avis</span>
         <h1>Test complet du Motorola Razr 70 Ultra : les chiffres d’abord</h1>
         <ProductSummary phone={p} ctaLabel="Vérifier le prix du Razr 70 Ultra" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Lancé en mai 2026 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Motorola Razr 70 Ultra est le clapet le plus cher de la <a href="/smartphone-pliant-motorola-razr/">famille des Razr pliants de Motorola</a>. GSMArena, Tom’s Guide, Android Authority, Tech Advisor et Notebookcheck l’ont passé au crible entre juin et juillet 2026 : 16 h 32 d’autonomie, 46 minutes pour faire le plein, mais une puce qui chauffe sous charge. Cette page commence par leurs mesures, déroule chaque critère et garde le verdict pour la fin.
         </p>

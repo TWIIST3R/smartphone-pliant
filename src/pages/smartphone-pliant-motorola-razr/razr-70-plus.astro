@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Byline from '../../components/Byline.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Callout from '../../components/Callout.astro';
@@ -177,6 +178,7 @@ const schema = [
         <span class="eyebrow">Test · le Razr du milieu</span>
         <h1>Test du Motorola Razr 70 Plus : le modèle coincé entre deux frères</h1>
         <ProductSummary phone={p} ctaLabel="Consulter le prix sur Amazon" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Lancé en mai 2026 à {euro(p.launchPrice)} en 12 Go / 512 Go, le Motorola Razr 70 Plus occupe la case centrale de la <a href="/smartphone-pliant-motorola-razr/">gamme de smartphones pliants Motorola Razr</a>, à 200 € du Razr 70 et à 300 € du Razr 70 Ultra. D’après les tests de Notebookcheck, Tom’s Guide, CNET et BGR, il domine nettement le modèle d’entrée en puissance et en qualité d’écran externe, mais ne tient pas plus longtemps que lui sur une charge.
         </p>

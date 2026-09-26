@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import Measures from '../../components/Measures.astro';
 import TestSources from '../../components/TestSources.astro';
@@ -185,6 +186,7 @@ const schema = [
         <span class="eyebrow">Test · format large 4:3</span>
         <h1>Test du Samsung Galaxy Z Fold8 : le Fold « passeport » à l’épreuve du Fold8 Ultra</h1>
         <ProductSummary phone={p} ctaLabel="Consulter l’offre sur Amazon" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Le Samsung Galaxy Z Fold8 est le pari de la rentrée dans notre dossier consacré aux <a href="/smartphone-pliant-samsung/">smartphones pliants de Samsung</a> : un Fold plus court et plus large, avec un écran intérieur de 7,6 pouces au ratio 4:3.
           Sorti le 7 août 2026 à {euro(p.launchPrice)} en 256 Go, il coûte 200 € de moins que le Fold8 Ultra. Les tests publiés permettent désormais de chiffrer ce que l’on gagne et ce que l’on perd.

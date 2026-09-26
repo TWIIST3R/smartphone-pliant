@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import Measures from '../../components/Measures.astro';
 import TestSources from '../../components/TestSources.astro';
@@ -177,6 +178,7 @@ const schema = [
       <h1>Test du Samsung Galaxy Z Fold8 Ultra : le Fold qui rattrape enfin son retard d’autonomie</h1>
 
       <ProductSummary phone={p} ctaLabel="Voir le prix sur Amazon" />
+      <HandsPhoto id={p.id} />
 
       <p class="lede">
         Sorti en France le 7 août 2026 à {euro(p.launchPrice)} en 12 Go / 256 Go, le Samsung Galaxy Z Fold8 Ultra prend la tête de la gamme des <a href="/smartphone-pliant-samsung/">smartphones pliants Samsung</a>.

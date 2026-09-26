@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Byline from '../../components/Byline.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Callout from '../../components/Callout.astro';
@@ -177,6 +178,7 @@ const schema = [
         <span class="eyebrow">Test complet · le Razr à 999 €</span>
         <h1>Test du Motorola Razr 70 : ce que l’on sacrifie pour passer sous les 1 000 €</h1>
         <ProductSummary phone={p} ctaLabel="Voir l’offre sur Amazon" />
+        <HandsPhoto id={p.id} />
         <p class="lede">
           Lancé à {euro(p.launchPrice)} en France, dans une seule version 8 Go / 256 Go, le Motorola Razr 70 est le clapet le plus abordable parmi <a href="/smartphone-pliant-motorola-razr/">les Motorola Razr pliants</a> de 2026. Pour tenir ce prix, Motorola a rogné sur la puce, l’écran externe, la recharge et la mémoire. Les tests de GSMArena, Notebookcheck, Tom’s Guide, TechRadar, Presse-citron et Les Mobiles permettent de chiffrer chacun de ces renoncements, et montrent que l’autonomie n’en fait pas partie.
         </p>

@@ -1,0 +1,26 @@
+---
+// Illustration « en main » d'un modèle (src/assets/mains/<id>.webp), générée par IA à partir de la photo produit.
+// Toujours légendée comme illustration générée par IA. N'affiche rien si l'image n'existe pas.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { byId } from '../data/phones';
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/mains/*.webp', { eager: true });
+const img = files[`../assets/mains/${id}.webp`]?.default;
+const p = byId(id);
+const le = (/^[AEIOUY]/.test(p.fullName) ? 'L’' : 'Le ') + p.fullName;
+---
+
+{
+  img && (
+    <figure class="hands-photo">
+      <Image src={img} alt={`${le} tenu en main`} widths={[480, 760, 1140]} sizes="(max-width: 800px) 100vw, 760px" format="webp" quality={80} />
+      <figcaption>{le} en main · Illustration générée par IA à partir de la photo du produit</figcaption>
+    </figure>
+  )
+}

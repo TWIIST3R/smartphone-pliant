@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Byline from '../../components/Byline.astro';
@@ -178,6 +179,7 @@ const schema = [article({ path, title, description, about: ['Google Pixel 10 Pro
       <span class="eyebrow">Test · génération 2025 · Google</span>
       <h1>Test du Google Pixel 10 Pro Fold : vaut-il encore le coup face au Pixel 11 ?</h1>
       <ProductSummary phone={p} ctaLabel="Consulter l’offre Amazon" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Lancé en France le 9 octobre 2025 à {euro(p.launchPrice)} en 16 Go / 256 Go, le Google Pixel 10 Pro Fold a été le premier smartphone pliant certifié IP68. Onze mois plus tard, le Pixel 11 Pro Fold l’a remplacé ; notre page consacrée au <a href="/smartphone-pliant-google-pixel/">smartphone pliant Google Pixel</a> suit les deux modèles.
         Ce test rassemble ce que la presse a mesuré, avec 9/10 chez Clubic et 8/10 au Journal du Geek, et le relit à la lumière de septembre 2026.

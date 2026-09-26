@@ -11,6 +11,7 @@ import Byline from '../../components/Byline.astro';
 import Siblings from '../../components/Siblings.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Measures from '../../components/Measures.astro';
@@ -176,6 +177,7 @@ const schema = [article({ path, title, description, about: ['Samsung Galaxy Z Fl
         <h1>Test du Samsung Galaxy Z Flip7 : à qui le conseiller en 2026, à qui le déconseiller</h1>
       </div>
       <ProductSummary phone={p} ctaLabel="Consulter l’offre Amazon" />
+      <HandsPhoto id={p.id} />
       <div class="prose">
         <p class="lede">
           Lancé le 25 juillet 2025 à {euro(p.launchPrice)}, le Samsung Galaxy Z Flip7 a inauguré l’écran externe de 4,1 pouces que reprend le Flip8.

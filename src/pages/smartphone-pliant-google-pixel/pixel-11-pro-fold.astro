@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import Byline from '../../components/Byline.astro';
@@ -178,6 +179,7 @@ const schema = [article({ path, title, description, about: ['Google Pixel 11 Pro
       <span class="eyebrow">Test · Google · septembre 2026</span>
       <h1>Test du Google Pixel 11 Pro Fold : les questions à trancher avant d’acheter</h1>
       <ProductSummary phone={p} ctaLabel="Voir le prix sur Amazon" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Vendu depuis le 20 août 2026 à {euro(p.launchPrice)} en 16 Go / 256 Go, le Google Pixel 11 Pro Fold perd 19 g, passe au Tensor G6 et à la charge sans fil 25 W.
         Les tests publiés saluent ses écrans et son zoom x5, mais relèvent une autonomie moyenne et une puce qui se bride vite sous l’effort : Clubic lui donne 8/10, Engadget 8,5/10, et notre note éditoriale s’établit à {num(overall(p))}/10.

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductSummary from '../../components/ProductSummary.astro';
+import HandsPhoto from '../../components/HandsPhoto.astro';
 import PhoneGallery from '../../components/PhoneGallery.astro';
 import ObfLink from '../../components/ObfLink.astro';
 import KeyFacts from '../../components/KeyFacts.astro';
@@ -163,6 +164,7 @@ const schema = [article({ path, title, description, about: ['Honor Magic V5'], s
       <span class="eyebrow">Test · génération 2025 · Honor</span>
       <h1>Test du Honor Magic V5 : l’essentiel, mesures à l’appui</h1>
       <ProductSummary phone={p} ctaLabel="Voir l’offre sur Amazon" />
+      <HandsPhoto id={p.id} />
       <p class="lede">
         Lancé en France le 28 août 2025 à {euro(p.launchPrice)} en 16 Go / 512 Go, le Honor Magic V5 a reçu 9/10 chez Clubic comme au Journal du Geek. Son successeur est arrivé en juillet 2026, mais sa batterie de 5 820 mAh, sa charge 66 W et ses 8,8 mm plié le maintiennent dans notre guide du <a href="/smartphone-pliant-honor/">smartphone pliant Honor</a>, avec une note éditoriale de {num(overall(p))}/10.
       </p>

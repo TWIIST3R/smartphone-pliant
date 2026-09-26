@@ -1695,3 +1695,21 @@ hr {
   margin-top: 0.5rem;
   font-size: 0.88rem;
 }
+
+/* Illustration « en main » sur les tests */
+.hands-photo {
+  margin: 1.5rem 0;
+}
+
+.hands-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.hands-photo figcaption {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
