@@ -1,7 +1,9 @@
 # Build et mise en ligne sur OVH.
 # - à chaque push sur main (nouvel article, modification du site) ;
-# - toutes les heures : vérifie si un article programmé vient d'atteindre son heure de publication
+# - toutes les heures : vérifie sur le site si un article dont l'heure de publication est passée manque
 #   et, seulement dans ce cas, reconstruit le site (le build n'inclut que les articles dont pubDate <= maintenant).
+#   GitHub retarde souvent les tâches planifiées de plusieurs heures : la vérification sur le site
+#   garantit qu'un article manqué est rattrapé au passage suivant.
 # Secrets à créer dans GitHub (Settings › Secrets and variables › Actions) :
 #   FTP_SERVER      ex. ftp.cluster0XX.hosting.ovh.net (espace client OVH › Hébergement › FTP-SSH)
 #   FTP_USERNAME    identifiant FTP OVH
@@ -13,9 +15,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # De 5 h à 21 h UTC seulement (créneaux de publication parisiens, heure d'été comme d'hiver) :
-    # moins de minutes GitHub Actions consommées.
-    - cron: '7 5-21 * * *'
+    # Toutes les heures, à une minute peu chargée (les passages sont souvent retardés par GitHub).
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 concurrency:
@@ -36,7 +37,7 @@ jobs:
         id: due
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            node scripts/due-articles.mjs --hours=3
+            node scripts/due-articles.mjs
           else
             echo "due=true" >> "$GITHUB_OUTPUT"
           fi
