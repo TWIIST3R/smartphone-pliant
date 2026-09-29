@@ -12,7 +12,7 @@ relatedTests: [/smartphone-pliant-motorola-razr/razr-fold/, /smartphone-pliant-m
 sources:
   - { media: "GSMArena", url: "https://www.gsmarena.com/motorola_razr_fold-review-2974p3.php", title: "Motorola Razr Fold review: battery life" }
   - { media: "GSMArena", url: "https://www.gsmarena.com/motorola_razr_70_ultra-review-2972p3.php", title: "Motorola Razr 70 Ultra review: battery life" }
-cover: { src: "./images/autonomie-smartphone-pliant-clapet-livre.webp", alt: "Illustration générée par IA : deux smartphones pliants génériques en charge sur un bureau, l'un ouvert au format livre, l'autre refermé au format clapet, avec une icône de batterie stylisée entre eux", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
+cover: { src: "./images/autonomie-smartphone-pliant-clapet-livre.webp", alt: "Illustration générée par IA : deux smartphones pliants génériques en charge sur un bureau, l'un ouvert au format livre, l'autre à demi replié au format clapet, avec une icône de batterie stylisée entre eux", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
 faq:
   - { q: "Le format clapet a-t-il une moins bonne autonomie que le format livre ?", a: "Pas systématiquement : selon GSMArena, le clapet Motorola Razr 70 Ultra (16 h 32, 5 000 mAh) dépasse en usage actif le format livre Motorola Razr Fold (16 h 03, 6 000 mAh), malgré une batterie plus petite." }
   - { q: "Pourquoi une plus grosse batterie ne garantit-elle pas plus d'autonomie ?", a: "Un format livre alimente deux écrans plus grands, comme les 8,1 et 6,6 pouces du Motorola Razr Fold, ce qui consomme davantage d'énergie et compense en partie sa batterie plus généreuse." }
@@ -22,7 +22,7 @@ faq:
 
 Non, pas de règle absolue : l'autonomie d'un smartphone pliant dépend surtout de la capacité de sa batterie et de la consommation de ses écrans, pas de son format. Selon les mesures de GSMArena, le clapet Motorola Razr 70 Ultra tient 16 h 32 en usage actif, davantage que le format livre Motorola Razr Fold (16 h 03), malgré une batterie plus petite (5 000 mAh contre 6 000 mAh).
 
-Pour comprendre pourquoi, comparons les deux modèles les plus récents de Motorola, un par format, dont les [tests](/smartphone-pliant-motorola-razr/razr-fold/) ont mesuré l'autonomie dans le détail.
+Pour comprendre pourquoi, comparons deux modèles de la génération actuelle de Motorola, un par format, dont les [tests](/smartphone-pliant-motorola-razr/razr-fold/) ont mesuré l'autonomie dans le détail.
 
 | Critère | Razr Fold (format livre) | Razr 70 Ultra (format clapet) |
 |---|---|---|
@@ -35,7 +35,7 @@ Pour comprendre pourquoi, comparons les deux modèles les plus récents de Motor
 
 ## Manche 1, la capacité de batterie : avantage au format livre
 
-Le boîtier plus large d'un [pliant format livre](/smartphone-pliant-format-livre/) laisse plus de place à la batterie. Le Motorola Razr Fold embarque 6 000 mAh, 1 000 de plus que le clapet Razr 70 Ultra. À technologie égale, silicium-carbone pour les deux, c'est mécaniquement plus d'énergie disponible sur le papier. **Vainqueur : le Razr Fold.**
+Le boîtier plus large d'un [pliant format livre](/smartphone-pliant-format-livre/) laisse plus de place à la batterie. Le Motorola Razr Fold embarque 6 000 mAh, 1 000 de plus que le clapet Razr 70 Ultra. C'est mécaniquement plus d'énergie disponible sur le papier. **Vainqueur : le Razr Fold.**
 
 ## Manche 2, l'autonomie mesurée : avantage au clapet, de justesse
 
@@ -47,10 +47,10 @@ Le Razr Fold annonce pourtant la puissance de charge filaire la plus élevée, 8
 
 ## Manche 4, l'écran externe comme réserve d'autonomie : égalité
 
-Les deux formats limitent la consommation grâce à un grand écran externe utilisable sans déplier le téléphone. GSMArena mesure jusqu'à 20 h 17 sur l'écran externe seul du Razr Fold, contre 16 h 03 écran intérieur ouvert : consulter les notifications, la musique ou les itinéraires sans déplier prolonge nettement l'usage. Le Razr 70 Ultra profite du même principe avec son écran externe de 4 pouces à 165 Hz. **Égalité : les deux formats en tirent le même bénéfice.**
+Les deux formats limitent la consommation grâce à un écran externe utilisable sans déplier le téléphone. GSMArena mesure jusqu'à 20 h 17 sur l'écran externe seul du Razr Fold, contre 16 h 03 écran intérieur ouvert : consulter les notifications, la musique ou les itinéraires sans déplier prolonge nettement l'usage. Le Razr 70 Ultra dispose du même type d'écran externe, de 4 pouces à 165 Hz, mais son test GSMArena ne publie pas de mesure équivalente. **Égalité : le principe vaut pour les deux formats, faute de mesure comparable côté clapet.**
 
 ## Pour qui chaque format est-il fait ?
 
 Le Razr Fold s'adresse à qui veut un grand écran façon tablette pour lire, travailler à deux fenêtres ou utiliser le stylet fourni, quitte à transporter 243 g. Le Razr 70 Ultra vise plutôt qui cherche la compacité d'un clapet en poche, sans sacrifier l'autonomie ni la vitesse de charge, pour 700 € de moins à son lancement.
 
-Cet écart entre les deux formats de Motorola n'est pas une généralité : sur les 19 modèles de notre comparatif, les notes internes d'autonomie vont de 6,8/10 pour le Samsung Galaxy Z Flip7 FE, un clapet retiré de la vente, à 9,8/10 pour le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/), un format livre doté de la plus grosse batterie de pliant vendue en Europe selon Honor (6 660 mAh). Clapets et formats livre se mélangent sur toute l'échelle : mieux vaut comparer le modèle précis visé, sur notre page dédiée à l'[autonomie des smartphones pliants](/smartphone-pliant-autonomie/), que de trancher par catégorie. Avant d'acheter, gardez aussi un œil sur les [pliants au format clapet](/smartphone-pliant-clapet/) les plus récents : la charge rapide progresse vite d'une génération à l'autre.
+Cet écart entre les deux formats de Motorola n'est pas une généralité : sur les 19 modèles de notre comparatif, les notes internes d'autonomie vont de 6,8/10 pour le Samsung Galaxy Z Flip7 FE, un clapet en fin de série, à 9,8/10 pour le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/), un format livre doté de la plus grosse batterie de pliant vendue en Europe selon Honor (6 660 mAh). Les deux familles se recoupent largement, les clapets de 6,8 à 8,6 et les formats livre de 7,2 à 9,8 : mieux vaut comparer le modèle précis visé, sur notre page dédiée à l'[autonomie des smartphones pliants](/smartphone-pliant-autonomie/), que de trancher par catégorie. Avant d'acheter, gardez aussi un œil sur les [pliants au format clapet](/smartphone-pliant-clapet/) les plus récents : d'un modèle à l'autre, la capacité de batterie et la puissance de charge annoncée varient beaucoup.
