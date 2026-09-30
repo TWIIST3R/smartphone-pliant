@@ -14,7 +14,7 @@ sources:
   - { media: "Apple Newsroom", url: "https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/", title: "Apple unveils iPhone Duo" }
 ---
 
-Trois semaines avant l'ouverture des précommandes, une rumeur venue de la chaîne d'approvisionnement chinoise vient ternir le lancement de l'**iPhone Duo**. Selon des sources citées le 29 septembre 2026 par MacRumors et AppleInsider, qui relaient des informations parues dans la presse économique chinoise (Jiemian News, MyDrivers), le rendement final d'assemblage du pliant d'Apple ne dépassait « que légèrement » les 60 % à la mi-septembre. Rien d'officiel de la part d'Apple à ce stade : la marque n'a fait aucun commentaire public sur ces difficultés.
+Un peu plus de deux semaines avant l'ouverture des précommandes, une rumeur venue de la chaîne d'approvisionnement chinoise vient ternir le lancement de l'**iPhone Duo**. Selon des sources citées le 29 septembre 2026 par MacRumors et AppleInsider, qui relaient la presse chinoise (Jiemian News pour les deux médias, MyDrivers pour MacRumors), le rendement final d'assemblage du pliant d'Apple ne dépassait que légèrement les 60 % au 17 septembre. Rien d'officiel de la part d'Apple à ce stade : aucun des deux articles ne rapporte de commentaire de la marque sur ces difficultés.
 
 ## Ce qui circule et ce qui est confirmé
 
@@ -22,25 +22,25 @@ Trois semaines avant l'ouverture des précommandes, une rumeur venue de la chaî
 |---|---|---|
 | Rendement d'assemblage à peine supérieur à 60 % au 17 septembre | Calendrier de lancement inchangé : précommandes le 16 octobre, sortie le 23 octobre | MacRumors, AppleInsider (29/09) ; Apple Newsroom |
 | Il faudrait encore 6 mois à 1 an pour atteindre un rendement mature | Aucune annonce de report par Apple | MacRumors, AppleInsider |
-| Objectif de stock mondial limité à 6-8 millions d'unités pour 2026, contre 20 à 30 millions habituellement pour un iPhone Pro/Pro Max | Aucun chiffre de stock officiel communiqué par Apple | MacRumors, AppleInsider |
+| Objectif de stock mondial limité à 6-8 millions d'unités pour 2026, contre 20 à 30 millions habituellement pour un iPhone Pro/Pro Max | Aucun chiffre de stock officiel communiqué par Apple | MacRumors |
 | Écrans OLED pliables fournis par Samsung Display en cause : rendement bas, livraisons retardées | La puce A20 Pro et le châssis en titane ont bien été officialisés le 9 septembre | AppleInsider ; Apple Newsroom |
-| Une charnière en « liquid metal » aurait été testée puis écartée au profit du design annoncé | La charnière comporte plus de 100 pièces, selon les sources citées par AppleInsider | AppleInsider |
+| Le liquid metal aurait été envisagé pour certaines pièces de la charnière, avant qu'Apple ne retienne une autre solution | Apple annonce une charnière conçue à partir de plus de 100 composants | MacRumors, AppleInsider ; Apple Newsroom |
 
 ## Une rumeur crédible, mais qui reste une rumeur
 
-Le rendement de 60 % n'est pas un chiffre publié par Apple : il provient de sources anonymes de la chaîne d'approvisionnement, relayées par la presse chinoise puis reprises par deux médias américains spécialisés reconnus. Ce n'est ni une invention isolée, ni une confirmation officielle. Difficile de vérifier ce pourcentage de façon indépendante, mais sa cohérence avec un autre élément documenté par les deux médias, la complexité mécanique de la charnière (plus de 100 pièces sous des tolérances serrées), rend le scénario plausible.
+Le rendement de 60 % n'est pas un chiffre publié par Apple : il provient de sources anonymes de la chaîne d'approvisionnement, relayées par la presse chinoise puis reprises par deux médias américains spécialisés reconnus. Ce n'est ni une invention isolée, ni une confirmation officielle. Difficile de vérifier ce pourcentage de façon indépendante, mais il rejoint un élément documenté ailleurs : la complexité mécanique de la charnière, annoncée par Apple à plus de 100 composants et décrite par AppleInsider comme assemblée sous des tolérances serrées.
 
 ## Les dates de précommande ne bougent pas, pour l'instant
 
-Ni MacRumors ni AppleInsider ne mentionnent le moindre report des dates déjà connues. Les précommandes françaises restent programmées pour le [16 octobre à 14 h](/actualites/iphone-duo-precommandes-16-octobre-france/), une sortie le 23 octobre. Un rendement d'assemblage bas se traduit plus généralement par une pénurie de stock ou des délais de livraison après le lancement que par un report de la date affichée : c'est le scénario à surveiller plutôt qu'un changement de calendrier.
+Ni MacRumors ni AppleInsider ne mentionnent le moindre report des dates déjà connues. Les précommandes françaises restent programmées pour le [16 octobre à 14 h](/actualites/iphone-duo-precommandes-16-octobre-france/), une sortie le 23 octobre. Un rendement d'assemblage bas peut se traduire par une pénurie de stock ou des délais de livraison après le lancement, sans que la date affichée bouge : c'est le scénario à surveiller plutôt qu'un changement de calendrier.
 
 ## Un objectif de stock mondial, sans détail par pays
 
-Le chiffre de 6 à 8 millions d'unités visées pour 2026, contre 20 à 30 millions pour un iPhone Pro ou Pro Max sur un cycle complet selon les mêmes sources, ne dit rien de la répartition par marché. Aucun des deux articles ne fournit de ventilation pour la France ni pour l'Europe. Un stock mondial restreint peut se traduire par une disponibilité tendue dès le lancement, mais rien ne permet d'affirmer que la France serait plus ou moins touchée qu'un autre marché de la première vague.
+Le chiffre de 6 à 8 millions d'unités visées pour 2026, contre 20 à 30 millions pour un iPhone Pro ou Pro Max sur un cycle complet selon MacRumors, ne dit rien de la répartition par marché. Aucun des deux articles ne fournit de ventilation pour la France ni pour l'Europe. Un stock mondial restreint peut se traduire par une disponibilité tendue dès le lancement, mais rien ne permet d'affirmer que la France serait plus ou moins touchée qu'un autre marché de la première vague.
 
 ## Samsung Display, fournisseur et concurrent
 
-Le détail le plus notable concerne le fournisseur des dalles pliables : Samsung Display, filiale du principal rival d'Apple sur ce segment. Selon AppleInsider, ses panneaux OLED pliables souffriraient eux aussi de rendements bas et de retards de livraison, ce qui pèserait sur l'ensemble de la chaîne d'assemblage chez Foxconn. Cette information reste, comme le reste de l'article, attribuée à des sources non nommées.
+Le détail le plus notable concerne le fournisseur des dalles pliables : Samsung Display, filiale du principal rival d'Apple sur ce segment. Selon AppleInsider, ses panneaux OLED pliables souffriraient eux aussi de rendements insuffisants et de livraisons retardées, au même titre que des pièces de charnière produites par d'autres fabricants. Cette information est, elle aussi, attribuée à des sources non nommées de la chaîne d'approvisionnement.
 
 ## Ce qu'il faut retenir
 
