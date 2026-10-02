@@ -15,9 +15,9 @@ sources:
   - { media: "Selectra", url: "https://selectra.info/telecom/actualites/marche/smartphone-plage-piscine-ip68-eau-garantie", title: "Smartphone à la plage et à la piscine : ce que la certification IP68 ne couvre pas cet été" }
   - { media: "Mac4Ever", url: "https://www.mac4ever.com/iphone/197501-rayures-poussiere-flamme-et-pliage-a-quoi-resiste-le-galaxy-z-fold8", title: "Rayures, poussière, flamme et pliage : à quoi résiste le Galaxy Z Fold8 ?" }
 faq:
-  - { q: "Quel est l'indice IP le plus résistant à la poussière chez les pliants ?", a: "IP68 et IP69, avec un premier chiffre de 6 qui signifie une étanchéité totale à la poussière. Dans le catalogue, seul le Honor Magic V6 cumule les deux, devant l'iPhone Duo et les Google Pixel Fold en IP68 seul." }
+  - { q: "Quel est l'indice IP le plus résistant à la poussière chez les pliants ?", a: "IP68 et IP69, avec un premier chiffre de 6 qui signifie une étanchéité totale à la poussière. Dans le catalogue, seul le Honor Magic V6 cumule les deux ; l'iPhone Duo et les Google Pixel Fold sont en IP68 seul, avec la même étanchéité à la poussière." }
   - { q: "Peut-on emmener un Galaxy Z Fold ou un Motorola Razr à la plage ?", a: "Mieux vaut éviter : ces pliants affichent un indice IP48, qui ne bloque que les corps solides de plus d'1 mm. Le sable fin, plus petit, peut s'infiltrer dans la charnière." }
-  - { q: "La poussière dans la charnière est-elle couverte par la garantie ?", a: "Rarement : un dommage lié à une utilisation hors des préconisations du fabricant, comme une exposition au sable sur un modèle non étanche à la poussière, sort généralement du cadre de la garantie légale de conformité." }
+  - { q: "La poussière dans la charnière est-elle couverte par la garantie ?", a: "Une exposition au sable sur un modèle non étanche à la poussière sort des préconisations du fabricant, et les conditions de garantie des constructeurs peuvent exclure ce type de dommage. Mieux vaut vérifier ces conditions avant d'exposer son pliant au sable." }
   - { q: "Un smartphone pliant IP68 craint-il quand même le sable ?", a: "Le premier chiffre protège contre la poussière, mais le sable raye aussi l'écran et peut se loger dans les ports ; une certification IP n'empêche pas les rayures ni l'usure mécanique." }
 ---
 
@@ -25,7 +25,7 @@ Pas totalement : seuls quatre pliants du catalogue (Honor Magic V6, iPhone Duo, 
 
 ## Faux : tous les smartphones pliants protègent pareil contre la poussière
 
-Le niveau de protection varie fortement selon le modèle. Dans le catalogue, le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/) est seul à cumuler IP68 et IP69, le niveau le plus complet contre la poussière. L'[iPhone Duo](/iphone-pliable/iphone-duo/), le Pixel 11 Pro Fold et le Pixel 10 Pro Fold se classent en IP68 simple. Le Huawei Mate X7 et le Honor Magic V5 affichent un IP58 ou IP59, un cran en dessous. Les dix Galaxy Z Fold et Flip de Samsung ainsi que les Motorola Razr 60, 70, 70 Plus et 70 Ultra restent en IP48, le Razr Fold y ajoutant un IP49 côté eau. Le Huawei Mate XT Ultimate Design et le Xiaomi Mix Flip, eux, n'affichent aucune certification IP. Notre guide des [smartphones pliants résistants](/smartphone-pliant-resistant/) détaille ces indices modèle par modèle.
+Le niveau de protection varie fortement selon le modèle. Dans le catalogue, le [Honor Magic V6](/smartphone-pliant-honor/magic-v6/) est seul à cumuler IP68 et IP69, soit l'étanchéité totale à la poussière plus les jets d'eau chaude sous pression. L'[iPhone Duo](/iphone-pliable/iphone-duo/), le Pixel 11 Pro Fold et le Pixel 10 Pro Fold se classent en IP68 simple. Le Huawei Mate X7 et le Honor Magic V5 affichent IP58 et IP59, un cran en dessous. Les six Galaxy Z Fold et Flip de Samsung ainsi que les Motorola Razr 60 Ultra, 70, 70 Plus et 70 Ultra restent en IP48, le Razr Fold y ajoutant un IP49 côté eau. Le Huawei Mate XT Ultimate Design et le Xiaomi Mix Flip, eux, n'affichent aucune certification IP. Notre guide des [smartphones pliants résistants](/smartphone-pliant-resistant/) détaille ces indices modèle par modèle.
 
 ## Vrai : le chiffre 4 d'un indice IP48 ne bloque pas le sable fin
 
@@ -33,11 +33,11 @@ Le premier chiffre d'un indice IP mesure la protection contre les corps solides,
 
 ## Vrai : le sable de plage est plus fin que ce que bloque un IP48
 
-D'après Clubic, le sable de plage standard contient des grains d'environ 0,16 mm de diamètre, bien en dessous du seuil d'1 mm couvert par la certification IP48. Un test mené par iFixit sur le Galaxy Z Fold8 a montré qu'après plusieurs ouvertures et fermetures avec du sable introduit dans la charnière, celle-ci a produit des bruits de grincement et de craquement, et le téléphone a cessé de s'ouvrir normalement. Mac4Ever note de son côté que la charnière du Fold8 a été retravaillée pour mieux limiter les infiltrations de corps étrangers, sans que cela change son indice IP48.
+D'après Clubic, le sable de plage standard contient des grains d'environ 0,16 mm de diamètre, bien en dessous du seuil d'1 mm couvert par la certification IP48. Lors du démontage du Galaxy Z Fold8 par iFixit, c'est une poudre UV-réactive aux particules d'environ 0,04 mm qui a été introduite dans la charnière, rapporte Clubic : après plusieurs ouvertures et fermetures, celle-ci a produit des bruits de grincement et de craquement, et le téléphone a cessé de s'ouvrir normalement. Mac4Ever note de son côté que la charnière du Fold8 a été retravaillée pour mieux limiter les infiltrations de corps étrangers ; son indice reste pourtant IP48.
 
 ## Vrai : Samsung recommande lui-même d'éviter le sable et la poussière
 
-Selon Clubic, Samsung « recommande de tenir l'appareil à l'écart du sable et des poussières », une précaution qui rejoint les résultats du test mené par iFixit sur le Galaxy Z Fold8. La charnière reste le point le plus exposé d'un pliant au format livre : elle s'ouvre sur l'intérieur du téléphone à chaque pliage, contrairement au reste de la coque qui reste fermée.
+Selon Clubic, Samsung « recommande de tenir l'appareil à l'écart du sable et des poussières », une précaution qui rejoint les constats du démontage mené par iFixit sur le Galaxy Z Fold8. La charnière reste le point sensible d'un pliant : un sable fin qui s'y glisse peut rayer l'écran intérieur ou gêner le mécanisme.
 
 ## Faux : un indice IP68 met un smartphone pliant totalement à l'abri du sable
 
