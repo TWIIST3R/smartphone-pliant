@@ -19,14 +19,14 @@ Depuis l'application Apple Store ou le site d'Apple, les personnes intéressées
 
 ## Pourquoi cette étape compte pour ce lancement
 
-Selon Menow, cette préparation ne réserve pas d'exemplaire : elle sert uniquement à regrouper les choix avant l'ouverture des commandes, pour ne plus avoir qu'à confirmer l'achat le jour J. Le site y voit un avantage particulièrement sensible pour ce premier smartphone pliant d'Apple, dont les stocks initiaux s'annoncent limités, et pour lequel chaque minute gagnée le 16 octobre à 14 h peut compter face à la demande.
+Selon Menow, la fonction « Get Ready » ne constitue pas une précommande anticipée et ne garantit pas un appareil : elle sert uniquement à regrouper les choix avant l'ouverture des commandes, pour ne plus avoir qu'à confirmer l'achat le jour J. Pour ce premier smartphone pliant d'Apple, iPhoneSoft et Menow font par ailleurs état d'un volume de production limité en 2026, très inférieur à celui des modèles Pro.
 
-L'iPhone Duo est proposé à partir de 2 339 € en 256 Go et jusqu'à 3 839 € en 2 To, sans option de mémoire vive. Écran extérieur de 5,4 pouces, écran intérieur de 7,6 pouces au même ratio, châssis en titane et certification IP68 complètent la fiche de cet appareil au format livre, déjà détaillée sur la [fiche complète de l'iPhone Duo](/iphone-pliable/iphone-duo/).
+L'iPhone Duo est proposé à partir de 2 339 € en 256 Go et jusqu'à 3 839 € en 2 To. Écran extérieur de 5,4 pouces, écran intérieur de 7,6 pouces au même ratio, châssis en titane et certification IP68 complètent la fiche de cet appareil au format livre, déjà détaillée sur la [fiche complète de l'iPhone Duo](/iphone-pliable/iphone-duo/).
 
 ## Ce que ça change pour vous
 
-- **Avant le 12 octobre** : il n'y a rien à préparer, la fonction « Get Ready » n'est pas encore activée sur l'App Store ni sur apple.com/fr.
+- **Avant le 12 octobre** : il n'y a rien à préparer, la fonction « Get Ready » n'est pas encore activée dans l'application Apple Store ni sur apple.com/fr.
 - **À partir du 12 octobre** : configurer son panier (couleur, capacité, reprise, moyen de paiement) prend quelques minutes et évite de le faire dans la précipitation le jour de l'ouverture des ventes.
 - **Le 16 octobre à 14 h** : il restera à valider la commande déjà préparée ; comparer au préalable avec les autres [smartphones pliants haut de gamme](/smartphone-pliant-haut-de-gamme/) du marché, comme le Galaxy Z Fold8 Ultra ou le Honor Magic V6, reste utile avant d'engager un tel budget.
 
-Aucun test complet de l'iPhone Duo n'est encore publié : les premières mesures d'autonomie et de solidité arriveront avec les exemplaires remis à la presse après la sortie, prévue le 23 octobre 2026.
+Aucun test complet de l'iPhone Duo n'est publié à ce jour : l'appareil n'est pas encore sorti, la mise en vente étant prévue le 23 octobre 2026.
