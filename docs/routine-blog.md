@@ -1,10 +1,11 @@
 # Routine « article du jour » — Smartphone-Pliant.fr
 
-Ce fichier est le cahier des charges de la routine qui rédige **un article par jour** dans `src/content/actualites/`.
+Ce fichier est le cahier des charges de la routine qui rédige **deux articles par semaine** dans `src/content/actualites/`, des jours tirés au hasard.
 Il fait autorité : en cas de doute, appliquer ce document et `docs/guide-redactionnel.md` (sections 6 et 7).
 
 ## Principe de publication
 
+- **Deux articles par semaine**, des jours tirés au hasard chaque semaine par `scripts/publication-days.mjs` (jamais deux jours de suite, y compris d'une semaine à l'autre). La routine tourne chaque matin mais n'écrit que les jours de publication.
 - La routine écrit l'article **avec une heure de publication dans le futur** (`pubDate`), choisie par `scripts/pick-publish-time.mjs` dans des créneaux crédibles pour Paris, et le pousse sur une branche `claude/article-<slug>`.
 - Le workflow GitHub `publish-article.yml` contrôle l'article (contrôle éditorial, build, maillage) puis l'ajoute à `main` et supprime la branche.
 - `deploy.yml` met le site en ligne dès que l'heure de publication est passée. Aucune autre action n'est nécessaire.
@@ -30,31 +31,34 @@ Il fait autorité : en cas de doute, appliquer ce document et `docs/guide-redact
 
 ## Étapes, dans l'ordre
 
-1. **Préparer** : `npm ci` (si `node_modules` est absent). Vérifier `node -v`.
-2. **État du blog** : `node scripts/blog-status.mjs`.
+1. **Jour de publication ?** `node scripts/publication-days.mjs`.
+   - S'il affiche « PUBLICATION AUJOURD'HUI : non », **ne rien écrire** et terminer tout de suite : compte rendu d'une ligne indiquant le prochain jour prévu.
+   - Sinon, continuer.
+2. **Préparer** : `npm ci` (si `node_modules` est absent). Vérifier `node -v`.
+3. **État du blog** : `node scripts/blog-status.mjs`.
    - Si un article est déjà **programmé** (heure future), **ne rien écrire** et terminer : la routine a déjà tourné.
    - Noter le mix éditorial, les sujets du backlog, le dernier format utilisé et les sujets déjà traités.
-3. **Veille** (recherche web, sources des 72 dernières heures en priorité) puis **choix du sujet** selon la section précédente.
-4. **Format** : choisir dans la liste des formats disponibles (`src/data/blog-formats.json`) celui qui sert le mieux le sujet.
+4. **Veille** (recherche web, sources des 72 dernières heures en priorité) puis **choix du sujet** selon la section précédente.
+5. **Format** : choisir dans la liste des formats disponibles (`src/data/blog-formats.json`) celui qui sert le mieux le sujet.
    - Jamais le même format que l'article précédent.
    - Jamais plus de 2 fois sur les 7 derniers articles.
    - Respecter le squelette (`skeleton`) et la fourchette de mots (`words`) du format.
    - Pour une question : `reponse-question`, `vrai-faux`, `questions-reponses`, `liste-conseils`, `decryptage`, `guide-pratique`, `face-a-face` ou `lexique` selon le sujet.
-5. **Vérifier les faits** :
+6. **Vérifier les faits** :
    - au moins **2 sources fiables** pour une actualité ou une question ;
    - une source officielle suffit pour une annonce de constructeur ;
    - noter les URL.
-6. **Heure** : `node scripts/pick-publish-time.mjs`, puis copier la valeur `iso` dans `pubDate`.
-7. **Rédiger** `src/content/actualites/<slug>.md` :
+7. **Heure** : `node scripts/pick-publish-time.mjs`, puis copier la valeur `iso` dans `pubDate`.
+8. **Rédiger** `src/content/actualites/<slug>.md` :
    - slug court, sans date, en minuscules, 3 à 9 mots séparés par des tirets ;
    - frontmatter ci-dessous.
-8. **Contrôler**, et corriger jusqu'à 0 erreur :
+9. **Contrôler**, et corriger jusqu'à 0 erreur :
    - `node scripts/blog-status.mjs --check <slug>` ;
    - `npm run build` ;
    - `npm run check-links`.
 
    Si le build échoue pour une raison étrangère à l'article (version de Node trop ancienne, par exemple), le signaler dans le message de commit. GitHub Actions refera le build.
-9. **Publier** sur une branche dédiée (la routine ne peut pas pousser directement sur `main`) :
+10. **Publier** sur une branche dédiée (la routine ne peut pas pousser directement sur `main`) :
    - `git checkout -b claude/article-<slug>` ;
    - `git add src/content/actualites/<slug>.md` (et `src/content/actualites/images/<slug>.webp` s'il y a une illustration autorisée), puis commit `Article : <titre>` ;
    - `git push -u origin claude/article-<slug>`.
@@ -124,7 +128,7 @@ Objectif : **environ un article sur deux** avec une image d'en-tête (`cover`), 
    Si le script échoue (clé absente, erreur de l'API), publier l'article sans illustration et le signaler dans le compte rendu.
 3. **Sinon** → `phone` : la photo produit d'un modèle du catalogue, uniquement si l'article porte principalement sur ce modèle (le nom du modèle s'affiche en légende). Ne jamais l'utiliser pour illustrer un autre modèle, même le successeur ou le prédécesseur.
 
-Ne jamais télécharger une image autrement qu'avec `scripts/fetch-press-image.mjs` (droits d'auteur). Penser à ajouter le fichier image au commit (étape 9).
+Ne jamais télécharger une image autrement qu'avec `scripts/fetch-press-image.mjs` (droits d'auteur). Penser à ajouter le fichier image au commit (étape 10).
 
 ## Maillage : règles strictes
 
