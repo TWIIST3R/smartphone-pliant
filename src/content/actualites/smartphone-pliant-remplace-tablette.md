@@ -1,13 +1,13 @@
 ---
 title: "Un smartphone pliant peut-il remplacer une tablette ?"
-description: "Écran 7,6 à 10,2 pouces, 3 applications à la fois sur les Fold selon Que Choisir, stylet parfois inclus : ce que les pliants offrent vraiment face à une tablette."
+description: "Écran 7,6 à 10,2 pouces, 3 applications à la fois sur le Galaxy Z Fold5 selon Que Choisir, stylet parfois inclus : ce que les pliants offrent face à une tablette."
 pubDate: 2026-10-13T18:11:00+02:00
 format: questions-reponses
 category: question
 scope: pliant
 sujet: pliant-remplace-tablette
 tags: [tablette, multitache, stylet, ecran-pliant]
-cover: { src: "./images/smartphone-pliant-remplace-tablette.webp", alt: "Un smartphone pliant déplié posé à plat sur un bureau en bois, à côté d'une tablette de taille comparable", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
+cover: { src: "./images/smartphone-pliant-remplace-tablette.webp", alt: "Un smartphone pliant déplié posé à plat sur un bureau en bois, à côté d'une tablette nettement plus grande", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
 phones: [galaxy-z-fold8, razr-fold, huawei-mate-xt]
 relatedTests: [/smartphone-pliant-huawei/mate-xt/]
 sources:
@@ -20,11 +20,11 @@ Pas vraiment, sauf exception : l'écran intérieur des pliants « livre » du ca
 
 ## Quelle taille d'écran offre un smartphone pliant une fois ouvert ?
 
-Entre 7,6 et 8,1 pouces pour la quasi-totalité des pliants au [format livre](/smartphone-pliant-format-livre/) : 7,6 pouces pour le Galaxy Z Fold8 et l'iPhone Duo, 7,95 pouces pour le Honor Magic V6, 8 pouces pour le Galaxy Z Fold8 Ultra et le [Pixel 11 Pro Fold](/smartphone-pliant-google-pixel/pixel-11-pro-fold/), 8,1 pouces pour le Razr Fold. Une vraie tablette grand public tourne plutôt autour de 10 à 11 pouces, comme l'iPad Air (10,9 pouces) ou la Galaxy Tab 11 pouces, selon le comparatif de Futura Sciences. L'écart n'est pas énorme sur le papier, mais il se ressent en lecture ou en navigation web, où chaque pouce compte.
+Entre 7,6 et 8,1 pouces pour la quasi-totalité des pliants au [format livre](/smartphone-pliant-format-livre/) : 7,6 pouces pour le Galaxy Z Fold8 et l'iPhone Duo, 7,95 pouces pour le Honor Magic V6, 8 pouces pour le Galaxy Z Fold8 Ultra et le [Pixel 11 Pro Fold](/smartphone-pliant-google-pixel/pixel-11-pro-fold/), 8,1 pouces pour le Razr Fold. Une vraie tablette grand public tourne plutôt autour de 10 à 11 pouces, comme l'iPad Air 2022 (10,9 pouces) ou la Galaxy Tab 11 pouces, selon le comparatif de Futura Sciences. L'écart n'est pas énorme sur le papier, mais il se ressent en lecture ou en navigation web, où chaque pouce compte.
 
 ## Peut-on vraiment ouvrir plusieurs applications à la fois, comme sur une tablette ?
 
-Oui, et c'est là que les pliants s'approchent le plus d'une tablette. Sur les Galaxy Z Fold5 et Z Fold6, Que Choisir confirme que l'appareil « peut afficher 3 applications simultanément » à l'écran déplié, ce qui permet par exemple de garder un e-mail ouvert tout en consultant un document. C'est la fonction la plus utile pour qui veut faire du [smartphone pliant un outil de travail](/smartphone-pliant-travail/) au quotidien, bien plus que la seule taille de l'écran.
+Oui, et c'est là que les pliants s'approchent le plus d'une tablette. Dans son test du Galaxy Z Fold5, Que Choisir indique que l'appareil « peut afficher 3 applications simultanément » à l'écran déplié, ce qui permet par exemple de garder un e-mail ouvert tout en consultant un document. C'est la fonction la plus utile pour qui veut faire du [smartphone pliant un outil de travail](/smartphone-pliant-travail/) au quotidien, bien plus que la seule taille de l'écran.
 
 ## Le stylet est-il inclus, comme sur une tablette graphique ?
 
@@ -40,7 +40,7 @@ Oui, un seul dans le catalogue : le [tri-pliant](/smartphone-tri-pliant/) Huawei
 
 ## Le prix d'un pliant est-il comparable à celui d'une tablette ?
 
-Non, les pliants restent nettement plus chers. Même les modèles d'entrée de gamme du catalogue (Galaxy Z Fold8 à 1 999 €, Pixel 11 Pro Fold à 1 999 €) démarrent déjà au niveau des tablettes les plus haut de gamme, et le Mate XT grimpe à 3 499 €. Remplacer une tablette par un pliant revient donc à payer, en plus, les fonctions d'un smartphone (appels, eSIM, appareil photo) qu'une tablette n'a pas forcément besoin d'avoir.
+Non, les pliants restent nettement plus chers. Même les pliants au format livre les moins chers du catalogue (Pixel 10 Pro Fold à 1 899 €, Galaxy Z Fold8 et Pixel 11 Pro Fold à 1 999 €) dépassent largement le haut de gamme des tablettes, que Futura Sciences situe au-delà de 700 €, et le Mate XT grimpe à 3 499 €. Remplacer une tablette par un pliant revient donc à payer, en plus, les fonctions d'un smartphone (appels, eSIM, appareil photo) qu'une tablette n'a pas forcément besoin d'avoir.
 
 ## Dans quels cas un smartphone pliant ne remplace pas une tablette ?
 
