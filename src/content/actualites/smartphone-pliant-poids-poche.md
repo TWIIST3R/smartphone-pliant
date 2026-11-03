@@ -1,6 +1,6 @@
 ---
 title: "Un smartphone pliant est-il trop lourd pour la poche ?"
-description: "Entre 180 g pour les clapets et jusqu'à 258 g pour les formats livre, le poids d'un smartphone pliant varie du simple au double selon le format."
+description: "Entre 180 g pour les clapets et jusqu'à 258 g pour les formats livre, le poids d'un smartphone pliant varie de près de 80 g selon le format."
 pubDate: 2026-11-03T17:59:00+01:00
 format: face-a-face
 category: question
@@ -19,11 +19,11 @@ cover: { src: "./images/smartphone-pliant-poids-poche.webp", alt: "Illustration 
 faq:
   - { q: "Quel est le smartphone pliant le plus léger du catalogue ?", a: "Le Samsung Galaxy Z Flip8, un clapet, pèse 180 g une fois plié, le poids le plus bas des 19 modèles suivis par le site." }
   - { q: "Pourquoi le format livre pèse-t-il plus que le format clapet ?", a: "Parce qu'il embarque un écran intérieur et un cadre plus grands, une charnière plus large et souvent une batterie plus généreuse : de 201 à 258 g contre 180 à 199 g pour les clapets, selon le catalogue du site." }
-  - { q: "Le Galaxy Z Fold8 tient-il facilement dans une poche ?", a: "Les avis divergent : Blog Nouvelles Technologies loue un format passeport qui se glisse en poche mieux qu'un smartphone récent, tandis que Phonandroid juge qu'il ne rentre pas dans toutes les poches à cause de sa largeur." }
+  - { q: "Le Galaxy Z Fold8 tient-il facilement dans une poche ?", a: "Les avis divergent : Blog Nouvelles Technologies loue un format passeport qui se glisse en poche mieux qu'aucun smartphone récent, tandis que Phonandroid juge qu'il ne rentre pas dans toutes les poches à cause de sa largeur." }
   - { q: "L'iPhone Duo est-il le smartphone pliant le plus lourd du marché ?", a: "Non : à 254 g, selon Consomac, il reste plus léger que le Google Pixel 10 Pro Fold (258 g), même s'il est devenu l'iPhone le plus lourd jamais commercialisé par Apple." }
 ---
 
-Non, pas systématiquement : un smartphone pliant au format clapet pèse de 180 à 199 g une fois replié, à peine plus qu'un smartphone classique haut de gamme. L'écart se creuse avec le format livre, de 201 à 258 g selon le catalogue du site, et l'épaisseur une fois plié compte souvent autant que le poids affiché pour juger du confort en poche.
+Non, pas systématiquement : un smartphone pliant au format clapet pèse de 180 à 199 g une fois replié, soit moins qu'un iPhone 18 Pro (211 g selon Consomac). L'écart se creuse avec le format livre, de 201 à 258 g selon le catalogue du site, et l'épaisseur une fois plié compte souvent autant que le poids affiché pour juger du confort en poche.
 
 Pour mesurer l'écart précisément, comparons les deux familles sur les 18 modèles du catalogue qui se referment en clapet ou en livre. Le [tri-pliant Huawei Mate XT Ultimate Design](/smartphone-pliant-huawei/mate-xt/), à 298 g, reste un cas à part : pensé pour remplacer une tablette plutôt qu'un smartphone de poche, il ne rentre dans aucune des deux catégories.
 
@@ -44,11 +44,11 @@ Mécaniquement, un clapet replie un écran de smartphone classique sur lui-même
 
 ## Manche 3, la largeur et l'encombrement en poche : avantage au clapet, sauf exception
 
-Un clapet replié occupe grosso modo la moitié de la hauteur d'un smartphone classique, pour une largeur quasi identique : il glisse en théorie dans n'importe quelle poche conçue pour un téléphone ordinaire. Un format livre replié garde, lui, la largeur d'un écran intérieur plié en deux, souvent plus large qu'un smartphone classique. Pour le Galaxy Z Fold8, les tests publiés ne s'accordent d'ailleurs pas sur le résultat : Blog Nouvelles Technologies, qui mesure un boîtier de 123,9 × 81,9 mm fermé, écrit qu'il « se glisse dans une poche mieux qu'aucun smartphone récent ». Phonandroid, de son côté, juge au contraire qu'il « ne rentre pas dans toutes les poches à cause de sa largeur ». **Vainqueur : le format clapet**, la règle valant pour la plupart des modèles, même si le nouveau format « passeport » du Galaxy Z Fold8 brouille un peu la frontière.
+Un clapet replié occupe grosso modo la moitié de la hauteur d'un smartphone classique, pour une largeur quasi identique : il glisse en théorie dans n'importe quelle poche conçue pour un téléphone ordinaire. Un format livre replié garde, lui, la largeur d'un écran intérieur plié en deux, souvent plus large qu'un smartphone classique. Pour le Galaxy Z Fold8, les tests publiés ne s'accordent d'ailleurs pas sur le résultat : Blog Nouvelles Technologies, qui relève un boîtier de 123,9 × 81,9 mm fermé, écrit qu'il « se glisse dans une poche mieux qu'aucun smartphone récent ». Phonandroid, de son côté, juge au contraire qu'il « ne rentre pas dans toutes les poches à cause de sa largeur ». **Vainqueur : le format clapet**, la règle valant pour la plupart des modèles, même si le nouveau format « passeport » du Galaxy Z Fold8 brouille un peu la frontière.
 
 ## Manche 4, le ressenti rapporté par les tests publiés : avantage au clapet
 
-Sur le terrain, les testeurs confirment la tendance côté clapet. Phonandroid juge que le Galaxy Z Flip8 « passe dans la poche comme une lettre à la poste », et Presse-Citron salue un appareil « petit et mignon », malgré un gain de poids modeste par rapport au Flip7 (de 188 à 180 g). Côté format livre, le constat est plus mitigé : à 254 g, l'iPhone Duo est devenu, selon Consomac, l'iPhone le plus lourd jamais commercialisé par Apple. **Vainqueur : le format clapet**, conforté par les tests, mais l'écart se resserre sur les modèles récents les plus travaillés.
+Sur le terrain, les testeurs confirment la tendance côté clapet. Phonandroid juge que le Galaxy Z Flip8 « passe dans la poche comme une lettre à la poste », et Presse-Citron salue un appareil « petit et mignon », malgré un allègement modeste par rapport au Flip7 (de 188 à 180 g). Côté format livre, le constat est plus mitigé : à 254 g, l'iPhone Duo est devenu, selon Consomac, l'iPhone le plus lourd jamais commercialisé par Apple. **Vainqueur : le format clapet**, conforté par les tests, mais l'écart se resserre sur les modèles récents les plus travaillés.
 
 ## Pour qui chaque format est-il fait ?
 
@@ -56,4 +56,4 @@ Le format clapet convient à qui veut retrouver, une fois plié, l'encombrement 
 
 ## Ce qu'il faut retenir pour choisir
 
-Avant d'acheter, fiez-vous moins à l'argument marketing qu'aux chiffres publiés par le constructeur et confirmés par les tests indépendants : un écart de 20 g entre deux formats livre pèse autant dans la vraie vie qu'un écart de 50 g entre un clapet et un format livre. Vérifiez aussi l'épaisseur une fois plié autant que le poids affiché, car c'est elle qui déterminera si l'appareil glisse vraiment dans votre poche ou tire sur le tissu. Pour comparer davantage de modèles, consultez nos pages dédiées aux [smartphones pliants au format clapet](/smartphone-pliant-clapet/) et aux [smartphones pliants au format livre](/smartphone-pliant-format-livre/).
+Avant d'acheter, fiez-vous moins à l'argument marketing qu'aux chiffres publiés par le constructeur et confirmés par les tests indépendants. Vérifiez aussi l'épaisseur une fois plié autant que le poids affiché, car c'est elle qui déterminera si l'appareil glisse vraiment dans votre poche ou tire sur le tissu. Pour comparer davantage de modèles, consultez nos pages dédiées aux [smartphones pliants au format clapet](/smartphone-pliant-clapet/) et aux [smartphones pliants au format livre](/smartphone-pliant-format-livre/).
