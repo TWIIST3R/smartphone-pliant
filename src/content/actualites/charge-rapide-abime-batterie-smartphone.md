@@ -1,0 +1,61 @@
+---
+title: "La charge rapide abîme-t-elle la batterie d'un smartphone ?"
+description: "Un test mené sur deux ans et les pages d'assistance d'Apple et Samsung convergent : la chaleur et le temps passé à 100 %, pas les watts affichés, usent une batterie."
+pubDate: 2026-11-12T16:37:00+01:00
+format: questions-reponses
+category: question
+scope: smartphone
+sujet: charge-rapide-batterie
+tags: [charge-rapide, batterie, chaleur, usure-batterie]
+cover: { src: "./images/charge-rapide-abime-batterie-smartphone.webp", alt: "Illustration générée par IA : un smartphone générique en charge sur un bureau, câble branché, avec une icône de thermomètre et d'éclair stylisée près de l'écran", credit: "Illustration générée par IA (OpenAI)", kind: illustration-ia }
+sources:
+  - { media: "Journal du Geek", url: "https://www.journaldugeek.com/2026/03/27/la-charge-rapide-abime-t-elle-vraiment-la-batterie-de-votre-smartphone-mythe-ou-realite/", title: "La charge rapide abîme-t-elle vraiment la batterie de votre smartphone ? Mythe ou réalité" }
+  - { media: "Apple", url: "https://support.apple.com/fr-fr/105105", title: "Maximiser les performances et la durée de vie de la batterie du matériel Apple" }
+  - { media: "Samsung", url: "https://www.samsung.com/fr/support/mobile-devices/galaxy-battery-protection-feature-in-one-ui-6-1/", title: "Présentation de la fonction de protection de la batterie pour Samsung Galaxy (One UI 6.1)" }
+  - { media: "Selectra", url: "https://selectra.info/telecom/actualites/marche/charge-rapide-abime-batterie-telephone", title: "La charge rapide abîme-t-elle la batterie d'un téléphone ?" }
+faq:
+  - { q: "Une charge rapide fait-elle baisser plus vite la capacité totale d'une batterie ?", a: "Pas significativement : le test de la chaîne HTX Studio relayé par Journal du Geek relève un écart de dégradation de moins de 1 % sur deux ans entre charge rapide et charge lente, sur iPhone comme sur Android." }
+  - { q: "Pourquoi la charge ralentit-elle en fin de charge sur un smartphone ?", a: "Pour limiter l'échauffement : Apple explique que le courant de charge diminue progressivement à mesure que le niveau de batterie monte, un principe partagé par les protections de charge des autres fabricants." }
+  - { q: "La charge sans fil abîme-t-elle plus la batterie que la charge filaire ?", a: "Les sources consultées pour cet article ne tranchent pas cette question précise : elles pointent surtout la chaleur générée pendant la charge, filaire ou sans fil, comme facteur à surveiller plutôt que le mode de charge lui-même." }
+  - { q: "Faut-il désactiver la charge rapide pour protéger sa batterie ?", a: "Ce n'est pas nécessaire d'après les sources disponibles : mieux vaut éviter de charger l'appareil en plein soleil ou dans une pièce très chaude, et laisser activées les fonctions de protection de charge proposées par le fabricant." }
+---
+
+Pas vraiment : selon un test mené sur deux ans par la chaîne YouTube HTX Studio, une charge à 120 W n'use pas davantage une batterie qu'une charge à 18 W. Ce qui abîme réellement une batterie, selon Apple et Samsung, c'est la chaleur et le temps passé à pleine charge, bien plus que la puissance affichée sur la boîte du chargeur.
+
+## Une charge à 120 W abîme-t-elle plus la batterie qu'une charge à 20 W ?
+
+Pas franchement, d'après le test le plus poussé disponible sur le sujet. La chaîne YouTube HTX Studio a soumis 40 smartphones à 500 cycles de charge complets pendant deux ans, avec des iPhone chargés à 20 W ou à 5 W et des Android chargés à 120 W ou à 18 W, selon Journal du Geek. Résultat : sur iPhone, l'écart de dégradation entre les deux vitesses ressort à 0,5 %. Sur Android, les modèles chargés à pleine puissance ont même fini avec 0,3 % d'usure en moins que ceux chargés lentement. « Les modèles en charge rapide s'en sont même mieux sortis », relève Journal du Geek. Ce test reste un travail indépendant d'une chaîne YouTube, pas une étude scientifique publiée ni revue par des pairs : il mérite d'être cité avec cette réserve, même si c'est la donnée la plus concrète disponible à ce jour.
+
+## Qu'est-ce qui abîme vraiment une batterie, si ce n'est pas la vitesse de charge ?
+
+La chaleur et le temps passé à pleine charge, avant même la puissance en watts. Apple explique sur sa page d'assistance qu'une batterie fonctionne de façon optimale entre 16 et 22 °C, et qu'au-delà de 35 °C, l'utiliser ou la recharger peut réduire sa durée de vie de façon permanente. Le constructeur ajoute que la recharge elle-même chauffe la batterie, ce qui peut aussi réduire sa longévité, et que garder un appareil branché une fois plein n'est pas un problème en soi puisque la charge s'arrête à 100 % et ne reprend que sous 95 %. Journal du Geek pointe par ailleurs le nombre de cycles de charge complets et le simple vieillissement dans le temps comme des facteurs au moins aussi importants que la vitesse de charge.
+
+## La charge rapide fait-elle plus chauffer un smartphone ?
+
+Un peu, mais les smartphones limitent eux-mêmes l'échauffement pendant la charge. Apple indique que l'iPhone réduit progressivement le courant de charge à mesure que le niveau de batterie monte, justement pour contenir la température. Samsung propose de son côté une fonction de protection de la batterie, disponible depuis One UI 6.1, avec un mode « Basique » qui coupe la charge à 100 % et la reprend sous 95 %, et un mode « Maximale » qui s'arrête à 80 %. Apple précise enfin que si la température dépasse les limites recommandées, le logiciel peut lui-même empêcher la charge de dépasser 80 %, quelle que soit la puissance du chargeur utilisé.
+
+## Faut-il éviter d'utiliser son téléphone pendant qu'il charge à pleine puissance ?
+
+Cela ralentit surtout la charge, sans qu'une source consultée ne décrive de dommage direct à la batterie. Selon Selectra, qui a comparé les pages d'aide d'Apple, Samsung et Google, aucun des trois constructeurs n'affirme que la charge rapide abîme la batterie, mais aucun ne la présente non plus comme totalement neutre : les trois renvoient vers la chaleur comme facteur à surveiller. Le bon réflexe reste donc d'éviter de faire tourner des jeux ou des vidéos en 4K pendant une charge rapide par forte chaleur ambiante, plutôt que d'y renoncer systématiquement.
+
+## Tous les smartphones pliants chargent-ils à la même vitesse ?
+
+Non, l'écart est large d'un modèle à l'autre du catalogue :
+
+| Modèle | Charge filaire annoncée | Batterie |
+|---|---|---|
+| Honor Magic V6 | 80 W | 6 660 mAh |
+| Motorola Razr Fold | 80 W | 6 000 mAh |
+| Samsung Galaxy Z Fold8 Ultra | 45 W | 5 000 mAh |
+| Samsung Galaxy Z Fold7 | 25 W | 4 400 mAh |
+| iPhone Duo | 50 % en 20 min (adaptateur 60 W) | — |
+
+Les modèles les plus rapides à charger se trouvent surtout parmi les [pliants haut de gamme](/smartphone-pliant-haut-de-gamme/), comme le Honor Magic V6 ou le Motorola Razr Fold, tous deux annoncés à 80 W. D'après le test évoqué plus haut, cet écart de puissance ne devrait toutefois pas se traduire par une usure très différente sur la durée.
+
+## Faut-il absolument utiliser le chargeur fourni ou homologué par la marque ?
+
+Oui, surtout pour éviter qu'un chargeur non compatible charge plus lentement, pas plus vite. Samsung indique que sa charge super rapide nécessite un câble et un adaptateur compatibles USB Power Delivery d'au moins 45 W ; un chargeur standard ne permet simplement pas d'atteindre cette vitesse. Google, de son côté, prévient qu'un adaptateur autre que celui fourni peut charger lentement, voire pas du tout, et dans certains cas endommager l'appareil ou sa batterie. Ce n'est donc pas une question de risque pour la batterie en cas de charge rapide homologuée, mais de compatibilité du matériel utilisé.
+
+## Le format pliant change-t-il quelque chose à cette équation charge rapide/batterie ?
+
+Pas sur le principe, mais les plus grosses batteries du marché s'y trouvent déjà. Les smartphones pliants embarquent des batteries parmi les plus volumineuses du marché, en partie grâce aux cellules au silicium-carbone que nous détaillions dans [notre article sur cette technologie](/actualites/batterie-silicium-carbone-smartphones-pliants/), qui permettent de loger plus d'énergie dans un format compact. Les écarts de puissance de charge entre modèles, détaillés dans notre [guide de l'autonomie des smartphones pliants](/smartphone-pliant-autonomie/), restent une question de confort au quotidien plutôt que de santé de la batterie sur la durée, comme nous l'expliquions aussi à propos de la [limite de charge à 80 %](/actualites/limiter-charge-smartphone-80-pourcent/). Sur le papier comme dans les [chiffres du comparatif](/), le watt affiché sur la fiche technique dit surtout à quelle vitesse le téléphone se recharge un jour donné, pas combien d'années durera sa batterie.
